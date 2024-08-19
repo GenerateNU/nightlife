@@ -3,6 +3,7 @@ package config
 import (
 	"log"
 	"os"
+	"path/filepath"
 
 	"github.com/joho/godotenv"
 )
@@ -14,9 +15,18 @@ type Config struct {
 }
 
 func LoadConfig() (*Config, error) {
-	err := godotenv.Load()
+	// get the absolute path to the nightlife root dir
+	rootDir, err := filepath.Abs("../../")
 	if err != nil {
-		log.Fatalf("Error loading .env file")
+		log.Fatalf("Failed to get the root directory: %v", err)
+		return nil, err
+	}
+
+	// load .env from the root directory
+	envPath := filepath.Join(rootDir, ".env")
+	err = godotenv.Load(envPath)
+	if err != nil {
+		log.Fatalf("Error loading .env file from %s", envPath)
 		return nil, err
 	}
 
