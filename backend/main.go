@@ -1,6 +1,7 @@
 package main
 
 import (
+	"night-mod/db"
 	"night-mod/schema/hello"
 
 	"github.com/gin-contrib/cors"
@@ -8,10 +9,12 @@ import (
 )
 
 func main() {
+	// test the database connection
+	db.ConnectSupabaseDB()
 
 	r := gin.Default()
 
-	// Add CORS middleware
+	// add CORS middleware
 	r.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"*"},
 		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
@@ -22,9 +25,7 @@ func main() {
 	v1 := r.Group("/")
 	{
 		hello.HelloGroup(v1)
-
 	}
 
 	r.Run(":8080")
-
 }
