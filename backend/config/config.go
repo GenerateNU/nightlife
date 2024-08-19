@@ -15,7 +15,7 @@ type Config struct {
 }
 
 func LoadConfig() (*Config, error) {
-	// get the absolute path to the nightlife root dir
+	// get the relative path to the nightlife root dir from repo root
 	rootDir, err := filepath.Abs("../../")
 	if err != nil {
 		log.Fatalf("Failed to get the root directory: %v", err)
