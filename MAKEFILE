@@ -33,12 +33,13 @@ backend-format:
 # Build the db
 .PHONY: db-run
 db-run:
+	cd backend && npx supabase start
 	
 # Rebuild the database
 .PHONY: db-rebuild
 db-rebuild:
+	cd backend && npx supabase start && npx supabase db reset 
 	
-
 # Run backend
 .PHONY: backend-run
 backend-run:
