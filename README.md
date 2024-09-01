@@ -1,7 +1,5 @@
 <div align="center">
 <h1>Nightlife 🌃</h1>
-  <br/>
-  <br/>
   <div>
       A fullstack application for the Nightlife project
   </div>
