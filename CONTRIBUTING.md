@@ -1,5 +1,11 @@
 # Contributing to Nightlife 🌃
 
+# Package Managers
+
+- Mac - [Homebrew](https://brew.sh/)
+- Windows - get [WSL](https://docs.microsoft.com/en-us/windows/wsl/install-win10)
+- Linux (you know what you're doing)
+
 Thank you for contributing to this project! Here’s a quick guide to help you get started.
 
 ## Workflow
