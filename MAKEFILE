@@ -13,7 +13,7 @@ frontend-run:
 # Lint the frontend source code
 .PHONY: frontend-lint
 frontend-lint:
-	cd frontend && yarn lint # Maybe switch from yarn
+	cd frontend && npx eslint
 
 # Installing backend dependencies
 .PHONY: backend-dep
