@@ -30,10 +30,28 @@ func LoadConfig() (*Config, error) {
 		return nil, err
 	}
 
+	supabaseURL := os.Getenv("SUPABASE_URL")
+	if supabaseURL == "" {
+		log.Fatalf("SUPABASE_URL is not set in .env")
+		return nil, err
+	}
+
+	supabaseKey := os.Getenv("SUPABASE_ANON_KEY")
+	if supabaseKey == "" {
+		log.Fatalf("SUPABASE_ANON_KEY is not set in .env")
+		return nil, err
+	}
+
+	databaseURL := os.Getenv("DATABASE_URL")
+	if databaseURL == "" {
+		log.Fatalf("DATABASE_URL is not set in .env")
+		return nil, err
+	}
+
 	config := &Config{
-		SupabaseURL: os.Getenv("SUPABASE_URL"),
-		SupabaseKey: os.Getenv("SUPABASE_ANON_KEY"),
-		DatabaseURL: os.Getenv("DATABASE_URL"),
+		SupabaseURL: supabaseURL,
+		SupabaseKey: supabaseKey,
+		DatabaseURL: databaseURL,
 	}
 
 	return config, nil
