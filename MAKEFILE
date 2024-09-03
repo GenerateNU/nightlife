@@ -43,7 +43,7 @@ db-rebuild:
 # Run backend
 .PHONY: backend-run
 backend-run:
-	cd backend && go run main.go
+	cd backend/internal/app/nightlife && go run main.go
 
 # convert the backend link to an ngrok link
 .PHONY: ngrok-run
