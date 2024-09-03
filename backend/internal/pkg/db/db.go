@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"night-mod/config"
+	"app/nightlife/pkg/config"
 
 	"github.com/jackc/pgx/v4"
 )
