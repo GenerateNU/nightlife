@@ -1,17 +1,18 @@
 package hello
+
 import (
 	"github.com/gofiber/fiber/v2"
 )
 
-//Create HelloGroup fiber route group 
-func HelloGroupRouter(app *fiber.App)   {
+// Create HelloGroup fiber route group
+func HelloGroupRouter(app *fiber.App) {
 
 	//Create Grouping
 	router := app.Group("/hello")
 
 	//Endpoints
 	router.Get("/world", getHelloWorld)
-	
+
 }
 
 func getHelloWorld(c *fiber.Ctx) error {

@@ -3,8 +3,8 @@ package db
 import (
 	"context"
 	"fmt"
+	"github.com/GenerateNU/nightlife/internal/app/nightlife/pkg/config"
 	"log"
-	"app/nightlife/pkg/config"
 
 	"github.com/jackc/pgx/v4"
 )
@@ -22,7 +22,7 @@ func ConnectSupabaseDB() {
 		log.Fatalf("Unable to connect to database: %v\n", err)
 	}
 	// close for now since we're not using it
-	defer conn.Close(    context.Background())
+	defer conn.Close(context.Background())
 
 	fmt.Println("Successfully connected to the database!")
 }

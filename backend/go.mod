@@ -1,4 +1,4 @@
-module app/nightlife
+module github.com/GenerateNU/nightlife
 
 go 1.21.6
 

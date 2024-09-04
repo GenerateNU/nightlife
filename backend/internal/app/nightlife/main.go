@@ -1,16 +1,18 @@
 package main
 
 import (
-	"app/nightlife/pkg/db"
-	"app/nightlife/pkg/schema/hello"
+	//"internal/app/nightlife/pkg/db"
+	"fmt"
+	"github.com/GenerateNU/nightlife/internal/app/nightlife/pkg/schema/hello"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"log"
+	"math/rand"
 )
 
 func main() {
 	// test the database connection
-	db.ConnectSupabaseDB()
+	//db.ConnectSupabaseDB()
 
 	app := fiber.New()
 
@@ -24,5 +26,7 @@ func main() {
 	// Hello Group
 	hello.HelloGroupRouter(app)
 
-	log.Fatal(app.Listen(     ":8080"))
+	fmt.Println(rand.Int()) // Unsafe random
+
+	log.Fatal(app.Listen(":8080"))
 }
