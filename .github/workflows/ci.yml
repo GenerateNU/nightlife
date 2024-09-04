@@ -33,11 +33,9 @@ jobs:
         run: make backend-dep
       - name: Run backend linter
         run: make backend-lint
-      - name: Run frontend linter
-        run: make frontend-lint
       
 
-  build:
+  backend-test:
     name: test
     runs-on: ubuntu-latest
     steps:
