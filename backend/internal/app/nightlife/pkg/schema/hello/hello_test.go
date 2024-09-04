@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-func TestDBConnection(t *testing.T) {
+func TestHello(t *testing.T) {
 	if HelloWorld() != "Hello, World!" {
 		t.Error("Hello world failed")
 	}
