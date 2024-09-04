@@ -38,13 +38,9 @@ jobs:
       
 
   build:
-    name: Build
+    name: test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Install frontend dependencies
-        run: make frontend-dep
-      - name: Build database
-        run: make db-run
-      - name: Run backend build
-        run: make backend-run
+      - name: run all backend tests
+        run: make backend-test
