@@ -6,6 +6,16 @@ on:
       - main
 
 jobs:
+
+  ci-config:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v3
+        - name: List files in working dir
+          run: ls -al
+
+
+
   frontend-lint:
     runs-on: ubuntu-latest
     steps:
@@ -23,6 +33,9 @@ jobs:
         run: make backend-dep
       - name: Run backend linter
         run: make backend-lint
+      - name: Run frontend linter
+        run: make frontend-lint
+      
 
   build:
     name: Build
