@@ -16,7 +16,7 @@ frontend-lint:
 # Installing backend dependencies
 .PHONY: backend-dep
 backend-dep:
-	cd backend && go get .
+	cd backend/internal/app/nightlife && go get .
 
 # Lint backend source code
 .PHONY: backend-lint
