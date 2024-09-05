@@ -1,4 +1,4 @@
-name: CI
+name: frontend-lint
 
 on:
   pull_request:
