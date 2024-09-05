@@ -1,0 +1,17 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+
+  frontend-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install frontend dependencies
+        run: make frontend-dep
+      - name: Run frontend linter
+        run: make frontend-lint

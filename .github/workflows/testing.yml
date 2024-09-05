@@ -1,0 +1,19 @@
+name: testing
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  backend-test:
+    name: Run all backend tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Run backend tests
+        run: make backend-test
+
+
