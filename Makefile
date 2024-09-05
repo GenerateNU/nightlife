@@ -26,7 +26,7 @@ backend-lint:
 # Format backend source code
 .PHONY: backend-format
 backend-format:
-	cd backend && gofmt -s
+	cd backend && go fmt ./...
 
 # Run backend tests
 .PHONY: backend-test

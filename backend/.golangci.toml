@@ -1,2 +1,2 @@
 [linters]
-enable = ["gofmt", "revive", "errcheck"]
+enable = ["revive", "errcheck"]

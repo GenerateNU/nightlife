@@ -5,7 +5,7 @@ import (
 )
 
 // Create HelloGroup fiber route group
-func HelloGroupRouter(app *fiber.App) {
+func RouteHelloGroup(app *fiber.App) {
 
 	//Create Grouping
 	router := app.Group("/hello")

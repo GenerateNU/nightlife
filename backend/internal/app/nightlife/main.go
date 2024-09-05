@@ -24,7 +24,7 @@ func main() {
 	}))
 
 	// Hello Group
-	hello.HelloGroupRouter(app)
+	hello.RouteHelloGroup(app)
 
 	fmt.Println(rand.Int()) // Unsafe random
 
