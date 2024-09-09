@@ -44,3 +44,7 @@ expo-env.d.ts
 # Supabase
 .branches
 .temp
+
+
+# Nix
+env-vars

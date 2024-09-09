@@ -4,8 +4,6 @@ import React from 'react';
 import { Platform } from 'react-native';
 
 
-const unusedVariable: string = "This is an unused variable";
-
 
 export function ExternalLink(
   props: Omit<React.ComponentProps<typeof Link>, 'href'> & { href: string }
