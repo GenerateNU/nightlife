@@ -3,15 +3,16 @@ package db
 import (
 	"context"
 	"fmt"
-	"github.com/GenerateNU/nightlife/internal/app/nightlife/pkg/config"
 	"log"
+
+	"github.com/GenerateNU/nightlife/internal/app/nightlife/pkg/config"
 
 	"github.com/jackc/pgx/v4"
 )
 
 func ConnectSupabaseDB() {
 	// check config
-	cfg, err := config.LoadConfig()
+	cfg, err := config.LoadConfig("../../../../../../.env")
 	if err != nil {
 		log.Fatalf("Could not load config: %v", err)
 	}
