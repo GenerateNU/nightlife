@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+
 	"github.com/GenerateNU/nightlife/internal/app/nightlife/pkg/db"
 	"github.com/GenerateNU/nightlife/internal/app/nightlife/pkg/middleware"
 	"github.com/GenerateNU/nightlife/internal/app/nightlife/pkg/router"
@@ -14,7 +15,6 @@ func main() {
 
 	//Create App
 	app := fiber.New()
-
 
 	//Initialize Middleware
 	middleware.UseMiddleware(app)
