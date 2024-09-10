@@ -21,7 +21,10 @@ func main() {
 
 
 	// test the database connection
-	db.ConnectSupabaseDB()
+	err = db.ConnectSupabaseDB()
+	if err != nil {
+		log.Fatalf("Unable to load environment variables necessary for application")
+	}
 
 	//Create App
 	app := fiber.New()

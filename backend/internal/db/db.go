@@ -12,7 +12,7 @@ import (
 
 
 //TODO: Refactor to take config ptr
-func ConnectSupabaseDB() {
+func ConnectSupabaseDB() error {
 	// check config
 	cfg, err := config.LoadConfig("../../../.env")
 	if err != nil {
@@ -28,4 +28,5 @@ func ConnectSupabaseDB() {
 	defer conn.Close(context.Background())
 
 	fmt.Println("Successfully connected to the database!")
+	return err
 }
