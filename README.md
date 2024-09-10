@@ -47,9 +47,14 @@ Create an .env file in the root directory:
 SUPABASE_URL=<your-supabase-url-here>
 SUPABASE_ANON_KEY=<your-supabase-anon-key-here>
 DATABASE_URL<your-supabase-db-url-here>
+SUPABASE_PROJECT_ID=<your_supabase_project_id_here>
+SUPABASE_JWT_SECRET=<your_supabase_jwt_secret_here>
+EXPO_PUBLIC_DOMAIN=<your_expo_public_domain>
 ```
 
 In the base of the repo, run `nix develop --impure`. This will handle our language dependencies. 
+
+Create a supabase account [here](https://supabase.com/) and Cam and I will add you to the Generate org!
 
 ## Before Contributing
 
