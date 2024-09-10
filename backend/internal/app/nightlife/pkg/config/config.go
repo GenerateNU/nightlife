@@ -13,6 +13,7 @@ type Config struct {
 	SupabaseURL string
 	SupabaseKey string
 	DatabaseURL string
+	JWTToken string
 }
 
 // loads configuration from the specified .env file path
@@ -51,10 +52,17 @@ func LoadConfig(envPath string) (*Config, error) {
 		return nil, fmt.Errorf("DATABASE_URL is not set in .env")
 	}
 
+	jwtToken := os.Getenv("SUPABASE_JWT_TOKEN")
+	if databaseURL == "" {
+		log.Fatalf("JWT Token is not set in .env")
+		return nil, fmt.Errorf("JWT Token is not set in .env")
+	}
+
 	config := &Config{
 		SupabaseURL: supabaseURL,
 		SupabaseKey: supabaseKey,
 		DatabaseURL: databaseURL,
+		JWTToken: jwtToken,
 	}
 
 	return config, nil
