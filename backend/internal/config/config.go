@@ -21,7 +21,7 @@ func LoadConfig(envPath string) (*Config, error) {
 	// if no custom env path, use the default relative path to root directory
 	if envPath == "" {
 		var err error
-		envPath, err = filepath.Abs("../../../../../../.env")
+		envPath, err = filepath.Abs("../.env")
 		if err != nil {
 			return nil, fmt.Errorf("failed to get the root directory: %v", err)
 		}

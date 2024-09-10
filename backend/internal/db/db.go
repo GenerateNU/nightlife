@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/GenerateNU/nightlife/internal/app/nightlife/pkg/config"
+	"github.com/GenerateNU/nightlife/internal/config"
 
 	"github.com/jackc/pgx/v4"
 )
@@ -14,7 +14,7 @@ import (
 //TODO: Refactor to take config ptr
 func ConnectSupabaseDB() {
 	// check config
-	cfg, err := config.LoadConfig("../../../../../../.env")
+	cfg, err := config.LoadConfig("../../../.env")
 	if err != nil {
 		log.Fatalf("Could not load config: %v", err)
 	}

@@ -16,7 +16,7 @@ frontend-lint:
 # Installing backend dependencies
 .PHONY: backend-dep
 backend-dep:
-	cd backend/internal/app/nightlife && go get .
+	cd backend/cmd/server && go get .
 
 # Lint backend source code
 .PHONY: backend-lint
@@ -46,7 +46,7 @@ db-rebuild:
 # Run backend
 .PHONY: backend-run
 backend-run:
-	cd backend/internal/app/nightlife && go run main.go
+	cd backend/cmd/server && go run main.go
 
 # convert the backend link to an ngrok link
 .PHONY: ngrok-run

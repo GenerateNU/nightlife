@@ -1,8 +1,8 @@
 package router
 
 import (
+	hello "github.com/GenerateNU/nightlife/internal/schema/hello/routes"
 	"github.com/gofiber/fiber/v2"
-	"github.com/GenerateNU/nightlife/internal/app/nightlife/pkg/schema/hello/routes"
 )
 
 
