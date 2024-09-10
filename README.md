@@ -7,6 +7,7 @@
 
 ## Stack
 
+[![Nix](https://img.shields.io/badge/nix-devshell-blue?logo=NixOS&labelColor=ccc)](https://nixos.org/)
 [![Go](https://img.shields.io/badge/go-%2300ADD8.svg?style=for-the-badge&logo=go&logoColor=white)](https://go.dev/doc/)
 [![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
 [![Supabase](https://img.shields.io/badge/supabase-black?logo=supabase&style=for-the-badge)](https://supabase.com/)
@@ -18,13 +19,13 @@
 [![Expo](https://img.shields.io/badge/expo-1C1E24?style=for-the-badge&logo=expo&logoColor=#D04A37)](https://docs.expo.dev/)
 [![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
 
-## Development Enviroment Setup [IP]
+## Development Enviroment Setup
 
 Before compiling and running our application, we need to install/setup several
 languages, package managers, and various tools. The installation process can
 vary, so follow the instructions for each item below!
 
-Possibly change this to use Nix :o
+[Nix](https://nixos.org/download/) our devshell, standarizing the development environment for all engineers.
 
 [Go](https://go.dev/doc/install) our primary backend language.
 
@@ -48,16 +49,15 @@ SUPABASE_ANON_KEY=<your-supabase-anon-key-here>
 DATABASE_URL<your-supabase-db-url-here>
 ```
 
-## Before Contributing [IP]
+In the base of the repo, run `nix develop --impure`. This will handle our language dependencies. 
+
+## Before Contributing
 
 Before contributing to the project, we need to install/setup several various
 tools. The installation process can vary, so follow the instructions for each
 item below!
 
 [Pre-commit](https://pre-commit.com) standardizing code style and commits
-
-[Commitizen](https://commitizen-tools.github.io/commitizen/) organizing our
-commits into categories
 
 ## Running The Project
 
