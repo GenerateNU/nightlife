@@ -37,6 +37,16 @@ backend-test:
 .PHONY: db-run
 db-run:
 	cd backend && npx supabase start
+
+# Stop the db
+.PHONY: db-stop
+db-stop:
+	cd backend && npx supabase stop
+
+# Dump the db
+.PHONY: db-dump
+db-dump:
+	cd backend && npx supabase db dump --data-only
 	
 # Rebuild the database
 .PHONY: db-rebuild

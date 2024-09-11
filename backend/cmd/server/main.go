@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+
 	"github.com/GenerateNU/nightlife/internal/auth"
 	"github.com/GenerateNU/nightlife/internal/config"
 	"github.com/GenerateNU/nightlife/internal/db"
@@ -18,10 +19,8 @@ func main() {
 		log.Fatalf("Unable to load environment variables necessary for application")
 	}
 
-
-
 	// test the database connection
-	err = db.ConnectSupabaseDB()
+	_, err = db.ConnectSupabaseDB()
 	if err != nil {
 		log.Fatalf("Unable to load environment variables necessary for application")
 	}
@@ -31,7 +30,6 @@ func main() {
 
 	//Configure authentication service
 	auth.ConfigureAuth(cfg)
-
 
 	//Initialize Middleware
 	middleware.UseMiddleware(app)
