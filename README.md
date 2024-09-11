@@ -54,14 +54,6 @@ EXPO_PUBLIC_DOMAIN=<your_expo_public_domain>
 
 Create a supabase account [here](https://supabase.com/) and Cam and I will add you to the Generate org!
 
-## Before Contributing
-
-Before contributing to the project, we need to install/setup several various
-tools. The installation process can vary, so follow the instructions for each
-item below!
-
-[Pre-commit](https://pre-commit.com) standardizing code style and commits
-
 ## Running The Project
 
 1. In the base of the repo: run `nix develop --impure`
