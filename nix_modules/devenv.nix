@@ -28,7 +28,6 @@
           gnumake
           golangci-lint
           lolcat
-          nodePackages.eslint
           supabase-cli
         ];
       };
