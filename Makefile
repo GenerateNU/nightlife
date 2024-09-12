@@ -1,3 +1,5 @@
+include ../.env
+
 # Installing frontend dependencies
 .PHONY: frontend-dep
 frontend-dep:
@@ -50,12 +52,7 @@ backend-run:
 
 .PHONY: ngrok-run
 ngrok-run:
-	if [ -f .env ]; then \
-		. .env && \
-		@echo $$EXPO_PUBLIC_API_DOMAIN && \
-		ngrok http --domain=$$EXPO_PUBLIC_API_DOMAIN 8080; \
-	else \
-		echo "No good, file not found"; \
-	fi
+	@echo ${EXPO_PUBLIC_API_DOMAIN}
+	cd backend && ngrok http --domain=${EXPO_PUBLIC_API_DOMAIN} 8080
 
 
