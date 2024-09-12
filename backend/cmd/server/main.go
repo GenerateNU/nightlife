@@ -20,6 +20,7 @@ func main() {
 
 
 
+
 	// test the database connection
 	err = db.ConnectSupabaseDB()
 	if err != nil {

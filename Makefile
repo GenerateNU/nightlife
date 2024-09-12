@@ -1,3 +1,5 @@
+include ../.env
+
 # Installing frontend dependencies
 .PHONY: frontend-dep
 frontend-dep:
@@ -48,7 +50,9 @@ db-rebuild:
 backend-run:
 	cd backend/cmd/server && go run main.go
 
-# convert the backend link to an ngrok link
 .PHONY: ngrok-run
-backend-ngrok:
-	./scripts/ngrok.sh
+ngrok-run:
+	@echo ${EXPO_PUBLIC_API_DOMAIN}
+	cd backend && ngrok http --domain=${EXPO_PUBLIC_API_DOMAIN} 8080
+
+
