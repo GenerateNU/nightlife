@@ -1,5 +1,5 @@
-//go:build citest
-// +build citest
+//go:build !skiptest
+// +build !skiptest
 
 package db
 
