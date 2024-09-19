@@ -1,5 +1,3 @@
-include ../.env
-
 # Installing frontend dependencies
 .PHONY: frontend-dep
 frontend-dep:
@@ -39,6 +37,16 @@ backend-test:
 .PHONY: db-run
 db-run:
 	cd backend && npx supabase start
+
+# Stop the db
+.PHONY: db-stop
+db-stop:
+	cd backend && npx supabase stop
+
+# Dump the db
+.PHONY: db-dump
+db-dump:
+	cd backend && npx supabase db dump --data-only
 	
 # Rebuild the database
 .PHONY: db-rebuild
@@ -50,9 +58,7 @@ db-rebuild:
 backend-run:
 	cd backend/cmd/server && go run main.go
 
+# convert the backend link to an ngrok link
 .PHONY: ngrok-run
-ngrok-run:
-	@echo ${EXPO_PUBLIC_API_DOMAIN}
-	cd backend && ngrok http --domain=${EXPO_PUBLIC_API_DOMAIN} 8080
-
-
+backend-ngrok:
+	./scripts/ngrok.sh

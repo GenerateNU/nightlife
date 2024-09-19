@@ -5,8 +5,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-
-func InitializeRoutes(app *fiber.App){
+func InitializeRoutes(app *fiber.App) {
 
 	// Add each route group here
 	hello.RouteHelloGroup(app)
