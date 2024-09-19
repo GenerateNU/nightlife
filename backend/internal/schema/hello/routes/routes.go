@@ -12,9 +12,10 @@ import (
 // Create HelloGroup fiber route group
 func RouteHelloGroup(app *fiber.App, config *config.Config) {
 
-	//Create Protected Grouping
-	//protected := app.Group("/hello_protected").Use(auth.Protected(config))
+	// Create Protected Grouping
 	protected := app.Group("/hello_protected")
+
+	// Register Middleware
 	protected.Use(auth.Protected(config))
 
 	//Unprotected Routes
