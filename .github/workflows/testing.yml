@@ -15,5 +15,5 @@ jobs:
 
       - name: Run backend tests
         working-directory: ./backend
-        run: go test -tags=skiptest ./...
+        run: go test -tags=citest ./...
 
