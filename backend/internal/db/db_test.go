@@ -1,12 +1,17 @@
+//go:build !skiptest
+// +build !skiptest
+
 package db
 
 import (
 	"context"
+	"fmt"
 	"testing"
 )
 
 func TestDBConnection(t *testing.T) {
 	t.Run("TestConnectSupabaseDB", func(t *testing.T) {
+		fmt.Println("Running TestConnectSupabaseDB")
 		// establish connection
 		conn, err := ConnectSupabaseDB()
 		if err != nil {
