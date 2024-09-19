@@ -21,7 +21,6 @@ func parseJWTToken(token string, hmacSecret []byte) (email string, err error) {
 			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
 		}
 
-		fmt.Println(hmacSecret)
 		return hmacSecret, nil
 	})
 
@@ -39,7 +38,6 @@ func parseJWTToken(token string, hmacSecret []byte) (email string, err error) {
 func Protected(cfg *config.Config) fiber.Handler {
 
 	return func(ctx *fiber.Ctx) error {
-		fmt.Print("Successfully called auth middleware")
 
 		token := ctx.Get("Authorization", "")
 		token = strings.TrimPrefix(token, "Bearer ")
@@ -47,13 +45,9 @@ func Protected(cfg *config.Config) fiber.Handler {
 		if token == "" {
 			return ctx.Status(400).JSON(fiber.Map{"code": "unauthorized, token not found"})
 		}
-
-		fmt.Println("Secret" + cfg.JWTToken)
-		email, err := parseJWTToken(token, []byte(cfg.JWTToken))
+		_, err := parseJWTToken(token, []byte(cfg.JWTToken))
 
 		if err != nil {
-			fmt.Println(email)
-			fmt.Println(err)
 			return ctx.Status(400).JSON(fiber.Map{"code": "unauthorized, error parsing token"})
 		}
 		return ctx.Next()
