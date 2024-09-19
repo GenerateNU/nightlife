@@ -10,8 +10,7 @@ import (
 	"github.com/jackc/pgx/v4"
 )
 
-
-//TODO: Refactor to take config ptr
+// TODO: Refactor to take config ptr
 func ConnectSupabaseDB() error {
 	// check config
 	cfg, err := config.LoadConfig("../../../.env")
