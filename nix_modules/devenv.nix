@@ -11,6 +11,7 @@
         enterShell = ''
           printf "Welcome to Nightlife\n" | ${pkgs.cowsay}/bin/cowsay | ${pkgs.lolcat}/bin/lolcat
           printf "\033[0;1;36mDEVSHELL ACTIVATED\033[0m\n"
+          env-help
         '';
         env-help.enable = true;
         languages = {
@@ -25,11 +26,101 @@
 
         packages = with pkgs; [
           cowsay
-          gnumake
-          golangci-lint
           lolcat
           supabase-cli
         ];
+
+        scripts = {
+          "backend-lint" = {
+            description = "Lints backend code.";
+            exec = ''
+              cd "$DEVENV_ROOT"/backend
+              ${pkgs.gum}/bin/gum spin --spinner dot --title "go mod tidy" -- go mod tidy
+              ${pkgs.gum}/bin/gum spin --spinner dot --title "go fmt" -- go fmt ./...
+              ${pkgs.gum}/bin/gum spin --spinner dot --title "go vet" -- go vet ./...
+              ${pkgs.gum}/bin/gum spin --spinner dot --title "golangci-lint" -- ${pkgs.golangci-lint}/bin/golangci-lint run ./...
+            '';
+          };
+          "backend-ngrok" = {
+            description = "Converts the backend link to an ngrok link.";
+            exec = ''
+              cd "$DEVENV_ROOT"/backend
+              ${pkgs.rubyPackages.dotenv}/bin/dotenv -i -f ""$DEVENV_ROOT"/.env" -- \
+              echo "$EXPO_PUBLIC_API_DOMAIN" && ngrok http --domain="$EXPO_PUBLIC_API_DOMAIN" 8080
+            '';
+          };
+          "backend-run" = {
+            description = "Runs the backend server in development mode.";
+            exec = ''
+              cd "$DEVENV_ROOT"/backend
+              ${pkgs.gum}/bin/gum spin --spinner dot --title "go mod tidy" -- go mod tidy
+              ${pkgs.rubyPackages.dotenv}/bin/dotenv -i -f ""$DEVENV_ROOT"/.env" -- \
+              ${pkgs.watchexec}/bin/watchexec -r -e go -- \
+              go run cmd/server/main.go
+            '';
+          };
+          "backend-test" = {
+            description = "Tests backend code.";
+            exec = ''
+              cd "$DEVENV_ROOT"/backend
+              ${pkgs.gum}/bin/gum spin --spinner dot --title "go test" -- go test ./...
+            '';
+          };
+          "db-dump" = {
+            description = "Dumps the database.";
+            exec = ''
+              cd "$DEVENV_ROOT"/backend
+              ${pkgs.rubyPackages.dotenv}/bin/dotenv -i -f ""$DEVENV_ROOT"/.env" -- \
+              supabase db dump --data-only
+            '';
+          };
+          "db-rebuild" = {
+            description = "Rebuilds the database.";
+            exec = ''
+              cd "$DEVENV_ROOT"/backend
+              ${pkgs.rubyPackages.dotenv}/bin/dotenv -i -f ""$DEVENV_ROOT"/.env" -- \
+              supabase start && supabase db reset
+            '';
+          };
+          "db-start" = {
+            description = "Starts the database.";
+            exec = ''
+              cd "$DEVENV_ROOT"/backend
+              ${pkgs.rubyPackages.dotenv}/bin/dotenv -i -f ""$DEVENV_ROOT"/.env" -- \
+              supabase start
+            '';
+          };
+          "db-stop" = {
+            description = "Stops the database.";
+            exec = ''
+              cd "$DEVENV_ROOT"/backend
+              ${pkgs.rubyPackages.dotenv}/bin/dotenv -i -f ""$DEVENV_ROOT"/.env" -- \
+              supabase stop
+            '';
+          };
+          "frontend-dep" = {
+            description = "Installs frontend dependencies.";
+            exec = ''
+              cd "$DEVENV_ROOT"/frontend
+              ${pkgs.gum}/bin/gum spin --spinner dot --title "npm install" -- npm install
+            '';
+          };
+          "frontend-lint" = {
+            description = "Lints frontend code.";
+            exec = ''
+              cd "$DEVENV_ROOT"/frontend
+              ${pkgs.gum}/bin/gum spin --spinner dot --title "npx eslint" -- npx eslint
+            '';
+          };
+          "frontend-run" = {
+            description = "Runs the frontend server in development mode.";
+            exec = ''
+              cd "$DEVENV_ROOT"/frontend
+              ${pkgs.rubyPackages.dotenv}/bin/dotenv -i -f ""$DEVENV_ROOT"/.env" -- \
+              npm start
+            '';
+          };
+        };
       };
     };
   };
