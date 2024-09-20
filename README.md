@@ -58,8 +58,8 @@ Create a supabase account [here](https://supabase.com/) and Cam and I will add y
 
 1. In the base of the repo: run `nix develop --impure`
 2. Launch Docker Desktop
-3. In the base of the repo: run `make db-run`
-4. Then, open a new tab to run commands in: run `make backend-dep` then `make backend-run`
+3. In the base of the repo: run `db-run`
+4. Then, open a new tab to run commands in: `make backend-run`
    - You can now view swagger: http://localhost:8080/swagger/index.html
-5. Next, in a new tab run `make ngrok-run`
-6. Finally, open one last new tab: run `make frontend-run`
+5. Next, in a new tab run `backend-ngrok`
+6. Finally, open one last new tab: run `frontend-run`
