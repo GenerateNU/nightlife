@@ -26,5 +26,5 @@ func ConnectSupabaseDB() (*pgx.Conn, error) {
 	}
 
 	fmt.Println("Successfully connected to the database!")
-	return conn, nil
+	return conn, err
 }

@@ -7,10 +7,11 @@ import (
 	"github.com/GenerateNU/nightlife/internal/config"
 	hello "github.com/GenerateNU/nightlife/internal/schema/hello/transactions"
 	"github.com/gofiber/fiber/v2"
+	"github.com/jackc/pgx/v4"
 )
 
 // Create HelloGroup fiber route group
-func RouteHelloGroup(app *fiber.App, config *config.Config) {
+func RouteHelloGroup(app *fiber.App, config *config.Config, db *pgx.Conn) {
 
 	// Create Protected Grouping
 	protected := app.Group("/hello_protected")
@@ -22,7 +23,11 @@ func RouteHelloGroup(app *fiber.App, config *config.Config) {
 	unprotected := app.Group("/hello")
 
 	//Endpoints
-	protected.Get("/world", hello.RetHelloWorld)
-	unprotected.Get("/world", hello.RetHelloWorld)
+	protected.Get("/world", func(c *fiber.Ctx) error {
+		return hello.RetHelloWorld(c, db)
+	})
+	unprotected.Get("/world", func(c *fiber.Ctx) error {
+		return hello.RetHelloWorld(c, db)
+	})
 
 }

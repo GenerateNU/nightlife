@@ -1,12 +1,13 @@
 package main
 
 import (
+	"log"
+
 	"github.com/GenerateNU/nightlife/internal/config"
 	"github.com/GenerateNU/nightlife/internal/db"
 	"github.com/GenerateNU/nightlife/internal/middleware"
 	"github.com/GenerateNU/nightlife/internal/router"
 	"github.com/gofiber/fiber/v2"
-	"log"
 )
 
 func main() {
@@ -18,7 +19,7 @@ func main() {
 	}
 
 	// test the database connection
-	_, err = db.ConnectSupabaseDB()
+	conn, err := db.ConnectSupabaseDB()
 	if err != nil {
 		log.Fatalf("Unable to load environment variables necessary for application")
 	}
@@ -30,7 +31,7 @@ func main() {
 	middleware.UseMiddleware(app)
 
 	// Hello Group
-	router.InitializeRoutes(app, cfg)
+	router.InitializeRoutes(app, cfg, conn)
 
 	//Run app
 	log.Fatal(app.Listen(":8080"))
