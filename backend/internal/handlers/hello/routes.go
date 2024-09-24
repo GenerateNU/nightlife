@@ -10,7 +10,7 @@ import (
 
 // Create HelloGroup fiber route group
 func Routes(app *fiber.App, params types.Params) {
-	service := new(params.Store)
+	service := newService(params.Store)
 
 	// Create Protected Grouping
 	protected := app.Group("/hello_protected")
