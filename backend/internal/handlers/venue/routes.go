@@ -1,87 +1,26 @@
-package handlers
+package venue
+
+//NOTE: This is an example usage for auth demonstration purposes. In real configurations (beyond login) all route groups should be protected
 
 import (
-    "github.com/gofiber/fiber/v2"
-    "your_project/internal/types"
+	"github.com/GenerateNU/nightlife/internal/auth"
+	"github.com/GenerateNU/nightlife/internal/types"
+	"github.com/gofiber/fiber/v2"
 )
 
-// registerVenueRoutes sets up the routing for venue operations
-func registerVenueRoutes(app *fiber.App, service *VenueService) {
-    // Create a new venue
-    app.Post("/venues", func(c *fiber.Ctx) error {
-        var venue types.Venue
-        if err := c.BodyParser(&venue); err != nil {
-            return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "error parsing request"})
-        }
+// Create HelloGroup fiber route group
+func Routes(app *fiber.App, params types.Params) {
+	service := newService(params.Store)
 
-        createdVenue, err := service.CreateVenue(venue)
-        if err != nil {
-            return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
-        }
+	// Create Protected Grouping
+	protected := app.Group("/venue_protected")
 
-        return c.Status(fiber.StatusCreated).JSON(createdVenue)
-    })
+	// Register Middleware
+	protected.Use(auth.Protected(&params.Supabase))
 
-    // Get all venues
-    app.Get("/venues", func(c *fiber.Ctx) error {
-        venues, err := service.GetVenues()
-        if err != nil {
-            return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
-        }
+	//Unprotected Routes
+	//unprotected := app.Group("/venue")
 
-        return c.JSON(venues)
-    })
-
-    // Get one venue by ID
-    app.Get("/venues/:id", func(c *fiber.Ctx) error {
-        id, err := c.ParamsInt("id")
-        if err != nil {
-            return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "invalid ID"})
-        }
-
-        venue, err := service.GetVenue(id)
-        if err != nil {
-            return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
-        }
-        if venue == nil {
-            return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": "Venue not found"})
-        }
-
-        return c.JSON(venue)
-    })
-
-    // Update a venue
-    app.Put("/venues/:id", func(c *fiber.Ctx) error {
-        id, err := c.ParamsInt("id")
-        if err != nil {
-            return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "invalid ID"})
-        }
-
-        var venue types.Venue
-        if err := c.BodyParser(&venue); err != nil {
-            return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "error parsing request"})
-        }
-        venue.VenueID = id // Ensure the ID is set correctly from the URL
-        updatedVenue, err := service.UpdateVenue(venue)
-        if err != nil {
-            return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
-        }
-
-        return c.JSON(updatedVenue)
-    })
-
-    // Delete a venue
-    app.Delete("/venues/:id", func(c *fiber.Ctx) error {
-        id, err := c.ParamsInt("id")
-        if err != nil {
-            return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "invalid ID"})
-        }
-
-        err = service.DeleteVenue(id)
-        if err != nil {
-            return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
-        }
-
-        return c.SendStatus(fiber.StatusNoContent)
-    })
+	//Endpoints
+	protected.Get("/getVenues", service.GetAllVenues)
 }
