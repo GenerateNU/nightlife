@@ -35,7 +35,7 @@ func parseJWTToken(token string, hmacSecret []byte) (email string, err error) {
 }
 
 // Middleware to protect routes -> TODO: testing
-func Protected(cfg *config.Config) fiber.Handler {
+func Protected(cfg *config.Supabase) fiber.Handler {
 
 	return func(ctx *fiber.Ctx) error {
 
@@ -45,7 +45,7 @@ func Protected(cfg *config.Config) fiber.Handler {
 		if token == "" {
 			return ctx.Status(400).JSON(fiber.Map{"code": "unauthorized, token not found"})
 		}
-		_, err := parseJWTToken(token, []byte(cfg.JWTToken))
+		_, err := parseJWTToken(token, []byte(cfg.JWTSecret))
 
 		if err != nil {
 			return ctx.Status(400).JSON(fiber.Map{"code": "unauthorized, error parsing token"})
