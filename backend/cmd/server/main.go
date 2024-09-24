@@ -18,10 +18,15 @@ import (
 func main() {
 	ctx := context.Background()
 
+<<<<<<< HEAD
 	if isLocal() {
 		if err := godotenv.Load("../../../.env"); err != nil {
 			log.Fatalf("Error loading .env file: %v", err)
 		}
+=======
+	if err := godotenv.Load("../../../.env"); err != nil {
+		log.Fatalf("Error loading .env file: %v", err)
+>>>>>>> 915b64e (refactor! (#20))
 	}
 
 	cfg, err := config.LoadConfig()
@@ -56,8 +61,11 @@ func main() {
 	}
 
 	slog.Info("Server shutdown")
+<<<<<<< HEAD
 }
 
 func isLocal() bool {
 	return os.Getenv("APP_ENVIRONMENT") != "production"
+=======
+>>>>>>> 915b64e (refactor! (#20))
 }
