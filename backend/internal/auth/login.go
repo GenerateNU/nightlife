@@ -22,10 +22,10 @@ type SignInResponse struct {
 	Error   interface{} `json:"error"`
 }
 
-func GetAuthToken(cfg *config.Config, email string, password string) (string, error) {
+func GetAuthToken(cfg *config.Supabase, email string, password string) (string, error) {
 	// Set your Supabase project details
-	supabaseURL := cfg.SupabaseURL
-	apiKey := cfg.SupabaseKey
+	supabaseURL := cfg.URL
+	apiKey := cfg.Key
 
 	// Construct the request payload
 	payload := map[string]string{
