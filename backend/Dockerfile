@@ -1,10 +1,10 @@
 FROM golang:1.21-alpine as builder
 
 WORKDIR /app
-RUN apk add --no-cache make git
+RUN apk add --no-cache git
 
 COPY . ./
-RUN make backend-build
+RUN go -o bin/nightlife cmd/server/main.go
 
 FROM scratch
 COPY --from=builder /app/bin/nightlife /nightlife
