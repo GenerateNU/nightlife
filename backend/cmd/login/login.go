@@ -9,10 +9,12 @@ import (
 	"strings"
 
 	"github.com/GenerateNU/nightlife/internal/config"
+	"github.com/joho/godotenv"
 	"github.com/nedpals/supabase-go"
 )
 
 func main() {
+	ctx := context.Background()
 
 	ips, err := net.LookupIP("nydgnuqtgjljprotsccz.supabase.co")
 	if err != nil {
@@ -21,14 +23,18 @@ func main() {
 		fmt.Printf("Supabase IPs: %v\n", ips)
 	}
 
-	cfg, err := config.LoadConfig("../../../.env")
+	if err := godotenv.Load("../../../.env"); err != nil {
+		log.Fatalf("Error loading .env file: %v", err)
+	}
+
+	cfg, err := config.LoadConfig()
 
 	if err != nil {
 		log.Fatalf("Environment variables could not be loaded")
 	}
 
-	fmt.Printf("Supabase URL: %s\n", cfg.SupabaseURL)
-	fmt.Printf("Supabase Key: %s\n", cfg.SupabaseKey)
+	fmt.Printf("Supabase URL: %s\n", cfg.Supabase.URL)
+	fmt.Printf("Supabase Key: %s\n", cfg.Supabase.Key)
 
 	flag.Parse()
 
@@ -41,9 +47,9 @@ func main() {
 	email := args[0]
 	password := args[1]
 
-	client := supabase.CreateClient(cfg.SupabaseURL, cfg.SupabaseKey)
+	client := supabase.CreateClient(cfg.Supabase.URL, cfg.Supabase.Key)
 
-	details, err := client.Auth.SignIn(context.Background(), supabase.UserCredentials{
+	details, err := client.Auth.SignIn(ctx, supabase.UserCredentials{
 		Email:    email,
 		Password: password,
 		Data:     nil,
@@ -55,5 +61,4 @@ func main() {
 	}
 
 	fmt.Printf("Access Token: %s", details.AccessToken)
-
 }

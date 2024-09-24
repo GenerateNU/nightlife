@@ -4,25 +4,24 @@ package hello
 
 import (
 	"github.com/GenerateNU/nightlife/internal/auth"
-	"github.com/GenerateNU/nightlife/internal/config"
-	hello "github.com/GenerateNU/nightlife/internal/schema/hello/transactions"
+	"github.com/GenerateNU/nightlife/internal/types"
 	"github.com/gofiber/fiber/v2"
 )
 
 // Create HelloGroup fiber route group
-func RouteHelloGroup(app *fiber.App, config *config.Config) {
+func Routes(app *fiber.App, params types.Params) {
+	service := newService(params.Store)
 
 	// Create Protected Grouping
 	protected := app.Group("/hello_protected")
 
 	// Register Middleware
-	protected.Use(auth.Protected(config))
+	protected.Use(auth.Protected(&params.Supabase))
 
 	//Unprotected Routes
 	unprotected := app.Group("/hello")
 
 	//Endpoints
-	protected.Get("/world", hello.RetHelloWorld)
-	unprotected.Get("/world", hello.RetHelloWorld)
-
+	protected.Get("/world", service.HelloWorld)
+	unprotected.Get("/world", service.HelloWorld)
 }

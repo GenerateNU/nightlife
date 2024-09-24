@@ -60,6 +60,11 @@ db-rebuild:
 backend-run:
 	cd backend/cmd/server && go run main.go
 
+# Build backend
+.PHONY: backend-build
+backend-run:
+	cd backend && go -o bin/nightlife cmd/server/main.go
+
 # convert the backend link to an ngrok link
 .PHONY: backend-ngrok
 backend-ngrok:
