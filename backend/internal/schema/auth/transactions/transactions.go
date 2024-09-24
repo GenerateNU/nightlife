@@ -26,7 +26,7 @@ func RetLogin(ctx *fiber.Ctx) error {
 	email := loginData.Email
 	password := loginData.Password
 
-	config, err := config.LoadConfig("../../../.env")
+	conf, err := config.LoadConfig("../../../.env")
 
 	if err != nil {
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
@@ -34,7 +34,7 @@ func RetLogin(ctx *fiber.Ctx) error {
 		})
 	}
 
-	authToken, err := auth.GetAuthToken(config, email, password)
+	authToken, err := auth.GetAuthToken(conf, email, password)
 
 	if err != nil {
 		return ctx.Status(fiber.StatusUnauthorized).JSON(fiber.Map{

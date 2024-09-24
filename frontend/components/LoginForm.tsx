@@ -21,7 +21,7 @@ const LoginForm = () => {
         console.log('sending request...');
 
         try {
-            const res = await fetch('https://bc99-68-160-191-100.ngrok-free.app/auth/login', {
+            const res = await fetch('https://optimal-nearly-lemur.ngrok-free.app/auth/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -35,18 +35,19 @@ const LoginForm = () => {
             const data = await res.json();
 
             if (data.error) {
-                setLoginError(data.error);
+                setLoginError(data.error.toString());
+                console.log('Login failed:', data.error);
             } else {
                 login(data.token);
             }
         } catch (err) {
-            console.error('Login failed', err);
+            console.log('Login failed:', err);
             setLoginError('Login failed. Please try again.');
         }
     };
 
     const validateForm = (): boolean => {
-        let validationErrors: ValidationErrors = {};
+        const validationErrors: ValidationErrors = {};
         let isValid = true;
 
         if (!email || !/\S+@\S+\.\S+/.test(email)) {

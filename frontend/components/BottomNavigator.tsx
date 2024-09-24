@@ -28,7 +28,7 @@ const bottomTabNavOptions: BottomTabNavigationOptions = {
     tabBarActiveTintColor: '#4ba3e3',
 }
 
-const createScreenOptions = (label: string, iconName: any): BottomTabNavigationOptions => ({
+const createScreenOptions = (label: string, iconName: keyof (typeof MaterialCommunityIcons.glyphMap)): BottomTabNavigationOptions => ({
     tabBarLabel: label,
     tabBarIcon: ({ color, size }) => (
         <MaterialCommunityIcons name={iconName} color={color} size={size} />
