@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, TextInput, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { useAuth } from '@/context/AuthContext';
 
 interface ValidationErrors {
     email?: string;
@@ -7,32 +8,57 @@ interface ValidationErrors {
 }
 
 const LoginForm = () => {
-
-    const [email, setEmail] = useState<string>("");
-    const [password, setPassword] = useState<string>("");
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
     const [errors, setErrors] = useState<ValidationErrors>({});
+    const [loginError, setLoginError] = useState<string | null>(null);
 
-    const handleLogin = () => {
-        console.log("Email: ", email);
-        console.log("Password: ", password);
+    const { login } = useAuth();
+
+    const handleLogin = async () => {
+        console.log('Email: ', email);
+        console.log('Password: ', password);
+        console.log('sending request...');
+
+        try {
+            const res = await fetch('https://bc99-68-160-191-100.ngrok-free.app/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password,
+                }),
+            });
+
+            const data = await res.json();
+
+            if (data.error) {
+                setLoginError(data.error);
+            } else {
+                login(data.token);
+            }
+        } catch (err) {
+            console.error('Login failed', err);
+            setLoginError('Login failed. Please try again.');
+        }
     };
 
     const validateForm = (): boolean => {
         let validationErrors: ValidationErrors = {};
         let isValid = true;
 
-        // Match email to regex, if missing or invalid, set error
         if (!email || !/\S+@\S+\.\S+/.test(email)) {
-            validationErrors.email = "Invalid email address.";
+            validationErrors.email = 'Invalid email address.';
             isValid = false;
         }
 
-        // Check password input
         if (!password) {
-            validationErrors.password = "This field is required.";
+            validationErrors.password = 'This field is required.';
             isValid = false;
         } else if (password.length < 6) {
-            validationErrors.password = "Must be at least 6 characters.";
+            validationErrors.password = 'Must be at least 6 characters.';
             isValid = false;
         }
 
@@ -41,18 +67,14 @@ const LoginForm = () => {
     };
 
     const handleLoginPress = () => {
-        const isValid: boolean = validateForm();
+        const isValid = validateForm();
         if (isValid) handleLogin();
     };
 
     return (
         <View style={styles.container}>
-
             <TextInput
-                style={[
-                    styles.input,
-                    errors.email ? styles.inputError : undefined
-                ]}
+                style={[styles.input, errors.email ? styles.inputError : undefined]}
                 placeholder="Email address"
                 value={email}
                 onChangeText={setEmail}
@@ -62,21 +84,19 @@ const LoginForm = () => {
             {errors.email && <Text style={styles.error}>{errors.email}</Text>}
 
             <TextInput
-                style={[
-                    styles.input,
-                    errors.password ? styles.inputError : undefined
-                ]}
+                style={[styles.input, errors.password ? styles.inputError : undefined]}
                 placeholder="Password"
                 value={password}
                 onChangeText={setPassword}
                 secureTextEntry
             />
-
             {errors.password && <Text style={styles.error}>{errors.password}</Text>}
 
             <TouchableOpacity style={styles.buttonContainer} onPress={handleLoginPress}>
                 <Text style={styles.buttonText}>Explore Nightlife</Text>
             </TouchableOpacity>
+
+            {loginError && <Text style={styles.error}>{loginError}</Text>}
 
             <Text style={styles.subtitleText}>
                 NightLife is an interactive platform focused on transforming the way people experience nightlife in
@@ -90,50 +110,44 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 20,
-        alignItems: "center",
-    },
-    headerText: {
-        fontSize: 24,
-        fontWeight: "bold",
-        textAlign: "center",
-        marginBottom: 16,
-    },
-    subtitleText: {
-        fontSize: 14,
-        textAlign: "center",
+        alignItems: 'center',
     },
     input: {
         height: 55,
-        borderColor: "#ccc",
+        borderColor: '#ccc',
         borderWidth: 1,
         marginBottom: 10,
         paddingHorizontal: 15,
         width: 300,
         borderRadius: 12,
         fontSize: 16,
-        backgroundColor: "#f9f9f9",
+        backgroundColor: '#f9f9f9',
     },
     inputError: {
-        borderColor: "red",
+        borderColor: 'red',
     },
     buttonContainer: {
         marginTop: 10,
         marginBottom: 20,
         width: 300,
         borderRadius: 12,
-        backgroundColor: "#007bff",
+        backgroundColor: '#007bff',
         paddingVertical: 15,
-        alignItems: "center",
+        alignItems: 'center',
     },
     buttonText: {
-        color: "white",
+        color: 'white',
         fontSize: 18,
-        fontWeight: "bold",
+        fontWeight: 'bold',
     },
     error: {
-        color: "red",
+        color: 'red',
         fontSize: 14,
         marginBottom: 10,
+    },
+    subtitleText: {
+        fontSize: 14,
+        textAlign: 'center',
     },
 });
 
