@@ -14,3 +14,7 @@ type Storage interface {
 type Test interface {
 	GetAllTests(context.Context) ([]models.Test, error)
 }
+
+type Profile interface {
+	StorePreferences(context.Context) ([]models.Test, error)
+}
