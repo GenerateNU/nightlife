@@ -19,6 +19,7 @@ type Preferences struct {
 func (db *DB) StorePreferences(ctx context.Context) ([]models.Test, error) {
 	var p Preferences
 
+	// save user response to Preferences instance
 	if err := c.BodyParser(&p); err != nil {
         return c.Status(400).SendString("Invalid body format")
     }
@@ -31,6 +32,7 @@ func (db *DB) StorePreferences(ctx context.Context) ([]models.Test, error) {
     amb := p.ambiance
     notifs := p.notifs
 
+	// query to save user data to db
 	query :=  `INSERT INTO preferences (userID, location, age, music, ambiance, notifs) 
 				VALUES ($1, $2, $3, $4, $5, $6)`
 
