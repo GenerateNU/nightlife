@@ -1,6 +1,5 @@
 package profile
 
-
 import (
 	"github.com/GenerateNU/nightlife/internal/auth"
 	"github.com/GenerateNU/nightlife/internal/types"
