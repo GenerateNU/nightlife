@@ -62,13 +62,8 @@ backend-run:
 
 # Build backend
 .PHONY: backend-build
-<<<<<<< HEAD
 backend-build:
 	cd backend && go build -o bin/nightlife cmd/server/main.go
-=======
-backend-run:
-	cd backend && go -o bin/nightlife cmd/server/main.go
->>>>>>> 915b64e (refactor! (#20))
 
 # convert the backend link to an ngrok link
 .PHONY: backend-ngrok
