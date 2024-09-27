@@ -4,6 +4,7 @@ import (
 	"github.com/GenerateNU/nightlife/internal/errs"
 	"github.com/GenerateNU/nightlife/internal/handlers/hello"
 	"github.com/GenerateNU/nightlife/internal/handlers/test"
+	userrating "github.com/GenerateNU/nightlife/internal/handlers/user_ratings"
 	"github.com/GenerateNU/nightlife/internal/middleware"
 	"github.com/GenerateNU/nightlife/internal/types"
 	go_json "github.com/goccy/go-json"
@@ -22,6 +23,9 @@ func New(params types.Params) *fiber.App {
 	// Hello Group
 	hello.Routes(app, params)
 	test.Routes(app, params)
+
+	//User Ratings route group
+	userrating.Routes(app, params)
 
 	return app
 }
