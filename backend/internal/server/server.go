@@ -2,6 +2,7 @@ package server
 
 import (
 	"github.com/GenerateNU/nightlife/internal/errs"
+	"github.com/GenerateNU/nightlife/internal/handlers/auth"
 	"github.com/GenerateNU/nightlife/internal/handlers/hello"
 	"github.com/GenerateNU/nightlife/internal/handlers/test"
 	"github.com/GenerateNU/nightlife/internal/middleware"
@@ -22,6 +23,7 @@ func New(params types.Params) *fiber.App {
 	// Hello Group
 	hello.Routes(app, params)
 	test.Routes(app, params)
+	auth.Routes(app, params)
 
 	return app
 }
