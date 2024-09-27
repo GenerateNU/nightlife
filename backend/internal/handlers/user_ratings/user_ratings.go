@@ -1,6 +1,7 @@
 package userratings
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gofiber/fiber/v2"
@@ -8,6 +9,8 @@ import (
 )
 
 func (s *Service) GetAllUserRatings(c *fiber.Ctx) error {
+	fmt.Println("Pinging correct service")
+
 	user_id := c.Params("user_id")
 	if user_id == "" {
 		c.Status(http.StatusBadRequest)
@@ -23,6 +26,7 @@ func (s *Service) GetAllUserRatings(c *fiber.Ctx) error {
 	user_ratings, err := s.store.GetAllUserRatings(c.Context(), user_id_formatted)
 
 	if err != nil {
+		fmt.Println("Error is on service line 26" + err.Error())
 		c.Status(http.StatusInternalServerError)
 		return err
 	}

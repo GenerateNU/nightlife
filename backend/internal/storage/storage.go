@@ -17,7 +17,6 @@ type Test interface {
 	GetAllTests(context.Context) ([]models.Test, error)
 }
 
-
 type UserRating interface {
-	GetAllUserRatings(context.Context, uuid.UUID) ([]UserRating, error)
+	GetAllUserRatings(context.Context, uuid.UUID) ([]models.UserRating, error)
 }

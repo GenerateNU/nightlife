@@ -19,7 +19,6 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-
 func Routes(app *fiber.App, params types.Params) {
 
 	//create a service
@@ -29,8 +28,6 @@ func Routes(app *fiber.App, params types.Params) {
 	protected := app.Group("/userratings")
 
 	//create a route
-	protected.Get("/user", service.GetAllUserRatings)
+	protected.Get("/user/:user_id", service.GetAllUserRatings)
 
-
-	
 }
