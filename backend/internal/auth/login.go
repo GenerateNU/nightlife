@@ -4,25 +4,22 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"github.com/GenerateNU/nightlife/internal/config"
 	"io"
 	"net/http"
-
-	"github.com/GenerateNU/nightlife/internal/config"
 )
 
-// Define the structure for the response data
-type SessionData struct {
-	AccessToken string `json:"access_token"`
-	TokenType   string `json:"token_type"`
-}
-
-// Define the structure for the sign-in response
 type SignInResponse struct {
-	Session SessionData `json:"session"`
-	Error   interface{} `json:"error"`
+	AccessToken  string      `json:"access_token"`
+	TokenType    string      `json:"token_type"`
+	RefreshToken string      `json:"refresh_token"`
+	ExpiresIn    int         `json:"expires_in"`
+	User         interface{} `json:"user"`
+	Error        interface{} `json:"error"`
 }
 
 func GetAuthToken(cfg *config.Supabase, email string, password string) (string, error) {
+
 	// Set your Supabase project details
 	supabaseURL := cfg.URL
 	apiKey := cfg.Key
@@ -81,5 +78,5 @@ func GetAuthToken(cfg *config.Supabase, email string, password string) (string, 
 	}
 
 	// Return the access token
-	return signInResp.Session.AccessToken, nil
+	return signInResp.AccessToken, nil
 }
