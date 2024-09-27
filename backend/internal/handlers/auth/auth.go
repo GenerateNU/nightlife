@@ -12,7 +12,7 @@ type LoginRequest struct {
 	Password string `json:"password"`
 }
 
-func (s *Service) Login(c *fiber.Ctx) error {
+func (s *AuthService) Login(c *fiber.Ctx) error {
 
 	var loginData LoginRequest
 

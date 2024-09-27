@@ -2,10 +2,10 @@ package auth
 
 import "github.com/GenerateNU/nightlife/internal/storage"
 
-type Service struct {
+type AuthService struct {
 	store storage.Storage
 }
 
-func newService(store storage.Storage) *Service {
-	return &Service{store: store}
+func newService(store storage.Storage) *AuthService {
+	return &AuthService{store: store}
 }
