@@ -9,3 +9,10 @@ type Params struct {
 	Supabase config.Supabase
 	Store    storage.Storage
 }
+
+type SystemInfo struct {
+	OS           string
+	Architecture string
+	CPUCores     int
+	GoVersion    string
+}
