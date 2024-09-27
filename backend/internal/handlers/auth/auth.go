@@ -12,7 +12,7 @@ type LoginRequest struct {
 	Password string `json:"password"`
 }
 
-func (s *AuthService) Login(c *fiber.Ctx) error {
+func (s *Service) Login(c *fiber.Ctx) error {
 
 	var loginData LoginRequest
 
@@ -26,8 +26,6 @@ func (s *AuthService) Login(c *fiber.Ctx) error {
 	password := loginData.Password
 
 	conf, err := config.LoadConfig()
-
-	println(email)
 
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
