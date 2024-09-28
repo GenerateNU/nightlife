@@ -5,7 +5,7 @@ import UserReview from '@/components/UserReview';
 import AddMedia from '@/components/AddMedia';
 import PostButton from '@/components/PostButton';
 
-const VenueReviewScreen = () => {
+const VenueReviewScreen : React.FC = () => {
   return (
     <ScrollView style={styles.container}>
       <VenueHeader />
@@ -16,10 +16,13 @@ const VenueReviewScreen = () => {
   );
 };
 
+
 const styles = StyleSheet.create({
-  container: {
-    padding: 10,
-  },
+    container: {
+      flex: 1,
+      backgroundColor: '#1c1c1e',
+      padding: 10,
+    },
 });
 
 export default VenueReviewScreen;

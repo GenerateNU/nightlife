@@ -4,7 +4,7 @@ import { View, Button, StyleSheet } from 'react-native';
 const PostButton = () => {
   return (
     <View style={styles.container}>
-      <Button title="Post" onPress={() => {}} />
+      <Button title="Post" color="#007AFF" onPress={() => {}} />
     </View>
   );
 };
@@ -12,6 +12,7 @@ const PostButton = () => {
 const styles = StyleSheet.create({
   container: {
     marginVertical: 20,
+    alignItems: 'center',
   },
 });
 
