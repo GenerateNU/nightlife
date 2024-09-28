@@ -11,19 +11,19 @@ import (
 func (s *Service) GetAllUserRatings(c *fiber.Ctx) error {
 	fmt.Println("Pinging correct service")
 
-	user_id := c.Params("user_id")
-	if user_id == "" {
+	userID := c.Params("user_id")
+	if userID == "" {
 		c.Status(http.StatusBadRequest)
 		return fiber.NewError(400)
 	}
-	user_id_formatted, err := uuid.Parse(user_id)
+	UserIDFormatted, err := uuid.Parse(userID)
 
 	if err != nil {
 		c.Status(http.StatusBadRequest)
-		return err
+		return fiber.NewError(400, "Malformed User ID")
 	}
 
-	user_ratings, err := s.store.GetAllUserRatings(c.Context(), user_id_formatted)
+	UserRatings, err := s.store.GetAllUserRatings(c.Context(), UserIDFormatted)
 
 	if err != nil {
 		fmt.Println("Error is on service line 26" + err.Error())
@@ -31,6 +31,6 @@ func (s *Service) GetAllUserRatings(c *fiber.Ctx) error {
 		return err
 	}
 
-	return c.Status(http.StatusOK).JSON(user_ratings)
+	return c.Status(http.StatusOK).JSON(UserRatings)
 
 }

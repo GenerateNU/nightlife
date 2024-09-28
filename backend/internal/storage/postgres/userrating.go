@@ -9,7 +9,7 @@ import (
 )
 
 //Gets UserRating query result from DB
-func (db *DB) GetAllUserRatings(ctx context.Context, user_id uuid.UUID) ([]models.UserRating, error) {
+func (db *DB) GetAllUserRatings(ctx context.Context, userID uuid.UUID) ([]models.UserRating, error) {
 	var query = `
 SELECT
 	u.user_id AS user_id,
@@ -27,7 +27,7 @@ WHERE
 	u.user_id = $1;
 `
 
-	rows, err := db.conn.Query(ctx, query, user_id.String())
+	rows, err := db.conn.Query(ctx, query, userID.String())
 
 	if err != nil {
 		return []models.UserRating{}, err
