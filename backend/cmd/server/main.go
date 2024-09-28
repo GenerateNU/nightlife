@@ -31,7 +31,7 @@ func main() {
 
 	db, err := postgres.New(ctx, cfg.Database)
 	if err != nil {
-		log.Fatalf("Unable to load environment variables necessary for application")
+		log.Fatalf("Unable to load environment variables necessary for application 2")
 	}
 
 	app := server.New(types.Params{
