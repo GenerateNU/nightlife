@@ -21,25 +21,26 @@ const LoginForm = () => {
         console.log('sending request...');
 
         try {
-            const res = await fetch('https://optimal-nearly-lemur.ngrok-free.app/auth/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    email: email,
-                    password: password,
-                }),
-            });
+            // to be replaced with API_DOMAIN from .env
+            const res = await fetch(`http://127.0.0.1:8080/auth/login`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                email: email,
+                password: password,
+            }),
+        });
 
-            const data = await res.json();
+        const data = await res.json();
 
-            if (data.error) {
-                setLoginError(data.error.toString());
-                console.log('Login failed:', data.error);
-            } else {
-                login(data.token);
-            }
+        if (data.error) {
+            setLoginError(data.error.toString());
+            console.log('Login failed:', data.error);
+        } else {
+            login(data.token);
+        }
         } catch (err) {
             console.log('Login failed:', err);
             setLoginError('Login failed. Please try again.');
