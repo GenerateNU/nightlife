@@ -5,9 +5,7 @@ go 1.21.6
 require github.com/gofiber/fiber/v2 v2.52.5
 
 require (
-	github.com/gofiber/utils v0.0.10 // indirect
 	github.com/google/go-querystring v1.1.0 // indirect
-	github.com/gorilla/schema v1.1.0 // indirect
 	github.com/nedpals/postgrest-go v0.1.3 // indirect
 )
 
@@ -15,9 +13,8 @@ require (
 	github.com/andybalholm/brotli v1.0.5 // indirect
 	github.com/caarlos0/env/v11 v11.2.2
 	github.com/goccy/go-json v0.10.3
-	github.com/gofiber/fiber v1.14.6
 	github.com/golang-jwt/jwt/v5 v5.2.1
-	github.com/google/uuid v1.5.0 // indirect
+	github.com/google/uuid v1.5.0
 	github.com/jackc/pgpassfile v1.0.0 // indirect
 	github.com/jackc/pgservicefile v0.0.0-20240606120523-5a60cdf6a761 // indirect
 	github.com/jackc/pgx/v5 v5.7.1
