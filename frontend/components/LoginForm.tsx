@@ -21,7 +21,7 @@ const LoginForm = () => {
         console.log('sending request...');
 
         try {
-            const res = await fetch('https://optimal-nearly-lemur.ngrok-free.app/auth/login', {
+            const res = await fetch('https://localhost:8080/auth/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
