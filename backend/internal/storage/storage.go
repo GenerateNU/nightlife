@@ -9,6 +9,7 @@ import (
 type Storage interface {
 	Close(context.Context) error
 	Test
+	Profile
 }
 
 type Test interface {
@@ -16,5 +17,5 @@ type Test interface {
 }
 
 type Profile interface {
-	StorePreferences(context.Context) ([]models.Test, error)
+	CreatePreferences(context.Context, models.Preferences) error
 }
