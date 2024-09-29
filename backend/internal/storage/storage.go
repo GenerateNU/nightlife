@@ -12,6 +12,7 @@ type Storage interface {
 	Test
 	UserRating
 	VenueRatings
+	Friendship
 }
 
 type Test interface {
@@ -24,4 +25,8 @@ type UserRating interface {
 
 type VenueRatings interface {
 	GetAllVenueRatings(context.Context, uuid.UUID) ([]models.VenueRatings, error)
+}
+
+type Friendship interface {
+	CreateFriendship(context.Context, models.Friendship) error
 }
