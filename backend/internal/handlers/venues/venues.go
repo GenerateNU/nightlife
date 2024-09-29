@@ -11,19 +11,19 @@ import (
 func (s *Service) DeleteVenue(c *fiber.Ctx) error {
 	fmt.Println("Pinging correct service")
 
-	venueId := c.Params("venueId")
-	if venueId == "" {
+	venueID := c.Params("venueId")
+	if venueID == "" {
 		c.Status(http.StatusBadRequest)
 		return fiber.NewError(400)
 	}
-	venueIdFormatted, err := uuid.Parse(venueId)
+	venueIDFormatted, err := uuid.Parse(venueID)
 
 	if err != nil {
 		c.Status(http.StatusBadRequest)
 		return fiber.NewError(400, "Delete failed due to malformed venue ID")
 	}
 
-	venueDelete := s.store.DeleteVenue(c.Context(), venueIdFormatted)
+	venueDelete := s.store.DeleteVenue(c.Context(), venueIDFormatted)
 
 	if err != nil {
 		fmt.Println("Error is on service line 26" + err.Error())
