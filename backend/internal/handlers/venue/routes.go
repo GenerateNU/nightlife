@@ -23,6 +23,4 @@ func Routes(app *fiber.App, params types.Params) {
 
 	//Endpoints
 	protected.Patch("/:venueId/reviews/:reviewId", service.PatchVenueReview)
-	protected.Get("/:venueId/reviews/:reviewId", service.GetVenueReviews)
-
 }

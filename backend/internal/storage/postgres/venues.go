@@ -3,10 +3,10 @@ package postgres
 import (
 	"context"
 
-	"log"
 	"github.com/GenerateNU/nightlife/internal/models"
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
+	"log"
 )
 
 func (db *DB) GetAllVenues(ctx context.Context) ([]models.Test, error) {
@@ -18,46 +18,45 @@ func (db *DB) GetAllVenues(ctx context.Context) ([]models.Test, error) {
 }
 
 func (db *DB) GetVenueReviews(ctx context.Context, reviewID int8, venueID uuid.UUID) ([]models.Review, error) {
-    // Use proper SQL syntax without single quotes around the table name
-    query := `SELECT * FROM "Review" r WHERE review_id = $1 AND venue_id = $2`
-    rows, err := db.conn.Query(ctx, query, reviewID, venueID)
-    if err != nil {
-        return nil, err // Return nil slice on error for idiomatic Go
-    }
-    defer rows.Close() // Ensure you close the rows to free resources
+	// Use proper SQL syntax without single quotes around the table name
+	query := `SELECT * FROM "Review" r WHERE review_id = $1 AND venue_id = $2`
+	rows, err := db.conn.Query(ctx, query, reviewID, venueID)
+	if err != nil {
+		return nil, err // Return nil slice on error for idiomatic Go
+	}
+	defer rows.Close() // Ensure you close the rows to free resources
 
-    var reviews []models.Review
-    for rows.Next() {
-        var review models.Review
-        if err := rows.Scan(
-            &review.VenueID,   // Make sure the order and fields match your table's structure
-            &review.OverallRating,
-            &review.AmbianceRating,
-            &review.MusicRating,
-            &review.CrowdRating,
-            &review.ServiceRating,
-            &review.ReviewText,
-            &review.CreatedAt,
-            &review.UpdatedAt,
-        ); err != nil {
-            return nil, err
-        }
-        reviews = append(reviews, review)
-    }
-    if err := rows.Err(); err != nil {
-        return nil, err
-    }
-    return reviews, nil
+	var reviews []models.Review
+	for rows.Next() {
+		var review models.Review
+		if err := rows.Scan(
+			&review.VenueID, // Make sure the order and fields match your table's structure
+			&review.OverallRating,
+			&review.AmbianceRating,
+			&review.MusicRating,
+			&review.CrowdRating,
+			&review.ServiceRating,
+			&review.ReviewText,
+			&review.CreatedAt,
+			&review.UpdatedAt,
+		); err != nil {
+			return nil, err
+		}
+		reviews = append(reviews, review)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return reviews, nil
 }
 
-
 func (db *DB) PatchVenueReview(ctx context.Context, overall_rating int8, ambiance_rating int8, music_rating int8, crowd_rating int8, service_rating int8, review_text string, venueID uuid.UUID, reviewID int8) error {
-    // Log the incoming parameters for debugging and monitoring
-    log.Printf("Attempting to update review with ReviewID: %d, VenueID: %s, Ratings: [Overall: %d, Ambiance: %d, Music: %d, Crowd: %d, Service: %d], Review Text: %s",
-        reviewID, venueID, overall_rating, ambiance_rating, music_rating, crowd_rating, service_rating, review_text)
+	// Log the incoming parameters for debugging and monitoring
+	log.Printf("Attempting to update review with ReviewID: %d, VenueID: %s, Ratings: [Overall: %d, Ambiance: %d, Music: %d, Crowd: %d, Service: %d], Review Text: %s",
+		reviewID, venueID, overall_rating, ambiance_rating, music_rating, crowd_rating, service_rating, review_text)
 
-    // SQL query execution
-    _, err := db.conn.Exec(ctx, `
+	// SQL query execution
+	_, err := db.conn.Exec(ctx, `
         UPDATE "Review" r
         SET
             overall_rating = $1,
@@ -70,13 +69,13 @@ func (db *DB) PatchVenueReview(ctx context.Context, overall_rating int8, ambianc
         WHERE review_id = $7 AND venue_id = $8;
     `, overall_rating, ambiance_rating, music_rating, crowd_rating, service_rating, review_text, reviewID, venueID)
 
-    if err != nil {
-        // Log the error with detailed context
-        log.Printf("Failed to update review with ReviewID: %d, VenueID: %s, Error: %v", reviewID, venueID, err)
-        return err
-    }
+	if err != nil {
+		// Log the error with detailed context
+		log.Printf("Failed to update review with ReviewID: %d, VenueID: %s, Error: %v", reviewID, venueID, err)
+		return err
+	}
 
-    // Log a successful update
-    log.Printf("Successfully updated review with ReviewID: %d, VenueID: %s", reviewID, venueID)
-    return nil
+	// Log a successful update
+	log.Printf("Successfully updated review with ReviewID: %d, VenueID: %s", reviewID, venueID)
+	return nil
 }
