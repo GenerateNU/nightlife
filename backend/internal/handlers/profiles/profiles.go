@@ -4,14 +4,14 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/GenerateNU/nightlife/internal/types"
+	"github.com/GenerateNU/nightlife/internal/models"
 	"github.com/gofiber/fiber/v2"
 )
 
 func (s *Service) UpdateProfilePrefences(c *fiber.Ctx) error {
 
 	// Parse the request body
-	var req types.UpdateProfilePrefencesRequest
+	var req models.UpdateProfilePrefencesRequest
 	if err := c.BodyParser(&req); err != nil { // Declare a new instance of `err` in the scope of this if statement
 		log.Printf("Error parsing JSON: %v, Request: %+v", err, req)
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
