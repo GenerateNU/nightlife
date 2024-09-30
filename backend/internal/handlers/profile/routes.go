@@ -19,4 +19,5 @@ func Routes(app *fiber.App, params types.Params, db *pgx.Conn) {
 
 	//Endpoints
 	protected.Post("/preferences", service.CreatePreferences)
+	protected.Post("/ratings", service.CreateRatings)
 }

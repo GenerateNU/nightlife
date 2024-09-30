@@ -18,4 +18,5 @@ type Test interface {
 
 type Profile interface {
 	CreatePreferences(context.Context, models.Preferences) error
+	CreateRatings(context.Context, models.UserRating) error
 }
