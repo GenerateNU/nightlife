@@ -15,6 +15,9 @@ func (db *DB) DeleteVenue(ctx context.Context, id uuid.UUID) error {
 	return nil
 }
 
+/*
+Deletes a review for a venue.
+*/
 func (db *DB) DeleteReviewForVenue(ctx context.Context, reviewId int8) error {
     result, err := db.conn.Exec(ctx, `DELETE FROM "Review" WHERE review_id = $1`, reviewId)
     if err != nil {

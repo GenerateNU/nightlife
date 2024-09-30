@@ -34,6 +34,9 @@ func (s *Service) DeleteVenue(c *fiber.Ctx) error {
 
 }
 
+/*
+Deletes a review for a venue.
+*/
 func (s *Service) DeleteReviewForVenue(c *fiber.Ctx) error {
 
     reviewId := c.Params("reviewId")
@@ -47,7 +50,7 @@ func (s *Service) DeleteReviewForVenue(c *fiber.Ctx) error {
         return fiber.NewError(fiber.StatusBadRequest, "Delete failed due to malformed review ID.")
     }
 
-    // Call the store's DeleteReviewForVenue function with only reviewId
+    // Call the store's DeleteReviewForVenue function with reviewId
     err = s.store.DeleteReviewForVenue(c.Context(), reviewIdFormatted)
     if err != nil {
         return fiber.NewError(fiber.StatusInternalServerError, "Delete failed")
