@@ -11,12 +11,12 @@ import (
 func (s *Service) DeleteVenue(c *fiber.Ctx) error {
 	fmt.Println("Pinging correct service")
 
-	venueId := c.Params("venueId")
-	if venueId == "" {
+	venueID := c.Params("venueId")
+	if venueID == "" {
 		c.Status(http.StatusBadRequest)
 		return fiber.NewError(400)
 	}
-	venueIdFormatted, err := uuid.Parse(venueId)
+	venueIdFormatted, err := uuid.Parse(venueID)
 
 	if err != nil {
 		c.Status(http.StatusBadRequest)
@@ -39,19 +39,19 @@ Deletes a review for a venue.
 */
 func (s *Service) DeleteReviewForVenue(c *fiber.Ctx) error {
 
-    reviewId := c.Params("reviewId")
-    if reviewId == "" {
+    reviewID := c.Params("reviewId")
+    if reviewID == "" {
         return fiber.NewError(fiber.StatusBadRequest, "Review ID is required")
     }
 
-    parsedId, err := strconv.ParseInt(reviewId, 10, 8)
-	reviewIdFormatted := int8(parsedId)
+    parsedID, err := strconv.ParseInt(reviewID, 10, 8)
+	reviewIDFormatted := int8(parsedID)
     if err != nil {
         return fiber.NewError(fiber.StatusBadRequest, "Delete failed due to malformed review ID.")
     }
 
     // Call the store's DeleteReviewForVenue function with reviewId
-    err = s.store.DeleteReviewForVenue(c.Context(), reviewIdFormatted)
+    err = s.store.DeleteReviewForVenue(c.Context(), reviewIDFormatted)
     if err != nil {
         return fiber.NewError(fiber.StatusInternalServerError, "Delete failed")
     }
