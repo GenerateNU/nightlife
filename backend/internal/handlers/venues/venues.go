@@ -3,7 +3,7 @@ package venues
 import (
 	"fmt"
 	"net/http"
-
+	"strconv"
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
 )
@@ -25,11 +25,6 @@ func (s *Service) DeleteVenue(c *fiber.Ctx) error {
 
 	venueDelete := s.store.DeleteVenue(c.Context(), venueIdFormatted)
 
-	if err != nil {
-		fmt.Println("Error is on service line 26" + err.Error())
-		c.Status(http.StatusInternalServerError)
-		return err
-	}
 	if venueDelete != nil {
 		c.Status(http.StatusInternalServerError)
 		return fiber.NewError(500, "Delete failed")
@@ -38,3 +33,26 @@ func (s *Service) DeleteVenue(c *fiber.Ctx) error {
 	return c.Status(http.StatusOK).JSON("deleted venue")
 
 }
+
+func (s *Service) DeleteReviewForVenue(c *fiber.Ctx) error {
+
+    reviewId := c.Params("reviewId")
+    if reviewId == "" {
+        return fiber.NewError(fiber.StatusBadRequest, "Review ID is required")
+    }
+
+    parsedId, err := strconv.ParseInt(reviewId, 10, 8)
+	reviewIdFormatted := int8(parsedId)
+    if err != nil {
+        return fiber.NewError(fiber.StatusBadRequest, "Delete failed due to malformed review ID.")
+    }
+
+    // Call the store's DeleteReviewForVenue function with only reviewId
+    err = s.store.DeleteReviewForVenue(c.Context(), reviewIdFormatted)
+    if err != nil {
+        return fiber.NewError(fiber.StatusInternalServerError, "Delete failed")
+    }
+
+    return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "Deleted review for venue"})
+}
+

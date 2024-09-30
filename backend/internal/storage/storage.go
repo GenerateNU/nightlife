@@ -24,4 +24,5 @@ type UserRating interface {
 
 type Venues interface {
 	DeleteVenue(context.Context, uuid.UUID) error
+	DeleteReviewForVenue(context.Context, int8) error
 }

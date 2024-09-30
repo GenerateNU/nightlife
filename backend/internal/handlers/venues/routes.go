@@ -18,7 +18,8 @@ func Routes(app *fiber.App, params types.Params) {
 	// Register Middleware
 	protected.Use(auth.Protected(&params.Supabase))
 
-
 	//Endpoints
 	protected.Delete("/:venueId", service.DeleteVenue)
+
+	protected.Delete("/reviews/:reviewId", service.DeleteReviewForVenue)
 }
