@@ -18,3 +18,4 @@ type ReviewUpdateRequest struct {
 	ServiceRating  int    `json:"service_rating"`
 	ReviewText     string `json:"review_text"`
 }
+

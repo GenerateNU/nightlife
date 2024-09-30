@@ -48,7 +48,7 @@ SUPABASE_URL=<your-supabase-url-here>
 SUPABASE_ANON_KEY=<your-supabase-anon-key-here>
 DATABASE_URL<your-supabase-db-url-here>
 SUPABASE_PROJECT_ID=<your_supabase_project_id_here>
-SUPABASE_JWT_TOKEN=<your_supabase_jwt_secret_here>
+SUPABASE_JWT_SECRET=<your_supabase_jwt_secret_here>
 EXPO_PUBLIC_DOMAIN=<your_expo_public_domain>
 ```
 

@@ -2,9 +2,13 @@ package server
 
 import (
 	"github.com/GenerateNU/nightlife/internal/errs"
+	"github.com/GenerateNU/nightlife/internal/handlers/auth"
+	"github.com/GenerateNU/nightlife/internal/handlers/health"
 	"github.com/GenerateNU/nightlife/internal/handlers/hello"
+	"github.com/GenerateNU/nightlife/internal/handlers/profiles"
 	"github.com/GenerateNU/nightlife/internal/handlers/test"
 	"github.com/GenerateNU/nightlife/internal/handlers/venue"
+	userrating "github.com/GenerateNU/nightlife/internal/handlers/user_ratings"
 	"github.com/GenerateNU/nightlife/internal/middleware"
 	"github.com/GenerateNU/nightlife/internal/types"
 	go_json "github.com/goccy/go-json"
@@ -20,10 +24,18 @@ func New(params types.Params) *fiber.App {
 
 	useMiddlewares(app)
 
-	// Hello Group
+	health.Routes(app, params)
 	hello.Routes(app, params)
 	test.Routes(app, params)
 	venue.Routes(app, params)
+	auth.Routes(app, params)
+	profiles.Routes(app, params)
+
+	//User Ratings route group
+	userrating.Routes(app, params)
+
+	// Venue Ratings route group
+	venueratings.Routes(app, params)
 
 	return app
 }
