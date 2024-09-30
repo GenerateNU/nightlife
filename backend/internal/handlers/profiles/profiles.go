@@ -9,7 +9,7 @@ import (
 	"github.com/google/uuid"
 )
 
-func (s *Service) UpdateProfilePrefences(c *fiber.Ctx) error {
+func (s *Service) UpdateProfilePreferences(c *fiber.Ctx) error {
 
 	// Parse the request body
 	var req models.UpdateProfilePrefencesRequest
@@ -20,7 +20,7 @@ func (s *Service) UpdateProfilePrefences(c *fiber.Ctx) error {
 		})
 	}
 
-	err := s.store.UpdateProfilePrefences(c.Context(), req.UserID, req.PreferenceTypeTo, req.PreferenceValueTo, req.PreferenceType, req.PreferenceValue)
+	err := s.store.UpdateProfilePreferences(c.Context(), req.UserID, req.PreferenceTypeTo, req.PreferenceValueTo, req.PreferenceType, req.PreferenceValue)
 	if err != nil {
 		return c.Status(http.StatusInternalServerError).JSON(fiber.Map{
 			"error": "Failed to update review",
