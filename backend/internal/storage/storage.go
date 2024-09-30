@@ -33,6 +33,7 @@ type UserRating interface {
 
 type Venues interface {
 	DeleteVenue(context.Context, uuid.UUID) error
+}
 type VenueRatings interface {
 	GetAllVenueRatings(context.Context, uuid.UUID) ([]models.VenueRatings, error)
 }
