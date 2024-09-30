@@ -1,20 +1,40 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { BottomNavigator } from "@/components/BottomNavigator";
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import LoginScreen from "@/screens/LoginScreen";
+import { AuthProvider, useAuth } from "@/context/AuthContext";
+
+const Stack = createNativeStackNavigator();
+
+const LoginStack = () => {
+    return (
+        <Stack.Navigator>
+            <Stack.Screen
+                name="Home"
+                component={LoginScreen}
+                options={{
+                    title: "Nightlife 🌃",
+                    headerStyle: {
+                        backgroundColor: '#111729',
+                    },
+                    headerTintColor: '#fff',
+                }}
+            />
+        </Stack.Navigator>
+    );
+};
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+    return (
+        <AuthProvider>
+            <NavigationContainer>
+                <MainNavigator />
+            </NavigationContainer>
+        </AuthProvider>
+    );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const MainNavigator = () => {
+    const { accessToken } = useAuth();
+    return accessToken ? <BottomNavigator /> : <LoginStack />;
+};

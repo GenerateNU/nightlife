@@ -4,15 +4,14 @@ import (
 	"github.com/GenerateNU/nightlife/internal/auth"
 	"github.com/GenerateNU/nightlife/internal/types"
 	"github.com/gofiber/fiber/v2"
-	"github.com/jackc/pgx/v5"
 )
 
 // Create Profile fiber route group (no unprotected routes)
-func Routes(app *fiber.App, params types.Params, db *pgx.Conn) {
+func Routes(app *fiber.App, params types.Params) {
 	service := newService(params.Store)
 
 	// Create Protected Grouping
-	protected := app.Group("/profile_protected")
+	protected := app.Group("/profile")
 
 	// Register Middleware
 	protected.Use(auth.Protected(&params.Supabase))
