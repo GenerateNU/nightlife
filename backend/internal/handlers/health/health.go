@@ -8,7 +8,6 @@ import (
 )
 
 func (s *Service) GetHealth(c *fiber.Ctx) error {
-
 	sysInfo := &types.SysInfo{
 		OS:           runtime.GOOS,
 		Architecture: runtime.GOARCH,
