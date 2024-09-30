@@ -27,6 +27,7 @@ type Venue interface {
 
 type Review interface {
 	PatchVenueReview(ctx context.Context, overallRating int8, ambianceRating int8, musicRating int8, crowdRating int8, serviceRating int8, reviewText string, venueID uuid.UUID, reviewID int8) error
+}
 type Profile interface {
 	CreatePreferences(context.Context, models.Preferences) error
 	UpdateProfilePrefences(context.Context, uuid.UUID, string, string, string, string) error
