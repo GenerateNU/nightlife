@@ -1,12 +1,12 @@
 package models
 
 import (
-	"github.com/google/uuid"
 	"time"
+
+	"github.com/google/uuid"
 )
 
 type Review struct {
-	userId         uuid.UUID `json:"user_id"`
 	OverallRating  int8      `json:"overall_rating"`
 	AmbianceRating int8      `json:"ambiance_rating"`
 	MusicRating    int8      `json:"music_rating"`

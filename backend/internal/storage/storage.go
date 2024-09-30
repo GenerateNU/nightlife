@@ -23,5 +23,5 @@ type Venue interface {
 }
 
 type Review interface {
-	PatchVenueReview(ctx context.Context, overall_rating int8, ambiance_rating int8, music_rating int8, crowd_rating int8, service_rating int8, review_text string, venueID uuid.UUID, reviewID int8) error
+	PatchVenueReview(ctx context.Context, overallRating int8, ambianceRating int8, musicRating int8, crowdRating int8, serviceRating int8, reviewText string, venueID uuid.UUID, reviewID int8) error
 }

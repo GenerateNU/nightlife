@@ -50,10 +50,10 @@ func (db *DB) GetVenueReviews(ctx context.Context, reviewID int8, venueID uuid.U
 	return reviews, nil
 }
 
-func (db *DB) PatchVenueReview(ctx context.Context, overall_rating int8, ambiance_rating int8, music_rating int8, crowd_rating int8, service_rating int8, review_text string, venueID uuid.UUID, reviewID int8) error {
+func (db *DB) PatchVenueReview(ctx context.Context, overallRating int8, ambianceRating int8, musicRating int8, crowdRating int8, serviceRating int8, reviewText string, venueID uuid.UUID, reviewID int8) error {
 	// Log the incoming parameters for debugging and monitoring
 	log.Printf("Attempting to update review with ReviewID: %d, VenueID: %s, Ratings: [Overall: %d, Ambiance: %d, Music: %d, Crowd: %d, Service: %d], Review Text: %s",
-		reviewID, venueID, overall_rating, ambiance_rating, music_rating, crowd_rating, service_rating, review_text)
+		reviewID, venueID, overallRating, ambianceRating, musicRating, crowdRating, serviceRating, reviewText)
 
 	// SQL query execution
 	_, err := db.conn.Exec(ctx, `
@@ -67,7 +67,7 @@ func (db *DB) PatchVenueReview(ctx context.Context, overall_rating int8, ambianc
             review_text = $6,
             udpated_at = CURRENT_TIMESTAMP
         WHERE review_id = $7 AND venue_id = $8;
-    `, overall_rating, ambiance_rating, music_rating, crowd_rating, service_rating, review_text, reviewID, venueID)
+    `, overallRating, ambianceRating, musicRating, crowdRating, serviceRating, reviewText, reviewID, venueID)
 
 	if err != nil {
 		// Log the error with detailed context
