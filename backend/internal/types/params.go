@@ -10,9 +10,3 @@ type Params struct {
 	Store    storage.Storage
 }
 
-type SystemInfo struct {
-	OS           string
-	Architecture string
-	CPUCores     int
-	GoVersion    string
-}
