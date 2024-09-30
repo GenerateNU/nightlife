@@ -11,10 +11,15 @@ type Storage interface {
 	Close(context.Context) error
 	Test
 	UserRating
+	Profile
 }
 
 type Test interface {
 	GetAllTests(context.Context) ([]models.Test, error)
+}
+
+type Profile interface {
+	CreatePreferences(context.Context, models.Preferences) error
 }
 
 type UserRating interface {
