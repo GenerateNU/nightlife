@@ -6,6 +6,7 @@ import (
 
 	"github.com/GenerateNU/nightlife/internal/models"
 	"github.com/gofiber/fiber/v2"
+	"github.com/google/uuid"
 )
 
 func (s *Service) UpdateProfilePrefences(c *fiber.Ctx) error {
@@ -30,4 +31,55 @@ func (s *Service) UpdateProfilePrefences(c *fiber.Ctx) error {
 		"message": "Review updated successfully",
 	})
 
+}
+
+/*
+Deletes a user account.
+*/
+func (s *Service) DeleteUser(c *fiber.Ctx) error {
+	// Extract user ID from the URL parameter
+	userID := c.Params("userId")
+	if userID == "" {
+		return fiber.NewError(fiber.StatusBadRequest, "User ID is required")
+	}
+
+	// Convert user ID to UUID
+	userUUID, err := uuid.Parse(userID)
+	if err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, "Invalid User ID format")
+	}
+
+	// Call DeleteAccount function to delete the user from the database
+	err = s.store.DeleteAccount(c.Context(), userUUID)
+	if err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, "Failed to delete user")
+	}
+
+	// Return success response
+	return c.Status(http.StatusOK).JSON(fiber.Map{"message": "User deleted successfully"})
+}
+
+// RemoveFriend removes a friend from the authenticated user's friend list
+func (s *Service) RemoveFriend(c *fiber.Ctx) error {
+
+	// username of the friend to be removed
+	friendUsername := c.Params("username")
+	if friendUsername == "" {
+		return fiber.NewError(fiber.StatusBadRequest, "Friend's username is required")
+	}
+
+	// Get the user's ID from the context (assuming it's set during authentication)
+	userID, ok := c.Locals("userId").(uuid.UUID)
+	if !ok {
+		return fiber.NewError(fiber.StatusUnauthorized, "User not authenticated")
+	}
+
+	// call function to remove the friend by username
+	err := s.store.RemoveFriend(c.Context(), userID, friendUsername)
+	if err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, "Failed to remove friend")
+	}
+
+	// Return success message
+	return c.Status(http.StatusOK).JSON(fiber.Map{"message": "Friend removed successfully"})
 }

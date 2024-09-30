@@ -20,4 +20,6 @@ func Routes(app *fiber.App, params types.Params) {
 
 	//Endpoints
 	protected.Patch("/preferences", service.UpdateProfilePrefences)
+	protected.Delete("/:userId", service.DeleteUser)
+	protected.Delete("/friends/:username", service.RemoveFriend)
 }
