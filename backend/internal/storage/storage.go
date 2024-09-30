@@ -21,7 +21,7 @@ type Test interface {
 
 type Profile interface {
 	CreatePreferences(context.Context, models.Preferences) error
-	UpdateProfilePrefences(context.Context, uuid.UUID, string, string, string, string) error
+	UpdateProfilePreferences(context.Context, uuid.UUID, string, string, string, string) error
 	DeleteAccount(context.Context, uuid.UUID) error
 	RemoveFriend(context.Context, uuid.UUID, string) error
 }
