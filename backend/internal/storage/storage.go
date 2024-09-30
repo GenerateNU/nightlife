@@ -11,6 +11,7 @@ type Storage interface {
 	Close(context.Context) error
 	Test
 	UserRating
+	Profile
 }
 
 type Test interface {
