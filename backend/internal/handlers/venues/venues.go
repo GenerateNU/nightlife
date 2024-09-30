@@ -16,14 +16,14 @@ func (s *Service) DeleteVenue(c *fiber.Ctx) error {
 		c.Status(http.StatusBadRequest)
 		return fiber.NewError(400)
 	}
-	venueIdFormatted, err := uuid.Parse(venueID)
+	venueIDFormatted, err := uuid.Parse(venueID)
 
 	if err != nil {
 		c.Status(http.StatusBadRequest)
 		return fiber.NewError(400, "Delete failed due to malformed venue ID")
 	}
 
-	venueDelete := s.store.DeleteVenue(c.Context(), venueIdFormatted)
+	venueDelete := s.store.DeleteVenue(c.Context(), venueIDFormatted)
 
 	if venueDelete != nil {
 		c.Status(http.StatusInternalServerError)
