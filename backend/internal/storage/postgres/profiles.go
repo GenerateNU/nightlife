@@ -29,3 +29,34 @@ func (db *DB) UpdateProfilePrefences(ctx context.Context, userID uuid.UUID, pref
 	return nil
 
 }
+
+
+/*
+Delete an account
+*/
+func (db *DB) DeleteAccount(ctx context.Context, userID uuid.UUID) error {
+	_, err := db.conn.Exec(ctx, `DELETE FROM "User" WHERE user_id = $1`, userID)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+/* 
+RemoveFriend removes a friend from the user's friend list based on the friend's username
+*/
+func (db *DB) RemoveFriend(ctx context.Context, userID uuid.UUID, friendUsername string) error {
+	_, err := db.conn.Exec(ctx, `
+		DELETE FROM "Friendship"
+		WHERE user_id1 = $1 AND user_id2 = (SELECT user_id FROM "User" WHERE username = $2)
+		OR user_id2 = $1 AND user_id1 = (SELECT user_id FROM "User" WHERE username = $2)
+	`, userID, friendUsername)
+
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
