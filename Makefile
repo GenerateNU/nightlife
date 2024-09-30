@@ -33,7 +33,7 @@ backend-format:
 # Run backend tests
 .PHONY: backend-test
 backend-test:
-	cd backend && go test ./...
+	cd backend && go test -count=1 ./...
 
 # Build the db
 .PHONY: db-run
