@@ -6,7 +6,6 @@ import (
 )
 
 func Routes(app *fiber.App, params types.Params) {
-
 	service := newService(params.Store)
 
 	app.Group("/health").Get("/", service.GetHealth)
