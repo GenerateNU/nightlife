@@ -11,7 +11,6 @@ type Storage interface {
 	Close(context.Context) error
 	Test
 	UserRating
-	Profiles
 	VenueRatings
 	Profile
 }
@@ -22,16 +21,13 @@ type Test interface {
 
 type Profile interface {
 	CreatePreferences(context.Context, models.Preferences) error
+	UpdateProfilePrefences(context.Context, uuid.UUID, string, string, string, string) error
+	DeleteAccount(context.Context, uuid.UUID) error
+	RemoveFriend(context.Context, uuid.UUID, string) error
 }
 
 type UserRating interface {
 	GetAllUserRatings(context.Context, uuid.UUID) ([]models.UserRating, error)
-}
-
-type Profiles interface {
-	UpdateProfilePrefences(context.Context, uuid.UUID, string, string, string, string) error
-	DeleteAccount(context.Context, uuid.UUID) error
-	RemoveFriend(context.Context, uuid.UUID, string) error
 }
 
 type VenueRatings interface {
