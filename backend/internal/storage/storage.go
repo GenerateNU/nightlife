@@ -33,6 +33,7 @@ type UserRating interface {
 
 type Profiles interface {
 	UpdateProfilePrefences(context.Context, uuid.UUID, string, string, string, string) error
+}
 type VenueRatings interface {
 	GetAllVenueRatings(context.Context, uuid.UUID) ([]models.VenueRatings, error)
 }
