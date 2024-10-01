@@ -36,5 +36,4 @@ WHERE
 
 	return pgx.CollectRows(rows, pgx.RowToStructByName[models.VenueRatings])
 
-	//return []models.VenueRatings{}, nil
 }
