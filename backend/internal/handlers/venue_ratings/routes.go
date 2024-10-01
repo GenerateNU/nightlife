@@ -16,6 +16,6 @@ func Routes(app *fiber.App, params types.Params) {
 	//.Use(auth.Protected(&params.Supabase))
 
 	//create a route
-	protected.Get("/api/venue/:venueid/ratings", service.GetAllVenueRatings)
+	protected.Get("/venue/:venueid/ratings", service.GetAllVenueRatings)
 
 }
