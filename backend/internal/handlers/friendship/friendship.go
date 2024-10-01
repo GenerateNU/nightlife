@@ -4,37 +4,25 @@ import (
 	"fmt"
 	"github.com/GenerateNU/nightlife/internal/models"
 	"github.com/gofiber/fiber/v2"
-	"github.com/google/uuid"
-	"time"
+	"log"
 )
 
 // POST endpoint to create friendship between two users in DB
 func (s *Service) CreateFriendship(c *fiber.Ctx) error {
 	fmt.Println("Creating a friendship")
 
-	uid1 := c.Params("uid1")
-	uid2 := c.Params("uid2")
+	var req models.Friendship
 
-	userID1, err := uuid.Parse(uid1)
-	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid user ID 1"})
+	if err := c.BodyParser(&req); err != nil {
+		log.Printf("Error parsing JSON: %v, Request: %+v", err, req)
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": "Cannot parse JSON",
+		})
 	}
 
-	userID2, err := uuid.Parse(uid2)
-	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid user ID 2"})
+	if err := s.store.CreateFriendship(c.Context(), req); err != nil {
+		return err
 	}
 
-	friendship := models.Friendship{
-		UserID1:          userID1,
-		UserID2:          userID2,
-		FriendshipStatus: models.Accepted,
-		CreatedAt:        time.Now(),
-	}
-
-	if err := s.store.CreateFriendship(c.Context(), friendship); err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to create friendship"})
-	}
-
-	return c.Status(fiber.StatusCreated).JSON(friendship)
+	return c.Status(fiber.StatusCreated).JSON(req)
 }

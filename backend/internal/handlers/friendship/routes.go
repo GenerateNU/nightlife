@@ -16,6 +16,6 @@ func Routes(app *fiber.App, params types.Params) {
 	//.Use(auth.Protected(&params.Supabase))
 
 	//create a route
-	protected.Post("/api/friendship/:uid1/:uid2", service.CreateFriendship)
+	protected.Post("/api/friendship", service.CreateFriendship)
 
 }
