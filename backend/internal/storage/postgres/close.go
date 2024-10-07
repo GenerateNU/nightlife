@@ -1,7 +1,5 @@
 package postgres
 
-import "context"
-
-func (db *DB) Close(ctx context.Context) {
+func (db *DB) Close() {
 	db.conn.Close()
 }
