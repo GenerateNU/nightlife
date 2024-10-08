@@ -10,3 +10,12 @@ type Params struct {
 	Store    storage.Storage
 }
 
+type ReviewUpdateRequest struct {
+	OverallRating  int    `json:"overall_rating"`
+	AmbianceRating int    `json:"ambiance_rating"`
+	MusicRating    int    `json:"music_rating"`
+	CrowdRating    int    `json:"crowd_rating"`
+	ServiceRating  int    `json:"service_rating"`
+	ReviewText     string `json:"review_text"`
+}
+
