@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
 )
@@ -25,6 +26,11 @@ func (s *Service) DeleteVenue(c *fiber.Ctx) error {
 
 	venueDelete := s.store.DeleteVenue(c.Context(), venueIDFormatted)
 
+	if err != nil {
+		fmt.Println("Error is on service line 26" + err.Error())
+		c.Status(http.StatusInternalServerError)
+		return err
+	}
 	if venueDelete != nil {
 		c.Status(http.StatusInternalServerError)
 		return fiber.NewError(500, "Delete failed")
@@ -33,7 +39,6 @@ func (s *Service) DeleteVenue(c *fiber.Ctx) error {
 	return c.Status(http.StatusOK).JSON("deleted venue")
 
 }
-
 /*
 Deletes a review for a venue.
 */

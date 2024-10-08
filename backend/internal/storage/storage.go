@@ -12,6 +12,8 @@ type Storage interface {
 	Test
 	UserRating
 	Venues
+	VenueRatings
+
 	Profile
 	Friendship
 }
@@ -33,6 +35,8 @@ type UserRating interface {
 
 type Venues interface {
 	DeleteVenue(context.Context, uuid.UUID) error
+
+type VenueRatings interface {
 	DeleteReviewForVenue(context.Context, int8) error
 	GetAllVenueRatings(context.Context, uuid.UUID) ([]models.VenueRatings, error)
 }

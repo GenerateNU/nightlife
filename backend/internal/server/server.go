@@ -9,6 +9,7 @@ import (
 	"github.com/GenerateNU/nightlife/internal/handlers/profiles"
 	"github.com/GenerateNU/nightlife/internal/handlers/test"
 	userrating "github.com/GenerateNU/nightlife/internal/handlers/user_ratings"
+	"github.com/GenerateNU/nightlife/internal/handlers/venues"
 	venueratings "github.com/GenerateNU/nightlife/internal/handlers/venue_ratings"
   "github.com/GenerateNU/nightlife/internal/handlers/venues"
 	"github.com/GenerateNU/nightlife/internal/middleware"

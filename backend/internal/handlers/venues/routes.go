@@ -1,5 +1,6 @@
 package venues
 
+
 import (
 	"github.com/GenerateNU/nightlife/internal/auth"
 	"github.com/GenerateNU/nightlife/internal/types"
@@ -20,4 +21,5 @@ func Routes(app *fiber.App, params types.Params) {
 	protected.Delete("/:venueId", service.DeleteVenue)
 
 	protected.Delete("/reviews/:reviewId", service.DeleteReviewForVenue)
+
 }

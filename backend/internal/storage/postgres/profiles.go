@@ -8,6 +8,7 @@ import (
 	"github.com/google/uuid"
 )
 
+
 func (db *DB) UpdateProfilePreferences(ctx context.Context, userID uuid.UUID, preferencetypeto string, preferencevalueto string, preferenceType string, preferenceValue string) error {
 
 	// SQL query execution
@@ -18,14 +19,14 @@ func (db *DB) UpdateProfilePreferences(ctx context.Context, userID uuid.UUID, pr
             preference_type = $2,
             preference_value = $3
         WHERE user_id = $1 AND preference_type = $4 AND preference_value = $5;
-    `, userID, preferencetypeto, preferencevalueto, preferenceType, preferenceValue)
+    `, userid, preferencetypeto, preferencevalueto, preferenceType, preferenceValue)
 
 	if err != nil {
-		log.Printf("Failed to update preferences for userId %s: %v", userID, err)
+		log.Printf("Failed to update preferences for userId %s: %v", userid, err)
 		return err
 	}
 
-	log.Printf("Successfully updated preferences for userId: %s", userID)
+	log.Printf("Successfully updated preferences for userId: %s", userid)
 	return nil
 
 }
@@ -58,3 +59,4 @@ func (db *DB) RemoveFriend(ctx context.Context, userID uuid.UUID, friendUsername
 	}
 	return nil
 }
+
