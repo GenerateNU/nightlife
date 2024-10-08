@@ -2,11 +2,10 @@ package auth
 
 import (
 	"fmt"
-	"strings"
-
 	"github.com/GenerateNU/nightlife/internal/config"
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt/v5"
+	"strings"
 )
 
 type Claims struct {

@@ -19,15 +19,14 @@ func (db *DB) DeleteVenue(ctx context.Context, id uuid.UUID) error {
 Deletes a review for a venue.
 */
 func (db *DB) DeleteReviewForVenue(ctx context.Context, reviewID int8) error {
-    result, err := db.conn.Exec(ctx, `DELETE FROM "Review" WHERE review_id = $1`, reviewID)
-    if err != nil {
-        return err
-    }
+	result, err := db.conn.Exec(ctx, `DELETE FROM "Review" WHERE review_id = $1`, reviewID)
+	if err != nil {
+		return err
+	}
 
-    if result.RowsAffected() == 0 {
-        return fmt.Errorf("delete failed: review does not exist")
-    }
+	if result.RowsAffected() == 0 {
+		return fmt.Errorf("delete failed: review does not exist")
+	}
 
-    return nil
+	return nil
 }
-
