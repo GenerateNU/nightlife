@@ -2,11 +2,53 @@ package postgres
 
 import (
 	"context"
-
+	"database/sql"
+	"errors"
+	"fmt"
+	"github.com/GenerateNU/nightlife/internal/models"
 	"log"
 
 	"github.com/google/uuid"
 )
+
+func (db *DB) GetProfileByUsername(ctx context.Context, username string) (models.Profile, error) {
+	var profile models.Profile
+
+	var query = `
+	SELECT user_id,
+		   first_name,
+		   username,
+		   email,
+		   age,
+		   location,
+		   profile_picture_url,
+		   created_at
+	FROM "User"
+	WHERE username = $1
+	`
+
+	row := db.conn.QueryRow(ctx, query, username)
+
+	err := row.Scan(
+		&profile.UserID,
+		&profile.FirstName,
+		&profile.Username,
+		&profile.Email,
+		&profile.Age,
+		&profile.Location,
+		&profile.ProfilePictureURL,
+		&profile.CreatedAt,
+	)
+
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return models.Profile{}, fmt.Errorf("no profile found for username: %s", username)
+		}
+		return models.Profile{}, err
+	}
+
+	return profile, nil
+}
 
 func (db *DB) UpdateProfilePreferences(ctx context.Context, userID uuid.UUID, preferencetypeto string, preferencevalueto string, preferenceType string, preferenceValue string) error {
 
