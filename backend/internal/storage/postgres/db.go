@@ -5,22 +5,38 @@ import (
 	"fmt"
 
 	"github.com/GenerateNU/nightlife/internal/config"
-	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 type DB struct {
-	conn *pgx.Conn
+	conn *pgxpool.Pool
 }
 
 // Make singleton -> TODO.
 
-// ConnectSupabaseDB establishes a connection and returns it for querying.
+// Changed to use pool
 func New(ctx context.Context, config config.Database) (*DB, error) {
-	conn, err := pgx.Connect(ctx, config.URL)
+	// Create a configuration for the connection pool
+	poolConfig, err := pgxpool.ParseConfig(config.URL)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println("Unable to parse database URL:", err)
 		return nil, err
 	}
+
+	// Establish a connection pool
+	pool, err := pgxpool.NewWithConfig(ctx, poolConfig)
+	if err != nil {
+		fmt.Println("Unable to create connection pool:", err)
+		return nil, err
+	}
+
+	// Test the connection
+	err = pool.Ping(ctx)
+	if err != nil {
+		fmt.Println("Unable to ping the database:", err)
+		return nil, err
+	}
+
 	fmt.Println("Successfully connected to the database!")
-	return &DB{conn: conn}, nil
+	return &DB{conn: pool}, nil
 }

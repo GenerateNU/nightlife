@@ -8,7 +8,7 @@ import (
 )
 
 type Storage interface {
-	Close(context.Context) error
+	Close()
 	Test
 	UserRating
 	Venues
