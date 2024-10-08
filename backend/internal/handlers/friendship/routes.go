@@ -1,4 +1,4 @@
-package venueratings
+package friendship
 
 import (
 	//"github.com/GenerateNU/nightlife/internal/auth"
@@ -12,10 +12,10 @@ func Routes(app *fiber.App, params types.Params) {
 	service := newService(params.Store)
 
 	//create a grouping
-	protected := app.Group("/venueratings")
+	protected := app.Group("/friendships")
 	//.Use(auth.Protected(&params.Supabase))
 
 	//create a route
-	protected.Get("/venue/:venueid/ratings", service.GetAllVenueRatings)
+	protected.Post("/api/friendship", service.CreateFriendship)
 
 }
