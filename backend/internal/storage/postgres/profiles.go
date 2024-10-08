@@ -8,7 +8,7 @@ import (
 	"github.com/google/uuid"
 )
 
-func (db *DB) UpdateProfilePrefences(ctx context.Context, userID uuid.UUID, preferencetypeto string, preferencevalueto string, preferenceType string, preferenceValue string) error {
+func (db *DB) UpdateProfilePreferences(ctx context.Context, userID uuid.UUID, preferencetypeto string, preferencevalueto string, preferenceType string, preferenceValue string) error {
 
 	// SQL query execution
 	_, err := db.conn.Exec(ctx, `
@@ -43,7 +43,7 @@ func (db *DB) DeleteAccount(ctx context.Context, userID uuid.UUID) error {
 	return nil
 }
 
-/* 
+/*
 RemoveFriend removes a friend from the user's friend list based on the friend's username
 */
 func (db *DB) RemoveFriend(ctx context.Context, userID uuid.UUID, friendUsername string) error {
@@ -58,5 +58,3 @@ func (db *DB) RemoveFriend(ctx context.Context, userID uuid.UUID, friendUsername
 	}
 	return nil
 }
-
-

@@ -7,6 +7,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
 	"log"
+  "fmt"
 )
 
 func (db *DB) GetAllVenues(ctx context.Context) ([]models.Test, error) {
@@ -78,4 +79,27 @@ func (db *DB) PatchVenueReview(ctx context.Context, overallRating int8, ambiance
 	// Log a successful update
 	log.Printf("Successfully updated review with ReviewID: %d, VenueID: %s", reviewID, venueID)
 	return nil
+}
+func (db *DB) DeleteVenue(ctx context.Context, id uuid.UUID) error {
+	_, err := db.conn.Exec(ctx, `DELETE FROM "Venue" v WHERE venue_id = $1`, id)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+/*
+Deletes a review for a venue.
+*/
+func (db *DB) DeleteReviewForVenue(ctx context.Context, reviewID int8) error {
+    result, err := db.conn.Exec(ctx, `DELETE FROM "Review" WHERE review_id = $1`, reviewID)
+    if err != nil {
+        return err
+    }
+
+    if result.RowsAffected() == 0 {
+        return fmt.Errorf("delete failed: review does not exist")
+    }
+
+    return nil
 }

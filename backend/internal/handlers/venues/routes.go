@@ -1,6 +1,4 @@
-package profiles
-
-//NOTE: This is an example usage for auth demonstration purposes. In real configurations (beyond login) all route groups should be protected
+package venues
 
 import (
 	"github.com/GenerateNU/nightlife/internal/auth"
@@ -13,13 +11,13 @@ func Routes(app *fiber.App, params types.Params) {
 	service := newService(params.Store)
 
 	// Create Protected Grouping
-	protected := app.Group("/profiles")
+	protected := app.Group("/venues")
 
 	// Register Middleware
 	protected.Use(auth.Protected(&params.Supabase))
 
 	//Endpoints
-	protected.Patch("/preferences", service.UpdateProfilePreferences)
-	protected.Delete("/:userId", service.DeleteUser)
-	protected.Delete("/friends/:username", service.RemoveFriend)
+	protected.Delete("/:venueId", service.DeleteVenue)
+
+	protected.Delete("/reviews/:reviewId", service.DeleteReviewForVenue)
 }
