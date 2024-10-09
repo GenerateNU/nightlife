@@ -11,6 +11,7 @@ type Storage interface {
 	Close()
 	Test
 	UserRating
+	Profile
 	Venues
 	Profile
 	Friendship
@@ -22,6 +23,7 @@ type Test interface {
 
 type Profile interface {
 	CreatePreferences(context.Context, models.Preferences) error
+	CreateRatings(context.Context, models.UserRating) error
 	UpdateProfilePreferences(context.Context, uuid.UUID, string, string, string, string) error
 	DeleteAccount(context.Context, uuid.UUID) error
 	RemoveFriend(context.Context, uuid.UUID, string) error
