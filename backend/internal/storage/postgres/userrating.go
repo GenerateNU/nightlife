@@ -8,7 +8,7 @@ import (
 	"github.com/jackc/pgx/v5"
 )
 
-//Gets UserRating query result from DB
+// Gets UserRating query result from DB
 func (db *DB) GetAllUserRatings(ctx context.Context, userID uuid.UUID) ([]models.UserRating, error) {
 	var query = `
 SELECT

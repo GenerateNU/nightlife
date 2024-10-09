@@ -11,7 +11,5 @@ type Preferences struct {
 }
 
 func (p *Preferences) Validate() map[string]string {
-	// check for valid input
-	// if validation fails -> add key to map, return err
 	return nil
 }

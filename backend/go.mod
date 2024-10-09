@@ -6,7 +6,9 @@ require github.com/gofiber/fiber/v2 v2.52.5
 
 require (
 	github.com/google/go-querystring v1.1.0 // indirect
+	github.com/jackc/puddle/v2 v2.2.2 // indirect
 	github.com/nedpals/postgrest-go v0.1.3 // indirect
+	golang.org/x/sync v0.8.0 // indirect
 )
 
 require (
