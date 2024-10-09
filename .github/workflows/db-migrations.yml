@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
-      TF_VAR_linked_project: ${{ secrets.PRODUCTION_PROJECT_ID }}
+      TF_VAR_linked_project: ${{ secrets.SUPABASE_PROJECT_ID }}
     defaults:
       run:
         working-directory: supabase/remotes
