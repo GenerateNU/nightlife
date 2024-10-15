@@ -3,6 +3,7 @@ package venue
 import (
 	"log"
 	"net/http"
+
 	"github.com/GenerateNU/nightlife/internal/errs"
 
 	"github.com/GenerateNU/nightlife/internal/types"
@@ -16,10 +17,19 @@ func (s *Service) PatchVenueReview(c *fiber.Ctx) error {
 	venueString := c.Params("venueId")
 
 	venueID, err := uuid.Parse(venueString)
-	errs.ErrorHandler(c,err)
+	if err != nil {
+		if handlerErr := errs.ErrorHandler(c, err); handlerErr != nil {
+			return handlerErr
+		}
+	}
+	
 
 	reviewID, err := c.ParamsInt("reviewId")
-	errs.ErrorHandler(c,err)
+	if err != nil {
+		if handlerErr := errs.ErrorHandler(c, err); handlerErr != nil {
+			return handlerErr
+		}
+	}
 
 	// Parse the request body
 	var req types.ReviewUpdateRequest
@@ -28,7 +38,9 @@ func (s *Service) PatchVenueReview(c *fiber.Ctx) error {
 		log.Printf("Error parsing JSON: %v, Request: %+v", err, req)
 
 		// Return an error response to the client
-		errs.ErrorHandler(c,err)
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": "Cannot parse JSON",
+		})
 	}
 
 	log.Printf("Updating review with OverallRating: %d, AmbianceRating: %d, MusicRating: %d, CrowdRating: %d, ServiceRating: %d, ReviewText: %s, VenueID: %v, ReviewID: %d",
@@ -36,9 +48,9 @@ func (s *Service) PatchVenueReview(c *fiber.Ctx) error {
 	// Call the store method to update the review
 	err = s.store.PatchVenueReview(c.Context(), int8(req.OverallRating), int8(req.AmbianceRating), int8(req.MusicRating), int8(req.CrowdRating), int8(req.ServiceRating), req.ReviewText, venueID, int8(reviewID))
 	if err != nil {
-		return c.Status(http.StatusInternalServerError).JSON(fiber.Map{
-			"error": "Failed to update review",
-		})
+		if handlerErr := errs.ErrorHandler(c, err); handlerErr != nil {
+			return handlerErr
+		}
 	}
 
 	return c.Status(http.StatusOK).JSON(fiber.Map{
