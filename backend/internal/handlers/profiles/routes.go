@@ -1,7 +1,5 @@
 package profiles
 
-//NOTE: This is an example usage for auth demonstration purposes. In real configurations (beyond login) all route groups should be protected
-
 import (
 	"github.com/GenerateNU/nightlife/internal/auth"
 	"github.com/GenerateNU/nightlife/internal/types"
@@ -19,6 +17,7 @@ func Routes(app *fiber.App, params types.Params) {
 	protected.Use(auth.Protected(&params.Supabase))
 
 	//Endpoints
+	protected.Get("/:username", service.GetProfile)
 	protected.Patch("/preferences", service.UpdateProfilePreferences)
 	protected.Delete("/:userId", service.DeleteUser)
 	protected.Delete("/friends/:username", service.RemoveFriend)

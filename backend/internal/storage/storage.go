@@ -34,6 +34,7 @@ type Profile interface {
 	UpdateProfilePreferences(context.Context, uuid.UUID, string, string, string, string) error
 	DeleteAccount(context.Context, uuid.UUID) error
 	RemoveFriend(context.Context, uuid.UUID, string) error
+	GetProfileByUsername(context.Context, string) (models.Profile, error)
 }
 
 type UserRating interface {

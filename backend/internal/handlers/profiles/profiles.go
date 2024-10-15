@@ -1,6 +1,7 @@
 package profiles
 
 import (
+	"github.com/GenerateNU/nightlife/internal/errs"
 	"log"
 	"net/http"
 
@@ -82,4 +83,23 @@ func (s *Service) RemoveFriend(c *fiber.Ctx) error {
 
 	// Return success message
 	return c.Status(http.StatusOK).JSON(fiber.Map{"message": "Friend removed successfully"})
+}
+
+func (s *Service) GetProfile(c *fiber.Ctx) error {
+
+	username := c.Params("username")
+
+	if username == "" {
+		c.Status(http.StatusBadRequest)
+		return errs.APIError{StatusCode: fiber.StatusBadRequest, Message: "username is required"}
+	}
+
+	profile, err := s.store.GetProfileByUsername(c.Context(), username)
+
+	if err != nil {
+		c.Status(http.StatusInternalServerError)
+		return errs.APIError{StatusCode: fiber.StatusNotFound, Message: "profile not found"}
+	}
+
+	return c.Status(http.StatusOK).JSON(profile)
 }
