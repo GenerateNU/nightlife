@@ -3,6 +3,7 @@ package profiles
 import (
 	"log"
 	"net/http"
+	
 
 	"github.com/GenerateNU/nightlife/internal/models"
 	"github.com/gofiber/fiber/v2"
