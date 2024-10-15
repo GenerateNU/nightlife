@@ -1,7 +1,5 @@
 package venue
 
-//NOTE: This is an example usage for auth demonstration purposes. In real configurations (beyond login) all route groups should be protected
-
 import (
 	"github.com/GenerateNU/nightlife/internal/auth"
 	"github.com/GenerateNU/nightlife/internal/types"

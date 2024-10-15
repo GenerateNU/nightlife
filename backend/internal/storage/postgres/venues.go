@@ -45,9 +45,7 @@ func (db *DB) GetVenueReviews(ctx context.Context, reviewID int8, venueID uuid.U
 		}
 		reviews = append(reviews, review)
 	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
+
 	return reviews, nil
 }
 

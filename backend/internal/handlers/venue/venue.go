@@ -3,6 +3,7 @@ package venue
 import (
 	"log"
 	"net/http"
+	"github.com/GenerateNU/nightlife/internal/errs"
 
 	"github.com/GenerateNU/nightlife/internal/types"
 	"github.com/gofiber/fiber/v2"
@@ -15,18 +16,10 @@ func (s *Service) PatchVenueReview(c *fiber.Ctx) error {
 	venueString := c.Params("venueId")
 
 	venueID, err := uuid.Parse(venueString)
-	if err != nil {
-		return c.Status(http.StatusBadRequest).JSON(fiber.Map{
-			"error": "Invalid venue ID",
-		})
-	}
+	errs.ErrorHandler(c,err)
 
 	reviewID, err := c.ParamsInt("reviewId")
-	if err != nil {
-		return c.Status(http.StatusBadRequest).JSON(fiber.Map{
-			"error": "Invalid review ID",
-		})
-	}
+	errs.ErrorHandler(c,err)
 
 	// Parse the request body
 	var req types.ReviewUpdateRequest
@@ -35,9 +28,7 @@ func (s *Service) PatchVenueReview(c *fiber.Ctx) error {
 		log.Printf("Error parsing JSON: %v, Request: %+v", err, req)
 
 		// Return an error response to the client
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"error": "Cannot parse JSON",
-		})
+		errs.ErrorHandler(c,err)
 	}
 
 	log.Printf("Updating review with OverallRating: %d, AmbianceRating: %d, MusicRating: %d, CrowdRating: %d, ServiceRating: %d, ReviewText: %s, VenueID: %v, ReviewID: %d",
