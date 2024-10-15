@@ -11,7 +11,7 @@ import (
 	userrating "github.com/GenerateNU/nightlife/internal/handlers/user_ratings"
 	"github.com/GenerateNU/nightlife/internal/handlers/venue"
 	venueratings "github.com/GenerateNU/nightlife/internal/handlers/venue_ratings"
-  "github.com/GenerateNU/nightlife/internal/handlers/venues"
+	"github.com/GenerateNU/nightlife/internal/handlers/venues"
 	"github.com/GenerateNU/nightlife/internal/middleware"
 	"github.com/GenerateNU/nightlife/internal/types"
 	go_json "github.com/goccy/go-json"
@@ -43,7 +43,7 @@ func New(params types.Params) *fiber.App {
 
 	// Friendship route group
 	friendship.Routes(app, params)
-  
+
 	return app
 }
 
