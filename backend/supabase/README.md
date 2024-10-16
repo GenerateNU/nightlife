@@ -8,6 +8,8 @@ Make sure the proposed database change you are making has been approved.
 
 If you are altering the database, make a new branch off of main and create a PR (after changes have been made)  only with the database changes and any necesarry fixes that must be implemented if your database change broke any previous functionality.
 
+You need to have the most up-to-date migrations folder there is (the [remote database](https://supabase.com/dashboard/project/nydgnuqtgjljprotsccz/database/migrations) has the most recent) in order for this all to work properly. 
+
 ```bash
 (start on main)
 git checkout -b database-change/<my-database-change>
@@ -16,33 +18,14 @@ git checkout -b database-change/<my-database-change>
 
 ## Create a new migration file
 
-Go to backend/supabase/migrations and create a new file with the name of the change you are making.
+First, you need to generate a migration file that will capture the changes you're making to your database schema.
 
-### IMPORTANT: the file name must be unique and not match any previous migrations and MUST be in the format: 
+Run the following command to generate a new migration file:
 
-```
-<timestamp>_<name>.sql
-```
-There are two ways to do this (#2 is recommended):
-
-1. Manually name the file with the above format:
 ```bash
-20241008170200_update_user_table_with_name_column.sql
+supabase migration new <migration_name>
 ```
-The timestamp format is YYYYMMDDHHMMSS (military time and just put 00 for seconds).
-
-
-2. Use the command line to create the file:
-```
-Ensure you are in the backend dir:
-```
-```bash
-cd backend
-touch supabase/migrations/$(date +"%Y%m%d%H%M%S")_enter_name_here.sql
-```
-The above will create a file with the current timestamp in the right directory (make sure you are in backend first!). Change _enter_name_here to whatever describes the migration (just copy and paste what is above and then add the name).
-
-
+This will create a new migration file inside the supabase/migrations folder with the specified <migration_name>.
 ## Write SQL Code
 
 Now you can click into that file and write the SQL code to make the changes you want.
@@ -52,6 +35,15 @@ The table editor in Supabase is very limited and not all SQL code can be written
 If you need help writing the SQL code, using GPT or other LLMS is a great option, give it the past migration files and ask it to implement the changes you want, GPT is very well trained on SQL. 
 
 Just be careful and do not enter in any sensitive data.
+
+## Apply the migration locally
+
+```bash
+supabase db reset
+```
+This will reset your local database to the current state of your migrations and apply the latest one. You can test your local database after the migration is applied to ensure everything works as expected.
+
+So now you would go in and check to make sure the database works as expected, write a quick endpoint to test your database change. 
 
 ## Push the migrations to remote
 
@@ -70,7 +62,7 @@ With the github actions -- once the PR is merged, it will link up to the remote 
 After the PR is approved and merged into main, ensure the changes were reflected in the [table editor](https://supabase.com/dashboard/project/nydgnuqtgjljprotsccz/editor)
 
 ---
-## If Github Actions Are Not Working
+## If Github Actions Are Not Working (USE THIS FOR NOW)
 Here is how to push the migrations manually (do not do this if the github actions are working):
 
 First link to the remote database:
@@ -98,3 +90,5 @@ In my experience, this works fine, not too sure what the side effects are, I thi
 all the migration files in your local
 
 Ensure the changes were reflected in the [table editor](https://supabase.com/dashboard/project/nydgnuqtgjljprotsccz/editor)
+
+[Docs](https://supabase.com/docs/guides/local-development/overview#database-migrations)
