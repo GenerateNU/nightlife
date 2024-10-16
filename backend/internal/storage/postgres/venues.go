@@ -8,7 +8,7 @@ import (
 )
 
 func (db *DB) DeleteVenue(ctx context.Context, id uuid.UUID) error {
-	_, err := db.conn.Exec(ctx, `DELETE FROM "Venue" v WHERE venue_id = $1`, id)
+	_, err := db.conn.Exec(ctx, `DELETE FROM venue v WHERE venue_id = $1`, id)
 	if err != nil {
 		return err
 	}
@@ -19,7 +19,7 @@ func (db *DB) DeleteVenue(ctx context.Context, id uuid.UUID) error {
 Deletes a review for a venue.
 */
 func (db *DB) DeleteReviewForVenue(ctx context.Context, reviewID int8) error {
-	result, err := db.conn.Exec(ctx, `DELETE FROM "Review" WHERE review_id = $1`, reviewID)
+	result, err := db.conn.Exec(ctx, `DELETE FROM review WHERE review_id = $1`, reviewID)
 	if err != nil {
 		return err
 	}

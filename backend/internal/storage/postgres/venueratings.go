@@ -21,9 +21,9 @@ SELECT
     r.crowd_rating, 
     r.service_rating
 FROM 
-    "Review" r
+    review r
 JOIN 
-    "Venue" v ON r.venue_id = v.venue_id
+    venue v ON r.venue_id = v.venue_id
 WHERE 
     v.venue_id = $1;
 `
