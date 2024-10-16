@@ -1,11 +1,11 @@
 package profiles
 
 import (
-	"github.com/GenerateNU/nightlife/internal/utils" 
 	"log"
 	"net/http"
 
 	"github.com/GenerateNU/nightlife/internal/errs"
+  "github.com/GenerateNU/nightlife/internal/utils" 
 
 	"github.com/GenerateNU/nightlife/internal/models"
 	"github.com/gofiber/fiber/v2"
