@@ -2,6 +2,7 @@ package profiles
 
 import (
 	"github.com/GenerateNU/nightlife/internal/errs"
+	"github.com/GenerateNU/nightlife/internal/utils" 
 	"log"
 	"net/http"
 
@@ -105,21 +106,52 @@ func (s *Service) RemoveFriend(c *fiber.Ctx) error {
 	return c.Status(http.StatusOK).JSON(fiber.Map{"message": "Friend removed successfully"})
 }
 
+/*
+GetProfile retrieves a user's profile information by the user's username, email, or ID.
+*/
 func (s *Service) GetProfile(c *fiber.Ctx) error {
 
-	username := c.Params("username")
+    userIdentifier := c.Params("userIdentifier")
 
-	if username == "" {
-		c.Status(http.StatusBadRequest)
-		return errs.APIError{StatusCode: fiber.StatusBadRequest, Message: "username is required"}
-	}
+    var profile models.Profile
+    var err error
 
-	profile, err := s.store.GetProfileByUsername(c.Context(), username)
+    if utils.IsEmail(userIdentifier) {
+        profile, err = s.store.GetProfileByEmail(c.Context(), userIdentifier)
+    } else if utils.IsUUID(userIdentifier) {
+        profile, err = s.store.GetProfileByID(c.Context(), userIdentifier)
+    } else {
+        profile, err = s.store.GetProfileByUsername(c.Context(), userIdentifier)
+    }
 
+    if err != nil {
+        return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": "profile not found"})
+    }
+
+    return c.Status(fiber.StatusOK).JSON(profile)
+}
+
+/*
+Get All Users
+*/
+func (s *Service) GetAllUsers(c *fiber.Ctx) error {
+	// Fetch all users from the store
+	users, err := s.store.GetAllUsers(c.Context())
 	if err != nil {
-		c.Status(http.StatusInternalServerError)
-		return errs.APIError{StatusCode: fiber.StatusNotFound, Message: "profile not found"}
+		
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"error": "Failed to retrieve users",
+			"details": err.Error(),
+		})
 	}
 
-	return c.Status(http.StatusOK).JSON(profile)
+	// If no users are found, we can return a 404
+	if len(users) == 0 {
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
+			"message": "No users found",
+		})
+	}
+
+	// Return the list of users with a 200 OK status
+	return c.Status(fiber.StatusOK).JSON(users)
 }
