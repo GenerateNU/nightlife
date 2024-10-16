@@ -18,11 +18,11 @@ SELECT
 	v.name AS venue_name,
 	r.overall_rating
 FROM
-	"Review" r
+	review r
 JOIN
-	"User" u ON r.user_id = u.user_id
+	user u ON r.user_id = u.user_id
 JOIN
-	"Venue" v ON r.venue_id = v.venue_id
+	venue v ON r.venue_id = v.venue_id
 WHERE
 	u.user_id = $1;
 `

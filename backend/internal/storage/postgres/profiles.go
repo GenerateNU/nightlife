@@ -23,7 +23,7 @@ func (db *DB) GetProfileByUsername(ctx context.Context, username string) (models
 		   location,
 		   profile_picture_url,
 		   created_at
-	FROM "User"
+	FROM users
 	WHERE username = $1
 	`
 
@@ -54,7 +54,7 @@ func (db *DB) UpdateProfilePreferences(ctx context.Context, userID uuid.UUID, pr
 
 	// SQL query execution
 	_, err := db.conn.Exec(ctx, `
-        UPDATE "UserPreference" up
+        UPDATE user_preference up
         SET
             user_id = $1,
             preference_type = $2,
@@ -76,7 +76,7 @@ func (db *DB) UpdateProfilePreferences(ctx context.Context, userID uuid.UUID, pr
 Delete an account
 */
 func (db *DB) DeleteAccount(ctx context.Context, userID uuid.UUID) error {
-	_, err := db.conn.Exec(ctx, `DELETE FROM "User" WHERE user_id = $1`, userID)
+	_, err := db.conn.Exec(ctx, `DELETE FROM users WHERE user_id = $1`, userID)
 
 	if err != nil {
 		return err
@@ -90,9 +90,9 @@ RemoveFriend removes a friend from the user's friend list based on the friend's 
 */
 func (db *DB) RemoveFriend(ctx context.Context, userID uuid.UUID, friendUsername string) error {
 	_, err := db.conn.Exec(ctx, `
-		DELETE FROM "Friendship"
-		WHERE user_id1 = $1 AND user_id2 = (SELECT user_id FROM "User" WHERE username = $2)
-		OR user_id2 = $1 AND user_id1 = (SELECT user_id FROM "User" WHERE username = $2)
+		DELETE FROM friendship
+		WHERE user_id1 = $1 AND user_id2 = (SELECT user_id FROM users WHERE username = $2)
+		OR user_id2 = $1 AND user_id1 = (SELECT user_id FROM users WHERE username = $2)
 	`, userID, friendUsername)
 
 	if err != nil {
