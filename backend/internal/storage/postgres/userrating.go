@@ -20,7 +20,7 @@ SELECT
 FROM
 	review r
 JOIN
-	user u ON r.user_id = u.user_id
+	users u ON r.user_id = u.user_id
 JOIN
 	venue v ON r.venue_id = v.venue_id
 WHERE
