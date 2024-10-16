@@ -5,29 +5,24 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
-	"github.com/GenerateNU/nightlife/internal/models"
 	"log"
+
+	"github.com/GenerateNU/nightlife/internal/models"
 
 	"github.com/google/uuid"
 )
 
-func (db *DB) GetProfileByUsername(ctx context.Context, username string) (models.Profile, error) {
+/*
+Gets a user profile by a column, (username, id, or email).
+*/
+func (db *DB) GetProfileByColumn(ctx context.Context, column string, value string) (models.Profile, error) {
 	var profile models.Profile
+	var query = fmt.Sprintf(`
+		SELECT user_id, first_name, username, email, age, location, profile_picture_url, created_at
+		FROM users
+		WHERE %s = $1`, column)
 
-	var query = `
-	SELECT user_id,
-		   first_name,
-		   username,
-		   email,
-		   age,
-		   location,
-		   profile_picture_url,
-		   created_at
-	FROM users
-	WHERE username = $1
-	`
-
-	row := db.conn.QueryRow(ctx, query, username)
+	row := db.conn.QueryRow(ctx, query, value)
 
 	err := row.Scan(
 		&profile.UserID,
@@ -42,70 +37,12 @@ func (db *DB) GetProfileByUsername(ctx context.Context, username string) (models
 
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
-			return models.Profile{}, fmt.Errorf("no profile found for username: %s", username)
+			return models.Profile{}, fmt.Errorf("no profile found for %s: %s", column, value)
 		}
 		return models.Profile{}, err
 	}
 
 	return profile, nil
-}
-
-func (db *DB) GetProfileByEmail(ctx context.Context, email string) (models.Profile, error) {
-    var profile models.Profile
-    var query = `
-    SELECT user_id, first_name, username, email, age, location, profile_picture_url, created_at
-    FROM "User"
-    WHERE email = $1
-    `
-    row := db.conn.QueryRow(ctx, query, email)
-    err := row.Scan(
-		&profile.UserID,
-		&profile.FirstName,
-		&profile.Username,
-		&profile.Email,
-		&profile.Age,
-		&profile.Location,
-		&profile.ProfilePictureURL,
-		&profile.CreatedAt,
-	)
-
-    if err != nil {
-        if errors.Is(err, sql.ErrNoRows) {
-            return models.Profile{}, fmt.Errorf("no profile found for email: %s", email)
-        }
-        return models.Profile{}, err
-    }
-
-    return profile, nil
-}
-
-func (db *DB) GetProfileByID(ctx context.Context, id string) (models.Profile, error) {
-    var profile models.Profile
-    var query = `
-    SELECT user_id, first_name, username, email, age, location, profile_picture_url, created_at
-    FROM "User"
-    WHERE user_id = $1
-    `
-    row := db.conn.QueryRow(ctx, query, id)
-	err := row.Scan(
-		&profile.UserID,
-		&profile.FirstName,
-		&profile.Username,
-		&profile.Email,
-		&profile.Age,
-		&profile.Location,
-		&profile.ProfilePictureURL,
-		&profile.CreatedAt,
-	)
-	
-    if err != nil {
-        if errors.Is(err, sql.ErrNoRows) {
-            return models.Profile{}, fmt.Errorf("no profile found for ID: %s", id)
-        }
-        return models.Profile{}, err
-    }
-
-    return profile, nil
 }
 
 func (db *DB) CreatePreferences(ctx context.Context, p models.Preferences) error {
@@ -173,36 +110,35 @@ Get All Users
 */
 func (db *DB) GetAllUsers(ctx context.Context) ([]models.Profile, error) {
 
-    rows, err := db.conn.Query(ctx, `SELECT user_id, first_name, username, email, age, location, profile_picture_url, created_at FROM "User"`)
-    if err != nil {
-        return nil, err
-    }
-    defer rows.Close()
+	rows, err := db.conn.Query(ctx, `SELECT user_id, first_name, username, email, age, location, profile_picture_url, created_at FROM users`)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
 
-    var profiles []models.Profile 
+	var profiles []models.Profile
 
-    // Iterate through the result rows
-    for rows.Next() {
-        var profile models.Profile
-        if err := rows.Scan(
-            &profile.UserID,
-            &profile.FirstName,
-            &profile.Username,
-            &profile.Email,
-            &profile.Age,
-            &profile.Location,
-            &profile.ProfilePictureURL,
-            &profile.CreatedAt,
-        ); err != nil {
-            return nil, err
-        }
-        profiles = append(profiles, profile)
-    }
+	// Iterate through the result rows
+	for rows.Next() {
+		var profile models.Profile
+		if err := rows.Scan(
+			&profile.UserID,
+			&profile.FirstName,
+			&profile.Username,
+			&profile.Email,
+			&profile.Age,
+			&profile.Location,
+			&profile.ProfilePictureURL,
+			&profile.CreatedAt,
+		); err != nil {
+			return nil, err
+		}
+		profiles = append(profiles, profile)
+	}
 
-    if err := rows.Err(); err != nil {
-        return nil, err
-    }
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
 
-    return profiles, nil
+	return profiles, nil
 }
-

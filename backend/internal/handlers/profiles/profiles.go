@@ -118,11 +118,14 @@ func (s *Service) GetProfile(c *fiber.Ctx) error {
     var err error
 
     if utils.IsEmail(userIdentifier) {
-        profile, err = s.store.GetProfileByEmail(c.Context(), userIdentifier)
+        // Query by email
+        profile, err = s.store.GetProfileByColumn(c.Context(), "email", userIdentifier)
     } else if utils.IsUUID(userIdentifier) {
-        profile, err = s.store.GetProfileByID(c.Context(), userIdentifier)
+        // Query by ID
+        profile, err = s.store.GetProfileByColumn(c.Context(), "user_id", userIdentifier)
     } else {
-        profile, err = s.store.GetProfileByUsername(c.Context(), userIdentifier)
+        // Query by username
+        profile, err = s.store.GetProfileByColumn(c.Context(), "username", userIdentifier)
     }
 
     if err != nil {
@@ -131,6 +134,7 @@ func (s *Service) GetProfile(c *fiber.Ctx) error {
 
     return c.Status(fiber.StatusOK).JSON(profile)
 }
+
 
 /*
 Get All Users
