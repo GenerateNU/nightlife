@@ -184,7 +184,7 @@
 		for _, tt := range tests {
 			t.Run(tt.name, func(t *testing.T) {
 				// Mock the CreateFriendship function behavior based on the test case
-				mockStore.CreateFriendshipFn = func(ctx context.Context, friendship models.Friendship) error {
+				mockStore.CreateFriendshipFn = func(_ context.Context, friendship models.Friendship) error {
 					return tt.mockResponse
 				}
 	
