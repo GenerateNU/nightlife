@@ -2,10 +2,11 @@ package venues
 
 import (
 	"fmt"
-	"github.com/gofiber/fiber/v2"
-	"github.com/google/uuid"
 	"net/http"
 	"strconv"
+
+	"github.com/gofiber/fiber/v2"
+	"github.com/google/uuid"
 )
 
 func (s *Service) DeleteVenue(c *fiber.Ctx) error {
@@ -57,4 +58,40 @@ func (s *Service) DeleteReviewForVenue(c *fiber.Ctx) error {
 	}
 
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "Deleted review for venue"})
+}
+
+func (s *Service) GetVenueFromID(c *fiber.Ctx) error {
+	venueID := c.Params("venueId")
+	if venueID == "" {
+		return fiber.NewError(fiber.StatusBadRequest, "Venue ID is required")
+	}
+	formattedID, err := uuid.Parse(venueID)
+	if err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, "Couldn't parse venue id to uuid")
+	}
+	venue, err := s.store.GetVenueFromID(c.Context(), formattedID)
+	if err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, "Could not get venue")
+	}
+	return c.Status(fiber.StatusOK).JSON(venue)
+}
+
+func (s *Service) GetVenueFromName(c *fiber.Ctx) error {
+	name := c.Query("q")
+	if name == "" {
+		return fiber.NewError(fiber.StatusBadRequest, "Venue name is required")
+	}
+	venue, err := s.store.GetVenueFromName(c.Context(), name)
+	if err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, "Could not get venue")
+	}
+	return c.Status(fiber.StatusOK).JSON(venue)
+}
+
+func (s *Service) GetAllVenues(c *fiber.Ctx) error {
+	venues, err := s.store.GetAllVenues(c.Context())
+	if err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, "Could not get venue")
+	}
+	return c.Status(fiber.StatusOK).JSON(venues)
 }
