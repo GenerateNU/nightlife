@@ -33,7 +33,7 @@ func (db *DB) DeleteReviewForVenue(ctx context.Context, reviewID int8) error {
 	return nil
 }
 
-func (db *DB) GetVenueFromId(ctx context.Context, id uuid.UUID) (models.Venue, error) {
+func (db *DB) GetVenueFromID(ctx context.Context, id uuid.UUID) (models.Venue, error) {
 	var query = `SELECT venue_id, name, address, city, state, zip_code, created_at FROM "Venue" WHERE venue_id = $1`
 	rows, err := db.conn.Query(ctx, query, id.String())
 	if err != nil {
