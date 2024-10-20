@@ -36,8 +36,9 @@ type Venues interface {
 	DeleteVenue(context.Context, uuid.UUID) error
 	DeleteReviewForVenue(context.Context, int8) error
 	GetAllVenueRatings(context.Context, uuid.UUID) ([]models.VenueRatings, error)
-	GetVenueFromId(context.Context, uuid.UUID) (models.Venue, error)
+	GetVenueFromID(context.Context, uuid.UUID) (models.Venue, error)
 	GetVenueFromName(context.Context, string) (models.Venue, error)
+	GetAllVenues(ctx context.Context) ([]models.Venue, error) 
 }
 
 type Friendship interface {

@@ -60,16 +60,16 @@ func (s *Service) DeleteReviewForVenue(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "Deleted review for venue"})
 }
 
-func (s *Service) GetVenueFromId(c *fiber.Ctx) error {
+func (s *Service) GetVenueFromID(c *fiber.Ctx) error {
 	venueID := c.Params("venueId")
 	if venueID == "" {
 		return fiber.NewError(fiber.StatusBadRequest, "Venue ID is required")
 	}
-	formatted_id, err := uuid.Parse(venueID)
+	formattedID, err := uuid.Parse(venueID)
 	if err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, "Couldn't parse venue id to uuid")
 	}
-	venue, err := s.store.GetVenueFromId(c.Context(), formatted_id)
+	venue, err := s.store.GetVenueFromID(c.Context(), formattedID)
 	if err != nil {
 		return fiber.NewError(fiber.StatusInternalServerError, "Could not get venue")
 	}
@@ -86,4 +86,12 @@ func (s *Service) GetVenueFromName(c *fiber.Ctx) error {
 		return fiber.NewError(fiber.StatusInternalServerError, "Could not get venue")
 	}
 	return c.Status(fiber.StatusOK).JSON(venue)
+}
+
+func (s *Service) GetAllVenues(c *fiber.Ctx) error {
+	venues, err := s.store.GetAllVenues(c.Context())
+	if err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, "Could not get venue")
+	}
+	return c.Status(fiber.StatusOK).JSON(venues)
 }
