@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
         width: '100%',
         position: 'absolute',
         top: 0,
-        zIndex: 1, // Ensure it stays on top of the map
+        zIndex: 1,
     },
     searchInput: {
         height: 40,
