@@ -46,11 +46,12 @@ const VenueScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
     container: {
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'flex-start',
-      paddingLeft: 10,
-      paddingTop: 10
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    paddingLeft: 10,
+    paddingTop: 10
     },
     review: {
     display: 'flex',
@@ -64,7 +65,6 @@ const styles = StyleSheet.create({
     },
     bookmark: {
     paddingTop: 5,
-    position: 'absolute',
     left: 415,
     display: 'flex',
      flexDirection: 'row'
