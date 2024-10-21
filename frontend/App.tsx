@@ -1,7 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { BottomNavigator } from "@/components/BottomNavigator";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import LoginScreen from "@/screens/LoginScreen";
+import LoginScreen from "@/screens/WhatDoYouLike";
 import { AuthProvider, useAuth } from "@/context/AuthContext";
 
 const Stack = createNativeStackNavigator();
