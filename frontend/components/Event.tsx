@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 
-// TODO: set up skeleton for page
-const Event = ({title = "", date = "", time = ""}) => {
+
+const Event = ({title = "", date = "", time = "", image_path = ""}) => {
   return (
     <View style={styles.container}>
       <Image
@@ -22,11 +22,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   eventImage: {
     width: 200, 
-    height: 200,
+    height: 200
   },
   overlay: {
     position: 'absolute',
@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
     backgroundColor: 'rgba(0, 0, 0, 0.5)', 
+    borderRadius: 10
   },
   dateText: {
     color: 'white',

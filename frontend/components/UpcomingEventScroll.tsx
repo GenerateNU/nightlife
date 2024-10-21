@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     paddingVertical: 20,
-    paddingHorizontal: 10, 
+    paddingRight: 10, 
   },
   item: {
     width: 200, 
@@ -45,8 +45,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#f0f0f0',
-    marginHorizontal: 10, 
-    borderRadius: 10,
+    marginHorizontal: 5, 
+    borderRadius: 10
   },
 });
 
