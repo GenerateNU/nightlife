@@ -21,4 +21,7 @@ func Routes(app *fiber.App, params types.Params) {
 
 	protected.Delete("/reviews/:reviewId", service.DeleteReviewForVenue)
 	protected.Patch("/:venueId/reviews/:reviewId", service.PatchVenueReview)
+	protected.Get("/:venueId", service.GetVenueFromID)
+	protected.Get("/search", service.GetVenueFromName)
+	protected.Get("/getAll", service.GetAllVenues)
 }

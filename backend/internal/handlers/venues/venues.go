@@ -8,6 +8,7 @@ import (
 
 	"github.com/GenerateNU/nightlife/internal/errs"
 	"github.com/GenerateNU/nightlife/internal/types"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
 )
@@ -107,4 +108,40 @@ func (s *Service) PatchVenueReview(c *fiber.Ctx) error {
 	return c.Status(http.StatusOK).JSON(fiber.Map{
 		"message": "Review updated successfully",
 	})
+}
+
+func (s *Service) GetVenueFromID(c *fiber.Ctx) error {
+	venueID := c.Params("venueId")
+	if venueID == "" {
+		return fiber.NewError(fiber.StatusBadRequest, "Venue ID is required")
+	}
+	formattedID, err := uuid.Parse(venueID)
+	if err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, "Couldn't parse venue id to uuid")
+	}
+	venue, err := s.store.GetVenueFromID(c.Context(), formattedID)
+	if err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, "Could not get venue")
+	}
+	return c.Status(fiber.StatusOK).JSON(venue)
+}
+
+func (s *Service) GetVenueFromName(c *fiber.Ctx) error {
+	name := c.Query("q")
+	if name == "" {
+		return fiber.NewError(fiber.StatusBadRequest, "Venue name is required")
+	}
+	venue, err := s.store.GetVenueFromName(c.Context(), name)
+	if err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, "Could not get venue")
+	}
+	return c.Status(fiber.StatusOK).JSON(venue)
+}
+
+func (s *Service) GetAllVenues(c *fiber.Ctx) error {
+	venues, err := s.store.GetAllVenues(c.Context())
+	if err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, "Could not get venue")
+	}
+	return c.Status(fiber.StatusOK).JSON(venues)
 }

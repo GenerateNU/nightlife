@@ -11,7 +11,7 @@ import (
 )
 
 func (db *DB) DeleteVenue(ctx context.Context, id uuid.UUID) error {
-	_, err := db.conn.Exec(ctx, `DELETE FROM "Venue" v WHERE venue_id = $1`, id)
+	_, err := db.conn.Exec(ctx, `DELETE FROM venue v WHERE venue_id = $1`, id)
 	if err != nil {
 		return err
 	}
@@ -22,7 +22,7 @@ func (db *DB) DeleteVenue(ctx context.Context, id uuid.UUID) error {
 Deletes a review for a venue.
 */
 func (db *DB) DeleteReviewForVenue(ctx context.Context, reviewID int8) error {
-	result, err := db.conn.Exec(ctx, `DELETE FROM "Review" WHERE review_id = $1`, reviewID)
+	result, err := db.conn.Exec(ctx, `DELETE FROM review WHERE review_id = $1`, reviewID)
 	if err != nil {
 		return err
 	}
@@ -34,13 +34,6 @@ func (db *DB) DeleteReviewForVenue(ctx context.Context, reviewID int8) error {
 	return nil
 }
 
-func (db *DB) GetAllVenues(ctx context.Context) ([]models.Test, error) {
-	rows, err := db.conn.Query(ctx, "SELECT * FROM Venues")
-	if err != nil {
-		return []models.Test{}, err
-	}
-	return pgx.CollectRows(rows, pgx.RowToStructByName[models.Test])
-}
 
 func (db *DB) GetVenueReviews(ctx context.Context, reviewID int8, venueID uuid.UUID) ([]models.Review, error) {
 	// Use proper SQL syntax without single quotes around the table name
@@ -102,3 +95,38 @@ func (db *DB) PatchVenueReview(ctx context.Context, overallRating int8, ambiance
 	log.Printf("Successfully updated review with ReviewID: %d, VenueID: %s", reviewID, venueID)
 	return nil
 }
+func (db *DB) GetVenueFromID(ctx context.Context, id uuid.UUID) (models.Venue, error) {
+	var query = `SELECT venue_id, name, address, city, state, zip_code, created_at FROM "Venue" WHERE venue_id = $1`
+	rows, err := db.conn.Query(ctx, query, id.String())
+	if err != nil {
+		return models.Venue{}, err
+	}
+	defer rows.Close()
+	arr, err := pgx.CollectRows(rows, pgx.RowToStructByName[models.Venue])
+	return arr[0], err
+}
+
+func (db *DB) GetVenueFromName(ctx context.Context, name string) (models.Venue, error) {
+	query := `SELECT venue_id, name, address, city, state, zip_code, created_at FROM "Venue" WHERE name ilike $1`
+	rows, err := db.conn.Query(ctx, query, name)
+	if err != nil {
+		fmt.Println("HALLO " + err.Error())
+		return models.Venue{}, err
+	}
+	defer rows.Close()
+	arr, err := pgx.CollectRows(rows, pgx.RowToStructByName[models.Venue])
+	return arr[0], err
+}
+
+func (db *DB) GetAllVenues(ctx context.Context) ([]models.Venue, error) {
+	query := `SELECT venue_id, name, address, city, state, zip_code, created_at FROM Venue`
+	rows, err := db.conn.Query(ctx, query)
+	if err != nil {
+		fmt.Println("HALLO " + err.Error())
+		return []models.Venue{}, err
+	}
+	defer rows.Close()
+	return pgx.CollectRows(rows, pgx.RowToStructByName[models.Venue])
+}
+
+
