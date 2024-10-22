@@ -18,4 +18,6 @@ func Routes(app *fiber.App, params types.Params) {
 	//create a route
 	protected.Get("/venue/:venueid/ratings", service.GetAllVenueRatings)
 
+	protected.Delete("/reviews/:reviewId", service.DeleteReviewForVenue)
+
 }

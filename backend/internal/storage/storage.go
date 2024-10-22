@@ -12,7 +12,9 @@ type Storage interface {
 	Test
 	UserRating
 	Venues
+	VenueRatings
 	Profile
+	Review
 	Friendship
 }
 
@@ -42,6 +44,15 @@ type Venues interface {
 	GetAllVenues(ctx context.Context) ([]models.Venue, error) 
 }
 
+type VenueRatings interface {
+	DeleteReviewForVenue(context.Context, int8) error
+	GetAllVenueRatings(context.Context, uuid.UUID) ([]models.VenueRatings, error)
+}
+
 type Friendship interface {
 	CreateFriendship(context.Context, models.Friendship) error
+}
+
+type Review interface {
+	PatchVenueReview(ctx context.Context, overallRating int8, ambianceRating int8, musicRating int8, crowdRating int8, serviceRating int8, reviewText string, venueID uuid.UUID, reviewID int8) error
 }
