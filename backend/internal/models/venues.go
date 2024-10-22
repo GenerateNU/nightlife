@@ -20,7 +20,9 @@ type Venue struct {
 
 	ZipCode string `json:"zip_code"`
 
-	// location : Geographical point? 
+	Latitude float64 `json:"latitude"`
+
+	Longitude float64 `json:"longitude"`
 
 	// VenueType string `json:"venue_type"`
 

@@ -34,7 +34,8 @@ func (db *DB) DeleteReviewForVenue(ctx context.Context, reviewID int8) error {
 }
 
 func (db *DB) GetVenueFromID(ctx context.Context, id uuid.UUID) (models.Venue, error) {
-	var query = `SELECT venue_id, name, address, city, state, zip_code, created_at FROM "Venue" WHERE venue_id = $1`
+	var query = `SELECT venue_id, name, address, city, state, zip_code, created_at, ST_Y(location::geometry) AS latitude, ST_X(location::geometry) 
+	AS longitude FROM Venue WHERE venue_id = $1`
 	rows, err := db.conn.Query(ctx, query, id.String())
 	if err != nil {
 		return models.Venue{}, err
@@ -45,7 +46,8 @@ func (db *DB) GetVenueFromID(ctx context.Context, id uuid.UUID) (models.Venue, e
 }
 
 func (db *DB) GetVenueFromName(ctx context.Context, name string) (models.Venue, error) {
-	query := `SELECT venue_id, name, address, city, state, zip_code, created_at FROM "Venue" WHERE name ilike $1`
+	query := `SELECT venue_id, name, address, city, state, zip_code, created_at, ST_Y(location::geometry) AS latitude, ST_X(location::geometry) 
+	AS longitude FROM Venue WHERE name ilike $1`
 	rows, err := db.conn.Query(ctx, query, name)
 	if err != nil {
 		fmt.Println("HALLO " + err.Error())
@@ -57,7 +59,8 @@ func (db *DB) GetVenueFromName(ctx context.Context, name string) (models.Venue, 
 }
 
 func (db *DB) GetAllVenues(ctx context.Context) ([]models.Venue, error) {
-	query := `SELECT venue_id, name, address, city, state, zip_code, created_at FROM Venue`
+	query := `SELECT venue_id, name, address, city, state, zip_code, created_at, ST_Y(location::geometry) AS latitude, ST_X(location::geometry) 
+	AS longitude FROM Venue`
 	rows, err := db.conn.Query(ctx, query)
 	if err != nil {
 		fmt.Println("HALLO " + err.Error())
