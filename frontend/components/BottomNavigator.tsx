@@ -9,6 +9,7 @@ import SettingsScreen from "@/screens/SettingsScreen";
 
 const Tab = createBottomTabNavigator();
 
+
 const bottomTabNavOptions: BottomTabNavigationOptions = {
     tabBarStyle: {
         backgroundColor: '#111729',

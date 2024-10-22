@@ -16,6 +16,7 @@ type Storage interface {
 	Profile
 	Review
 	Friendship
+	Event
 }
 
 type Test interface {
@@ -53,6 +54,11 @@ type Friendship interface {
 	CreateFriendship(context.Context, models.Friendship) error
 }
 
+type Event interface {
+	GetEventForVenue(context.Context, uuid.UUID) ([]models.Event, error)
+}
+
 type Review interface {
 	PatchVenueReview(ctx context.Context, overallRating int8, ambianceRating int8, musicRating int8, crowdRating int8, serviceRating int8, reviewText string, venueID uuid.UUID, reviewID int8) error
 }
+
