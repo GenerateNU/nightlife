@@ -26,7 +26,7 @@ const frequencyOptions = [
 
 export type RootStackParamList = {
   CrowdAndFrequencyPreference: undefined; 
-  AddPhoto: undefined;
+  HowFarFromYou: undefined;
 }
 
 const CrowdAndFrequencyPreference: React.FC = () => {
@@ -52,7 +52,7 @@ const CrowdAndFrequencyPreference: React.FC = () => {
   };
 
   const handleSkip = () => {
-    navigation.navigate('AddPhoto');
+    navigation.navigate('HowFarFromYou');
   };
 
   const handleBack = () => {

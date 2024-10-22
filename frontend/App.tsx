@@ -8,6 +8,12 @@ import CrowdAndFrequencyPreference from './components/OnboardingCards/CrowdAndFr
 import NightlifePreference from './components/OnboardingCards/NightlifePreference';
 import SplashScreen from './components/OnboardingCards/SplashScreen';
 import AddPhoto from './components/OnboardingCards/AddPhoto';
+import MusicPreferences from './components/OnboardingCards/MusicPreference';
+import PersonalityScreenReveal from './components/OnboardingCards/PersonalityScreenReveal'
+import PersonalityScreenReveal2 from './components/OnboardingCards/PersonalityScreenReveal2'
+import HowFarFromYou from './components/OnboardingCards/HowFarFromYou';
+
+
 
 const Stack = createNativeStackNavigator();
 
@@ -64,6 +70,50 @@ const OnboardingStack = () => {
               component={AddPhoto} 
               options={{
                   title: "Now, Add a Photo",
+                  headerStyle: {
+                      backgroundColor: '#111729',
+                  },
+                  headerTintColor: '#fff',
+              }} 
+          />
+          <Stack.Screen 
+              name="MusicPreference" 
+              component={MusicPreferences} 
+              options={{
+                  title: "Choose your Music",
+                  headerStyle: {
+                      backgroundColor: '#111729',
+                  },
+                  headerTintColor: '#fff',
+              }} 
+          />
+          <Stack.Screen 
+              name="HowFarFromYou" 
+              component={HowFarFromYou} 
+              options={{
+                  title: "How Far you like it ;)",
+                  headerStyle: {
+                      backgroundColor: '#111729',
+                  },
+                  headerTintColor: '#fff',
+              }} 
+          />
+          <Stack.Screen 
+              name="PersonalityScreenReveal" 
+              component={PersonalityScreenReveal} 
+              options={{
+                  title: "YOUR AREEEEEE",
+                  headerStyle: {
+                      backgroundColor: '#111729',
+                  },
+                  headerTintColor: '#fff',
+              }} 
+          />
+          <Stack.Screen 
+              name="PersonalityScreenReveal2" 
+              component={PersonalityScreenReveal2} 
+              options={{
+                  title: "YOUR AREEEEEE PART 2",
                   headerStyle: {
                       backgroundColor: '#111729',
                   },

@@ -22,6 +22,7 @@ const AddPhoto: React.FC = () => {
             index: 0,
             routes: [{ name: 'BottomNavigator' }],
         });
+
     };
 
     return (
@@ -30,12 +31,18 @@ const AddPhoto: React.FC = () => {
                 <Text style={styles.backButtonText}>Back</Text>
             </TouchableOpacity>
             <Text style={styles.addPhotoTitle}>Now, add a photo</Text>
-            <View style={styles.addPhotoIconContainer}>
-                <Icon name="camera-outline" size={40} color="#D9D9D9" />
+            <View style={styles.iconCircleContainer}>
+                <View style={styles.iconCircle}>
+                    <Icon name="camera-outline" size={60} color="black" />
+                </View>
             </View>
+
+            {/* Rectangle with name and location */}
             <View style={styles.addPhotoPlaceholder}>
                 <Text style={styles.addPhotoText}>Firstname Lastname</Text>
+                <Text style={styles.locationText}>Boston, MA</Text>
             </View>
+
             <View style={styles.addPhotoButtonContainer}>
                 <TouchableOpacity style={styles.addPhotoButton}>
                     <Text style={styles.addPhotoButtonText}>ADD PHOTO</Text>

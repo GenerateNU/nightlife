@@ -5,31 +5,19 @@ import { NavigationProp, useNavigation } from '@react-navigation/native';
 import ProgressBar from './ProgressBar'; 
 
 export type RootStackParamList = {
-  NightlifePreference: undefined; 
-  CrowdAndFrequencyPreference: undefined; 
+  HowFarFromYou: undefined; 
+  MusicPreference: undefined; 
 };
 
 const options = [
-  "Bars",
-  "Clubs",
-  "Lounges",
-  "Pubs",
-  "Karaoke Bars",
-  "Cocktail Bars",
-  "Wine Bars",
-  "Speakeasies",
-  "Sports Bars",
-  "Rooftop Bars",
-  "Nightclubs",
-  "Dance Clubs",
-  "Comedy Clubs",
-  "Jazz Clubs",
-  "Live Music Venues",
-  "Hookah Lounges",
-  "Dive Bars"
+    "5 miles",
+    "10 miles",
+    "15 miles",
+    "20 miles",
+    " AFRICA "
 ];
 
-const NightlifePreference: React.FC = () => {
+const HowFarFromYou: React.FC = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>(); 
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]); 
   const [isOpen, setIsOpen] = useState(false);
@@ -45,7 +33,7 @@ const NightlifePreference: React.FC = () => {
   };
 
   const handleSkip = () => {
-    navigation.navigate('CrowdAndFrequencyPreference'); 
+    navigation.navigate('MusicPreference'); 
   };
 
   const handleBack = () => {
@@ -58,11 +46,11 @@ const NightlifePreference: React.FC = () => {
         <Text style={styles.buttonText}>Back</Text>
       </TouchableOpacity>
       <View style={styles.nightlifeMainContent}>
-        <Text style={styles.nightlifeTitle}>What type of nightlife do you enjoy the most?</Text>
+        <Text style={styles.nightlifeTitle}>How far do you prefer the venue to be?</Text>
         
         <View style={{ marginTop: 20 }}>
           <TouchableOpacity onPress={toggleOptions} style={styles.dropdownButton}>
-            <Text style={styles.dropdownText}>Select Venue Type</Text>
+            <Text style={styles.dropdownText}>Select Distance</Text>
             <Text style={styles.arrow}>{isOpen ? '▲' : '▼'}</Text>
           </TouchableOpacity>
 
@@ -104,4 +92,4 @@ const Option: React.FC<{ text: string; isSelected: boolean; onPress: () => void 
   );
 };
 
-export default NightlifePreference;
+export default HowFarFromYou;

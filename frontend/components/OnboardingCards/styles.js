@@ -39,6 +39,7 @@ export const styles = StyleSheet.create({
     fontWeight: 400,
     lineHeight: 53,
     textAlign: 'center',
+    marginBottom: 40,
   },
   addPhotoIconContainer: {
     justifyContent: 'center',
@@ -50,7 +51,7 @@ export const styles = StyleSheet.create({
     height: 200,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 20,
+    marginTop: 60,
   },
   addPhotoText: {
     color: '#000000',
@@ -76,6 +77,27 @@ export const styles = StyleSheet.create({
     lineHeight: 24,
     letterSpacing: 0.18,
   },
+  iconCircleContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  iconCircle: {
+    backgroundColor: '#FFFFFF',
+    width: 100, 
+    height: 100, 
+    borderRadius: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    top: -50, 
+    zIndex: 1,
+  },
+  locationText: {
+    color: '#000000',
+    fontSize: 14,
+    marginTop: 5,
+  },
 
   // Crowd and Frequency Preferences Styles
   crowdTitle: {
@@ -84,8 +106,10 @@ export const styles = StyleSheet.create({
     marginBottom: 10,
     marginTop: 40,
   },
+
+  // Updated dropdown button and options styles
   dropdownButton: {
-    backgroundColor: '#414141',
+    backgroundColor: '#FFFFFF',  // Set to white
     padding: 10,
     borderRadius: 5,
     flexDirection: 'row',
@@ -94,25 +118,25 @@ export const styles = StyleSheet.create({
     marginBottom: 10,
   },
   dropdownText: {
-    color: '#fff',
+    color: '#000000',  // Set text to black
     fontSize: 18,
   },
   arrow: {
-    color: '#fff',
+    color: '#000000',  // Set arrow color to black
     fontSize: 18,
   },
   dropdown: {
-    backgroundColor: '#515151',
+    backgroundColor: '#FFFFFF',  // Dropdown content set to white
     borderRadius: 5,
     marginBottom: 20,
   },
   optionItem: {
     padding: 10,
     borderBottomWidth: 1,
-    borderBottomColor: '#414141',
+    borderBottomColor: '#D9D9D9',
   },
   optionText: {
-    color: '#fff',
+    color: '#000000',  // Text color for dropdown options set to black
     fontSize: 18,
   },
 
@@ -162,5 +186,20 @@ export const styles = StyleSheet.create({
     fontWeight: '400',
     lineHeight: 60,
     textAlign: 'center',
+  },
+
+  // progress bar
+  progressBarBackground: {
+    height: 5, 
+    backgroundColor: '#FFFFFF', 
+    borderRadius: 2.5,
+    overflow: 'hidden',  
+    marginVertical: 20,  
+  },
+  
+  progressBarFill: {
+    height: '100%',
+    backgroundColor: '#000000',  
+    borderRadius: 2.5,
   },
 });
