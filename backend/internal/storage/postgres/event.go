@@ -2,44 +2,36 @@ package postgres
 
 import (
 	"context"
-	"database/sql"
-	"errors"
-	"fmt"
 
 	"github.com/GenerateNU/nightlife/internal/models"
 	"github.com/google/uuid"
 )
 
-func (db *DB) GetEventForVenue(ctx context.Context, venue_id uuid.UUID) (models.Event, error) {
-	var event models.Event
+func (db *DB) GetEventForVenue(ctx context.Context, venue_id uuid.UUID) ([]models.Event, error) {
+	var events []models.Event
 
-	var query = `
-	SELECT event_id,
-		   event_name,
-		   event_date,
-		   image_path,
-		   venue_id
-	FROM "Event"
-	WHERE venue_id = $1
-	`
+	var query = `SELECT * FROM "Event" WHERE venueid = $1`
 
-	row := db.conn.QueryRow(ctx, query, venue_id)
-
-	err := row.Scan(
-		&event.EventID,
-		&event.Name,
-		&event.Date,
-		&event.Time,
-		&event.ImagePath,
-		&event.VenueID,
-	)
+	rows, err := db.conn.Query(ctx, query, venue_id)
 
 	if err != nil {
-		if errors.Is(err, sql.ErrNoRows) {
-			return models.Event{}, fmt.Errorf("no profile found for username: %s", venue_id)
-		}
-		return models.Event{}, err
+		return nil, err
 	}
+	defer rows.Close()
 
-	return event, nil
+	for rows.Next() {
+		var event models.Event
+		if err := rows.Scan(
+			&event.EventID,
+			&event.Name,
+			&event.Date,
+			&event.Time,
+			&event.ImagePath,
+			&event.VenueID,
+		); err != nil {
+			return nil, err
+		}
+		events = append(events, event)
+	}
+	return events, nil
 }

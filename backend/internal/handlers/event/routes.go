@@ -17,5 +17,5 @@ func Routes(app *fiber.App, params types.Params) {
 	protected.Use(auth.Protected(&params.Supabase))
 
 	//Endpoints
-	protected.Get("/:eventId", service.GetEventForVenue)
+	protected.Get("/:venueid", service.GetEventForVenue)
 }
