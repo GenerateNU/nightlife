@@ -1,68 +1,58 @@
-import React from "react";
-import MapView from "react-native-maps";
-import { Marker } from "react-native-maps";
-import { StyleSheet, View } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, StyleSheet } from "react-native";
+import MapView, { Marker } from "react-native-maps";
 import SearchBar from "@/components/SearchBar";
+import { BEARER } from "@env";
 
 interface Venue {
   venue_id: string;
-
   name: string;
-
   address: string;
-
   city: string;
-
   state: string;
-
   zipcode: string;
-
   longitude: number;
-
   latitude: number;
-
-  // VenueType string `json:"venue_type"`
-
   created_at: string;
-
-  //UpdatedAt time.Time `json:"updated_at"`
 }
 
 const MapScreen: React.FC = () => {
-  const getAllVenues = async () => {
+  const [allVenues, setAllVenues] = useState<Venue[]>([]);
+
+  const getAllVenues = async (): Promise<Venue[] | null> => {
     try {
-      // to be replaced with API_DOMAIN from .env
       const res = await fetch(
         `https://ringtail-winning-shark.ngrok-free.app/venues/getAll`,
         {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${BEARER}`,
           },
         }
       );
 
-      const data = await res.json();
-
-      if (data.error) {
-        console.log("Cannot fetch venue data", data.error);
-      } else {
-        const venues: Venue[] = JSON.parse(data);
-        return venues;
+      if (!res.ok) {
+        throw new Error(`Error fetching data: ${res.statusText}`);
       }
+
+      const data: Venue[] = await res.json();
+      return data;
     } catch (err) {
       console.log("Could not connect to db or something", err);
+      return null;
     }
   };
 
-  let allVenues: Venue[] = [];
-  getAllVenues().then((venues) => {
-    if (venues) {
-      allVenues = venues;
-    } else {
-      console.log("Unable to get all venues");
-    }
-  });
+  useEffect(() => {
+    getAllVenues().then((venues) => {
+      if (venues) {
+        setAllVenues(venues);
+      } else {
+        console.log("Unable to get all venues");
+      }
+    });
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -77,16 +67,18 @@ const MapScreen: React.FC = () => {
           longitudeDelta: 0.0421,
         }}
       >
-        {allVenues.map((v) => (
-          <Marker
-            coordinate={{
-              latitude: v.latitude,
-              longitude: v.longitude,
-            }}
-            title={v.name}
-            description="LOLL I DIDNT GET THIS YET"
-          />
-        ))}
+        {allVenues.length > 0 &&
+          allVenues.map((v) => (
+            <Marker
+              key={v.venue_id}
+              coordinate={{
+                latitude: v.latitude,
+                longitude: v.longitude,
+              }}
+              title={v.name}
+              description={v.address}
+            />
+          ))}
       </MapView>
     </View>
   );

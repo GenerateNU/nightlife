@@ -17,11 +17,11 @@ func Routes(app *fiber.App, params types.Params) {
 	protected.Use(auth.Protected(&params.Supabase))
 
 	//Endpoints
+	protected.Get("/getAll", service.GetAllVenues)
 	protected.Delete("/:venueId", service.DeleteVenue)
 
 	protected.Delete("/reviews/:reviewId", service.DeleteReviewForVenue)
 
 	protected.Get("/:venueId", service.GetVenueFromID)
 	protected.Get("/search", service.GetVenueFromName)
-	protected.Get("/getAll", service.GetAllVenues)
 }
