@@ -12,7 +12,9 @@ type Storage interface {
 	Test
 	UserRating
 	Venues
+	VenueRatings
 	Profile
+	Review
 	Friendship
 	Event
 }
@@ -22,11 +24,12 @@ type Test interface {
 }
 
 type Profile interface {
-	CreatePreferences(context.Context, models.Preferences) error
-	UpdateProfilePreferences(context.Context, uuid.UUID, string, string, string, string) error
-	DeleteAccount(context.Context, uuid.UUID) error
-	RemoveFriend(context.Context, uuid.UUID, string) error
-	GetProfileByUsername(context.Context, string) (models.Profile, error)
+    CreatePreferences(context.Context, models.Preferences) error
+    UpdateProfilePreferences(context.Context, uuid.UUID, string, string, string, string) error
+    DeleteAccount(context.Context, uuid.UUID) error
+    RemoveFriend(context.Context, uuid.UUID, string) error
+	GetProfileByColumn(context.Context, string, string) (models.Profile, error)
+	GetAllUsers(context.Context) ([]models.Profile, error)
 }
 
 type UserRating interface {
@@ -35,6 +38,14 @@ type UserRating interface {
 
 type Venues interface {
 	DeleteVenue(context.Context, uuid.UUID) error
+	DeleteReviewForVenue(context.Context, int8) error
+	GetAllVenueRatings(context.Context, uuid.UUID) ([]models.VenueRatings, error)
+	GetVenueFromID(context.Context, uuid.UUID) (models.Venue, error)
+	GetVenueFromName(context.Context, string) (models.Venue, error)
+	GetAllVenues(ctx context.Context) ([]models.Venue, error) 
+}
+
+type VenueRatings interface {
 	DeleteReviewForVenue(context.Context, int8) error
 	GetAllVenueRatings(context.Context, uuid.UUID) ([]models.VenueRatings, error)
 }
@@ -46,3 +57,8 @@ type Friendship interface {
 type Event interface {
 	GetEventForVenue(context.Context, uuid.UUID) ([]models.Event, error)
 }
+
+type Review interface {
+	PatchVenueReview(ctx context.Context, overallRating int8, ambianceRating int8, musicRating int8, crowdRating int8, serviceRating int8, reviewText string, venueID uuid.UUID, reviewID int8) error
+}
+
