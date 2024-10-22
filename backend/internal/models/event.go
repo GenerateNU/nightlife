@@ -9,7 +9,7 @@ type Event struct {
 	Date      int       `json:"event_date"`
 	Time      string    `json:"event_time"`
 	ImagePath string    `json:"image_path"`
-	VenueID   uuid.UUID `json: "venueid"`
+	VenueID   uuid.UUID `json: "venueID"`
 }
 
 func (e *Event) Validate() map[string]string {

@@ -7,12 +7,12 @@ import (
 	"github.com/google/uuid"
 )
 
-func (db *DB) GetEventForVenue(ctx context.Context, venue_id uuid.UUID) ([]models.Event, error) {
+func (db *DB) GetEventForVenue(ctx context.Context, venueID uuid.UUID) ([]models.Event, error) {
 	var events []models.Event
 
 	var query = `SELECT * FROM "Event" WHERE venueid = $1`
 
-	rows, err := db.conn.Query(ctx, query, venue_id)
+	rows, err := db.conn.Query(ctx, query, venueID)
 
 	if err != nil {
 		return nil, err
