@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
+  Image,
 } from "react-native";
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import { NavigationProp, useNavigation } from '@react-navigation/native';
@@ -28,9 +29,11 @@ const PersonalityPreference: React.FC = () => {
       </TouchableOpacity>
       <Text style={styles.header}>Your party personality type is...</Text>
 
-      <View style={styles.figureContainer}>
-        <MaterialIcons name="party-mode" size={150} color="#FFF" />
-      </View>
+      <Image
+        style={styles.pieChartContainer}
+        source={{ uri: 'https://i.ibb.co/4K0YbPp/image-2.png' }}
+      />
+
 
       <Text style={styles.personalityName}>Hip hop lover</Text>
 

@@ -46,79 +46,37 @@ const OnboardingStack = () => {
           <Stack.Screen 
               name="NightlifePreference" 
               component={NightlifePreference} 
-              options={{
-                  title: "Nightlife Preference",
-                  headerStyle: {
-                      backgroundColor: '#111729',
-                  },
-                  headerTintColor: '#fff',
-              }} 
+              options={{ headerShown: false }}  
           />
           <Stack.Screen 
               name="CrowdAndFrequencyPreference" 
               component={CrowdAndFrequencyPreference} 
-              options={{
-                  title: "Crowd & Frequency Preference",
-                  headerStyle: {
-                      backgroundColor: '#111729',
-                  },
-                  headerTintColor: '#fff',
-              }} 
+              options={{ headerShown: false }}   
           />
           <Stack.Screen 
               name="AddPhoto" 
               component={AddPhoto} 
-              options={{
-                  title: "Now, Add a Photo",
-                  headerStyle: {
-                      backgroundColor: '#111729',
-                  },
-                  headerTintColor: '#fff',
-              }} 
+              options={{ headerShown: false }}  
           />
           <Stack.Screen 
               name="MusicPreference" 
               component={MusicPreferences} 
-              options={{
-                  title: "Choose your Music",
-                  headerStyle: {
-                      backgroundColor: '#111729',
-                  },
-                  headerTintColor: '#fff',
-              }} 
+              options={{ headerShown: false }}  
           />
           <Stack.Screen 
               name="HowFarFromYou" 
               component={HowFarFromYou} 
-              options={{
-                  title: "How Far you like it ;)",
-                  headerStyle: {
-                      backgroundColor: '#111729',
-                  },
-                  headerTintColor: '#fff',
-              }} 
+              options={{ headerShown: false }}  
           />
           <Stack.Screen 
               name="PersonalityScreenReveal" 
               component={PersonalityScreenReveal} 
-              options={{
-                  title: "YOUR AREEEEEE",
-                  headerStyle: {
-                      backgroundColor: '#111729',
-                  },
-                  headerTintColor: '#fff',
-              }} 
+              options={{ headerShown: false }}  
           />
           <Stack.Screen 
               name="PersonalityScreenReveal2" 
               component={PersonalityScreenReveal2} 
-              options={{
-                  title: "YOUR AREEEEEE PART 2",
-                  headerStyle: {
-                      backgroundColor: '#111729',
-                  },
-                  headerTintColor: '#fff',
-              }} 
+              options={{ headerShown: false }}  
           />
           <Stack.Screen 
               name="BottomNavigator" 
