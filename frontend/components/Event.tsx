@@ -7,7 +7,7 @@ const Event = ({title = "", date = "", time = "", image_path = ""}) => {
     <View style={styles.container}>
       <Image
         style={styles.eventImage}
-        source={{ uri: 'https://images.pexels.com/photos/2114365/pexels-photo-2114365.jpeg' }} 
+        source={{ uri: 'https://images.pexels.com/photos/593467/pexels-photo-593467.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2' }} 
       />
       <View style={styles.overlay}>
         <Text style={styles.eventText}>Event Title</Text>

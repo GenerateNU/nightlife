@@ -14,6 +14,7 @@ type Storage interface {
 	Venues
 	Profile
 	Friendship
+	Event
 }
 
 type Test interface {
@@ -40,4 +41,8 @@ type Venues interface {
 
 type Friendship interface {
 	CreateFriendship(context.Context, models.Friendship) error
+}
+
+type Event interface {
+	GetEventForVenue(context.Context, uuid.UUID) ([]models.Event, error)
 }
