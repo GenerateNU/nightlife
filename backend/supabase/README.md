@@ -54,7 +54,6 @@ Ensure you are on your branch still
 ```bash
 git add <migration_file>
 git commit -m "Added migration file to update <describe_change_here>"
-git push
 ```
 
 With the github actions -- once the PR is merged, it will link up to the remote database and then push the migration.
