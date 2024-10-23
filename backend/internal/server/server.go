@@ -26,11 +26,22 @@ func New(params types.Params) *fiber.App {
 
 	useMiddlewares(app)
 
-	health.Routes(app, params)
+	// Hellp route group
 	hello.Routes(app, params)
+
+	// Test route group
 	test.Routes(app, params)
+
+	// Health route group
+	health.Routes(app, params)
+
+	// Auth route group
 	auth.Routes(app, params)
+
+	// Venues route group
 	venues.Routes(app, params)
+
+	// Profile (User) route group
 	profiles.Routes(app, params)
 
 	//User Ratings route group
