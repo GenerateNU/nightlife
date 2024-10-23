@@ -13,37 +13,70 @@ const LoginForm = () => {
     const [errors, setErrors] = useState<ValidationErrors>({});
     const [loginError, setLoginError] = useState<string | null>(null);
 
-    const { login } = useAuth();
+    const { login, setUser } = useAuth();  // Access login and setUser from AuthContext
 
     const handleLogin = async () => {
-        console.log('Email: ', email);
-        console.log('Password: ', password);
-        console.log('sending request...');
+        // console.log('Email: ', email);
+        // console.log('Password: ', password);
+        // console.log('sending request...');
 
         try {
-            // to be replaced with API_DOMAIN from .env
-            const res = await fetch(`http://127.0.0.1:8080/auth/login`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                email: email,
-                password: password,
-            }),
-        });
+            const res = await fetch(`https://miserably-select-sheepdog.ngrok-free.app/auth/login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password,
+                }),
+            });
 
-        const data = await res.json();
+            const data = await res.json();
 
-        if (data.error) {
-            setLoginError(data.error.toString());
-            console.log('Login failed:', data.error);
-        } else {
-            login(data.token);
-        }
+            if (data.error) {
+                setLoginError(data.error.toString());
+                console.log('Login failed:', data.error);
+            } else {
+                login(data.token); 
+
+                // Fetch user profile by email after successful login
+                const userData = await fetchUserProfile(email, data.token); 
+                if (userData) {
+                    setUser(userData); 
+                }
+            }
         } catch (err) {
             console.log('Login failed:', err);
             setLoginError('Login failed. Please try again.');
+        }
+    };
+
+    // Fetch user profile by email after login
+    const fetchUserProfile = async (email: string, token: string) => {
+        email = email.toLowerCase();
+        try {
+            const res = await fetch(`https://miserably-select-sheepdog.ngrok-free.app/profiles/${email}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            const userData = await res.json();
+
+            if (userData.error) {
+                console.log('Failed to fetch user profile:', userData.error);
+                setLoginError('Failed to load user data.');
+                return null;
+            } else {
+                console.log('User profile fetched and stored.');
+                return userData;
+            }
+        } catch (error) {
+            console.log('Error fetching user profile:', error);
+            setLoginError('Error fetching user profile.');
+            return null;
         }
     };
 

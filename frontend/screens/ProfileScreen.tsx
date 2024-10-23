@@ -8,7 +8,9 @@ import userAddIcon from '@/assets/user-add.png';
 import venuesIcon from '@/assets/venues.png';
 import bookmarkIcon from '@/assets/bookmark.png';
 
+
 import { Image } from 'react-native';
+import { useAuth } from '@/context/AuthContext';
 
 const { width } = Dimensions.get('window');
 
@@ -25,6 +27,7 @@ const ProfileScreen: React.FC = () => {
     const [isModalVisible, setModalVisible] = useState(false); 
     const [isEditModalVisible, setEditModalVisible] = useState(false); 
     const [activeTab, setActiveTab] = useState(ProfileTabs.Friends);
+    const { user } = useAuth();
 
     // Function to toggle modal visibility
     const toggleModal = () => {
@@ -35,14 +38,14 @@ const ProfileScreen: React.FC = () => {
     const toggleEditModal = () => {
         setEditModalVisible(!isEditModalVisible);
     };
-
+    
     return (
         <View style={styles.container}>
             {/* Profile Header */}
             <View style={styles.headerContainer}>
                 <Image style={styles.profileImagePlaceholder} source={{ uri: "https://www.shutterstock.com/image-photo/head-shot-portrait-close-smiling-600nw-1714666150.jpg"}} />
-                <Text style={styles.username}>@jondoe-neu</Text>
-                <Text style={styles.name}>Jonathan Doe</Text>
+                <Text style={styles.username}>@{user?.username}</Text>
+                <Text style={styles.name}>{user?.first_name}</Text>
             </View>
 
             {/* Friends Count */}
@@ -105,9 +108,9 @@ const ProfileScreen: React.FC = () => {
                     <View style={styles.modalContent}>
                         {/* Profile Image and Info */}
                         <View style={styles.profileCard}>
-                            <View style={styles.profileImagePlaceholder} />
-                            <Text style={styles.name}>name</Text>
-                            <Text style={styles.username}>@username</Text>
+                            <Image style={styles.profileImagePlaceholder} source={{ uri: "https://www.shutterstock.com/image-photo/head-shot-portrait-close-smiling-600nw-1714666150.jpg"}} />
+                            <Text style={styles.username}>@{user?.username}</Text>
+                            <Text style={styles.name}>{user?.first_name}</Text>
                         </View>
 
                         {/* Placeholder for QR Code */}
