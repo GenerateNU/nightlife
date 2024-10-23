@@ -1,12 +1,11 @@
-import React, { useState } from "react";
-import {Text, View, Image, Button,Animated, Alert, TouchableOpacity, ScrollView, StyleSheet} from "react-native";
+import React from "react";
+import {Text, View, TouchableOpacity, ScrollView, StyleSheet} from "react-native";
 import StarReview from "@/components/StarReview";
 import UpcomingEventScroll from "@/components/UpcomingEventScroll";
 import Feather from '@expo/vector-icons/Feather';
 import Entypo from '@expo/vector-icons/Entypo';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { NavigationContainer } from '@react-navigation/native';
-import {BottomTabNavigationOptions, createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import VibeScrollBar from "@/components/VibeScrollBar";
 
 const VenueScreen: React.FC = () => {

@@ -1,5 +1,5 @@
 import Slider from "@react-native-community/slider";
-import {Text, View, Image, Button,Animated, Alert, TouchableOpacity, ScrollView, StyleSheet} from "react-native";
+import {Text, View, StyleSheet} from "react-native";
 
 const VibeScrollBar = ({minTitle = "", maxTitle = ""}) => {
 
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     labelContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        width: 300,  // Matches slider width
+        width: 300, 
       },
       label: {
         fontSize: 14,
@@ -41,10 +41,10 @@ const styles = StyleSheet.create({
         padding: 5,
         borderWidth: 1,
         backgroundColor: '#4B4B4D',
-        borderColor: 'white', // Border color
-        borderRadius: 5, // Rounded corners for the border
-        textAlign: 'center', // Center the text within the border
-        width: 100, // Fixed width for better alignment
+        borderColor: 'white', 
+        borderRadius: 5, 
+        textAlign: 'center', 
+        width: 100, 
       },
   });
 

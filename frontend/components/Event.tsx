@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 
 
-const Event = ({title = "", date = "", time = "", image_path = ""}) => {
+const Event = () => {
   return (
     <View style={styles.container}>
       <Image

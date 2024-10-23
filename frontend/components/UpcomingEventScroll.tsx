@@ -5,7 +5,7 @@ import Event from './Event';
 // Upcoming Event Scroll Bar -> Takes in a list of dictionaries 
 // example dictionary: {"title": "Disco Night", "date": "October 5, 2024", "time": "9pm", "image_path": "/image/this_image.jpg"}
 
-const UpcomingEventScroll = ({ UpcomingEventDict = [] }) => {
+const UpcomingEventScroll = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.scrollContainer}>
@@ -16,7 +16,7 @@ const UpcomingEventScroll = ({ UpcomingEventDict = [] }) => {
         >
           {Array.from({ length: 10 }, (_, index) => (
             <View key={index} style={styles.item}>
-              <Event title="" date="" time="" image_path="" />
+              <Event/>
             </View>
           ))}
         </ScrollView>
