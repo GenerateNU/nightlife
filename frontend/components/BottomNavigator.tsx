@@ -40,7 +40,7 @@ const createScreenOptions = (label: string, iconName: keyof (typeof MaterialComm
 export function BottomNavigator() {
     return (
         <Tab.Navigator initialRouteName="Home" screenOptions={bottomTabNavOptions}>
-            <Tab.Screen name="Home" component={VenueScreen} options={createScreenOptions("Home", "home")}/>
+            <Tab.Screen name="Home" component={HomeScreen} options={createScreenOptions("Home", "home")}/>
             <Tab.Screen name="Browse" component={SearchScreen} options={createScreenOptions("Search", "magnify")}/>
             <Tab.Screen name="Updates" component={UpdatesScreen} options={createScreenOptions("Updates", "bell")}/>
             <Tab.Screen name="Profile" component={ProfileScreen} options={createScreenOptions("Profile", "account-circle")}/>

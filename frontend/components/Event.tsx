@@ -26,11 +26,12 @@ const styles = StyleSheet.create({
   },
   eventImage: {
     width: 200, 
-    height: 200
+    height: 150,
+    borderRadius: 10
   },
   overlay: {
     position: 'absolute',
-    top: 100,
+    top: 80,
     left: 0,
     right: 0,
     bottom: 30,
@@ -55,7 +56,8 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
     paddingLeft: 4,
-    paddingBottom: 4
+    paddingBottom: 4,
+    paddingTop: 4
   },
 });
 

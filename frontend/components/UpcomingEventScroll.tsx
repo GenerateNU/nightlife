@@ -28,24 +28,24 @@ const UpcomingEventScroll = ({ UpcomingEventDict = [] }) => {
 const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   scrollContainer: {
-    width: 450,
-    height: 200, 
+    width: 360,
+    height: 180
   },
   scrollView: {
     paddingVertical: 20,
-    paddingRight: 10, 
+    paddingRight: 10
   },
   item: {
-    width: 200, 
-    height: 200, 
+    width: 150, 
+    height: 150, 
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#f0f0f0',
-    marginHorizontal: 5, 
-    borderRadius: 10
+    marginHorizontal: 30, 
+    borderRadius: 100
   },
 });
 

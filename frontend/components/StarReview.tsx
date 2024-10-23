@@ -6,7 +6,7 @@ const StarReview = ({size = 15, review = 4}) => {
     return (
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
         {Array.from({ length: review }, (_, index) => (
-            <AntDesign key={index} name="star" size={size} />
+            <AntDesign key={index} name="star" size={size} color="white"/>
         ))}
         </View>
     )

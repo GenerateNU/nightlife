@@ -1,0 +1,51 @@
+import Slider from "@react-native-community/slider";
+import {Text, View, Image, Button,Animated, Alert, TouchableOpacity, ScrollView, StyleSheet} from "react-native";
+
+const VibeScrollBar = ({minTitle = "", maxTitle = ""}) => {
+
+    return(
+    <View style={styles.container}>
+        <Slider 
+            style={{ width: 350, height: 40}}
+            minimumValue={0}
+            thumbTintColor="white"
+            minimumTrackTintColor="white"
+            maximumTrackTintColor="gray"/>
+        <View style={styles.labelContainer}>
+            <Text style={styles.label}>{minTitle}</Text>
+            <Text style={styles.label}>{maxTitle}</Text>
+        </View>
+    </View>)
+}
+
+const styles = StyleSheet.create({
+    container: {
+      alignItems: 'center',
+    },
+    title: {
+      fontSize: 18,
+      marginBottom: 10,
+    },
+    slider: {
+      width: 300,
+      height: 40,
+    },
+    labelContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: 300,  // Matches slider width
+      },
+      label: {
+        fontSize: 14,
+        color: 'white',
+        padding: 5,
+        borderWidth: 1,
+        backgroundColor: '#4B4B4D',
+        borderColor: 'white', // Border color
+        borderRadius: 5, // Rounded corners for the border
+        textAlign: 'center', // Center the text within the border
+        width: 100, // Fixed width for better alignment
+      },
+  });
+
+export default VibeScrollBar;
