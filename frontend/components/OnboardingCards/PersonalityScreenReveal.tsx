@@ -1,13 +1,11 @@
 import React from "react";
 import {
-  View,
   Text,
   StyleSheet,
   TouchableOpacity,
   ScrollView,
   Image,
 } from "react-native";
-import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 
 

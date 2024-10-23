@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { Text, FlatList, TouchableOpacity, View } from 'react-native';
 import { styles } from './styles';
-import { NavigationProp, useNavigation } from '@react-navigation/native'; 
-import ProgressBar from './ProgressBar'; 
+import { NavigationProp, useNavigation } from '@react-navigation/native';  
 
 export type RootStackParamList = {
   NightlifePreference: undefined; 
