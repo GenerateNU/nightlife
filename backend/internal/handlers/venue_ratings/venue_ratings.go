@@ -3,6 +3,7 @@ package venueratings
 import (
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
@@ -31,4 +32,26 @@ func (s *Service) GetAllVenueRatings(c *fiber.Ctx) error {
 
 	return c.Status(http.StatusOK).JSON(VenueRatings)
 
+}
+
+
+func (s *Service) DeleteReviewForVenue(c *fiber.Ctx) error {
+
+    parsedID, err := strconv.ParseInt(c.Params("reviewId"), 10, 8)
+	reviewIDFormatted := int8(parsedID)
+
+	if err != nil {
+		c.Status(http.StatusInternalServerError)
+		return err
+	}
+
+    // Call the store's DeleteReviewForVenue function with reviewId
+    err = s.store.DeleteReviewForVenue(c.Context(), reviewIDFormatted)
+
+	if err != nil {
+		c.Status(http.StatusInternalServerError)
+		return err
+	}
+
+    return c.Status(fiber.StatusOK).JSON(fiber.Map{"message": "Deleted review for venue"})
 }
