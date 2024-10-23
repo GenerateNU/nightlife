@@ -26,9 +26,9 @@ const LoginStack = () => {
         options={{
           title: "Nightlife 🌃",
           headerStyle: {
-            backgroundColor: '#111729',
+            backgroundColor: "#111729",
           },
-          headerTintColor: '#fff',
+          headerTintColor: "#fff",
         }}
       />
     </Stack.Navigator>
@@ -37,53 +37,112 @@ const LoginStack = () => {
 
 const OnboardingStack = () => {
   return (
-      <Stack.Navigator initialRouteName="SplashScreen">
-          <Stack.Screen 
-              name="SplashScreen" 
-              component={SplashScreen} 
-              options={{ headerShown: false }}  
-          />
-          <Stack.Screen 
-              name="NightlifePreference" 
-              component={NightlifePreference} 
-              options={{ headerShown: false }}  
-          />
-          <Stack.Screen 
-              name="CrowdAndFrequencyPreference" 
-              component={CrowdAndFrequencyPreference} 
-              options={{ headerShown: false }}   
-          />
-          <Stack.Screen 
-              name="AddPhoto" 
-              component={AddPhoto} 
-              options={{ headerShown: false }}  
-          />
-          <Stack.Screen 
-              name="MusicPreference" 
-              component={MusicPreferences} 
-              options={{ headerShown: false }}  
-          />
-          <Stack.Screen 
-              name="HowFarFromYou" 
-              component={HowFarFromYou} 
-              options={{ headerShown: false }}  
-          />
-          <Stack.Screen 
-              name="PersonalityScreenReveal" 
-              component={PersonalityScreenReveal} 
-              options={{ headerShown: false }}  
-          />
-          <Stack.Screen 
-              name="PersonalityScreenReveal2" 
-              component={PersonalityScreenReveal2} 
-              options={{ headerShown: false }}  
-          />
-          <Stack.Screen 
-              name="BottomNavigator" 
-              component={BottomNavigator} 
-              options={{ headerShown: false }} 
-          />
-      </Stack.Navigator>
+    <Stack.Navigator initialRouteName="SplashScreen">
+      <Stack.Screen
+        name="SplashScreen"
+        component={SplashScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="NightlifePreference"
+        component={NightlifePreference}
+        options={{
+          title: "Nightlife Pref",
+          headerStyle: {
+            backgroundColor: "#111729",
+          },
+          headerTintColor: "#fff",
+        }}
+      />
+      <Stack.Screen
+        name="CrowdAndFrequencyPreference"
+        component={CrowdAndFrequencyPreference}
+        options={{
+          title: "Crowd Pref",
+          headerStyle: {
+            backgroundColor: "#111729",
+          },
+          headerTintColor: "#fff",
+        }}
+      />
+      <Stack.Screen
+        name="AddPhoto"
+        component={AddPhoto}
+        options={{
+          title: "Add Photo",
+          headerStyle: {
+            backgroundColor: "#111729",
+          },
+          headerTintColor: "#fff",
+        }}
+      />
+      <Stack.Screen
+        name="HowFarFromYou"
+        component={HowFarFromYou}
+        options={{
+          title: "Distance Pref",
+          headerStyle: {
+            backgroundColor: "#111729",
+          },
+          headerTintColor: "#fff",
+        }}
+      />
+      <Stack.Screen
+        name="PersonalityScreenReveal"
+        component={PersonalityScreenReveal}
+        options={{
+          title: "Personality 2",
+          headerStyle: {
+            backgroundColor: "#111729",
+          },
+          headerTintColor: "#fff",
+        }}
+      />
+      <Stack.Screen
+        name="PersonalityScreenReveal2"
+        component={PersonalityScreenReveal2}
+        options={{
+          title: "Personality",
+          headerStyle: {
+            backgroundColor: "#111729",
+          },
+          headerTintColor: "#fff",
+        }}
+      />
+      <Stack.Screen
+        name="BottomNavigator"
+        component={BottomNavigator}
+        options={{
+          title: "Nightlife 🌃",
+          headerStyle: {
+            backgroundColor: "#111729",
+          },
+          headerTintColor: "#fff",
+        }}
+      />
+      <Stack.Screen
+        name="MusicPreference"
+        component={MusicPreferences}
+        options={{
+          title: "Music Pref",
+          headerStyle: {
+            backgroundColor: "#111729",
+          },
+          headerTintColor: "#fff",
+        }}
+      />
+      <Stack.Screen
+        name="BottomNavigator"
+        component={BottomNavigator}
+        options={{
+          title: "Nightlife 🌃",
+          headerStyle: {
+            backgroundColor: "#111729",
+          },
+          headerTintColor: "#fff",
+        }}
+      />
+    </Stack.Navigator>
   );
 };
 

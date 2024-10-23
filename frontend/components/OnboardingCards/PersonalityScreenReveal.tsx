@@ -29,9 +29,8 @@ const PersonalityPreference: React.FC = () => {
 
       <Image
         style={styles.pieChartContainer}
-        source={{ uri: 'https://i.ibb.co/4K0YbPp/image-2.png' }}
+        source={{ uri: "https://i.ibb.co/QcjgwmV/image-2.png" }}
       />
-
 
       <Text style={styles.personalityName}>Hip hop lover</Text>
 
@@ -41,7 +40,7 @@ const PersonalityPreference: React.FC = () => {
       </Text>
 
       <TouchableOpacity
-        onPress={() => navigation.navigate('AddPhoto')}
+        onPress={() => navigation.navigate("AddPhoto")}
         style={styles.skipButton}
       >
         <Text style={styles.skipButtonText}>SKIP</Text>
@@ -88,6 +87,8 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   pieChartContainer: {
+    width: 300, 
+    height: 300, 
     marginBottom: 20,
   },
   attributesContainer: {
