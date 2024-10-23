@@ -1,5 +1,5 @@
 import { NavigationContainer } from '@react-navigation/native';
-import { BottomNavigator } from "@/components/BottomNavigator";
+import { BottomNavigator } from "@/navigation/BottomNavigator";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from "@/screens/LoginScreen";
 import { AuthProvider, useAuth } from "@/context/AuthContext";
