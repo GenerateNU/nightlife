@@ -1,17 +1,30 @@
 import React, { useState } from 'react';
-import { ScrollView, Text, View, StyleSheet, Dimensions, Modal, TouchableOpacity, TextInput, Button } from 'react-native';
+import { ScrollView, Text, View, StyleSheet, Dimensions, Modal, TouchableOpacity, TextInput } from 'react-native';
 import ProfileButtons from '@/components/Buttons/ProfileButtons';
 import ProfileVenueCard from '@/components/VenueCards/ProfileVenueCard';
 import ProfileTabButton from '@/components/Buttons/ProfileTabButton';
+
+import userAddIcon from '@/assets/user-add.png';
+import venuesIcon from '@/assets/venues.png';
+import bookmarkIcon from '@/assets/bookmark.png';
+
+import { Image } from 'react-native';
 
 const { width } = Dimensions.get('window');
 
 // Function to scale size based on the screen width
 const scaleSize = (size: number) => (width / 375) * size;
 
+enum ProfileTabs {
+    Friends = 'Friends',
+    Bookmarks = 'Bookmarks',
+    Venues = 'Venues',
+}
+
 const ProfileScreen: React.FC = () => {
     const [isModalVisible, setModalVisible] = useState(false); 
     const [isEditModalVisible, setEditModalVisible] = useState(false); 
+    const [activeTab, setActiveTab] = useState(ProfileTabs.Friends);
 
     // Function to toggle modal visibility
     const toggleModal = () => {
@@ -27,16 +40,15 @@ const ProfileScreen: React.FC = () => {
         <View style={styles.container}>
             {/* Profile Header */}
             <View style={styles.headerContainer}>
-                <View style={styles.profileImagePlaceholder} />
-                <Text style={styles.username}>@username</Text>
-                <Text style={styles.name}>name</Text>
+                <Image style={styles.profileImagePlaceholder} source={{ uri: "https://www.shutterstock.com/image-photo/head-shot-portrait-close-smiling-600nw-1714666150.jpg"}} />
+                <Text style={styles.username}>@jondoe-neu</Text>
+                <Text style={styles.name}>Jonathan Doe</Text>
             </View>
 
             {/* Friends Count */}
             <View style={styles.friendsContainer}>
-                <View style={styles.friendsButton}>
-                    <Text style={styles.friendsText}>[#] friends</Text>
-                </View>
+                <Text style={styles.friendsText}>22 friends</Text>
+                <Text style={styles.friendsText}>16 followers</Text>
             </View>
 
             {/* Profile Buttons */}
@@ -45,23 +57,35 @@ const ProfileScreen: React.FC = () => {
                 <ProfileButtons onPress={toggleModal} title="share profile" /> 
             </View>
 
-            <Text style={styles.bioText}>bio</Text>
+            <View style={styles.bioContainer}>
+                <Text style={styles.bioText}>
+                    This is a very interesting bio that tells you a lot about this user... at least, I think so.
+                </Text>
+            </View>
 
             {/* Tab Navigation */}
             <View style={styles.tabsContainer}>
-                <ProfileTabButton onPress={() => {}} icon={require('@/assets/favicon.png')} />
-                <ProfileTabButton onPress={() => {}} icon={require('@/assets/favicon.png')} />
-                <ProfileTabButton onPress={() => {}} icon={require('@/assets/favicon.png')} />
+                <ProfileTabButton onPress={() => setActiveTab(ProfileTabs.Friends)} icon={userAddIcon} />
+                <ProfileTabButton onPress={() => setActiveTab(ProfileTabs.Venues)} icon={venuesIcon} />
+                <ProfileTabButton onPress={() => setActiveTab(ProfileTabs.Bookmarks)} icon={bookmarkIcon} />
             </View>
 
             {/* Venue List */}
-            <ScrollView style={{ marginTop: 20 }}>
-                <View style={styles.venueListContainer}>
-                    <ProfileVenueCard title="Awesome Venue" distance="5.3" rating="4.5 ★" />
-                    <ProfileVenueCard title="Rock Concert" distance="2.7" rating="4.8 ★" />
-                    <ProfileVenueCard title="No Image Venue" distance="6.2" rating="4.2 ★" />
-                    <ProfileVenueCard title="Venue 4" distance="7.1" rating="4.0 ★" />
-                </View>
+            <ScrollView style={{ marginTop: 12 }}>
+                {activeTab === ProfileTabs.Friends && (
+                    <View style={styles.venueListContainer}>
+                        <ProfileVenueCard title="Club Passim" distance="1.3" rating="4.5 ★ (329)" image={{uri: "https://media.istockphoto.com/id/1464613492/photo/empty-music-venue-with-stage-and-bar.jpg?s=612x612&w=0&k=20&c=s8Vu1K0MLYN1FAn3_WpmrlKscl8L03v8jtn4AHMjZcU="}}/>
+                        <ProfileVenueCard title="Lizard Lounge" distance="2.7" rating="4.8 ★ (112)" image={{uri: "https://media.istockphoto.com/id/1464613492/photo/empty-music-venue-with-stage-and-bar.jpg?s=612x612&w=0&k=20&c=s8Vu1K0MLYN1FAn3_WpmrlKscl8L03v8jtn4AHMjZcU="}}/>
+                        <ProfileVenueCard title="Concord Hall" distance="6.2" rating="4.2 ★ (1.2k)" image={{uri: "https://media.istockphoto.com/id/1464613492/photo/empty-music-venue-with-stage-and-bar.jpg?s=612x612&w=0&k=20&c=s8Vu1K0MLYN1FAn3_WpmrlKscl8L03v8jtn4AHMjZcU="}}/>
+                        <ProfileVenueCard title="Blue Moon" distance="0.1" rating="4.0 ★ (59)" image={{uri: "https://media.istockphoto.com/id/1464613492/photo/empty-music-venue-with-stage-and-bar.jpg?s=612x612&w=0&k=20&c=s8Vu1K0MLYN1FAn3_WpmrlKscl8L03v8jtn4AHMjZcU="}}/>
+                    </View>
+                )}
+                {activeTab === ProfileTabs.Bookmarks && (
+                    <Text style={{ color: '#fff', textAlign: 'center', marginTop: 20 }}>Bookmarks</Text>
+                )}
+                {activeTab === ProfileTabs.Venues && (
+                    <Text style={{ color: '#fff', textAlign: 'center', marginTop: 20 }}>Venues</Text>
+                )}
             </ScrollView>
 
             {/* Share Profile Modal */}
@@ -164,7 +188,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#1c1c1c',
-        paddingTop: scaleSize(40),
+        paddingTop: scaleSize(20),
         alignItems: 'center',
     },
     headerContainer: {
@@ -187,10 +211,10 @@ const styles = StyleSheet.create({
         fontSize: scaleSize(16),
     },
     friendsContainer: {
+        marginVertical: scaleSize(10),
         flexDirection: 'row',
         alignItems: 'center',
-        marginTop: scaleSize(10),
-        marginBottom: scaleSize(10),
+        gap: scaleSize(14)
     },
     friendsButton: {
         backgroundColor: '#444',
@@ -207,25 +231,30 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-around',
         width: '80%',
-        marginTop: scaleSize(15),
+        marginTop: scaleSize(0),
+        gap: scaleSize(16),
+    },
+    bioContainer: {
+        marginVertical: scaleSize(8),
+        marginHorizontal: scaleSize(26),
+        padding: scaleSize(12),
+        backgroundColor: '#333',
+        borderRadius: scaleSize(10),
     },
     bioText: {
         color: '#fff',
-        marginTop: scaleSize(10),
-        marginBottom: scaleSize(20),
         fontSize: scaleSize(16),
     },
     tabsContainer: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
-        width: '80%',
-        marginTop: scaleSize(10),
+        justifyContent: 'center',
+        width: '88%',
     },
     venueListContainer: {
         flexDirection: 'row',
         flexWrap: 'wrap',
         justifyContent: 'space-between',
-        padding: scaleSize(16),
+        paddingHorizontal: scaleSize(15),
     },
     modalContainer: {
         flex: 1,

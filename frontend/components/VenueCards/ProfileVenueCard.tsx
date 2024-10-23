@@ -1,14 +1,11 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, Dimensions, ImageSourcePropType } from 'react-native';
 
-// Get screen width for dynamic sizing
 const { width } = Dimensions.get('window');
-
-// A function to scale size values dynamically based on screen width
 const scaleSize = (size: number) => (width / 375) * size;
 
 interface ProfileVenueCardProps {
-    image?: ImageSourcePropType; // Optional image source
+    image?: ImageSourcePropType; 
     title: string;
     distance: string;
     rating: string;
@@ -17,7 +14,7 @@ interface ProfileVenueCardProps {
 const ProfileVenueCard: React.FC<ProfileVenueCardProps> = ({ image, title, distance, rating }) => {
     return (
         <View style={styles.card}>
-            {/* Image section */}
+
             <View style={styles.imageContainer}>
                 {image ? (
                     <Image source={image} style={styles.image} />
@@ -28,15 +25,9 @@ const ProfileVenueCard: React.FC<ProfileVenueCardProps> = ({ image, title, dista
                 )}
             </View>
 
-            {/* Text Section */}
             <View style={styles.infoContainer}>
-                {/* Title */}
                 <Text style={styles.title}>{title}</Text>
-
-                {/* Distance */}
                 <Text style={styles.distance}>{distance} mi</Text>
-
-                {/* Rating */}
                 <Text style={styles.rating}>{rating}</Text>
             </View>
         </View>
@@ -45,14 +36,14 @@ const ProfileVenueCard: React.FC<ProfileVenueCardProps> = ({ image, title, dista
 
 const styles = StyleSheet.create({
     card: {
-        width: (width / 2.2) - scaleSize(16), // 48% of the screen width minus margins
+        width: (width / 2.2) - scaleSize(14),
         backgroundColor: '#4f4f4f',
         borderRadius: 8,
         overflow: 'hidden',
-        margin: scaleSize(8), // Dynamic margin between cards
+        margin: scaleSize(8),
     },
     imageContainer: {
-        height: width * 0.3, // Dynamic height based on screen width (30% of screen width)
+        height: width * 0.3,
         backgroundColor: '#000',
     },
     image: {

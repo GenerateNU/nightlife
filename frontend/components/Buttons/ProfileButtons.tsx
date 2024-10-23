@@ -31,10 +31,10 @@ const ProfileButton: React.FC<ProfileButtonProps> = ({ onPress, title, buttonSty
 
 const styles = StyleSheet.create({
     button: {
-        backgroundColor: '#000', // Default background color
-        paddingVertical: scaleSize(12.8), // Scaled padding
-        paddingHorizontal: scaleSize(48), // Scaled padding for width
-        borderRadius: scaleSize(99), // Scaled border radius for rounded edges
+        backgroundColor: '#333', // Default background color
+        paddingVertical: scaleSize(12), // Scaled padding
+        paddingHorizontal: scaleSize(0), // Scaled padding for width
+        borderRadius: scaleSize(6), // Scaled border radius for rounded edges
         borderWidth: 2, // Static 2px border
         borderColor: 'transparent', // No visible border
         alignItems: 'center',
@@ -45,8 +45,7 @@ const styles = StyleSheet.create({
         color: '#fff', // White text color
         textTransform: 'uppercase', // Uppercase text
         fontWeight: '900', // Bold font
-        fontSize: scaleSize(10), // Scaled font size
-        fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif', // System fonts
+        fontSize: scaleSize(12), // Scaled font size
     },
     buttonPressed: {
         backgroundColor: '#0056b3', // Darker blue when pressed

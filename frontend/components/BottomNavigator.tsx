@@ -11,21 +11,23 @@ const Tab = createBottomTabNavigator();
 
 const bottomTabNavOptions: BottomTabNavigationOptions = {
     tabBarStyle: {
-        backgroundColor: '#111729',
+        backgroundColor: '#1c1c1c',
         height: 100,
         paddingVertical: 3,
+        borderTopWidth: 0,
     },
-    tabBarLabelStyle: {
-        paddingBottom: 8,
-    },
+    tabBarShowLabel: false,
     tabBarIconStyle: {
-        marginTop: 8,
+        marginTop: 4,
     },
     headerStyle: {
-        backgroundColor: '#111729',
+        backgroundColor: '#0ea5e9',
+        shadowColor: 'transparent',
+        height: 64,
     },
+    headerTitle: "",
     headerTintColor: '#fff',
-    tabBarActiveTintColor: '#4ba3e3',
+    tabBarActiveTintColor: '#0ea5e9',
 }
 
 const createScreenOptions = (label: string, iconName: keyof (typeof MaterialCommunityIcons.glyphMap)): BottomTabNavigationOptions => ({

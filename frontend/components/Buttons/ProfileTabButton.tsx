@@ -35,12 +35,11 @@ const styles = StyleSheet.create({
     tab: {
         backgroundColor: '#333',
         paddingVertical: scaleSize(10), // Dynamically scale padding
-        paddingHorizontal: scaleSize(20), // Dynamically scale padding
-        borderRadius: scaleSize(10), // Dynamically scale border radius
+        borderRadius: scaleSize(8), // Dynamically scale border radius
         marginHorizontal: scaleSize(5), // Dynamically scale margins
         alignItems: 'center',
-        justifyContent: 'center',
-        width: width * 0.2, // Adjust width (20% of screen width)
+        width: scaleSize(100), // Adjust width (20% of screen width)
+        gap: 5, // Dynamically scale gap between icon and text
     },
     tabActive: {
         backgroundColor: '#000', // Darker background for active tab
