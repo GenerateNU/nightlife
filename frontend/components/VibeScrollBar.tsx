@@ -1,5 +1,6 @@
 import Slider from "@react-native-community/slider";
 import {Text, View, StyleSheet} from "react-native";
+import PropTypes from 'prop-types';
 
 const VibeScrollBar = ({minTitle = "", maxTitle = ""}) => {
 
@@ -17,6 +18,11 @@ const VibeScrollBar = ({minTitle = "", maxTitle = ""}) => {
         </View>
     </View>)
 }
+
+VibeScrollBar.propTypes = {
+  minTitle: PropTypes.string.isRequired, // Add prop validation here
+  maxTitle: PropTypes.string.isRequired
+};
 
 const styles = StyleSheet.create({
     container: {

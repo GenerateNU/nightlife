@@ -2,8 +2,13 @@ import React from "react";
 import {Text, View, TouchableOpacity, StyleSheet } from "react-native";
 import { StackNavigationProp  } from '@react-navigation/stack';
 
+type RootStackParamList = {
+    Home: undefined;   // If Home screen doesn't take any parameters
+    Venue: undefined;  // If Venue screen doesn't take any parameters
+};
+
 type HomeScreenProps = {
-    navigation: StackNavigationProp<any, any>; // Adjust as necessary based on your stack
+    navigation: StackNavigationProp<RootStackParamList, 'Home'>; // Adjust as necessary based on your stack
 };
 
 const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
