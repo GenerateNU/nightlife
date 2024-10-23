@@ -29,7 +29,7 @@ const LoginForm = () => {
     try {
       // to be replaced with API_DOMAIN from .env
       const res = await fetch(
-        `https://ringtail-winning-shark.ngrok-free.app/auth/login`,
+        `http://127.0.0.1:8080/auth/login`,
         {
           method: "POST",
           headers: {

@@ -2,19 +2,8 @@ import React, { useState, useEffect } from "react";
 import { View, StyleSheet } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import SearchBar from "@/components/SearchBar";
-import { BEARER } from "@env";
-
-interface Venue {
-  venue_id: string;
-  name: string;
-  address: string;
-  city: string;
-  state: string;
-  zipcode: string;
-  longitude: number;
-  latitude: number;
-  created_at: string;
-}
+import { BEARER, API_DOMAIN } from "@env";
+import { Venue } from "@/types/Venue";
 
 const MapScreen: React.FC = () => {
   const [allVenues, setAllVenues] = useState<Venue[]>([]);
@@ -22,7 +11,7 @@ const MapScreen: React.FC = () => {
   const getAllVenues = async (): Promise<Venue[] | null> => {
     try {
       const res = await fetch(
-        `https://ringtail-winning-shark.ngrok-free.app/venues/getAll`,
+        `${API_DOMAIN}/venues/getAll`,
         {
           method: "GET",
           headers: {
