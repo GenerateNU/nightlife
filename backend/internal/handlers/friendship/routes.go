@@ -1,7 +1,6 @@
 package friendship
 
 import (
-	//"github.com/GenerateNU/nightlife/internal/auth"
 	"github.com/GenerateNU/nightlife/internal/types"
 	"github.com/gofiber/fiber/v2"
 )
@@ -13,9 +12,8 @@ func Routes(app *fiber.App, params types.Params) {
 
 	//create a grouping
 	protected := app.Group("/friendships")
-	//.Use(auth.Protected(&params.Supabase))
 
 	//create a route
-	protected.Post("/api/friendship", service.CreateFriendship)
+	protected.Post("/add-friend", service.CreateFriendship)
 
 }
