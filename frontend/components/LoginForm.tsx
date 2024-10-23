@@ -21,7 +21,7 @@ const LoginForm = () => {
         // console.log('sending request...');
 
         try {
-            const res = await fetch(`https://miserably-select-sheepdog.ngrok-free.app/auth/login`, {
+            const res = await fetch(`http://127.0.0.1:8080/auth/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -56,7 +56,7 @@ const LoginForm = () => {
     const fetchUserProfile = async (email: string, token: string) => {
         email = email.toLowerCase();
         try {
-            const res = await fetch(`https://miserably-select-sheepdog.ngrok-free.app/profiles/${email}`, {
+            const res = await fetch(`http://127.0.0.1:8080/profiles/${email}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'application/json',
