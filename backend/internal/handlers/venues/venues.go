@@ -141,6 +141,7 @@ func (s *Service) GetVenueFromName(c *fiber.Ctx) error {
 func (s *Service) GetAllVenues(c *fiber.Ctx) error {
 	venues, err := s.store.GetAllVenues(c.Context())
 	if err != nil {
+		fmt.Println(err.Error())
 		return fiber.NewError(fiber.StatusInternalServerError, "Could not get venue")
 	}
 	return c.Status(fiber.StatusOK).JSON(venues)
