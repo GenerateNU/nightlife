@@ -69,4 +69,4 @@ backend-build:
 .PHONY: backend-ngrok
 backend-ngrok:
 	@echo ${EXPO_PUBLIC_API_DOMAIN}
-	cd backend && ngrok http --domain=${EXPO_PUBLIC_API_DOMAIN} 8080
+	cd backend && ngrok http --url=${EXPO_PUBLIC_API_DOMAIN} 8080
