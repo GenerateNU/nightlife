@@ -1,38 +1,54 @@
-import React from 'react';
-import { View, TextInput, StyleSheet } from 'react-native';
-
+import React from "react";
+import { View, TextInput, StyleSheet } from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 const SearchBar = () => {
-    const [searchText, setSearchText] = React.useState('');
+  const [searchText, setSearchText] = React.useState("");
 
-    return (
-        <View style={styles.searchContainer}>
-            <TextInput
-                style={styles.searchInput}
-                placeholder="Search location"  
-                placeholderTextColor="#999"  
-                value={searchText}
-                onChangeText={setSearchText}
-            />
-        </View>
-    );
+  return (
+    <View style={styles.searchContainer}>
+      <MaterialCommunityIcons
+        name="magnify"
+        size={20}
+        color="#aaa"
+        style={styles.searchIcon}
+      />
+      <TextInput
+        style={styles.searchInput}
+        placeholder="Search location"
+        placeholderTextColor="#aaa"
+        value={searchText}
+        onChangeText={setSearchText}
+      />
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
-    searchContainer: {
-        padding: 10,
-        backgroundColor: '#fff',
-        width: '100%',
-        position: 'absolute',
-        top: 0,
-        zIndex: 1,
-    },
-    searchInput: {
-        height: 40,
-        borderColor: '#ccc',
-        borderWidth: 1,
-        borderRadius: 5,
-        paddingLeft: 10,
-    },
+  searchContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 10,
+    backgroundColor: "#333",
+    width: "100%",
+    position: "absolute",
+    top: 0,
+    zIndex: 1,
+    borderBottomWidth: 1,
+    borderBottomColor: "#555",
+  },
+  searchIcon: {
+    paddingRight: 10,
+  },
+  searchInput: {
+    flex: 1,
+    height: 40,
+    borderColor: "#555",
+    borderWidth: 1,
+    borderRadius: 10,
+    paddingLeft: 10,
+    color: "#fff",
+    backgroundColor: "#444",
+  },
 });
 
 export default SearchBar;

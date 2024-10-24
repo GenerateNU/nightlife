@@ -2,13 +2,20 @@ import React, { useState, useEffect } from "react";
 import { View, StyleSheet } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import SearchBar from "@/components/SearchBar";
-import { BEARER, API_DOMAIN } from "@env";
+import { API_DOMAIN } from "@env";
 import { Venue } from "@/types/Venue";
+import { useAuth } from "@/context/AuthContext";
 
 const MapScreen: React.FC = () => {
   const [allVenues, setAllVenues] = useState<Venue[]>([]);
+  const { accessToken } = useAuth();
 
   const getAllVenues = async (): Promise<Venue[] | null> => {
+    if (!accessToken) {
+      console.log("No access token available");
+      return null;
+    }
+
     try {
       const res = await fetch(
         `${API_DOMAIN}/venues/getAll`,
@@ -16,7 +23,7 @@ const MapScreen: React.FC = () => {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${BEARER}`,
+            Authorization: `Bearer ${accessToken}`,
           },
         }
       );
@@ -41,7 +48,7 @@ const MapScreen: React.FC = () => {
         console.log("Unable to get all venues");
       }
     });
-  }, []);
+  }, [accessToken]);
 
   return (
     <View style={styles.container}>
@@ -55,6 +62,7 @@ const MapScreen: React.FC = () => {
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         }}
+        userInterfaceStyle='dark'
       >
         {allVenues.length > 0 &&
           allVenues.map((v) => (
