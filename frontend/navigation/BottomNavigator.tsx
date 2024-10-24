@@ -6,6 +6,7 @@ import UpdatesScreen from "@/screens/UpdatesScreen";
 import ProfileScreen from "@/screens/ProfileScreen";
 import SettingsScreen from "@/screens/SettingsScreen";
 import MapScreen from '@/screens/MapScreen';
+import VenueScreen from '@/screens/VenueScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -46,6 +47,7 @@ export function BottomNavigator() {
             <Tab.Screen name="Updates" component={UpdatesScreen} options={createScreenOptions("Updates", "bell")}/>
             <Tab.Screen name="Profile" component={ProfileScreen} options={createScreenOptions("Profile", "account-circle")}/>
             <Tab.Screen name="Settings" component={SettingsScreen} options={createScreenOptions("Settings", "cog")}/>
+            <Tab.Screen name="Venue" component={VenueScreen} options={createScreenOptions("VenueEx", "cog")}/>
         </Tab.Navigator>
     );
 }
