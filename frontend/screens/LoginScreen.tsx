@@ -1,6 +1,7 @@
 import {StyleSheet, View} from "react-native";
 import LoginForm from "@/components/LoginForm";
 import {StatusBar} from "expo-status-bar";
+import React from "react";
 
 const LoginScreen = () => {
     return (
