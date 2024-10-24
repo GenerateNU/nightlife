@@ -6,34 +6,25 @@ import {
   ScrollView,
   Image,
 } from "react-native";
-import { NavigationProp, useNavigation } from '@react-navigation/native';
-
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 
 export type RootStackParamList = {
-  PersonalityScreenReveal: undefined; 
-  AddPhoto: undefined; 
-}
+  PersonalityScreenReveal: undefined;
+  AddPhoto: undefined;
+};
 
 const PersonalityPreference: React.FC = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <TouchableOpacity
-        onPress={() => navigation.goBack()}
-        style={styles.backButton}
-      >
-        <Text style={styles.backButtonText}>Back</Text>
-      </TouchableOpacity>
       <Text style={styles.header}>Your party personality type is...</Text>
 
       <Image
         style={styles.pieChartContainer}
         source={{ uri: "https://i.ibb.co/QcjgwmV/image-2.png" }}
       />
-
       <Text style={styles.personalityName}>Hip hop lover</Text>
-
       <Text style={styles.description}>
         You love vibrant parties with lots of dancing and energetic music. Your
         energy is best matched with the hip hop scene.
@@ -87,8 +78,8 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   pieChartContainer: {
-    width: 300, 
-    height: 300, 
+    width: 300,
+    height: 300,
     marginBottom: 20,
   },
   attributesContainer: {
