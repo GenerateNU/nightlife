@@ -18,7 +18,7 @@ Gets a user profile by a column, (username, id, or email).
 func (db *DB) GetProfileByColumn(ctx context.Context, column string, value string) (models.Profile, error) {
 	var profile models.Profile
 	var query = fmt.Sprintf(`
-		SELECT user_id, first_name, username, email, age, location, profile_picture_url, created_at
+		SELECT user_id, first_name, username, email, age, location, created_at
 		FROM users
 		WHERE %s = $1`, column)
 
@@ -31,7 +31,6 @@ func (db *DB) GetProfileByColumn(ctx context.Context, column string, value strin
 		&profile.Email,
 		&profile.Age,
 		&profile.Location,
-		&profile.ProfilePictureURL,
 		&profile.CreatedAt,
 	)
 
