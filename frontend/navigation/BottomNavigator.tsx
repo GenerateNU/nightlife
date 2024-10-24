@@ -9,6 +9,7 @@ import MapScreen from '@/screens/MapScreen';
 
 const Tab = createBottomTabNavigator();
 
+
 const bottomTabNavOptions: BottomTabNavigationOptions = {
     tabBarStyle: {
         backgroundColor: '#1c1c1c',
