@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { API_DOMAIN } from "@env";
 import {
   View,
   TextInput,
@@ -27,7 +28,7 @@ const LoginForm = () => {
         // console.log('sending request...');
 
         try {
-            const res = await fetch(`http://127.0.0.1:8080/auth/login`, {
+            const res = await fetch(`${API_DOMAIN}/auth/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
