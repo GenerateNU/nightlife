@@ -23,10 +23,10 @@ type Test interface {
 }
 
 type Profile interface {
-    CreatePreferences(context.Context, models.Preferences) error
-    UpdateProfilePreferences(context.Context, uuid.UUID, string, string, string, string) error
-    DeleteAccount(context.Context, uuid.UUID) error
-    RemoveFriend(context.Context, uuid.UUID, string) error
+	CreatePreferences(context.Context, models.Preferences) error
+	UpdateProfilePreferences(context.Context, uuid.UUID, string, string, string, string) error
+	DeleteAccount(context.Context, uuid.UUID) error
+	RemoveFriend(context.Context, uuid.UUID, string) error
 	GetProfileByColumn(context.Context, string, string) (models.Profile, error)
 	GetAllUsers(context.Context) ([]models.Profile, error)
 }
@@ -41,7 +41,7 @@ type Venues interface {
 	GetAllVenueRatings(context.Context, uuid.UUID) ([]models.VenueRatings, error)
 	GetVenueFromID(context.Context, uuid.UUID) (models.Venue, error)
 	GetVenueFromName(context.Context, string) (models.Venue, error)
-	GetAllVenues(ctx context.Context) ([]models.Venue, error) 
+	GetAllVenues(ctx context.Context) ([]models.Venue, error)
 }
 
 type VenueRatings interface {

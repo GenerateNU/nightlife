@@ -76,7 +76,6 @@ func (s *Service) PatchVenueReview(c *fiber.Ctx) error {
 		}
 	}
 
-
 	reviewID, err := c.ParamsInt("reviewId")
 	if err != nil {
 		if handlerErr := errs.ErrorHandler(c, err); handlerErr != nil {
