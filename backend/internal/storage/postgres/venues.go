@@ -34,7 +34,6 @@ func (db *DB) DeleteReviewForVenue(ctx context.Context, reviewID int8) error {
 	return nil
 }
 
-
 func (db *DB) GetVenueReviews(ctx context.Context, reviewID int8, venueID uuid.UUID) ([]models.Review, error) {
 	// Use proper SQL syntax without single quotes around the table name
 	query := `SELECT * FROM "Review" r WHERE review_id = $1 AND venue_id = $2`
@@ -130,5 +129,3 @@ func (db *DB) GetAllVenues(ctx context.Context) ([]models.Venue, error) {
 	defer rows.Close()
 	return pgx.CollectRows(rows, pgx.RowToStructByName[models.Venue])
 }
-
-

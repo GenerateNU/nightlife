@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/GenerateNU/nightlife/internal/errs"
-  "github.com/GenerateNU/nightlife/internal/utils" 
+	"github.com/GenerateNU/nightlife/internal/utils"
 
 	"github.com/GenerateNU/nightlife/internal/models"
 	"github.com/gofiber/fiber/v2"
@@ -112,29 +112,28 @@ GetProfile retrieves a user's profile information by the user's username, email,
 */
 func (s *Service) GetProfile(c *fiber.Ctx) error {
 
-    userIdentifier := c.Params("userIdentifier")
+	userIdentifier := c.Params("userIdentifier")
 
-    var profile models.Profile
-    var err error
+	var profile models.Profile
+	var err error
 
-    if utils.IsEmail(userIdentifier) {
-        // Query by email
-        profile, err = s.store.GetProfileByColumn(c.Context(), "email", userIdentifier)
-    } else if utils.IsUUID(userIdentifier) {
-        // Query by ID
-        profile, err = s.store.GetProfileByColumn(c.Context(), "user_id", userIdentifier)
-    } else {
-        // Query by username
-        profile, err = s.store.GetProfileByColumn(c.Context(), "username", userIdentifier)
-    }
+	if utils.IsEmail(userIdentifier) {
+		// Query by email
+		profile, err = s.store.GetProfileByColumn(c.Context(), "email", userIdentifier)
+	} else if utils.IsUUID(userIdentifier) {
+		// Query by ID
+		profile, err = s.store.GetProfileByColumn(c.Context(), "user_id", userIdentifier)
+	} else {
+		// Query by username
+		profile, err = s.store.GetProfileByColumn(c.Context(), "username", userIdentifier)
+	}
 
-    if err != nil {
-        return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": "profile not found"})
-    }
+	if err != nil {
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": "profile not found"})
+	}
 
-    return c.Status(fiber.StatusOK).JSON(profile)
+	return c.Status(fiber.StatusOK).JSON(profile)
 }
-
 
 /*
 Get All Users
@@ -143,9 +142,9 @@ func (s *Service) GetAllUsers(c *fiber.Ctx) error {
 	// Fetch all users from the store
 	users, err := s.store.GetAllUsers(c.Context())
 	if err != nil {
-		
+
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"error": "Failed to retrieve users",
+			"error":   "Failed to retrieve users",
 			"details": err.Error(),
 		})
 	}
