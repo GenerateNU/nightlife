@@ -10,7 +10,6 @@ import VenueScreen from '@/screens/VenueScreen';
 
 const Tab = createBottomTabNavigator();
 
-
 const bottomTabNavOptions: BottomTabNavigationOptions = {
     tabBarStyle: {
         backgroundColor: '#1c1c1c',

@@ -123,13 +123,7 @@ const OnboardingStack = () => {
       <Stack.Screen
         name="BottomNavigator"
         component={BottomNavigator}
-        options={{
-          title: "Nightlife 🌃",
-          headerStyle: {
-            backgroundColor: "#111729",
-          },
-          headerTintColor: "#fff",
-        }}
+        options={{ headerShown: false }}
       />
     </Stack.Navigator>
   );
