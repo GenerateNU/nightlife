@@ -1,19 +1,11 @@
-import {Button, StyleSheet, View} from "react-native";
+import {Button, StyleSheet, TouchableOpacity, View} from "react-native";
 import LoginForm from "@/components/LoginForm";
 import {StatusBar} from "expo-status-bar";
 import React from "react";
 import {Text} from "react-native";
 import {Image} from "react-native";
 
-import { Archivo_400Regular, Archivo_500Medium, Archivo_700Bold, useFonts } from "@expo-google-fonts/archivo";
-
 const LoginScreen = () => {
-
-    const [fontsLoaded] = useFonts({
-        Archivo_400Regular,
-        Archivo_500Medium,
-        Archivo_700Bold,
-      });
 
     return (
         <View style={styles.container}>
@@ -39,7 +31,9 @@ const LoginScreen = () => {
             </View>
             <View style={{ marginBottom: 40 }} >
                 <Text style={styles.landingText}>Don't have an account just yet?</Text>
-                <Button title="Sign Up" onPress={() => {}} />
+                <TouchableOpacity style={styles.signUpButton} onPress={() => {}}>
+                    <Text style={styles.signUpButtonText}>Sign Up</Text>
+                </TouchableOpacity>
             </View>
             <StatusBar style="light" />
         </View>
@@ -47,6 +41,20 @@ const LoginScreen = () => {
 }
 
 const styles = StyleSheet.create({
+
+    signUpButton: {
+        padding: 6,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#007bff',
+        borderRadius: 8,
+        marginVertical: 8,
+    },
+
+    signUpButtonText: {
+        fontFamily: 'Archivo_500Medium',
+        color: "white"
+    },
 
     guycontainer: {
         flexDirection: 'row',
@@ -71,7 +79,7 @@ const styles = StyleSheet.create({
       },
     landingText: {
         color: 'white',
-        fontFamily: 'Archivo_400Regular',
+        fontFamily: 'Archivo_500Medium',
     },
 
     accentHeaderText: {

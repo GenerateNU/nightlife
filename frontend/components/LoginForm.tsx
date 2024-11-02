@@ -112,7 +112,7 @@ const LoginForm = () => {
     const isValid = validateForm();
     if (isValid) handleLogin();
   };
-
+  
   return (
     <View style={styles.container}>
       <TextInput
@@ -165,6 +165,8 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     fontSize: 16,
     backgroundColor: "#475569",
+    fontFamily: "Archivo_500Medium",
+    color: "white",
   },
   inputError: {
     borderColor: "red",

@@ -13,11 +13,18 @@ import PersonalityScreenReveal from './components/OnboardingCards/PersonalityScr
 import PersonalityScreenReveal2 from './components/OnboardingCards/PersonalityScreenReveal2'
 import HowFarFromYou from './components/OnboardingCards/HowFarFromYou';
 
-
+import { Archivo_400Regular, Archivo_500Medium, Archivo_700Bold, useFonts } from "@expo-google-fonts/archivo";
 
 const Stack = createNativeStackNavigator();
 
 const LoginStack = () => {
+
+  const [fontsLoaded] = useFonts({
+    Archivo_400Regular,
+    Archivo_500Medium,
+    Archivo_700Bold,
+  });
+
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -26,6 +33,9 @@ const LoginStack = () => {
         options={{
           headerStyle: {
             backgroundColor: "#007bff",
+          },
+          headerTitleStyle: {
+            fontFamily: "Archivo_700Bold",
           },
           headerTitle: "Welcome to Nightlife",
           headerTintColor: "#fff",
