@@ -43,9 +43,9 @@ const ProfileScreen: React.FC = () => {
         <View style={styles.container}>
             {/* Profile Header */}
             <View style={styles.headerContainer}>
-                <Image style={styles.profileImagePlaceholder} source={{ uri: "https://www.shutterstock.com/image-photo/head-shot-portrait-close-smiling-600nw-1714666150.jpg"}} />
+                <Image style={styles.profileImagePlaceholder} source={{ uri: user?.profile_picture_url || "https://www.shutterstock.com/image-photo/head-shot-portrait-close-smiling-600nw-1714666150.jpg"}} />
                 <Text style={styles.username}>@{user?.username}</Text>
-                <Text style={styles.name}>{user?.first_name}</Text>
+                <Text style={styles.name}>{user?.first_name + " " + user?.email}</Text>
             </View>
 
             {/* Friends Count */}

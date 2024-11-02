@@ -7,7 +7,7 @@ interface UserProfile {
     email: string;
     age: number;
     location?: { latitude: number; longitude: number };
-    profile_picture: string;
+    profile_picture_url: string;
     created_at: string;
     updated_at?: string;
 }

@@ -24,11 +24,12 @@ const LoginStack = () => {
         name="Home"
         component={LoginScreen}
         options={{
-          title: "Nightlife 🌃",
           headerStyle: {
-            backgroundColor: "#111729",
+            backgroundColor: "#007bff",
           },
+          headerTitle: "Welcome to Nightlife",
           headerTintColor: "#fff",
+          headerBlurEffect: "light",
         }}
       />
     </Stack.Navigator>

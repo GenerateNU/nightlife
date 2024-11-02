@@ -117,7 +117,8 @@ const LoginForm = () => {
     <View style={styles.container}>
       <TextInput
         style={[styles.input, errors.email ? styles.inputError : undefined]}
-        placeholder="Email address"
+        placeholder="john.doe@example.com"
+        placeholderTextColor={"lightgray"}
         value={email}
         onChangeText={setEmail}
         keyboardType="email-address"
@@ -127,7 +128,8 @@ const LoginForm = () => {
 
       <TextInput
         style={[styles.input, errors.password ? styles.inputError : undefined]}
-        placeholder="Password"
+        placeholder="****************"
+        placeholderTextColor={"lightgray"}
         value={password}
         onChangeText={setPassword}
         secureTextEntry
@@ -143,10 +145,6 @@ const LoginForm = () => {
 
       {loginError && <Text style={styles.error}>{loginError}</Text>}
 
-      <Text style={styles.subtitleText}>
-        NightLife is an interactive platform focused on transforming the way
-        people experience nightlife in urban areas and beyond.
-      </Text>
     </View>
   );
 };
@@ -154,19 +152,19 @@ const LoginForm = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    paddingHorizontal: 20,
     alignItems: "center",
   },
   input: {
     height: 55,
-    borderColor: "#ccc",
-    borderWidth: 1,
+    borderColor: "#007bff",
+    borderWidth: 3,
     marginBottom: 10,
     paddingHorizontal: 15,
     width: 300,
     borderRadius: 12,
     fontSize: 16,
-    backgroundColor: "#f9f9f9",
+    backgroundColor: "#475569",
   },
   inputError: {
     borderColor: "red",
@@ -184,6 +182,7 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 18,
     fontWeight: "bold",
+    fontFamily: "Archivo_700Bold",
   },
   error: {
     color: "red",
