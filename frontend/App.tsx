@@ -19,12 +19,6 @@ const Stack = createNativeStackNavigator();
 
 const LoginStack = () => {
 
-  const [fontsLoaded] = useFonts({
-    Archivo_400Regular,
-    Archivo_500Medium,
-    Archivo_700Bold,
-  });
-
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -141,6 +135,13 @@ const OnboardingStack = () => {
 };
 
 export default function App() {
+
+  const [fontsLoaded] = useFonts({
+    Archivo_400Regular,
+    Archivo_500Medium,
+    Archivo_700Bold,
+  });
+
   return (
     <AuthProvider>
       <NavigationContainer>
@@ -152,7 +153,7 @@ export default function App() {
 
 const MainNavigator = () => {
   const { accessToken } = useAuth();
-  const hasCompletedOnboarding = false; // Placeholder logic
+  const hasCompletedOnboarding = true; // Placeholder logic
 
   // If user is logged in and hasn't completed onboarding, show the OnboardingStack
   if (accessToken && !hasCompletedOnboarding) {
