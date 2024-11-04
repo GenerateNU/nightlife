@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {Text, View, TouchableOpacity, ScrollView, StyleSheet} from "react-native";
 import StarReview from "@/components/StarReview";
 import UpcomingEventScroll from "@/components/UpcomingEventScroll";
@@ -15,12 +15,28 @@ const VenueScreen: React.FC = () => {
     const DetailsScreen = () => <Text>Details Content</Text>;
     const ReviewsScreen = () => <Text>Reviews Content</Text>;
 
+    const [venueName, setVenueName] = useState("")
+    const [venueAddress, setVenueAddress] = useState("")
+
+    useEffect(() => {
+        fetch('http://localhost:8080/venues/2edc969e-bf93-4b3b-9273-5b0aa968b79c')
+        .then(response => response.json())
+        .then(json => {
+        console.log("HELLOOOO");
+        setVenueName(json.name);
+        setVenueAddress(json.address.split(',')[0]);
+        })
+        .catch(error => {
+        console.error(error);
+        });
+    })
+
     return (
         <ScrollView style={{backgroundColor: '#121212'}}>
             <View style={styles.container}>
                 <View style={styles.header}> 
                     <View>
-                        <Text style={{marginLeft: -4, color: 'white', fontSize: 26, fontWeight: 'bold'}}> Venue Name </Text>
+                        <Text style={{marginLeft: -4, color: 'white', fontSize: 26, fontWeight: 'bold'}}>{venueName}</Text>
                             <View style={styles.review}> 
                                 <Text style={{color: 'white'}}> 4.7 </Text>
                                 <StarReview /> 
@@ -33,7 +49,7 @@ const VenueScreen: React.FC = () => {
                                 </View>
                             </View>
                         <View style={styles.review}> 
-                            <Text style={{color: 'white'}}> 123 Boston St </Text>
+                            <Text style={{color: 'white'}}>{venueAddress}</Text>
                             <Text style={{color: 'white', paddingLeft: 172}}> 6:00 - 2:00 AM </Text>
                         </View>
                         <View style={styles.tabContainer}>
