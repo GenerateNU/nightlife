@@ -47,8 +47,8 @@ func (db *DB) GetProfileByColumn(ctx context.Context, column string, value strin
 
 func (db *DB) CreatePreferences(ctx context.Context, p models.Preferences) error {
 	// query to save user data to db
-	query := `INSERT INTO preferences (userID, location, age, music, ambiance, notifs) 
-				VALUES ($1, $2, $3, $4, $5, $6)`
+	query := `INSERT INTO preferences (userID, location, age, music, ambiance, notifs, nightlife_type, crowd_type, going_out_frequency, time_preference, indoor_outdoor_preference) 
+				VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`
 
 	_, err := db.conn.Query(ctx, query, p.UserID, p.Location, p.Age, p.Music, p.Ambiance, p.Notifs)
 	return err

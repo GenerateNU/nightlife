@@ -8,6 +8,12 @@ type Preferences struct {
 	Music    string `json:"music"`
 	Ambiance string `json:"ambiance"`
 	Notifs   bool   `json:"notifs"` // is this part of the preferences?
+	NightlifeType string `json:"nightlife_type"`
+	CrowdType string `json:"crowd_type"`
+	GoingOutFrequency string `json:"going_out_frequency"`
+	TimePreference string `json:"time_preference"`
+	IndoorOutdoorPreference string `json:"indoor_outdoor_preference"`
+	
 }
 
 func (p *Preferences) Validate() map[string]string {
