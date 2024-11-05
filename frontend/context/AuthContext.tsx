@@ -1,4 +1,5 @@
-import React, { createContext, useState, useContext, PropsWithChildren } from 'react';
+import React, { createContext, useState, useContext, useEffect, PropsWithChildren } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface UserProfile {
     userId: string;
@@ -17,7 +18,7 @@ interface AuthContextType {
     user: UserProfile | null;
     login: (token: string) => void;
     logout: () => void;
-    setUser: (user: UserProfile) => void; // to update user after fetching
+    setUser: (user: UserProfile) => void;
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -25,23 +26,35 @@ const AuthContext = createContext<AuthContextType>({
     user: null,
     login: () => {},
     logout: () => {},
-    setUser: () => {}, 
+    setUser: () => {},
 });
 
 export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
-
     const [accessToken, setAccessToken] = useState<string | null>(null);
     const [user, setUser] = useState<UserProfile | null>(null);
 
+    // Load token from AsyncStorage on initial render
+    useEffect(() => {
+        const loadToken = async () => {
+            const token = await AsyncStorage.getItem('accessToken');
+            if (token) {
+                setAccessToken(token);
+            }
+        };
+        loadToken();
+    }, []);
+
     // Store accessToken after login
-    const login = (token: string) => {
+    const login = async (token: string) => {
         setAccessToken(token);
+        await AsyncStorage.setItem('accessToken', token);
     };
 
     // Clear token and user on logout
-    const logout = () => {
+    const logout = async () => {
         setAccessToken(null);
-        setUser(null); 
+        setUser(null);
+        await AsyncStorage.removeItem('accessToken');
     };
 
     return (
