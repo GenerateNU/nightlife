@@ -1,9 +1,13 @@
-import {Button, StyleSheet, TouchableOpacity, View} from "react-native";
+import {StyleSheet, TouchableOpacity, View} from "react-native";
 import LoginForm from "@/components/LoginForm";
 import {StatusBar} from "expo-status-bar";
 import React from "react";
 import {Text} from "react-native";
 import {Image} from "react-native";
+
+import pinkguy from '../assets/pinkguy.png';
+import orangeguy from '../assets/orangeguy.png';
+import yellowguy from '../assets/yellowguy.png';
 
 const LoginScreen = () => {
 
@@ -15,22 +19,22 @@ const LoginScreen = () => {
             <LoginForm />
             <View style={styles.guycontainer}>
             <Image
-                    source={require('../assets/pinkguy.png')}
+                    source={pinkguy}
                     style={styles.pinkguy}
                 />
                 
             <Image
-                    source={require('../assets/yellowguy.png')}
+                    source={yellowguy}
                     style={styles.yellowguy}
                 />
                 
                 <Image
-                    source={require('../assets/orangeguy.png')}
+                    source={orangeguy}
                     style={styles.orangeguy}
                 />
             </View>
             <View style={{ marginBottom: 40 }} >
-                <Text style={styles.landingText}>Don't have an account just yet?</Text>
+                <Text style={styles.landingText}>Don&apos;t have an account just yet?</Text>
                 <TouchableOpacity style={styles.signUpButton} onPress={() => {}}>
                     <Text style={styles.signUpButtonText}>Sign Up</Text>
                 </TouchableOpacity>

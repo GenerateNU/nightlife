@@ -143,11 +143,13 @@ export default function App() {
   });
 
   return (
-    <AuthProvider>
-      <NavigationContainer>
-        <MainNavigator />
-      </NavigationContainer>
-    </AuthProvider>
+    fontsLoaded && (
+      <AuthProvider>
+        <NavigationContainer>
+          <MainNavigator />
+        </NavigationContainer>
+      </AuthProvider>
+    )
   );
 }
 
