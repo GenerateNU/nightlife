@@ -9,6 +9,8 @@ import { useAuth } from "@/context/AuthContext";
 
 const MapScreen: React.FC = () => {
   const [allVenues, setAllVenues] = useState<Venue[]>([]);
+  const [isModalVisible, setModalVisible] = useState(true);
+  const [isPartiallyVisible, setPartiallyVisible] = useState(true); 
   const { accessToken } = useAuth();
 
   const getAllVenues = async (): Promise<Venue[] | null> => {
@@ -57,13 +59,12 @@ const MapScreen: React.FC = () => {
       <MapView
         style={styles.map}
         initialRegion={{
-          // Boston
           latitude: 42.3601,
           longitude: -71.0589,
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         }}
-        userInterfaceStyle='dark'
+        userInterfaceStyle="dark"
       >
         {allVenues.length > 0 &&
           allVenues.map((v) => (
@@ -78,7 +79,11 @@ const MapScreen: React.FC = () => {
             />
           ))}
       </MapView>
-      <BottomModal /> 
+      <BottomModal
+        visible={isModalVisible}
+        isPartiallyVisible={isPartiallyVisible}
+        onClose={() => setPartiallyVisible(true)}
+      />
     </View>
   );
 };

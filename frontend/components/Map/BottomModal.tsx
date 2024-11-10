@@ -1,76 +1,124 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Modal,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  Dimensions,
+} from "react-native";
 
-const BottomModal = () => {
+const { height: screenHeight } = Dimensions.get("window");
+
+interface BottomModalProps {
+  visible: boolean;
+  onClose: () => void;
+}
+
+const BottomModal: React.FC<
+  BottomModalProps & { isPartiallyVisible: boolean }
+> = ({ visible, isPartiallyVisible, onClose }) => {
   return (
-    <View style={styles.modalContainer}>
-      <View style={styles.filterContainer}>
-        <TouchableOpacity style={styles.filterButton}>
-          <Text style={styles.filterText}>Sort</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.filterButton}>
-          <Text style={styles.filterText}>Price</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.filterButton}>
-          <Text style={styles.filterText}>Easy Access</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.filterButton}>
-          <Text style={styles.filterText}>Highly Rated</Text>
-        </TouchableOpacity>
-      </View>
-      <Text style={styles.sectionTitle}>Happening Today</Text>
-      <View style={styles.contentContainer}>
-        <View style={styles.eventBox}>
+    <Modal
+      animationType="slide"
+      transparent={true}
+      visible={visible}
+      onRequestClose={onClose}
+    >
+      <TouchableWithoutFeedback onPress={onClose}>
+        <View style={styles.overlay}>
+          <View
+            style={[
+              styles.modalContainer,
+              isPartiallyVisible && styles.partialView,
+            ]}
+          >
+            <View style={styles.tabIndicator} />
+
+            <View style={styles.filterContainer}>
+              <TouchableOpacity style={styles.filterButton}>
+                <Text style={styles.filterText}>Sort</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.filterButton}>
+                <Text style={styles.filterText}>Price</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.filterButton}>
+                <Text style={styles.filterText}>Easy Access</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.filterButton}>
+                <Text style={styles.filterText}>Highly Rated</Text>
+              </TouchableOpacity>
+            </View>
+
+            <Text style={styles.sectionTitle}>Happening Today</Text>
+            <View style={styles.contentContainer}>
+              <View style={styles.eventBox}>{/* Event content here */}</View>
+              <View style={styles.eventBox}>{/* Event content here */}</View>
+            </View>
+          </View>
         </View>
-        <View style={styles.eventBox}>
-        </View>
-      </View>
-    </View>
+      </TouchableWithoutFeedback>
+    </Modal>
   );
 };
 
 const styles = StyleSheet.create({
+  overlay: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.4)",
+    justifyContent: "flex-end",
+  },
   modalContainer: {
-    position: 'absolute',
-    bottom: 0,
-    width: '100%',
-    backgroundColor: '#1c1c1e', // Adjust to match Figma
+    backgroundColor: "#1c1c1e",
     padding: 16,
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
+    height: screenHeight * 0.4,
+  },
+  partialView: {
+    marginTop: screenHeight * 0.6,
+  },
+  tabIndicator: {
+    width: 40,
+    height: 4,
+    backgroundColor: "#ccc",
+    alignSelf: "center",
+    marginBottom: 8,
+    borderRadius: 2,
   },
   filterContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     marginBottom: 8,
   },
   filterButton: {
     paddingVertical: 6,
     paddingHorizontal: 12,
-    backgroundColor: '#333', // Adjust to match Figma
+    backgroundColor: "#333",
     borderRadius: 8,
   },
   filterText: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 14,
   },
   sectionTitle: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 8,
   },
   contentContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   eventBox: {
-    width: '48%',
+    width: "48%",
     height: 100,
-    backgroundColor: '#2c2c2e',
+    backgroundColor: "#2c2c2e",
     borderRadius: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 
