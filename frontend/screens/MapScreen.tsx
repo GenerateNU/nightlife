@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Button } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import SearchBar from "@/components/Map/SearchBar";
 import BottomModal from "@/components/Map/BottomModal";
@@ -10,7 +10,6 @@ import { useAuth } from "@/context/AuthContext";
 const MapScreen: React.FC = () => {
   const [allVenues, setAllVenues] = useState<Venue[]>([]);
   const [isModalVisible, setModalVisible] = useState(true);
-  const [isPartiallyVisible, setPartiallyVisible] = useState(true); 
   const { accessToken } = useAuth();
 
   const getAllVenues = async (): Promise<Venue[] | null> => {
@@ -53,6 +52,10 @@ const MapScreen: React.FC = () => {
     });
   }, [accessToken]);
 
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
+
   return (
     <View style={styles.container}>
       <SearchBar />
@@ -79,11 +82,8 @@ const MapScreen: React.FC = () => {
             />
           ))}
       </MapView>
-      <BottomModal
-        visible={isModalVisible}
-        isPartiallyVisible={isPartiallyVisible}
-        onClose={() => setPartiallyVisible(true)}
-      />
+      <Button title="Toggle Modal" onPress={toggleModal} />
+      <BottomModal visible={isModalVisible} onClose={() => setModalVisible(false)} />
     </View>
   );
 };
