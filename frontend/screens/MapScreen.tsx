@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { View, StyleSheet } from "react-native";
 import MapView, { Marker } from "react-native-maps";
-import SearchBar from "@/components/SearchBar";
+import SearchBar from "@/components/Map/SearchBar";
+import BottomModal from "@/components/Map/BottomModal";
 import { API_DOMAIN } from "@env";
 import { Venue } from "@/types/Venue";
 import { useAuth } from "@/context/AuthContext";
@@ -77,6 +78,7 @@ const MapScreen: React.FC = () => {
             />
           ))}
       </MapView>
+      <BottomModal /> 
     </View>
   );
 };
