@@ -2,17 +2,17 @@ import React from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 
 
-const Event = () => {
+const Event = ({event = ""}) => {
   return (
     <View style={styles.container}>
       <Image
         style={styles.eventImage}
-        source={{ uri: 'https://images.pexels.com/photos/2114365/pexels-photo-2114365.jpeg' }} 
+        source={{ uri: "" }} 
       />
       <View style={styles.overlay}>
-        <Text style={styles.eventText}>Event Title</Text>
-        <Text style={styles.dateText}>Date: October 16, 2024</Text>
-        <Text style={styles.timeText}>Time: 5:00 PM</Text>
+        <Text style={styles.eventText}>title</Text>
+        <Text style={styles.dateText}>Date: </Text>
+        <Text style={styles.timeText}>Time: </Text>
       </View>
     </View>
   );

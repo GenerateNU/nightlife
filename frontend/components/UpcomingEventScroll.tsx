@@ -1,11 +1,12 @@
 import React from 'react';
 import { ScrollView, View, StyleSheet, SafeAreaView } from 'react-native';
 import Event from './Event';
+import { ModuleResolutionCache } from 'typescript';
 
 // Upcoming Event Scroll Bar -> Takes in a list of dictionaries 
 // example dictionary: {"title": "Disco Night", "date": "October 5, 2024", "time": "9pm", "image_path": "/image/this_image.jpg"}
 
-const UpcomingEventScroll = () => {
+const UpcomingEventScroll = ({events = []}) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.scrollContainer}>
@@ -14,9 +15,9 @@ const UpcomingEventScroll = () => {
           showsHorizontalScrollIndicator={false}
           style={styles.scrollView}
         >
-          {Array.from({ length: 10 }, (_, index) => (
+          {events.map((event, index) => (
             <View key={index} style={styles.item}>
-              <Event/>
+              <Event event={event} /> {/* Pass the event as a prop */}
             </View>
           ))}
         </ScrollView>

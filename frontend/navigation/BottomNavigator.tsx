@@ -5,7 +5,6 @@ import HomeScreen from "@/screens/HomeScreen";
 import UpdatesScreen from "@/screens/UpdatesScreen";
 import ProfileScreen from "@/screens/ProfileScreen";
 import SettingsScreen from "@/screens/SettingsScreen";
-import MapScreen from '@/screens/MapScreen';
 import VenueScreen from '@/screens/VenueScreen';
 
 const Tab = createBottomTabNavigator();

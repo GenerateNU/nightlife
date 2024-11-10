@@ -17,12 +17,12 @@ const VenueScreen: React.FC = () => {
 
     const [venueName, setVenueName] = useState("")
     const [venueAddress, setVenueAddress] = useState("")
+    const [eventDictList, setEventDictList] = useState([])
 
     useEffect(() => {
         fetch('http://localhost:8080/venues/2edc969e-bf93-4b3b-9273-5b0aa968b79c')
         .then(response => response.json())
         .then(json => {
-        console.log("HELLOOOO");
         setVenueName(json.name);
         setVenueAddress(json.address.split(',')[0]);
         })
@@ -30,6 +30,18 @@ const VenueScreen: React.FC = () => {
         console.error(error);
         });
     })
+
+    useEffect(() => {
+        fetch('http://localhost:8080/events/2edc969e-bf93-4b3b-9273-5b0aa968b79c')
+        .then(response => response.json())
+        .then(json => {
+            setEventDictList(json)
+        })
+        .catch(error => {
+        console.error(error);
+        });
+    })
+
 
     return (
         <ScrollView style={{backgroundColor: '#121212'}}>
@@ -83,7 +95,7 @@ const VenueScreen: React.FC = () => {
                         </Text>
                     </View>
                     <View style={{marginTop: -10}}>
-                        <UpcomingEventScroll />
+                        <UpcomingEventScroll events={eventDictList}/>
                     </View>
                 </View>
                 <View style={{justifyContent: 'center', alignItems: 'center'}}>
