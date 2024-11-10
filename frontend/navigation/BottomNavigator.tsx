@@ -7,6 +7,9 @@ import ProfileScreen from "@/screens/ProfileScreen";
 import SettingsScreen from "@/screens/SettingsScreen";
 import MapScreen from '@/screens/MapScreen';
 import VenueScreen from '@/screens/VenueScreen';
+import EditProfile from '@/screens/profile/EditProfile';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import EditProfileData from '@/screens/profile/EditProfileData';
 
 const Tab = createBottomTabNavigator();
 
@@ -38,13 +41,22 @@ const createScreenOptions = (label: string, iconName: keyof (typeof MaterialComm
     ),
 });
 
+const Stack = createNativeStackNavigator();
+
+const ProfileStackNavigator = () => (
+    <Stack.Navigator>
+      <Stack.Screen name="EditProfile" component={EditProfile} options={{ headerShown: false }} />
+      <Stack.Screen name="EditProfileData" component={EditProfileData} options={{ headerShown: false }} />
+    </Stack.Navigator>
+  );
+
 export function BottomNavigator() {
     return (
         <Tab.Navigator initialRouteName="Home" screenOptions={bottomTabNavOptions}>
             <Tab.Screen name="Home" component={HomeScreen} options={createScreenOptions("Home", "home")}/>
             <Tab.Screen name="Browse" component={MapScreen} options={createScreenOptions("Search", "magnify")}/>
             <Tab.Screen name="Updates" component={UpdatesScreen} options={createScreenOptions("Updates", "bell")}/>
-            <Tab.Screen name="Profile" component={ProfileScreen} options={createScreenOptions("Profile", "account-circle")}/>
+            <Tab.Screen name="Profile" component={ProfileStackNavigator} options={createScreenOptions("Profile", "account-circle")}/>
             <Tab.Screen name="Settings" component={SettingsScreen} options={createScreenOptions("Settings", "cog")}/>
             <Tab.Screen name="Venue" component={VenueScreen} options={createScreenOptions("VenueEx", "cog")}/>
         </Tab.Navigator>

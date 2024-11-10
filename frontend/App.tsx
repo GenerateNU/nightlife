@@ -14,6 +14,7 @@ import PersonalityScreenReveal2 from './components/OnboardingCards/PersonalitySc
 import HowFarFromYou from './components/OnboardingCards/HowFarFromYou';
 
 import { Archivo_400Regular, Archivo_500Medium, Archivo_700Bold, useFonts } from "@expo-google-fonts/archivo";
+import EditProfile from './screens/profile/EditProfile';
 
 const Stack = createNativeStackNavigator();
 
@@ -130,6 +131,7 @@ const OnboardingStack = () => {
         component={BottomNavigator}
         options={{ headerShown: false }}
       />
+      <Stack.Screen name="EditProfile" component={EditProfile} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 };
