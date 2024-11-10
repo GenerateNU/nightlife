@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/GenerateNU/nightlife/internal/errs"
+	"github.com/GenerateNU/nightlife/internal/types"
 	"github.com/GenerateNU/nightlife/internal/utils"
 
 	"github.com/GenerateNU/nightlife/internal/models"
@@ -133,6 +134,43 @@ func (s *Service) GetProfile(c *fiber.Ctx) error {
 	}
 
 	return c.Status(fiber.StatusOK).JSON(profile)
+}
+
+func (s *Service) UpdateProfile(c *fiber.Ctx) error {
+
+	userIdString := c.Params("userId")
+
+	userId, err := uuid.Parse(userIdString)
+
+	if err != nil {
+		if handlerErr := errs.ErrorHandler(c, err); handlerErr != nil {
+			return handlerErr
+		}
+	}
+
+	var req types.ProfileUpdateRequest
+	if err := c.BodyParser(&req); err != nil {
+		log.Printf("Error parsing JSON: %v, Request: %+v", err, req)
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": "Cannot parse JSON",
+		})
+	}
+
+	err = s.store.PatchProfile(c.Context(), userId, req.FirstName,
+	req.Username, req.Email, req.Age, req.Location, req.ProfilePictureURL, req.PersonalityType, req.Pronouns, req.Biography, req.InstagramURL, req.TikTokURL, req.TwitterURL, req.Phone, req.Privacy)
+
+	if err != nil {
+		if handlerErr := errs.ErrorHandler(c, err); handlerErr != nil {
+			return handlerErr
+		}
+		return c.Status(403).JSON(fiber.Map{
+			"message": "Invalid request body, or other error occurred",
+		})
+	}
+
+	return c.Status(http.StatusOK).JSON(fiber.Map{
+		"message": "User profile updated successfully",
+	})
 }
 
 /*
