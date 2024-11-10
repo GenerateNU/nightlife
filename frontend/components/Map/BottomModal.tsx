@@ -31,7 +31,7 @@ const BottomModal: React.FC<BottomModalProps> = ({ visible, onClose, venues }) =
             <View style={styles.tabIndicator} />
             <Text style={styles.sectionTitle}>Happening Today</Text>
 
-            {/* Venue list */}
+            {/* Scrollable list of venues */}
             <FlatList
               data={venues}
               keyExtractor={(item) => item.venue_id}
@@ -41,6 +41,8 @@ const BottomModal: React.FC<BottomModalProps> = ({ visible, onClose, venues }) =
                   <Text style={styles.venueAddress}>{item.address}</Text>
                 </View>
               )}
+              showsVerticalScrollIndicator={false}
+              contentContainerStyle={styles.listContent}
             />
           </View>
         </View>
@@ -75,6 +77,9 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     marginBottom: 8,
+  },
+  listContent: {
+    paddingBottom: 20, // Space at the bottom for scroll buffer
   },
   venueItem: {
     backgroundColor: "#333",
