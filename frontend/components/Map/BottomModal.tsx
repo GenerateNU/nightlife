@@ -6,6 +6,7 @@ import {
   Modal,
   TouchableWithoutFeedback,
   Dimensions,
+  FlatList,
 } from "react-native";
 
 const { height: screenHeight } = Dimensions.get("window");
@@ -13,9 +14,10 @@ const { height: screenHeight } = Dimensions.get("window");
 interface BottomModalProps {
   visible: boolean;
   onClose: () => void;
+  venues: Array<{ venue_id: string; name: string; address: string }>;
 }
 
-const BottomModal: React.FC<BottomModalProps> = ({ visible, onClose }) => {
+const BottomModal: React.FC<BottomModalProps> = ({ visible, onClose, venues }) => {
   return (
     <Modal
       animationType="slide"
@@ -27,16 +29,19 @@ const BottomModal: React.FC<BottomModalProps> = ({ visible, onClose }) => {
         <View style={styles.overlay}>
           <View style={styles.modalContainer}>
             <View style={styles.tabIndicator} />
-
             <Text style={styles.sectionTitle}>Happening Today</Text>
-            <View style={styles.contentContainer}>
-              <View style={styles.eventBox}>
-                <Text style={{ color: "#fff" }}>Event 1</Text>
-              </View>
-              <View style={styles.eventBox}>
-                <Text style={{ color: "#fff" }}>Event 2</Text>
-              </View>
-            </View>
+
+            {/* Venue list */}
+            <FlatList
+              data={venues}
+              keyExtractor={(item) => item.venue_id}
+              renderItem={({ item }) => (
+                <View style={styles.venueItem}>
+                  <Text style={styles.venueName}>{item.name}</Text>
+                  <Text style={styles.venueAddress}>{item.address}</Text>
+                </View>
+              )}
+            />
           </View>
         </View>
       </TouchableWithoutFeedback>
@@ -55,7 +60,7 @@ const styles = StyleSheet.create({
     padding: 16,
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
-    height: screenHeight * 0.4,
+    height: screenHeight * 0.5,
   },
   tabIndicator: {
     width: 40,
@@ -71,17 +76,20 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 8,
   },
-  contentContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  eventBox: {
-    width: "48%",
-    height: 100,
-    backgroundColor: "#2c2c2e",
+  venueItem: {
+    backgroundColor: "#333",
+    padding: 10,
     borderRadius: 8,
-    justifyContent: "center",
-    alignItems: "center",
+    marginBottom: 10,
+  },
+  venueName: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  venueAddress: {
+    color: "#bbb",
+    fontSize: 14,
   },
 });
 

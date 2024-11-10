@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, Button } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import SearchBar from "@/components/Map/SearchBar";
 import BottomModal from "@/components/Map/BottomModal";
@@ -9,7 +9,7 @@ import { useAuth } from "@/context/AuthContext";
 
 const MapScreen: React.FC = () => {
   const [allVenues, setAllVenues] = useState<Venue[]>([]);
-  const [isModalVisible, setModalVisible] = useState(true);
+  const [isModalVisible, setModalVisible] = useState(false);
   const { accessToken } = useAuth();
 
   const getAllVenues = async (): Promise<Venue[] | null> => {
@@ -19,16 +19,13 @@ const MapScreen: React.FC = () => {
     }
 
     try {
-      const res = await fetch(
-        `${API_DOMAIN}/venues/getAll`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
+      const res = await fetch(`${API_DOMAIN}/venues/getAll`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
 
       if (!res.ok) {
         throw new Error(`Error fetching data: ${res.statusText}`);
@@ -58,6 +55,11 @@ const MapScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
+      <BottomModal
+        visible={isModalVisible}
+        onClose={() => setModalVisible(false)}
+        venues={allVenues} 
+      />
       <SearchBar />
       <MapView
         style={styles.map}
@@ -82,8 +84,11 @@ const MapScreen: React.FC = () => {
             />
           ))}
       </MapView>
-      <Button title="Toggle Modal" onPress={toggleModal} />
-      <BottomModal visible={isModalVisible} onClose={() => setModalVisible(false)} />
+      
+      {/* Circular button to toggle modal visibility */}
+      <TouchableOpacity style={styles.circularButton} onPress={toggleModal}>
+        <Text style={styles.buttonText}>+</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -95,6 +100,28 @@ const styles = StyleSheet.create({
   map: {
     width: "100%",
     height: "100%",
+  },
+  circularButton: {
+    position: "absolute",
+    bottom: 30,
+    left: "50%",
+    transform: [{ translateX: -30 }],
+    width: 60,
+    height: 60,
+    backgroundColor: "#1c1c1e",
+    borderRadius: 30,
+    justifyContent: "center",
+    alignItems: "center",
+    elevation: 5,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 24,
+    fontWeight: "bold",
   },
 });
 
