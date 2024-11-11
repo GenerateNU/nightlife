@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ScrollView, Text, View, StyleSheet, Dimensions, Modal, TouchableOpacity, TextInput } from 'react-native';
 import ProfileButtons from '@/components/Buttons/ProfileButtons';
 import ProfileVenueCard from '@/components/VenueCards/ProfileVenueCard';
@@ -32,6 +32,10 @@ const ProfileScreen: React.FC = () => {
     const [activeTab, setActiveTab] = useState(ProfileTabs.Friends);
     const navigation = useNavigation();
     const { user } = useAuth();
+
+    useEffect(() => {
+        
+    }, []);
 
     // Function to toggle modal visibility
     const toggleModal = () => {

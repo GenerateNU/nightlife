@@ -1,4 +1,5 @@
 import { useAuth } from '@/context/AuthContext';
+import { fetchUserProfileService } from '@/services/authService';
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, ScrollView } from 'react-native';
 
@@ -17,22 +18,24 @@ const EditProfileData = ({ navigation }) => {
     const [phone, setPhone] = useState('');
     const [privacy, setPrivacy] = useState('');
 
-    const { user, accessToken } = useAuth();
+    const { user, accessToken, setUserAsync } = useAuth();
 
     const handleSave = async () => {
         console.log('Updated Data:', { firstName, username, email, age, profilePictureURL, personalityType, pronouns, biography, instagramURL, tikTokURL, twitterURL, phone, privacy });
 
-        console.log("Username: " + user?.username)
+        console.log("First Name: " + firstName)
+        console.log(user?.email)
 
         const token = accessToken;
 
-        const res = await fetch(`http://localhost:8080/profiles/${user?.username}`, {
+        const res = await fetch(`http://localhost:8080/profiles/${user?.email}`, {
             headers: {
                 Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json",
             },
         });
         const data = await res.json();
+        console.log(data)
 
         console.log("User ID: " + data.user_id)
 
@@ -43,13 +46,12 @@ const EditProfileData = ({ navigation }) => {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                username: username
+                first_name: firstName
             })
         })
 
         const userRes = await userReq.json();
         console.log(userRes)
-
 
         navigation.goBack();
     };
