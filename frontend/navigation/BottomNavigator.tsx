@@ -11,6 +11,9 @@ import SettingsScreen from "@/screens/SettingsScreen";
 import MapScreen from "@/screens/MapScreen";
 import VenueScreen from "@/screens/VenueScreen";
 import { BottomTabParamList } from "../types/NavigationTypes";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import EditProfile from "@/screens/profile/EditProfile";
+import EditProfileData from "@/screens/profile/EditProfileData";
 
 const Tab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -45,6 +48,16 @@ const createScreenOptions = (
   ),
 });
 
+const Stack = createNativeStackNavigator();
+
+const ProfileStackNavigator = () => (
+    <Stack.Navigator>
+        <Stack.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false}} />
+        <Stack.Screen name="EditProfile" component={EditProfile} options={{ headerShown: false }} />
+        <Stack.Screen name="EditProfileData" component={EditProfileData} options={{ headerShown: false }} />
+    </Stack.Navigator>
+  );
+
 export function BottomNavigator() {
   return (
     <Tab.Navigator initialRouteName="Home" screenOptions={bottomTabNavOptions}>
@@ -65,7 +78,7 @@ export function BottomNavigator() {
       />
       <Tab.Screen
         name="Profile"
-        component={ProfileScreen}
+        component={ProfileStackNavigator}
         options={createScreenOptions("Profile", "account-circle")}
       />
       <Tab.Screen
