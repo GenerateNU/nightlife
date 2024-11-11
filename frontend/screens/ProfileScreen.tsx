@@ -33,10 +33,6 @@ const ProfileScreen: React.FC = () => {
     const navigation = useNavigation();
     const { user } = useAuth();
 
-    useEffect(() => {
-        
-    }, []);
-
     // Function to toggle modal visibility
     const toggleModal = () => {
         setModalVisible(!isModalVisible);
