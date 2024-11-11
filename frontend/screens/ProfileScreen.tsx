@@ -12,6 +12,7 @@ import { Image } from 'react-native';
 import { useAuth } from '@/context/AuthContext';
 import { useNavigation } from '@react-navigation/native';
 import EditProfile from './profile/EditProfile';
+import EditProfileData from './profile/EditProfileData';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const { width } = Dimensions.get('window');
@@ -29,10 +30,8 @@ const ProfileScreen: React.FC = () => {
     const [isModalVisible, setModalVisible] = useState(false); 
     const [isEditModalVisible, setEditModalVisible] = useState(false); 
     const [activeTab, setActiveTab] = useState(ProfileTabs.Friends);
-    const { user } = useAuth();
-
-
     const navigation = useNavigation();
+    const { user } = useAuth();
 
     // Function to toggle modal visibility
     const toggleModal = () => {
@@ -58,7 +57,7 @@ const ProfileScreen: React.FC = () => {
             </View>
 
             <View style={styles.profileButtonsContainer}>
-                <ProfileButtons onPress={toggleModal} title="edit profile" /> 
+                <ProfileButtons onPress={() => navigation.navigate("EditProfile")} title="edit profile" /> 
                 <ProfileButtons onPress={toggleModal} title="share profile" /> 
             </View>
 

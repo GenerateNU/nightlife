@@ -45,8 +45,9 @@ const Stack = createNativeStackNavigator();
 
 const ProfileStackNavigator = () => (
     <Stack.Navigator>
-      <Stack.Screen name="EditProfile" component={EditProfile} options={{ headerShown: false }} />
-      <Stack.Screen name="EditProfileData" component={EditProfileData} options={{ headerShown: false }} />
+        <Stack.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false}} />
+        <Stack.Screen name="EditProfile" component={EditProfile} options={{ headerShown: false }} />
+        <Stack.Screen name="EditProfileData" component={EditProfileData} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 
