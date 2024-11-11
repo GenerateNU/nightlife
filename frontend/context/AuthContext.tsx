@@ -9,6 +9,8 @@ interface UserProfile {
     age: number;
     location?: { latitude: number; longitude: number };
     profile_picture_url: string;
+    pronouns?: string;
+    biography?: string;
     created_at: string;
     updated_at?: string;
 }

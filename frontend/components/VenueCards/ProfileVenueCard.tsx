@@ -40,7 +40,9 @@ const styles = StyleSheet.create({
         backgroundColor: '#4f4f4f',
         borderRadius: 8,
         overflow: 'hidden',
-        margin: scaleSize(8),
+        marginVertical: 8,
+        borderWidth: 2,
+        borderColor: "gray"
     },
     imageContainer: {
         height: width * 0.3,

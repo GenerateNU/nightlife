@@ -36,19 +36,19 @@ const styles = StyleSheet.create({
         paddingHorizontal: scaleSize(0), // Scaled padding for width
         borderRadius: scaleSize(6), // Scaled border radius for rounded edges
         borderWidth: 2, // Static 2px border
-        borderColor: 'transparent', // No visible border
+        borderColor: 'gray', // No visible border
         alignItems: 'center',
         justifyContent: 'center',
-        width: width * 0.4, // Make the button width 80% of the screen width
+        width: width * 0.435,
     },
     text: {
-        color: '#fff', // White text color
-        textTransform: 'uppercase', // Uppercase text
-        fontWeight: '900', // Bold font
-        fontSize: scaleSize(12), // Scaled font size
+        color: '#fff',
+        textTransform: 'uppercase',
+        fontSize: scaleSize(14),
+        fontFamily: 'Archivo_700Bold',
     },
     buttonPressed: {
-        backgroundColor: '#0056b3', // Darker blue when pressed
+        backgroundColor: '#0056b3',
     },
 });
 
