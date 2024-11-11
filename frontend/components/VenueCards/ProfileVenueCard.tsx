@@ -62,6 +62,7 @@ const styles = StyleSheet.create({
     placeholderText: {
         color: '#fff',
         fontSize: scaleSize(16),
+        fontFamily: 'Archivo_500Medium',
     },
     infoContainer: {
         padding: scaleSize(8),
@@ -72,11 +73,13 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: scaleSize(16),
         marginBottom: scaleSize(4),
+        fontFamily: 'Archivo_700Bold',
     },
     distance: {
         color: '#bbb',
         fontSize: scaleSize(14),
         marginBottom: scaleSize(8),
+        fontFamily: 'Archivo_500Medium',
     },
     rating: {
         color: '#fff',
@@ -84,6 +87,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: scaleSize(8),
         right: scaleSize(8),
+        fontFamily: 'Archivo_500Medium',
     },
 });
 

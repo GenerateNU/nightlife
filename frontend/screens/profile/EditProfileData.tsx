@@ -168,13 +168,14 @@ const EditProfileData = ({ navigation }) => {
 const styles = StyleSheet.create({
     scrollContainer: {
         padding: 20,
-        backgroundColor: '#121212',
+        backgroundColor: '#1c1c1c',
     },
     title: {
         fontSize: 24,
         fontWeight: 'bold',
         color: '#fff',
         marginBottom: 20,
+        fontFamily: 'Archivo_700Bold',
     },
     input: {
         borderWidth: 1,
@@ -184,6 +185,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         padding: 10,
         marginBottom: 15,
+        fontFamily: 'Archivo_500Medium',
     },
 });
 
