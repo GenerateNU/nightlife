@@ -5,9 +5,12 @@ import {
   StyleSheet,
   Modal,
   TouchableWithoutFeedback,
+  TouchableOpacity,
   Dimensions,
   FlatList,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { BottomTabNavProps } from "@/types/NavigationTypes";
 
 const { height: screenHeight } = Dimensions.get("window");
 
@@ -17,7 +20,13 @@ interface BottomModalProps {
   venues: Array<{ venue_id: string; name: string; address: string }>;
 }
 
-const BottomModal: React.FC<BottomModalProps> = ({ visible, onClose, venues }) => {
+const BottomModal: React.FC<BottomModalProps> = ({
+  visible,
+  onClose,
+  venues,
+}) => {
+  const navigation = useNavigation<BottomTabNavProps>();
+
   return (
     <Modal
       animationType="slide"
@@ -31,15 +40,21 @@ const BottomModal: React.FC<BottomModalProps> = ({ visible, onClose, venues }) =
             <View style={styles.tabIndicator} />
             <Text style={styles.sectionTitle}>Happening Today</Text>
 
-            {/* Scrollable list of venues */}
             <FlatList
               data={venues}
               keyExtractor={(item) => item.venue_id}
               renderItem={({ item }) => (
-                <View style={styles.venueItem}>
-                  <Text style={styles.venueName}>{item.name}</Text>
-                  <Text style={styles.venueAddress}>{item.address}</Text>
-                </View>
+                <TouchableOpacity
+                  onPress={() => {
+                    onClose();
+                    navigation.navigate("Venue", { venue: item });
+                  }}
+                >
+                  <View style={styles.venueItem}>
+                    <Text style={styles.venueName}>{item.name}</Text>
+                    <Text style={styles.venueAddress}>{item.address}</Text>
+                  </View>
+                </TouchableOpacity>
               )}
               showsVerticalScrollIndicator={false}
               contentContainerStyle={styles.listContent}
@@ -79,7 +94,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   listContent: {
-    paddingBottom: 20, // Space at the bottom for scroll buffer
+    paddingBottom: 20,
   },
   venueItem: {
     backgroundColor: "#333",
