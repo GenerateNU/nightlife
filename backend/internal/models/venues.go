@@ -25,7 +25,13 @@ type Venue struct {
 
 	// VenueType string `json:"venue_type"`
 
+	PriceCap float64 `json:"price"`
+
+	TotalRating float64 `json:"total_rating"`
+
 	CreatedAt time.Time `json:"created_at"`
+
+
 
 	//UpdatedAt time.Time `json:"updated_at"`
 }

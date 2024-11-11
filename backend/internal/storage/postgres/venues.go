@@ -129,3 +129,34 @@ func (db *DB) GetAllVenues(ctx context.Context) ([]models.Venue, error) {
 	defer rows.Close()
 	return pgx.CollectRows(rows, pgx.RowToStructByName[models.Venue])
 }
+func (db *DB) GetFilteredVenues(ctx context.Context, offset int64, limitInt int64, longitude float64, latitude float64, priceCap float64, totalRating float64) ([]models.Venue, error) {
+    // Corrected query to use the existing location column for geographic comparison
+    query := `SELECT venue_id, name, address, city, state, zip_code, created_at, ST_Y(location::geometry) AS latitude, ST_X(location::geometry) AS longitude 
+              FROM venues 
+              WHERE total_rating = $1 AND ST_DWithin(location, ST_SetSRID(ST_MakePoint($2, $3), 4326), 5000) AND price <= $4 
+              ORDER BY venue_id 
+              LIMIT $5 OFFSET $6`
+
+    // Execute the query with correct parameters
+    rows, err := db.conn.Query(ctx, query, totalRating, longitude, latitude, priceCap, limitInt, offset)
+    if err != nil {
+        return nil, fmt.Errorf("query error: %v", err)
+    }
+    defer rows.Close()
+
+    var venues []models.Venue
+    for rows.Next() {
+        var v models.Venue
+        // Ensure the Venue struct matches your table schema, especially with latitude and longitude types
+        if err := rows.Scan(&v.VenueID, &v.Name, &v.Address, &v.City, &v.State, &v.ZipCode, &v.CreatedAt, &v.Latitude, &v.Longitude); err != nil {
+            return nil, fmt.Errorf("scan error: %v", err)
+        }
+        venues = append(venues, v)
+    }
+
+    if err := rows.Err(); err != nil {
+        return nil, fmt.Errorf("rows error: %v", err)
+    }
+
+    return venues, nil
+}

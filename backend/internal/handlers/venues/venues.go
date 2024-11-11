@@ -145,3 +145,55 @@ func (s *Service) GetAllVenues(c *fiber.Ctx) error {
 	}
 	return c.Status(fiber.StatusOK).JSON(venues)
 }
+
+func (s *Service) GetFilteredVenues(c *fiber.Ctx) error {
+	offset := c.Params("offset")
+	limit := c.Params("limit")
+	longitude := c.Params("longitude")
+	latitude := c.Params("latitude")
+	priceCap := c.Params("priceCap")
+	totalRating := c.Params("totalRating")
+
+	offsetInt, err := strconv.ParseInt(offset, 10, 64) 
+	
+	if err != nil {
+		fmt.Println("Error converting string to int64:", err)
+		
+	}
+	limitInt, err := strconv.ParseInt(limit, 10, 64)
+	if err != nil {
+    	fmt.Println("Error converting limit to int64:", err)
+	}
+	priceCapFloat, err := strconv.ParseFloat(priceCap,64)
+	if err != nil {
+		fmt.Println("Error converting priceCap to int64:", err)
+
+	}
+
+	longitudeFloat, err := strconv.ParseFloat(longitude,64)
+	if err != nil {
+		fmt.Println("Error converting longitude to float:", err)
+
+	}
+
+	latitudeFloat, err := strconv.ParseFloat(latitude,64)
+	if err != nil {
+		fmt.Println("Error converting longitude to float:", err)
+
+	}
+
+	totalRatingFloat, err := strconv.ParseFloat(totalRating,64)
+	if err != nil {
+		fmt.Println("Error converting longitude to float:", err)
+
+	}
+
+
+
+	venues, err := s.store.GetFilteredVenues(c.Context(), offsetInt, limitInt, longitudeFloat,latitudeFloat, priceCapFloat,totalRatingFloat )
+	if err != nil {
+		fmt.Println(err.Error())
+		return fiber.NewError(fiber.StatusInternalServerError, "Could not get filtered venues")
+	}
+	return c.Status(fiber.StatusOK).JSON(venues)
+}

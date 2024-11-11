@@ -1,7 +1,7 @@
-import { API_DOMAIN } from "@env";
+//import { API_DOMAIN } from "@env";
 
 export const loginService = async (email: string, password: string) => {
-  const res = await fetch(`${API_DOMAIN}/auth/login`, {
+  const res = await fetch(`http://127.0.0.1:8080/auth/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

@@ -42,6 +42,7 @@ type Venues interface {
 	GetVenueFromID(context.Context, uuid.UUID) (models.Venue, error)
 	GetVenueFromName(context.Context, string) (models.Venue, error)
 	GetAllVenues(ctx context.Context) ([]models.Venue, error)
+	GetFilteredVenues(context.Context, int64, int64, float64, float64, float64, float64) ([]models.Venue,error)
 }
 
 type VenueRatings interface {
