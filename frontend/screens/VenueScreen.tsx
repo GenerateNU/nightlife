@@ -32,7 +32,7 @@ const VenueScreen: React.FC = () => {
     })
 
     useEffect(() => {
-        fetch('http://localhost:8080/events/2edc969e-bf93-4b3b-9273-5b0aa968b79c')
+        fetch('http://localhost:8080/event/2edc969e-bf93-4b3b-9273-5b0aa968b79c')
         .then(response => response.json())
         .then(json => {
             setEventDictList(json)
@@ -42,6 +42,8 @@ const VenueScreen: React.FC = () => {
         });
     })
 
+
+    console.log(eventDictList)
 
     return (
         <ScrollView style={{backgroundColor: '#121212'}}>

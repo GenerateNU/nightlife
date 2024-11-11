@@ -1,18 +1,24 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
+import { format, parseISO } from 'date-fns';
 
+const Event = ({event = {create_at: "", event_date: "", event_id: 0, event_time: "", image_path: "", name: "", venue_id: ""}}) => {
+  const date = parseISO(event.event_date)
+  const displayDate = format(date, "MMMM do, yyyy");
+  const time = parseISO(event.event_time)
+  const displayTime = format(date, 'h:mm a');
 
-const Event = ({event = ""}) => {
+  console.log("******", event.image_path)
   return (
     <View style={styles.container}>
       <Image
         style={styles.eventImage}
-        source={{ uri: "" }} 
+        source={{ uri: event.image_path }} 
       />
       <View style={styles.overlay}>
-        <Text style={styles.eventText}>title</Text>
-        <Text style={styles.dateText}>Date: </Text>
-        <Text style={styles.timeText}>Time: </Text>
+        <Text style={styles.eventText}>{event.name}</Text>
+        <Text style={styles.dateText}>{displayDate}</Text>
+        <Text style={styles.timeText}>{displayTime}</Text>
       </View>
     </View>
   );
@@ -26,15 +32,14 @@ const styles = StyleSheet.create({
   },
   eventImage: {
     width: 200, 
-    height: 150,
-    borderRadius: 10
+    height: 150
   },
   overlay: {
     position: 'absolute',
     top: 80,
     left: 0,
     right: 0,
-    bottom: 30,
+    bottom: 0,
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
     backgroundColor: 'rgba(0, 0, 0, 0.5)', 

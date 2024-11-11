@@ -3,7 +3,6 @@ import {Text, View, StyleSheet} from "react-native";
 import PropTypes from 'prop-types';
 
 const VibeScrollBar = ({minTitle = "", maxTitle = ""}) => {
-
     return(
     <View style={styles.container}>
         <Slider 

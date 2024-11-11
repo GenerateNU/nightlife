@@ -10,7 +10,7 @@ import (
 func (db *DB) GetEventForVenue(ctx context.Context, venueID uuid.UUID) ([]models.Event, error) {
 	var events []models.Event
 
-	var query = `SELECT * FROM "event" WHERE venueid = $1`
+	var query = `SELECT * FROM event WHERE venue_id = $1`
 
 	rows, err := db.conn.Query(ctx, query, venueID)
 
@@ -28,6 +28,7 @@ func (db *DB) GetEventForVenue(ctx context.Context, venueID uuid.UUID) ([]models
 			&event.Time,
 			&event.ImagePath,
 			&event.VenueID,
+			&event.CreatedAt,
 		); err != nil {
 			return nil, err
 		}

@@ -1,15 +1,20 @@
 package models
 
-import "github.com/google/uuid"
+import (
+	"time"
+
+	"github.com/google/uuid"
+)
 
 // Represents Venue Event
 type Event struct {
 	EventID   int       `json:"event_id"`
 	Name      string    `json:"name"`
-	Date      int       `json:"event_date"`
-	Time      string    `json:"event_time"`
+	Date      time.Time `json:"event_date"`
+	Time      time.Time `json:"event_time"`
 	ImagePath string    `json:"image_path"`
-	VenueID   uuid.UUID `json:"venueID"`
+	VenueID   uuid.UUID `json:"venue_id"`
+	CreatedAt time.Time `json:"created_at"`
 }
 
 func (e *Event) Validate() map[string]string {

@@ -17,7 +17,7 @@ const UpcomingEventScroll = ({events = []}) => {
         >
           {events.map((event, index) => (
             <View key={index} style={styles.item}>
-              <Event event={event} /> {/* Pass the event as a prop */}
+              <Event event={event} />
             </View>
           ))}
         </ScrollView>
@@ -45,8 +45,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#f0f0f0',
-    marginHorizontal: 30, 
-    borderRadius: 100
+    marginHorizontal: 30
   },
 });
 

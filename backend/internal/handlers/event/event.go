@@ -10,7 +10,7 @@ import (
 
 func (s *Service) GetEventForVenue(c *fiber.Ctx) error {
 
-	venueID := c.Params("venueid")
+	venueID := c.Params("venue_id")
 
 	if venueID == "" {
 		c.Status(http.StatusBadRequest)
