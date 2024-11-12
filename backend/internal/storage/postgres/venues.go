@@ -129,3 +129,18 @@ func (db *DB) GetAllVenues(ctx context.Context) ([]models.Venue, error) {
 	defer rows.Close()
 	return pgx.CollectRows(rows, pgx.RowToStructByName[models.Venue])
 }
+
+func (db *DB) GetAllVenuesWithFilter(ctx context.Context, where string) ([]models.Venue, error) {
+	query := `SELECT venue_id, name, address, city, state, zip_code, created_at, ST_Y(location::geometry) AS latitude, ST_X(location::geometry) 
+	AS longitude FROM venue ` + where 
+	rows, err := db.conn.Query(ctx, query)
+	if err != nil {
+		fmt.Println("WHAT DA WHAA " + err.Error())
+		return []models.Venue{}, err
+	}
+	defer rows.Close()
+	return pgx.CollectRows(rows, pgx.RowToStructByName[models.Venue])
+}
+
+
+

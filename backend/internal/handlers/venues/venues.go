@@ -5,8 +5,10 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/GenerateNU/nightlife/internal/errs"
+	"github.com/GenerateNU/nightlife/internal/models"
 	"github.com/GenerateNU/nightlife/internal/types"
 
 	"github.com/gofiber/fiber/v2"
@@ -126,7 +128,7 @@ func (s *Service) GetVenueFromID(c *fiber.Ctx) error {
 }
 
 func (s *Service) GetVenueFromName(c *fiber.Ctx) error {
-	name := c.Query("q")
+	name := c.Query("q") 
 	if name == "" {
 		return fiber.NewError(fiber.StatusBadRequest, "Venue name is required")
 	}
@@ -141,7 +143,33 @@ func (s *Service) GetAllVenues(c *fiber.Ctx) error {
 	venues, err := s.store.GetAllVenues(c.Context())
 	if err != nil {
 		fmt.Println(err.Error())
-		return fiber.NewError(fiber.StatusInternalServerError, "Could not get venue")
+		return fiber.NewError(fiber.StatusInternalServerError, "Could not get venues")
 	}
+	return c.Status(fiber.StatusOK).JSON(venues)
+}
+
+func (s *Service) GetAllVenuesWithFilter(c *fiber.Ctx) error {
+	// parse all filters from the context 
+	sort := c.Query("sort")
+	f := c.Query("filters")
+	filters := []string{} // default to empty array if no filters applied 
+	if f != `` {
+		filters = strings.Split(f, ",")
+	}
+	// pass filters into SortAndFilter instance and retrieve query string 
+	sortAndFilter := models.SortAndFilter{}
+	sortAndFilter = sortAndFilter.Make() 
+	whereQuery := sortAndFilter.ConstructFilterQuery(filters)
+	// retrieve venues with given filters from db 
+	venues, err := s.store.GetAllVenuesWithFilter(c.Context(), whereQuery)
+	if err != nil {
+		fmt.Println(err.Error())
+		return fiber.NewError(fiber.StatusInternalServerError, "Could not get venues")
+	}
+	// sort venues if applicable 
+	if sort != `` { // if the sort parameter was present in the request 
+		sortAndFilter.SortVenues(venues, sort)
+	}
+	// Use SortAndFilter instance to sort the filtered list of venues and return final list 
 	return c.Status(fiber.StatusOK).JSON(venues)
 }
