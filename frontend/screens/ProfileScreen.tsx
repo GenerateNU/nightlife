@@ -52,7 +52,7 @@ const ProfileScreen = () => {
                 <View style={styles.userInfo}>
                     <Text style={styles.username}>{user?.first_name}</Text>
                     <Text style={styles.name}>@{user?.username} • {user?.pronouns || "no pronouns"}</Text>
-                    <Text style={styles.name}>12 followers</Text>
+                    <Text style={styles.name}>12 followers • {user?.age} yrs</Text>
                 </View>
             </View>
 
@@ -74,7 +74,7 @@ const ProfileScreen = () => {
                 <ProfileTabButton onPress={() => setActiveTab(ProfileTabs.Bookmarks)} icon={bookmarkIcon} />
             </View>
 
-            <ScrollView style={{ marginTop: 12 }}>
+            <ScrollView style={{ marginTop: 6 }}>
                 {activeTab === ProfileTabs.Friends && (
                     <View style={styles.venueListContainer}>
                         <ProfileVenueCard title="Club Passim" distance="1.3" rating="4.5 ★ (329)" image={{uri: "https://media.istockphoto.com/id/1464613492/photo/empty-music-venue-with-stage-and-bar.jpg?s=612x612&w=0&k=20&c=s8Vu1K0MLYN1FAn3_WpmrlKscl8L03v8jtn4AHMjZcU="}}/>
@@ -91,7 +91,6 @@ const ProfileScreen = () => {
                 )}
             </ScrollView>
 
-            {/* Share Profile Modal */}
             <Modal visible={isModalVisible} transparent animationType="slide">
                 <View style={styles.modalContainer}>
                     <TouchableOpacity onPress={toggleModal} style={styles.backArrow}>

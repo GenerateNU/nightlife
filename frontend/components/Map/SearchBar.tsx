@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     color: "#fff",
     backgroundColor: "#444",
+    fontFamily: "Archivo_500Medium"
   },
 });
 

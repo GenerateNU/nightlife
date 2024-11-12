@@ -4,23 +4,29 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, ScrollView } from 'react-native';
 
 const EditProfileData = ({ navigation }) => {
-    const [firstName, setFirstName] = useState('');
-    const [username, setUsername] = useState('');
-    const [email, setEmail] = useState('');
-    const [age, setAge] = useState('');
-    const [profilePictureURL, setProfilePictureURL] = useState('');
-    const [personalityType, setPersonalityType] = useState('');
-    const [pronouns, setPronouns] = useState('');
-    const [biography, setBiography] = useState('');
-    const [instagramURL, setInstagramURL] = useState('');
-    const [tikTokURL, setTikTokURL] = useState('');
-    const [twitterURL, setTwitterURL] = useState('');
-    const [phone, setPhone] = useState('');
-    const [privacy, setPrivacy] = useState('');
+    const [firstName, setFirstName] = useState(null);
+    const [username, setUsername] = useState(null);
+    const [email, setEmail] = useState(null);
+    const [age, setAge] = useState(null);
+    const [profilePictureURL, setProfilePictureURL] = useState(null);
+    const [personalityType, setPersonalityType] = useState(null);
+    const [pronouns, setPronouns] = useState(null);
+    const [biography, setBiography] = useState(null);
+    const [instagramURL, setInstagramURL] = useState(null);
+    const [tikTokURL, setTikTokURL] = useState(null);
+    const [twitterURL, setTwitterURL] = useState(null);
+    const [phone, setPhone] = useState(null);
+    const [privacy, setPrivacy] = useState(null);
+
+    const fieldsToChange = [
+        firstName, username, email, age, profilePictureURL, personalityType, pronouns, biography,
+        instagramURL, tikTokURL, twitterURL, phone, privacy
+    ].map(i => i != null);
 
     const { user, accessToken, setUserAsync } = useAuth();
 
     const handleSave = async () => {
+        console.log("Fields to change:", fieldsToChange)
         console.log('Updated Data:', { firstName, username, email, age, profilePictureURL, personalityType, pronouns, biography, instagramURL, tikTokURL, twitterURL, phone, privacy });
 
         console.log("First Name: " + firstName)
@@ -38,6 +44,11 @@ const EditProfileData = ({ navigation }) => {
         console.log(data)
 
         console.log("User ID: " + data.user_id)
+
+        if (fieldsToChange[0] == null) {
+            navigation.goBack();
+            return;
+        }
 
         const userReq = await fetch(`http://localhost:8080/profiles/update/${data.user_id}`, {
             method: "PATCH",
