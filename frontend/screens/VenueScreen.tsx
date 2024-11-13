@@ -1,3 +1,5 @@
+
+/**
 import React, { useState, useEffect } from "react";
 import {Text, View, TouchableOpacity, ScrollView, StyleSheet} from "react-native";
 import StarReview from "@/components/StarReview";
@@ -9,6 +11,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import VibeScrollBar from "@/components/VibeScrollBar";
 
 const VenueScreen: React.FC = () => {
+    
     const Tab = createBottomTabNavigator();
 
     const OverviewScreen = () => <Text>Overview Content</Text>;
@@ -153,7 +156,8 @@ const VenueScreen: React.FC = () => {
                     <View style={{marginLeft: 80, marginTop: 5}}>
                     <TouchableOpacity style={styles.button} onPress={() => alert('Button Pressed')}>
                         <Text style={styles.buttonText}>Resonate</Text> {/* You can adjust font size here */}
-                    </TouchableOpacity>
+                    /**
+                        </TouchableOpacity>
                     </View>
                 </View>
                 <View style={{flexDirection: 'column'}}>
@@ -168,6 +172,7 @@ const VenueScreen: React.FC = () => {
     
         </ScrollView>
     );
+    
 }
 
 const styles = StyleSheet.create({
@@ -232,3 +237,4 @@ const styles = StyleSheet.create({
     
 
 export default VenueScreen;
+**/
