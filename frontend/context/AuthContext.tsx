@@ -11,6 +11,11 @@ interface UserProfile {
     profile_picture_url: string;
     pronouns?: string;
     biography?: string;
+    instagram_url?: string;
+    tik_tok_url?: string;
+    twitter_url?: string;
+    phone?: string;
+    privacy?: boolean;
     created_at: string;
     updated_at?: string;
 }
