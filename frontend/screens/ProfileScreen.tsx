@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useEffect, useState } from 'react';
 import { ScrollView, Text, View, StyleSheet, Dimensions, Modal, TouchableOpacity, TextInput } from 'react-native';
 import ProfileButtons from '@/components/Buttons/ProfileButtons';

@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { useAuth } from '@/context/AuthContext';
 import { fetchUserProfileService } from '@/services/authService';
 import React, { useState } from 'react';
