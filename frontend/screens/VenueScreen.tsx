@@ -19,6 +19,12 @@ const VenueScreen: React.FC = () => {
     const [venueAddress, setVenueAddress] = useState("")
     const [eventDictList, setEventDictList] = useState([])
 
+    const [ambiance, setAmbianceRating] = useState(0)
+    const [music, setMusicRating] = useState(0)
+    const [crowd, setCrowdRating] = useState(0)
+    const [service, setServiceRating] = useState(0)
+    const [ratingsDictList, setRatingsDictList] = useState([])
+
     useEffect(() => {
         fetch('http://localhost:8080/venues/2edc969e-bf93-4b3b-9273-5b0aa968b79c')
         .then(response => response.json())
@@ -42,9 +48,45 @@ const VenueScreen: React.FC = () => {
         });
     })
 
+    useEffect(() => {
+        fetch('http://localhost:8080/venueratings/venue/3e69e3d8-2a07-448b-bb66-07b6a6c8c79f/ratings')
+        .then(response => response.json())
+        .then(json => {
+            setRatingsDictList(json)
+            const ambiance_rating = json.map(item => item.ambiance_rating);
+            const music_rating = json.map(item => item.music_rating);
+            const crowd_rating = json.map(item => item.crowd_rating);
+            const service_rating = json.map(item => item.service_rating);
+            
+            const ambiance_total = ambiance_rating.reduce((acc, curr) => acc + curr, 0);
+            const ambiance_average = ambiance_rating.length > 0 ? ambiance_total / ambiance_rating.length : 0;
+            
+            const music_total = music_rating.reduce((acc, curr) => acc + curr, 0);
+            const music_average = music_rating.length > 0 ? music_total / music_rating.length : 0;
+            
+            const crowd_total = crowd_rating.reduce((acc, curr) => acc + curr, 0);
+            const crowd_average = crowd_rating.length > 0 ? crowd_total / crowd_rating.length : 0;
+            
+            const service_total = service_rating.reduce((acc, curr) => acc + curr, 0);
+            const service_average = service_rating.length > 0 ? service_total / service_rating.length : 0;
+            
+            setAmbianceRating(Math.ceil(ambiance_average)-8);
+            setCrowdRating(Math.ceil(crowd_average)-5);
+            setMusicRating(Math.ceil(music_average)-7);
+            setServiceRating(Math.ceil(service_average)-8);
+        })
+        .catch(error => {
+        console.error(error);
+        });
+    })
 
-    console.log(eventDictList)
+    console.log("****", ratingsDictList)
 
+    console.log("****", ambiance)
+    console.log("****", crowd)
+    console.log("****", music)
+    console.log("****", service)
+    
     return (
         <ScrollView style={{backgroundColor: '#121212'}}>
             <View style={styles.container}>
@@ -115,12 +157,12 @@ const VenueScreen: React.FC = () => {
                     </View>
                 </View>
                 <View style={{flexDirection: 'column'}}>
-                    <VibeScrollBar minTitle="Chill" maxTitle="Energetic"/>
-                    <VibeScrollBar minTitle="Underground" maxTitle="Mainstream"/>
-                    <VibeScrollBar minTitle="Affordable" maxTitle="Expensive"/>
-                    <VibeScrollBar minTitle="Classy" maxTitle="Rowdy"/>
-                    <VibeScrollBar minTitle="Sit down" maxTitle="Rave"/>
-                    <VibeScrollBar minTitle="Casual" maxTitle="Exclusive"/>
+                    <VibeScrollBar rating={ambiance} minTitle="Chill" maxTitle="Energetic"/>
+                    <VibeScrollBar rating={crowd} minTitle="Underground" maxTitle="Mainstream"/>
+                    <VibeScrollBar rating={service} minTitle="Affordable" maxTitle="Expensive"/>
+                    <VibeScrollBar rating={crowd} minTitle="Classy" maxTitle="Rowdy"/>
+                    <VibeScrollBar rating={ambiance} minTitle="Sit down" maxTitle="Rave"/>
+                    <VibeScrollBar rating={ambiance} minTitle="Casual" maxTitle="Exclusive"/>
                 </View>
             </View>
     

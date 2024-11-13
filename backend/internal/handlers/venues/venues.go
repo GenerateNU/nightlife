@@ -76,7 +76,6 @@ func (s *Service) PatchVenueReview(c *fiber.Ctx) error {
 		}
 	}
 
-
 	reviewID, err := c.ParamsInt("reviewId")
 	if err != nil {
 		if handlerErr := errs.ErrorHandler(c, err); handlerErr != nil {
@@ -95,10 +94,10 @@ func (s *Service) PatchVenueReview(c *fiber.Ctx) error {
 		})
 	}
 
-	log.Printf("Updating review with OverallRating: %d, AmbianceRating: %d, MusicRating: %d, CrowdRating: %d, ServiceRating: %d, ReviewText: %s, VenueID: %v, ReviewID: %d",
-		int8(req.OverallRating), int8(req.AmbianceRating), int8(req.MusicRating), int8(req.CrowdRating), int8(req.ServiceRating), req.ReviewText, venueID, int8(reviewID))
+	log.Printf("Updating review with OverallRating: %d, EnergyRating: %d, MainstreamRating: %d, PriceRating: %d, CrowdRating: %d, HypeRating: %d, ExclusiveRating: %d, ReviewText: %s, VenueID: %v, ReviewID: %d",
+		int8(req.OverallRating), int8(req.EnergyRating), int8(req.MainstreamRating), int8(req.PriceRating), int8(req.CrowdRating), int8(req.HypeRating), int8(req.ExclusiveRating), req.ReviewText, venueID, int8(reviewID))
 	// Call the store method to update the review
-	err = s.store.PatchVenueReview(c.Context(), int8(req.OverallRating), int8(req.AmbianceRating), int8(req.MusicRating), int8(req.CrowdRating), int8(req.ServiceRating), req.ReviewText, venueID, int8(reviewID))
+	err = s.store.PatchVenueReview(c.Context(), int8(req.OverallRating), int8(req.EnergyRating), int8(req.MainstreamRating), int8(req.PriceRating), int8(req.CrowdRating), int8(req.HypeRating), int8(req.ExclusiveRating), req.ReviewText, venueID, int8(reviewID))
 	if err != nil {
 		if handlerErr := errs.ErrorHandler(c, err); handlerErr != nil {
 			return handlerErr

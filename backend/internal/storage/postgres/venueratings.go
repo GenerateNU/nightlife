@@ -16,10 +16,12 @@ SELECT
     v.venue_id AS venue_id, 
     v.name AS venue_name, 
     r.overall_rating, 
-    r.ambiance_rating, 
-    r.music_rating, 
+    r.energy_rating,
     r.crowd_rating, 
-    r.service_rating
+    r.mainstream_rating,
+	r.price_rating,
+	r.hype_rating,
+	r.exclusive_rating
 FROM 
     review r
 JOIN 

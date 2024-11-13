@@ -34,7 +34,6 @@ func (db *DB) DeleteReviewForVenue(ctx context.Context, reviewID int8) error {
 	return nil
 }
 
-
 func (db *DB) GetVenueReviews(ctx context.Context, reviewID int8, venueID uuid.UUID) ([]models.Review, error) {
 	// Use proper SQL syntax without single quotes around the table name
 	query := `SELECT * FROM "Review" r WHERE review_id = $1 AND venue_id = $2`
@@ -50,10 +49,12 @@ func (db *DB) GetVenueReviews(ctx context.Context, reviewID int8, venueID uuid.U
 		if err := rows.Scan(
 			&review.VenueID, // Make sure the order and fields match your table's structure
 			&review.OverallRating,
-			&review.AmbianceRating,
-			&review.MusicRating,
+			&review.EnergyRating,
+			&review.MainstreamRating,
+			&review.PriceRating,
 			&review.CrowdRating,
-			&review.ServiceRating,
+			&review.HypeRating,
+			&review.ExclusiveRating,
 			&review.ReviewText,
 			&review.CreatedAt,
 			&review.UpdatedAt,
@@ -66,24 +67,26 @@ func (db *DB) GetVenueReviews(ctx context.Context, reviewID int8, venueID uuid.U
 	return reviews, nil
 }
 
-func (db *DB) PatchVenueReview(ctx context.Context, overallRating int8, ambianceRating int8, musicRating int8, crowdRating int8, serviceRating int8, reviewText string, venueID uuid.UUID, reviewID int8) error {
+func (db *DB) PatchVenueReview(ctx context.Context, overallRating int8, energyRating int8, mainstreamRating int8, priceRating int8, crowdRating int8, hypeRating int8, exclusiveRating int8, reviewText string, venueID uuid.UUID, reviewID int8) error {
 	// Log the incoming parameters for debugging and monitoring
-	log.Printf("Attempting to update review with ReviewID: %d, VenueID: %s, Ratings: [Overall: %d, Ambiance: %d, Music: %d, Crowd: %d, Service: %d], Review Text: %s",
-		reviewID, venueID, overallRating, ambianceRating, musicRating, crowdRating, serviceRating, reviewText)
+	log.Printf("Attempting to update review with ReviewID: %d, VenueID: %s, Ratings: [Overall: %d, EnergyRating: %d, MainstreamRating: %d, PriceRating: %d, CrowdRating: %d, HypeRating: %d, ExclusiveRating: %d], Review Text: %s",
+		reviewID, venueID, overallRating, energyRating, mainstreamRating, priceRating, crowdRating, hypeRating, exclusiveRating, reviewText)
 
 	// SQL query execution
 	_, err := db.conn.Exec(ctx, `
         UPDATE "Review" r
         SET
             overall_rating = $1,
-            ambiance_rating = $2,
-            music_rating = $3,
-            crowd_rating = $4,
-            service_rating = $5,
-            review_text = $6,
+            energy_rating = $2,
+            mainstream_rating = $3,
+            price_rating = $4,
+            crowd_rating = $5,
+			hype_rating = $6,
+			exclusive_rating = $7,
+            review_text = $8,
             udpated_at = CURRENT_TIMESTAMP
-        WHERE review_id = $7 AND venue_id = $8;
-    `, overallRating, ambianceRating, musicRating, crowdRating, serviceRating, reviewText, reviewID, venueID)
+        WHERE review_id = $9 AND venue_id = $10;
+    `, overallRating, energyRating, mainstreamRating, priceRating, crowdRating, hypeRating, exclusiveRating, reviewText, reviewID, venueID)
 
 	if err != nil {
 		// Log the error with detailed context
@@ -131,5 +134,3 @@ func (db *DB) GetAllVenues(ctx context.Context) ([]models.Venue, error) {
 	defer rows.Close()
 	return pgx.CollectRows(rows, pgx.RowToStructByName[models.Venue])
 }
-
-

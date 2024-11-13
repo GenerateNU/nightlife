@@ -1,21 +1,23 @@
 import Slider from "@react-native-community/slider";
-import {Text, View, StyleSheet} from "react-native";
+import {Text, View, StyleSheet, Image} from "react-native";
 import PropTypes from 'prop-types';
+import RNFS from 'react-native-fs';
 
-const VibeScrollBar = ({minTitle = "", maxTitle = ""}) => {
+const VibeScrollBar = ({rating = 1, minTitle = "", maxTitle = ""}) => {
+  const soundWaveImages = {
+    1: require("../assets/sound_wave_1.png"),
+    2: require("../assets/sound_wave_2.png"),
+  };
     return(
     <View style={styles.container}>
-        <Slider 
-            style={{ width: 350, height: 40}}
-            minimumValue={0}
-            thumbTintColor="white"
-            minimumTrackTintColor="white"
-            maximumTrackTintColor="gray"/>
+        <Image
+          source={soundWaveImages[rating]}
+        />
         <View style={styles.labelContainer}>
             <Text style={styles.label}>{minTitle}</Text>
             <Text style={styles.label}>{maxTitle}</Text>
         </View>
-    </View>)
+    </View>);
 }
 
 VibeScrollBar.propTypes = {
