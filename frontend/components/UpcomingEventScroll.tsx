@@ -15,9 +15,9 @@ const UpcomingEventScroll = ({events = []}) => {
           showsHorizontalScrollIndicator={false}
           style={styles.scrollView}
         >
-          {events.map((event, index) => (
+          {Array.from({ length: 10 }, (_, index) => (
             <View key={index} style={styles.item}>
-              <Event event={event} />
+              <Event/>
             </View>
           ))}
         </ScrollView>

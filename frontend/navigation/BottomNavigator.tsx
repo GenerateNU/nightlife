@@ -1,42 +1,70 @@
-import * as React from 'react';
-import {BottomTabNavigationOptions, createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import * as React from "react";
+import {
+  BottomTabNavigationOptions,
+  createBottomTabNavigator,
+} from "@react-navigation/bottom-tabs";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import HomeScreen from "@/screens/HomeScreen";
 import UpdatesScreen from "@/screens/UpdatesScreen";
 import ProfileScreen from "@/screens/ProfileScreen";
 import SettingsScreen from "@/screens/SettingsScreen";
+<<<<<<< HEAD
 import VenueScreen from '@/screens/VenueScreen';
+=======
+import MapScreen from "@/screens/MapScreen";
+import VenueScreen from "@/screens/VenueScreen";
+import { BottomTabParamList } from "../types/NavigationTypes";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import EditProfile from "@/screens/profile/EditProfile";
+import EditProfileData from "@/screens/profile/EditProfileData";
+>>>>>>> b6136ca773a9f06b8b6704803b38115da574bbaa
 
-const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator<BottomTabParamList>();
 
 
 const bottomTabNavOptions: BottomTabNavigationOptions = {
-    tabBarStyle: {
-        backgroundColor: '#111729',
-        height: 100,
-        paddingVertical: 3,
-    },
-    tabBarLabelStyle: {
-        paddingBottom: 8,
-    },
-    tabBarIconStyle: {
-        marginTop: 8,
-    },
-    headerStyle: {
-        backgroundColor: '#111729',
-    },
-    headerTintColor: '#fff',
-    tabBarActiveTintColor: '#4ba3e3',
-}
+  tabBarStyle: {
+    backgroundColor: "#1c1c1c",
+    height: 100,
+    paddingVertical: 3,
+    borderTopWidth: 0,
+  },
+  tabBarShowLabel: false,
+  tabBarIconStyle: {
+    marginTop: 4,
+  },
+  headerStyle: {
+    backgroundColor: "#0ea5e9",
+    shadowColor: "transparent",
+    height: 64,
+  },
+  headerTitle: "",
+  headerTintColor: "#fff",
+  tabBarActiveTintColor: "#0ea5e9",
+};
 
-const createScreenOptions = (label: string, iconName: keyof (typeof MaterialCommunityIcons.glyphMap)): BottomTabNavigationOptions => ({
-    tabBarLabel: label,
-    tabBarIcon: ({ color, size }) => (
-        <MaterialCommunityIcons name={iconName} color={color} size={size} />
-    ),
+const createScreenOptions = (
+  label: string,
+  iconName: keyof typeof MaterialCommunityIcons.glyphMap
+): BottomTabNavigationOptions => ({
+  tabBarLabel: label,
+  tabBarIcon: ({ color, size }) => (
+    <MaterialCommunityIcons name={iconName} color={color} size={size} />
+  ),
 });
 
+const Stack = createNativeStackNavigator();
+
+const ProfileStackNavigator = () => (
+    <Stack.Navigator>
+        <Stack.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false}} />
+        <Stack.Screen name="EditProfile" component={EditProfile} options={{ headerShown: false }} />
+        <Stack.Screen name="EditProfileData" component={EditProfileData} options={{ headerShown: false }} />
+    </Stack.Navigator>
+  );
+
 export function BottomNavigator() {
+<<<<<<< HEAD
     return (
         <Tab.Navigator initialRouteName="Home" screenOptions={bottomTabNavOptions}>
             <Tab.Screen name="Home" component={VenueScreen} options={createScreenOptions("Home", "home")}/>
@@ -46,4 +74,43 @@ export function BottomNavigator() {
             <Tab.Screen name="Settings" component={SettingsScreen} options={createScreenOptions("Settings", "cog")}/>
         </Tab.Navigator>
     );
+=======
+  return (
+    <Tab.Navigator initialRouteName="Home" screenOptions={bottomTabNavOptions}>
+      <Tab.Screen
+        name="Home"
+        component={HomeScreen}
+        options={createScreenOptions("Home", "home")}
+      />
+      <Tab.Screen
+        name="Browse"
+        component={MapScreen}
+        options={createScreenOptions("Search", "magnify")}
+      />
+      <Tab.Screen
+        name="Updates"
+        component={UpdatesScreen}
+        options={createScreenOptions("Updates", "bell")}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={ProfileStackNavigator}
+        options={createScreenOptions("Profile", "account-circle")}
+      />
+      <Tab.Screen
+        name="Settings"
+        component={SettingsScreen}
+        options={createScreenOptions("Settings", "cog")}
+      />
+      <Tab.Screen
+        name="Venue"
+        component={VenueScreen}
+        options={{
+          tabBarStyle: { display: "none" },
+          tabBarButton: () => null,
+        }}
+      />
+    </Tab.Navigator>
+  );
+>>>>>>> b6136ca773a9f06b8b6704803b38115da574bbaa
 }

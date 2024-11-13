@@ -18,7 +18,7 @@ Gets a user profile by a column, (username, id, or email).
 func (db *DB) GetProfileByColumn(ctx context.Context, column string, value string) (models.Profile, error) {
 	var profile models.Profile
 	var query = fmt.Sprintf(`
-		SELECT user_id, first_name, username, email, age, location, profile_picture_url, created_at
+		SELECT user_id, first_name, username, email, age, location, profile_picture_url, personality_type, pronouns, biography, instagram_url, tik_tok_url, twitter_url, phone, privacy, created_at
 		FROM users
 		WHERE %s = $1`, column)
 
@@ -32,10 +32,19 @@ func (db *DB) GetProfileByColumn(ctx context.Context, column string, value strin
 		&profile.Age,
 		&profile.Location,
 		&profile.ProfilePictureURL,
+		&profile.PersonalityType,
+		&profile.Pronouns,
+		&profile.Biography,
+		&profile.InstagramURL,
+		&profile.TikTokURL,
+		&profile.TwitterURL,
+		&profile.Phone,
+		&profile.Privacy,
 		&profile.CreatedAt,
 	)
 
 	if err != nil {
+		log.Print(err)
 		if errors.Is(err, sql.ErrNoRows) {
 			return models.Profile{}, fmt.Errorf("no profile found for %s: %s", column, value)
 		}
@@ -43,6 +52,85 @@ func (db *DB) GetProfileByColumn(ctx context.Context, column string, value strin
 	}
 
 	return profile, nil
+}
+
+func (db *DB) PatchProfile(
+	ctx context.Context,
+	userId uuid.UUID,
+	firstName *string,
+	username *string,
+	email *string,
+	age *int,
+	location *string,
+	profilePictureUrl *string,
+	personalityType *string,
+	pronouns *string,
+	biography *string,
+	instagramUrl *string,
+	tikTokUrl *string,
+	twitterUrl *string,
+	phone *string,
+	privacy *bool) error {
+
+	fields := map[string]interface{}{
+		"first_name":          firstName,
+		"username":            username,
+		"email":               email,
+		"age":                 age,
+		"location":            location,
+		"profile_picture_url": profilePictureUrl,
+		"personality_type":    personalityType,
+		"pronouns":            pronouns,
+		"biography":           biography,
+		"instagram_url":       instagramUrl,
+		"tik_tok_url":         tikTokUrl,
+		"twitter_url":         twitterUrl,
+		"phone":               phone,
+		"privacy":             privacy,
+	}
+
+	query := `UPDATE "users" SET `
+	params := []interface{}{}
+	paramIndex := 1
+
+	for field, value := range fields {
+		switch v := value.(type) {
+		case *string:
+			if v != nil {
+				query += fmt.Sprintf("%s = $%d, ", field, paramIndex)
+				params = append(params, *v)
+				paramIndex++
+			}
+		case *int:
+			if v != nil {
+				query += fmt.Sprintf("%s = $%d, ", field, paramIndex)
+				params = append(params, *v)
+				paramIndex++
+			}
+		case *bool:
+			if v != nil {
+				query += fmt.Sprintf("%s = $%d, ", field, paramIndex)
+				params = append(params, *v)
+				paramIndex++
+			}
+		}
+	}
+
+	if len(params) == 0 {
+		log.Printf("No fields to update for user %s", userId)
+		return errors.ErrUnsupported
+	}
+
+	query = query[:len(query)-2] + fmt.Sprintf(" WHERE user_id = $%d", paramIndex)
+	params = append(params, userId)
+
+	_, err := db.conn.Exec(ctx, query, params...)
+	if err != nil {
+		log.Printf("Failed to update %s: %v", userId, err)
+		return err
+	}
+	log.Printf("Updated %s successfully", userId)
+	return nil
 }
 
 func (db *DB) CreatePreferences(ctx context.Context, p models.Preferences) error {
