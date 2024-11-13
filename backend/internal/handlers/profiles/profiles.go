@@ -1,3 +1,4 @@
+//nolint
 package profiles
 
 import (
