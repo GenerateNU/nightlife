@@ -13,7 +13,6 @@ import VenueScreen from "@/screens/VenueScreen";
 import { BottomTabParamList } from "../types/NavigationTypes";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import EditProfile from "@/screens/profile/EditProfile";
-import EditProfileData from "@/screens/profile/EditProfileData";
 import EditProfileAttribute from "@/screens/profile/EditProfileAttribute";
 
 const Tab = createBottomTabNavigator<BottomTabParamList>();

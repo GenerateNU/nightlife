@@ -9,8 +9,12 @@ import EditProfileAttributeIcon from "@/assets/editProfileAttributeChevron.svg";
 import { NavigationProp, useFocusEffect } from "@react-navigation/native";
 import { fetchUserProfileService } from '@/services/authService';
 
+type RootStackParamList = {
+  EditProfileAttribute: { field: string };
+}
+
 type EditProfileProps = {
-  navigation: NavigationProp<any>;
+  navigation: NavigationProp<RootStackParamList>;
 }
 
 const EditProfile = ({ navigation }: EditProfileProps) => {

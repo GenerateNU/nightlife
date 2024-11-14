@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { ScrollView, Text, View, StyleSheet, Dimensions, Modal, TouchableOpacity, TextInput, Image } from 'react-native';
+import { ScrollView, Text, View, StyleSheet, Dimensions, Modal, TouchableOpacity, Image } from 'react-native';
 import ProfileButtons from '@/components/Buttons/ProfileButtons';
 import ProfileTabButton from '@/components/Buttons/ProfileTabButton';
 import ProfileVenueCard from '@/components/VenueCards/ProfileVenueCard';
@@ -36,7 +36,7 @@ const ProfileScreen = () => {
                 }
             };
             fetchData();
-        }, [user, accessToken])
+        }, [])
     );
 
     const toggleModal = () => setModalVisible(!isModalVisible);

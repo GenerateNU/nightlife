@@ -1,15 +1,20 @@
 import { useAuth } from "@/context/AuthContext";
-import { NavigationProp, RouteProp } from "@react-navigation/native";
+import { RouteProp } from "@react-navigation/native";
 import React from "react";
 import { useState } from "react";
-import { View, Text, TextInput, Button, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import Chevron from "@/assets/chevron.svg";
 
-type EditProfileAttributeProps = {
-    navigation: NavigationProp<any>;
-    route: RouteProp<any>;
-}
+type RootStackParamList = {
+    EditProfileAttribute: { field: string };
+  };
+  
+  type EditProfileAttributeProps = {
+    navigation: NativeStackNavigationProp<RootStackParamList, "EditProfileAttribute">;
+    route: RouteProp<RootStackParamList, "EditProfileAttribute">;
+  };
 
 // TODO: handle for types other than string
 // TODO: handle error responses from API
