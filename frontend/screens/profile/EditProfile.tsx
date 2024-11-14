@@ -2,117 +2,109 @@ import { useAuth } from '@/context/AuthContext';
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 
-const EditProfile = ({ navigation }) => {
+import Chevron from "../../assets/chevron.svg";
+
+import EditProfileAttributeIcon from "@/assets/editProfileAttributeChevron.svg";
+
+import { NavigationProp } from "@react-navigation/native";
+
+type EditProfileProps = {
+  navigation: NavigationProp<any>;
+}
+
+const EditProfile = ({ navigation }: EditProfileProps) => {
 
   const { user } = useAuth();
 
+  const fields: {key: string, value: string}[] = [
+    {
+      key: "Name",
+      value: user?.first_name || "update",
+    },
+    {
+      key: "Username",
+      value: user?.username || "update"
+    },
+    {
+      key: "Age",
+      value: user?.age.toString() || "update"
+    },
+    {
+      key: "Email",
+      value: user?.email || "update"
+    },
+    {
+      key: "Pronouns",
+      value: user?.pronouns || "update"
+    },
+    // TODO: add personality type to user model
+    {
+      key: "Personality Type",
+      value: "update"
+    },
+    {
+      key: "Biography",
+      value: user?.biography || "update"
+    },
+    {
+      key: "Instagram",
+      value: user?.instagram_url || "update"
+    },
+    {
+      key: "TikTok",
+      value: user?.tik_tok_url || "update"
+    },
+    {
+      key: "Twitter",
+      value: user?.twitter_url || "update"
+    },
+    {
+      key: "Private?",
+      value: user?.privacy != null ? (user.privacy ? "yes" : "no") : "update"
+    }
+  ]
+
+
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Edit Profile</Text>
+      <View style={{ flexDirection: "row", gap: 8, alignItems: "center", marginBottom: 20 }}>
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.goBackButton}>
+          <Chevron width={15} height={15} />
+        </TouchableOpacity>
+        <Text style={styles.title}>Edit Profile</Text>
+      </View>
       <View style={styles.profilePictureContainer}>
         <Image style={styles.profilePicture} source={{ uri: user?.profile_picture_url || "https://www.shutterstock.com/image-photo/head-shot-portrait-close-smiling-600nw-1714666150.jpg" }} />
         <Text style={styles.editProfilePictureText}>Edit</Text>
       </View>
-      {/* <Text style={styles.aboutYouText}>
-        About You
-      </Text> */}
-      <TouchableOpacity style={styles.editThing}>
-        <Text style={styles.aboutYouText}>Name</Text>
-        <View style={styles.editX}>
-          <Text style={styles.aboutYouText}>{user?.first_name || "add"}</Text>
-          <Image style={styles.xImage} source={require("@/assets/profile_x.png")} />
+      {fields.map((field, index) => (
+        <View style={styles.editThing} key={index}>
+          <Text style={styles.aboutYouText}>{field.key}</Text>
+          <TouchableOpacity style={styles.editX} onPress={() => navigation.navigate("EditProfileData", { field: field.key.toLowerCase() })}>
+            <Text style={styles.aboutYouText}>{field.value.length > 20 ? `${field.value.slice(0, 20).trim()}...` : field.value}</Text>
+            <EditProfileAttributeIcon style={styles.xImage} />
+          </TouchableOpacity>
         </View>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.editThing}>
-        <Text style={styles.aboutYouText}>Username</Text>
-        <View style={styles.editX}>
-          <Text style={styles.aboutYouText}>{user?.username || "add"}</Text>
-          <Image style={styles.xImage} source={require("@/assets/profile_x.png")} />
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.editThing}>
-        <Text style={styles.aboutYouText}>Your Age</Text>
-        <View style={styles.editX}>
-          <Text style={styles.aboutYouText}>{user?.age || "add"}</Text>
-          <Image style={styles.xImage} source={require("@/assets/profile_x.png")} />
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.editThing}>
-        <Text style={styles.aboutYouText}>Personality Type</Text>
-        <View style={styles.editX}>
-          <Text style={styles.aboutYouText}>{"N/A"}</Text>
-          <Image style={styles.xImage} source={require("@/assets/profile_x.png")} />
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.editThing}>
-        <Text style={styles.aboutYouText}>Pronouns</Text>
-        <View style={styles.editX}>
-          <Text style={styles.aboutYouText}>{user?.pronouns || "add"}</Text>
-          <Image style={styles.xImage} source={require("@/assets/profile_x.png")} />
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.editThing}>
-        <Text style={styles.aboutYouText}>Email</Text>
-        <View style={styles.editX}>
-          <Text style={styles.aboutYouText}>{user?.email || "add"}</Text>
-          <Image style={styles.xImage} source={require("@/assets/profile_x.png")} />
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.editThing}>
-        <Text style={styles.aboutYouText}>Biography</Text>
-        <View style={styles.editX}>
-          <Text style={styles.aboutYouText}>
-            {user?.biography ? (user.biography.length > 30 ? `${user.biography.slice(0, 30).trim()}...` : user.biography) : "add"}
-          </Text>
-
-          <Image style={styles.xImage} source={require("@/assets/profile_x.png")} />
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.editThing}>
-        <Text style={styles.aboutYouText}>Instagram URL</Text>
-        <View style={styles.editX}>
-          <Text style={styles.aboutYouText}>{user?.instagram_url || "add"}</Text>
-          <Image style={styles.xImage} source={require("@/assets/profile_x.png")} />
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.editThing}>
-        <Text style={styles.aboutYouText}>TikTok URL</Text>
-        <View style={styles.editX}>
-          <Text style={styles.aboutYouText}>{user?.tik_tok_url || "add"}</Text>
-          <Image style={styles.xImage} source={require("@/assets/profile_x.png")} />
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.editThing}>
-        <Text style={styles.aboutYouText}>Twitter/X URL</Text>
-        <View style={styles.editX}>
-          <Text style={styles.aboutYouText}>{user?.twitter_url || "add"}</Text>
-          <Image style={styles.xImage} source={require("@/assets/profile_x.png")} />
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.editThing}>
-        <Text style={styles.aboutYouText}>Private?</Text>
-        <View style={styles.editX}>
-          <Text style={styles.aboutYouText}>{user?.privacy || "add"}</Text>
-          <Image style={styles.xImage} source={require("@/assets/profile_x.png")} />
-        </View>
-      </TouchableOpacity>
-
-      {/* <TouchableOpacity style={styles.button}>
-        <Text style={styles.text} onPress={() => navigation.navigate('EditProfileData')}>
-          Edit Profile Data
-        </Text>
-      </TouchableOpacity> */}
-
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.text} onPress={() => navigation.goBack()}>
-          Go Back
-        </Text>
-      </TouchableOpacity>
+      ))}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  goBackButton: {
+    padding: 6,
+    backgroundColor: "#007bff",
+    borderRadius: 6,
+    alignSelf: "flex-start",
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 4,
+  },
+  goBackButtonText: {
+    color: "white",
+    fontFamily: "Archivo_500Medium",
+  },
   xImage: {
     marginBottom: 4,
     marginLeft: 6
@@ -125,7 +117,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#1c1c1c",
     flexDirection: "row",
     justifyContent: "space-between",
-    alignContent: "center"
+    alignContent: "center",
+    paddingVertical: 2
   },
   aboutYouText: {
     color: "white",
@@ -155,9 +148,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#1c1c1c",
   },
   title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 20,
+    fontSize: 26,
     color: "white",
     fontFamily: "Archivo_700Bold",
   },

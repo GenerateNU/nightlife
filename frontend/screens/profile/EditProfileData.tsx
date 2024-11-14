@@ -3,7 +3,10 @@ import { fetchUserProfileService } from '@/services/authService';
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, ScrollView } from 'react-native';
 
-const EditProfileData = ({ navigation }) => {
+const EditProfileData = ({ navigation, route }) => {
+
+    console.log(route.params);
+
     const [firstName, setFirstName] = useState(null);
     const [username, setUsername] = useState(null);
     const [email, setEmail] = useState(null);
