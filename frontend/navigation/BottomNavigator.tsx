@@ -14,6 +14,7 @@ import { BottomTabParamList } from "../types/NavigationTypes";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import EditProfile from "@/screens/profile/EditProfile";
 import EditProfileData from "@/screens/profile/EditProfileData";
+import EditProfileAttribute from "@/screens/profile/EditProfileAttribute";
 
 const Tab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -54,7 +55,7 @@ const ProfileStackNavigator = () => (
     <Stack.Navigator>
         <Stack.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false}} />
         <Stack.Screen name="EditProfile" component={EditProfile} options={{ headerShown: false }} />
-        <Stack.Screen name="EditProfileData" component={EditProfileData} options={{ headerShown: false }} />
+        <Stack.Screen name="EditProfileAttribute" component={EditProfileAttribute} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 

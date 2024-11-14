@@ -1,12 +1,13 @@
 import { useAuth } from '@/context/AuthContext';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 
 import Chevron from "../../assets/chevron.svg";
 
 import EditProfileAttributeIcon from "@/assets/editProfileAttributeChevron.svg";
 
-import { NavigationProp } from "@react-navigation/native";
+import { NavigationProp, useFocusEffect } from "@react-navigation/native";
+import { fetchUserProfileService } from '@/services/authService';
 
 type EditProfileProps = {
   navigation: NavigationProp<any>;
@@ -14,9 +15,23 @@ type EditProfileProps = {
 
 const EditProfile = ({ navigation }: EditProfileProps) => {
 
-  const { user } = useAuth();
+  const { user, setUserAsync, accessToken } = useAuth();
 
-  const fields: {key: string, value: string}[] = [
+  useFocusEffect(
+    useCallback(() => {
+      const fetchData = async () => {
+        if (user && accessToken) {
+          const userData = await fetchUserProfileService(user.email, accessToken);
+          if (userData) {
+            await setUserAsync(userData);
+          }
+        }
+      };
+      fetchData();
+    }, [])
+  );
+
+  const fields: { key: string, value: string }[] = [
     {
       key: "Name",
       value: user?.first_name || "update",
@@ -64,8 +79,6 @@ const EditProfile = ({ navigation }: EditProfileProps) => {
     }
   ]
 
-
-
   return (
     <View style={styles.container}>
       <View style={{ flexDirection: "row", gap: 8, alignItems: "center", marginBottom: 20 }}>
@@ -81,7 +94,7 @@ const EditProfile = ({ navigation }: EditProfileProps) => {
       {fields.map((field, index) => (
         <View style={styles.editThing} key={index}>
           <Text style={styles.aboutYouText}>{field.key}</Text>
-          <TouchableOpacity style={styles.editX} onPress={() => navigation.navigate("EditProfileData", { field: field.key.toLowerCase() })}>
+          <TouchableOpacity style={styles.editX} onPress={() => navigation.navigate("EditProfileAttribute", { field: field.key.toLowerCase() })}>
             <Text style={styles.aboutYouText}>{field.value.length > 20 ? `${field.value.slice(0, 20).trim()}...` : field.value}</Text>
             <EditProfileAttributeIcon style={styles.xImage} />
           </TouchableOpacity>
