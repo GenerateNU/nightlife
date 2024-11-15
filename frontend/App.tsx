@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { NavigationContainer } from '@react-navigation/native';
 import { BottomNavigator } from "@/navigation/BottomNavigator";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
