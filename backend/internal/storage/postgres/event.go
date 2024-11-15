@@ -25,7 +25,6 @@ func (db *DB) GetEventForVenue(ctx context.Context, venueID uuid.UUID) ([]models
 			&event.EventID,
 			&event.Name,
 			&event.Date,
-			&event.Time,
 			&event.ImagePath,
 			&event.VenueID,
 			&event.CreatedAt,

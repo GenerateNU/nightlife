@@ -1,5 +1,3 @@
-
-/**
 import React, { useState, useEffect } from "react";
 import {Text, View, TouchableOpacity, ScrollView, StyleSheet} from "react-native";
 import StarReview from "@/components/StarReview";
@@ -237,4 +235,3 @@ const styles = StyleSheet.create({
     
 
 export default VenueScreen;
-**/

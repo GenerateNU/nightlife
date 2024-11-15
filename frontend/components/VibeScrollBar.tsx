@@ -1,12 +1,15 @@
-import Slider from "@react-native-community/slider";
+//import Slider from "@react-native-community/slider";
 import {Text, View, StyleSheet, Image} from "react-native";
 import PropTypes from 'prop-types';
-import RNFS from 'react-native-fs';
 
 const VibeScrollBar = ({rating = 1, minTitle = "", maxTitle = ""}) => {
+  // const soundWaveImages = {
+  //   1: require("../assets/sound_wave_1.png"),
+  //   2: require("../assets/sound_wave_2.png"),
+  // };
   const soundWaveImages = {
-    1: require("../assets/sound_wave_1.png"),
-    2: require("../assets/sound_wave_2.png"),
+    1: "../assets/sound_wave_1.png",
+    2: "../assets/sound_wave_2.png",
   };
     return(
     <View style={styles.container}>
@@ -22,7 +25,8 @@ const VibeScrollBar = ({rating = 1, minTitle = "", maxTitle = ""}) => {
 
 VibeScrollBar.propTypes = {
   minTitle: PropTypes.string.isRequired, // Add prop validation here
-  maxTitle: PropTypes.string.isRequired
+  maxTitle: PropTypes.string.isRequired,
+  ratings: PropTypes.number.isRequired
 };
 
 const styles = StyleSheet.create({

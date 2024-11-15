@@ -1,11 +1,11 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 import { format, parseISO } from 'date-fns';
+import PropTypes from 'prop-types';
 
 const Event = ({event = {create_at: "", event_date: "", event_id: 0, event_time: "", image_path: "", name: "", venue_id: ""}}) => {
   const date = parseISO(event.event_date)
   const displayDate = format(date, "MMMM do, yyyy");
-  const time = parseISO(event.event_time)
   const displayTime = format(date, 'h:mm a');
 
   console.log("******", event.image_path)
@@ -22,6 +22,11 @@ const Event = ({event = {create_at: "", event_date: "", event_id: 0, event_time:
       </View>
     </View>
   );
+};
+
+Event.propTypes = {
+  minTitle: PropTypes.object.isRequired, // Add prop validation here
+  maxTitle: PropTypes.object.isRequired
 };
 
 const styles = StyleSheet.create({
