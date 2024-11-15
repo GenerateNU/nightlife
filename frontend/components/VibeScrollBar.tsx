@@ -26,7 +26,7 @@ const VibeScrollBar = ({rating = 1, minTitle = "", maxTitle = ""}) => {
 VibeScrollBar.propTypes = {
   minTitle: PropTypes.string.isRequired, // Add prop validation here
   maxTitle: PropTypes.string.isRequired,
-  ratings: PropTypes.number.isRequired
+  rating: PropTypes.number.isRequired
 };
 
 const styles = StyleSheet.create({

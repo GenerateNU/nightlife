@@ -153,8 +153,7 @@ const VenueScreen: React.FC = () => {
                     <Text style={{color: 'white', alignItems: 'flex-start', fontSize: 22}}> What&apos;s the vibe? </Text>
                     <View style={{marginLeft: 80, marginTop: 5}}>
                     <TouchableOpacity style={styles.button} onPress={() => alert('Button Pressed')}>
-                        <Text style={styles.buttonText}>Resonate</Text> {/* You can adjust font size here */}
-                    /**
+                        <Text style={styles.buttonText}>Resonate</Text>
                         </TouchableOpacity>
                     </View>
                 </View>

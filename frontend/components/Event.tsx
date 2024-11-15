@@ -8,7 +8,6 @@ const Event = ({event = {create_at: "", event_date: "", event_id: 0, event_time:
   const displayDate = format(date, "MMMM do, yyyy");
   const displayTime = format(date, 'h:mm a');
 
-  console.log("******", event.image_path)
   return (
     <View style={styles.container}>
       <Image
@@ -25,8 +24,7 @@ const Event = ({event = {create_at: "", event_date: "", event_id: 0, event_time:
 };
 
 Event.propTypes = {
-  minTitle: PropTypes.object.isRequired, // Add prop validation here
-  maxTitle: PropTypes.object.isRequired
+  event: PropTypes.object.isRequired, 
 };
 
 const styles = StyleSheet.create({

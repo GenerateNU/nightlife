@@ -1,6 +1,8 @@
 import React from 'react';
 import { ScrollView, View, StyleSheet, SafeAreaView } from 'react-native';
 import Event from './Event';
+import PropTypes from 'prop-types';
+
 
 const UpcomingEventScroll = ({events = []}) => {
   return (
@@ -21,6 +23,11 @@ const UpcomingEventScroll = ({events = []}) => {
     </SafeAreaView>
   );
 };
+
+UpcomingEventScroll.propTypes = {
+  events: PropTypes.object.isRequired, 
+};
+
 
 const styles = StyleSheet.create({
   container: {
