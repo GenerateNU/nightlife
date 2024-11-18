@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { NavigationContainer } from '@react-navigation/native';
 import { BottomNavigator } from "@/navigation/BottomNavigator";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -13,22 +14,28 @@ import PersonalityScreenReveal from './components/OnboardingCards/PersonalityScr
 import PersonalityScreenReveal2 from './components/OnboardingCards/PersonalityScreenReveal2'
 import HowFarFromYou from './components/OnboardingCards/HowFarFromYou';
 
-
+import { Archivo_400Regular, Archivo_500Medium, Archivo_700Bold, useFonts } from "@expo-google-fonts/archivo";
+import EditProfile from './screens/profile/EditProfile';
 
 const Stack = createNativeStackNavigator();
 
 const LoginStack = () => {
+
   return (
     <Stack.Navigator>
       <Stack.Screen
         name="Home"
         component={LoginScreen}
         options={{
-          title: "Nightlife 🌃",
           headerStyle: {
-            backgroundColor: "#111729",
+            backgroundColor: "#007bff",
           },
+          headerTitleStyle: {
+            fontFamily: "Archivo_700Bold",
+          },
+          headerTitle: "Welcome to Nightlife",
           headerTintColor: "#fff",
+          headerBlurEffect: "light",
         }}
       />
     </Stack.Navigator>
@@ -130,18 +137,27 @@ const OnboardingStack = () => {
 };
 
 export default function App() {
+
+  const [fontsLoaded] = useFonts({
+    Archivo_400Regular,
+    Archivo_500Medium,
+    Archivo_700Bold,
+  });
+
   return (
-    <AuthProvider>
-      <NavigationContainer>
-        <MainNavigator />
-      </NavigationContainer>
-    </AuthProvider>
+    fontsLoaded && (
+      <AuthProvider>
+        <NavigationContainer>
+          <MainNavigator />
+        </NavigationContainer>
+      </AuthProvider>
+    )
   );
 }
 
 const MainNavigator = () => {
   const { accessToken } = useAuth();
-  const hasCompletedOnboarding = false; // Placeholder logic
+  const hasCompletedOnboarding = true; // Placeholder logic
 
   // If user is logged in and hasn't completed onboarding, show the OnboardingStack
   if (accessToken && !hasCompletedOnboarding) {

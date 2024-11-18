@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+/* eslint-disable */
+import React, { useEffect, useState } from 'react';
 import { ScrollView, Text, View, StyleSheet, Dimensions, Modal, TouchableOpacity, TextInput } from 'react-native';
 import ProfileButtons from '@/components/Buttons/ProfileButtons';
 import ProfileVenueCard from '@/components/VenueCards/ProfileVenueCard';
@@ -8,9 +9,12 @@ import userAddIcon from '@/assets/user-add.png';
 import venuesIcon from '@/assets/venues.png';
 import bookmarkIcon from '@/assets/bookmark.png';
 
-
 import { Image } from 'react-native';
 import { useAuth } from '@/context/AuthContext';
+import { useNavigation } from '@react-navigation/native';
+import EditProfile from './profile/EditProfile';
+import EditProfileData from './profile/EditProfileData';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const { width } = Dimensions.get('window');
 
@@ -27,6 +31,7 @@ const ProfileScreen: React.FC = () => {
     const [isModalVisible, setModalVisible] = useState(false); 
     const [isEditModalVisible, setEditModalVisible] = useState(false); 
     const [activeTab, setActiveTab] = useState(ProfileTabs.Friends);
+    const navigation = useNavigation();
     const { user } = useAuth();
 
     // Function to toggle modal visibility
@@ -41,22 +46,19 @@ const ProfileScreen: React.FC = () => {
     
     return (
         <View style={styles.container}>
-            {/* Profile Header */}
             <View style={styles.headerContainer}>
-                <Image style={styles.profileImagePlaceholder} source={{ uri: "https://www.shutterstock.com/image-photo/head-shot-portrait-close-smiling-600nw-1714666150.jpg"}} />
+                <Image style={styles.profileImagePlaceholder} source={{ uri: user?.profile_picture_url || "https://www.shutterstock.com/image-photo/head-shot-portrait-close-smiling-600nw-1714666150.jpg"}} />
                 <Text style={styles.username}>@{user?.username}</Text>
-                <Text style={styles.name}>{user?.first_name}</Text>
+                <Text style={styles.name}>{user?.first_name + " " + user?.email}</Text>
             </View>
 
-            {/* Friends Count */}
             <View style={styles.friendsContainer}>
                 <Text style={styles.friendsText}>22 friends</Text>
                 <Text style={styles.friendsText}>16 followers</Text>
             </View>
 
-            {/* Profile Buttons */}
             <View style={styles.profileButtonsContainer}>
-                <ProfileButtons onPress={toggleEditModal} title="edit profile" /> 
+                <ProfileButtons onPress={() => navigation.navigate("EditProfile")} title="edit profile" /> 
                 <ProfileButtons onPress={toggleModal} title="share profile" /> 
             </View>
 
