@@ -130,7 +130,7 @@ func (db *DB) GetAllVenues(ctx context.Context) ([]models.Venue, error) {
 	return pgx.CollectRows(rows, pgx.RowToStructByName[models.Venue])
 }
 
-func (db *DB) GetAllVenuesWithFilter(ctx context.Context, where string) ([]models.Venue, error) {
+func (db *DB) GetAllVenuesWithFilter(ctx context.Context, where string, sort string) ([]models.Venue, error) {
 	query := `SELECT venue_id, name, address, city, state, zip_code, created_at, ST_Y(location::geometry) AS latitude, ST_X(location::geometry) 
 	AS longitude FROM venue ` + where 
 	rows, err := db.conn.Query(ctx, query)

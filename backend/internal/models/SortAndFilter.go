@@ -2,8 +2,6 @@ package models
 
 import (
 	"fmt"
-	"math"
-	"sort"
 	"strconv"
 	"strings"
 )
@@ -48,21 +46,20 @@ func (s *SortAndFilter) ConstructFilterQuery(filters []string) string {
 }
 
 // assumes input is a non-empty string and one of the possible sort types, case sensitive 
-func (s *SortAndFilter) SortVenues(venues []Venue, input string) {
+func (s *SortAndFilter) SortVenues(input string) string {
 	// parse given input string to get sort string value and possible parameters for the sort 
-	fmt.Println(input)
 	index := strings.Index(input, " ")
 	command := input
 	if index != -1 { // if the sort has a parameter 
 		command = input[0:index]
 	}
 	// create sort object and sort array of venues based on sort 
-	createdSort := s.createSort(venues, command, input, index)
-	sort.Sort(createdSort) 
+	createdSort := s.createSort(command, input, index) 
+	return createdSort.SortQuery()
 }
 
 // takes in an array of venues to sort, command string determing what sort we want to create, input string storing that commands parameters, and index of the first space is applicable 
-func (s *SortAndFilter) createSort(venues []Venue, command string, input string, index int) sort.Interface {
+func (s *SortAndFilter) createSort(command string, input string, index int) SortBy {
 	if command == "ByDistance" { // format: ByDistance long lat 
 		// parse location to check distance from 
 		lastIndex := strings.LastIndex(input, " ")
@@ -74,10 +71,10 @@ func (s *SortAndFilter) createSort(venues []Venue, command string, input string,
 		if err != nil {
 			fmt.Println("Formatting error Lat " + err.Error())
 		}
-		s := VenueSortByDistance{venues, long, lat}
+		s := ByDistance{long, lat}
 		return &s 
 	} else {
-		return &VenueSortByDistance{} // throw an error/return blank sort or something 
+		return &ByDistance{} // throw an error/return blank sort or something 
 	}
 }
 
@@ -85,38 +82,21 @@ func (s *SortAndFilter) createSort(venues []Venue, command string, input string,
 
 // NOTE: ALSO REORGANIZE FHEIWQHIO 
 
-type VenueSortByDistance struct{
-	venues []Venue
+type SortBy interface {
+	SortQuery() string 
+}
+
+type ByDistance struct {
 	long float64
-	lat float64 
+	lat float64
 }
 
-func (s *VenueSortByDistance) Len() int {
-	return len(s.venues) 
-}
-
-func (s *VenueSortByDistance) Less(i, j int) bool {
-	v := s.venues 
-    dOne := s.distanceBetweenPoints(v[i], s.long, s.lat)
-	dTwo := s.distanceBetweenPoints(v[j], s.long, s.lat)
-	return dOne < dTwo 
-}
-
-func (s *VenueSortByDistance) Swap(i, j int) {
-	v := s.venues
-    v[i], v[j] = v[j], v[i]
-}
-
-func (s * VenueSortByDistance) distanceBetweenPoints(v Venue, long float64, lat float64) float64 {
-	r := 6371.0 // in KM 
-	long1 := v.Longitude
-	lat1 := v.Latitude
-	changeInLong := (long1 - long) / 2
-	changeInLat := (lat1 - lat) / 2
-	sin2Lat := math.Pow(changeInLat, 2)
-	sin2Long := math.Pow(changeInLong, 2)
-	sqrtSol := math.Sqrt(sin2Lat + math.Cos(lat1) * math.Cos(lat) * sin2Long)
-	return (2 * r) * math.Asin(sqrtSol)  
+func (s *ByDistance) SortQuery() string {
+	return fmt.Sprintf(`6371 * 2 * ASIN(SQRT(
+		POWER(SIN((%f - latitude) * PI() / 180 / 2), 2) +
+		COS(%f * PI() / 180) * COS(latitude * PI() / 180) *
+		POWER(SIN((%f - longitude) * PI() / 180 / 2), 2)
+	)) AS distance`, s.lat, s.lat, s.long)
 }
 
 // NOTE TO SELF - REORGANIZE PLZ 

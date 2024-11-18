@@ -161,14 +161,14 @@ func (s *Service) GetAllVenuesWithFilter(c *fiber.Ctx) error {
 	sortAndFilter = sortAndFilter.Make() 
 	whereQuery := sortAndFilter.ConstructFilterQuery(filters)
 	// retrieve venues with given filters from db 
-	venues, err := s.store.GetAllVenuesWithFilter(c.Context(), whereQuery)
+	venues, err := s.store.GetAllVenuesWithFilter(c.Context(), whereQuery, ``)
 	if err != nil {
 		fmt.Println(err.Error())
 		return fiber.NewError(fiber.StatusInternalServerError, "Could not get venues")
 	}
 	// sort venues if applicable 
 	if sort != `` { // if the sort parameter was present in the request 
-		sortAndFilter.SortVenues(venues, sort)
+		sortAndFilter.SortVenues(sort)
 	}
 	// Use SortAndFilter instance to sort the filtered list of venues and return final list 
 	return c.Status(fiber.StatusOK).JSON(venues)
