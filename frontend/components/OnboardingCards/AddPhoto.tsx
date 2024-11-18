@@ -17,11 +17,7 @@ const AddPhoto: React.FC = () => {
     };
 
     const handleSkip = () => {
-        // Navigate to the main app (BottomNavigator) after onboarding
-        navigation.reset({
-            index: 0,
-            routes: [{ name: 'BottomNavigator' }],
-        });
+        navigation.navigate('BottomNavigator');
 
     };
 

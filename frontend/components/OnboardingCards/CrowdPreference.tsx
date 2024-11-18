@@ -1,29 +1,32 @@
 import React, { useState } from 'react';
-import { TouchableOpacity, View, StyleSheet, Text, ImageBackground } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, ImageBackground } from 'react-native';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 
-export type RootStackParamList = {
-  NightlifePreference: undefined;
-  CrowdPreference: undefined;
-};
-
-const options = [
-  "Nightclubs",
-  "Concerts & Live Music",
-  "VIP & Exclusive Events",
+const crowdOptions = [
+  "More Exclusive (Guest-List only)",
+  "Mixed ages",
+  "Casual & laid-back",
+  "Young profressionals",
   "Other"
 ];
 
-const NightlifePreference = () => {
-  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-  const [selectedOption, setSelectedOption] = useState<string | null>(null);
+export type RootStackParamList = {
+  CrowdPreference: undefined;
+  FrequencyPreference: undefined;
+}
 
-  const toggleSelection = (option: string) => {
-    setSelectedOption((prev) => (prev === option ? null : option));
+const CrowdPreference: React.FC = () => {
+
+  const [selectedCrowd, setSelectedCrowd] = useState<string | null>(null);
+
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
+  const selectCrowd = (option: string) => {
+    setSelectedCrowd(option);
   };
 
-  const handleNext = () => {
-    navigation.navigate('CrowdPreference');
+  const handleSkip = () => {
+    navigation.navigate('FrequencyPreference');
   };
 
   const handleBack = () => {
@@ -32,34 +35,35 @@ const NightlifePreference = () => {
 
   return (
     <ImageBackground
-      source={{ uri: 'https://i.imghippo.com/files/sol3971PuQ.png' }}  
+      source={{ uri: 'https://i.imghippo.com/files/sol3971PuQ.png' }}
       style={styles.container}
     >
-      <TouchableOpacity style={styles.backButton} onPress={handleBack}>
-        <Text style={styles.buttonText}>Back</Text>
+    <View style={styles.container}>
+      <TouchableOpacity onPress={handleBack} style={styles.backButton}>
+        <Text style={styles.backButtonText}>Back</Text>
       </TouchableOpacity>
-      <View style={styles.nightlifeMainContent}>
-        <Text style={styles.nightlifeTitle}>
-          It’s Friday night! Where are we going?
-        </Text>
+
+      <View style={styles.crowdMainContent}>
+        <Text style={styles.title}>When I'm out, I want to be surrounded by:</Text>
+
         <View style={styles.optionGrid}>
-          {options.map((option) => (
+          {crowdOptions.map((option) => (
             <TouchableOpacity
               key={option}
-              style={[
-                styles.optionBox,
-                selectedOption === option ? styles.selectedOption : null
-              ]}
-              onPress={() => toggleSelection(option)}
+              style={styles.optionBox}
+              onPress={() => selectCrowd(option)}
             >
               <Text style={styles.optionText}>{option}</Text>
             </TouchableOpacity>
           ))}
         </View>
-        <TouchableOpacity style={styles.nextButton} onPress={handleNext}>
+
+        <TouchableOpacity style={styles.nextButton} onPress={handleSkip}>
           <Text style={styles.nextButtonText}>&gt;</Text>
         </TouchableOpacity>
       </View>
+
+    </View>
     </ImageBackground>
   );
 };
@@ -67,22 +71,16 @@ const NightlifePreference = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#2F244F',
     padding: 20,
   },
   backButton: {
     marginBottom: 20,
   },
-  buttonText: {
+  backButtonText: {
     color: 'white',
     fontSize: 16,
   },
-  nightlifeMainContent: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  nightlifeTitle: {
+  title: {
     width: '100%',
     color: 'white',
     fontSize: 36,
@@ -92,12 +90,18 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 40,
   },
+  crowdMainContent: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   optionGrid: {
     width: '100%',
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
     gap: 10,
+    marginBottom: 40,
   },
   optionBox: {
     width: '48%',
@@ -106,34 +110,34 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 10,
-  },
-  selectedOption: {
-    borderColor: '#2F244F',
-    borderWidth: 2,
+    padding: 12,
+    marginBottom: 10,
+    borderWidth: 1,
+    borderColor: '#ddd',
   },
   optionText: {
     color: 'black',
     fontSize: 20,
     fontFamily: 'Archivo',
     fontWeight: '200',
+    lineHeight: 20,
     textAlign: 'center',
   },
   nextButton: {
-    position: "absolute",
+    position: 'absolute',
     bottom: 40,
     right: 40,
     width: 60,
     height: 60,
-    backgroundColor: "white",
+    backgroundColor: 'white',
     borderRadius: 30,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   nextButtonText: {
     fontSize: 24,
-    color: "black",
+    color: 'black',
   },
 });
 
-export default NightlifePreference;
+export default CrowdPreference;

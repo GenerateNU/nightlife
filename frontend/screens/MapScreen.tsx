@@ -45,7 +45,7 @@ const MapScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <SearchBar />
+      {/* <SearchBar />
       <MapView
         style={styles.map}
         initialRegion={{
@@ -68,7 +68,7 @@ const MapScreen: React.FC = () => {
               description={v.address}
             />
           ))}
-      </MapView>
+      </MapView> */}
     </View>
   );
 };

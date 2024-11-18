@@ -4,15 +4,15 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from "@/screens/LoginScreen";
 import { AuthProvider, useAuth } from "@/context/AuthContext";
 import React from 'react';
-import CrowdAndFrequencyPreference from './components/OnboardingCards/CrowdAndFrequencyPreference';
 import NightlifePreference from './components/OnboardingCards/NightlifePreference';
-import SplashScreen from './components/OnboardingCards/SplashScreen';
 import AddPhoto from './components/OnboardingCards/AddPhoto';
 import MusicPreferences from './components/OnboardingCards/MusicPreference';
 import PersonalityScreenReveal from './components/OnboardingCards/PersonalityScreenReveal'
 import PersonalityScreenReveal2 from './components/OnboardingCards/PersonalityScreenReveal2'
 import HowFarFromYou from './components/OnboardingCards/HowFarFromYou';
-
+import FrequencyPreference from './components/OnboardingCards/FrequencyPreference';
+import CrowdPreference from './components/OnboardingCards/CrowdPreference';
+import TimePreference from './components/OnboardingCards/TimePreference';
 
 
 const Stack = createNativeStackNavigator();
@@ -37,20 +37,20 @@ const LoginStack = () => {
 
 const OnboardingStack = () => {
   return (
-      <Stack.Navigator initialRouteName="SplashScreen">
-          <Stack.Screen 
-              name="SplashScreen" 
-              component={SplashScreen} 
-              options={{ headerShown: false }}  
-          />
+      <Stack.Navigator initialRouteName="NightlifePreference">
           <Stack.Screen 
               name="NightlifePreference" 
               component={NightlifePreference} 
               options={{ headerShown: false }}  
           />
           <Stack.Screen 
-              name="CrowdAndFrequencyPreference" 
-              component={CrowdAndFrequencyPreference} 
+              name="FrequencyPreference" 
+              component={FrequencyPreference} 
+              options={{ headerShown: false }}   
+          />
+          <Stack.Screen 
+              name="CrowdPreference" 
+              component={CrowdPreference} 
               options={{ headerShown: false }}   
           />
           <Stack.Screen 
@@ -61,6 +61,11 @@ const OnboardingStack = () => {
           <Stack.Screen 
               name="MusicPreference" 
               component={MusicPreferences} 
+              options={{ headerShown: false }}  
+          />
+          <Stack.Screen 
+              name="TimePreference" 
+              component={TimePreference} 
               options={{ headerShown: false }}  
           />
           <Stack.Screen 
