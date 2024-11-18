@@ -7,9 +7,21 @@ import Entypo from '@expo/vector-icons/Entypo';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import VibeScrollBar from "@/components/VibeScrollBar";
+import { NavigationContainer } from '@react-navigation/native';
+import { StackNavigationProp  } from '@react-navigation/stack';
 
-const VenueScreen: React.FC = () => {
-    
+
+type RootStackParamList = {
+    Home: undefined;   // If Home screen doesn't take any parameters
+    Rating: undefined;  // If Venue screen doesn't take any parameters
+};
+
+type VenueScreenProps = {
+    navigation: StackNavigationProp<RootStackParamList, 'Rating'>; // Adjust as necessary based on your stack
+};
+
+
+const VenueScreen: React.FC<VenueScreenProps> = ({ navigation }) => {
     const Tab = createBottomTabNavigator();
 
     const OverviewScreen = () => <Text>Overview Content</Text>;
@@ -152,9 +164,9 @@ const VenueScreen: React.FC = () => {
                 <View style={{flexDirection: 'row'}}>
                     <Text style={{color: 'white', alignItems: 'flex-start', fontSize: 22}}> What&apos;s the vibe? </Text>
                     <View style={{marginLeft: 80, marginTop: 5}}>
-                    <TouchableOpacity style={styles.button} onPress={() => alert('Button Pressed')}>
+                    <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Rating')}>
                         <Text style={styles.buttonText}>Resonate</Text>
-                        </TouchableOpacity>
+                    </TouchableOpacity>
                     </View>
                 </View>
                 <View style={{flexDirection: 'column'}}>

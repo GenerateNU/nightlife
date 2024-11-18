@@ -9,12 +9,13 @@ import UpdatesScreen from "@/screens/UpdatesScreen";
 import ProfileScreen from "@/screens/ProfileScreen";
 import SettingsScreen from "@/screens/SettingsScreen";
 import MapScreen from "@/screens/MapScreen";
-//import VenueScreen from "@/screens/VenueScreen";
+import VenueScreen from "@/screens/VenueScreen";
 import { BottomTabParamList } from "../types/NavigationTypes";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import EditProfile from "@/screens/profile/EditProfile";
 import EditProfileData from "@/screens/profile/EditProfileData";
 
+import RatingScreen from "@/screens/RatingScreen";
 const Tab = createBottomTabNavigator<BottomTabParamList>();
 
 
@@ -67,11 +68,11 @@ export function BottomNavigator() {
         component={HomeScreen}
         options={createScreenOptions("Home", "home")}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Browse"
         component={MapScreen}
         options={createScreenOptions("Search", "magnify")}
-      />
+      /> */}
       <Tab.Screen
         name="Updates"
         component={UpdatesScreen}
@@ -88,15 +89,24 @@ export function BottomNavigator() {
         options={createScreenOptions("Settings", "cog")}
       />
       
-      {/* <Tab.Screen
+      <Tab.Screen
         name="Venue"
         component={VenueScreen}
         options={{
           tabBarStyle: { display: "none" },
           tabBarButton: () => null,
         }}
+        />
+
+      <Tab.Screen
+        name="Rating"
+        component={RatingScreen}
+        options={{
+          tabBarStyle: { display: "none" },
+          tabBarButton: () => null,
+        }}
         
-      /> */}
+      />
     </Tab.Navigator>
   );
 }

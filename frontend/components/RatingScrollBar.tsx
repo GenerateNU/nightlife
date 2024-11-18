@@ -1,8 +1,8 @@
-//import Slider from "@react-native-community/slider";
+import Slider from "@react-native-community/slider";
 import {Text, View, StyleSheet, Image} from "react-native";
 import PropTypes from 'prop-types';
 
-const VibeScrollBar = ({rating = 1, minTitle = "", maxTitle = ""}) => {
+const RatingScrollBar = ({minTitle = "", maxTitle = ""}) => {
   const soundWaveImages = {
     1: require("../assets/sound_wave_1.png"),
     2: require("../assets/sound_wave_2.png"),
@@ -13,9 +13,12 @@ const VibeScrollBar = ({rating = 1, minTitle = "", maxTitle = ""}) => {
   // };
     return(
     <View style={styles.container}>
-        <Image
-          source={soundWaveImages[rating]}
-        />
+        <Slider 
+            style={{ width: 350, height: 40}}
+            minimumValue={0}
+            thumbTintColor="white"
+            minimumTrackTintColor="white"
+            maximumTrackTintColor="gray"/>
         <View style={styles.labelContainer}>
             <Text style={styles.label}>{minTitle}</Text>
             <Text style={styles.label}>{maxTitle}</Text>
@@ -23,10 +26,9 @@ const VibeScrollBar = ({rating = 1, minTitle = "", maxTitle = ""}) => {
     </View>);
 }
 
-VibeScrollBar.propTypes = {
+RatingScrollBar.propTypes = {
   minTitle: PropTypes.string.isRequired, // Add prop validation here
-  maxTitle: PropTypes.string.isRequired,
-  rating: PropTypes.number.isRequired
+  maxTitle: PropTypes.string.isRequired
 };
 
 const styles = StyleSheet.create({
@@ -59,4 +61,4 @@ const styles = StyleSheet.create({
       },
   });
 
-export default VibeScrollBar;
+export default RatingScrollBar;
