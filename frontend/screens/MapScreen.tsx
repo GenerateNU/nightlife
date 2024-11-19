@@ -3,6 +3,7 @@ import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import SearchBar from "@/components/Map/SearchBar";
 import BottomModal from "@/components/Map/BottomModal";
+import Modal from "react-native-modal";
 import { API_DOMAIN } from "@env";
 import { Venue } from "@/types/Venue";
 import { useAuth } from "@/context/AuthContext";
@@ -11,6 +12,7 @@ const MapScreen: React.FC = () => {
   const [allVenues, setAllVenues] = useState<Venue[]>([]);
   const [selectedVenue, setSelectedVenue] = useState<Venue | null>(null);
   const [isModalVisible, setModalVisible] = useState(false);
+  const [isInfoModalVisible, setInfoModalVisible] = useState(false);
   const { accessToken } = useAuth();
 
   const getAllVenues = async (): Promise<Venue[] | null> => {
@@ -52,16 +54,13 @@ const MapScreen: React.FC = () => {
 
   const handleMarkerPress = (venue: Venue) => {
     setSelectedVenue(venue);
+    setInfoModalVisible(true);
     setModalVisible(false);
   };
 
-  const closeInfoBox = () => {
-    setSelectedVenue(null);
-  };
-
-  const toggleModal = () => {
+  const toggleMainModal = () => {
     setModalVisible(!isModalVisible);
-    setSelectedVenue(null);
+    setInfoModalVisible(false);
   };
 
   return (
@@ -97,17 +96,27 @@ const MapScreen: React.FC = () => {
           ))}
       </MapView>
 
-      {selectedVenue && (
-        <View style={styles.infoBox}>
-          <Text style={styles.infoTitle}>{selectedVenue.name}</Text>
-          <Text style={styles.infoDescription}>{selectedVenue.address}</Text>
-          <TouchableOpacity onPress={closeInfoBox} style={styles.closeButton}>
-            <Text style={styles.closeButtonText}>Close</Text>
-          </TouchableOpacity>
-        </View>
-      )}
+      <Modal
+        isVisible={isInfoModalVisible}
+        onSwipeComplete={() => setInfoModalVisible(false)}
+        swipeDirection="down"
+        style={styles.infoModal}
+      >
+        {selectedVenue && (
+          <View style={styles.infoBox}>
+            <Text style={styles.infoTitle}>{selectedVenue.name}</Text>
+            <Text style={styles.infoDescription}>{selectedVenue.address}</Text>
+            <TouchableOpacity
+              onPress={() => setInfoModalVisible(false)}
+              style={styles.closeButton}
+            >
+              <Text style={styles.closeButtonText}>Close</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+      </Modal>
 
-      <TouchableOpacity style={styles.circularButton} onPress={toggleModal}>
+      <TouchableOpacity style={styles.circularButton} onPress={toggleMainModal}>
         <Text style={styles.buttonText}>+</Text>
       </TouchableOpacity>
     </View>
@@ -122,20 +131,20 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
   },
+  infoModal: {
+    justifyContent: "flex-end",
+    margin: 0,
+  },
   infoBox: {
-    position: "absolute",
-    bottom: 20,
-    left: 20,
-    right: 20,
-    padding: 15,
     backgroundColor: "#fff",
-    borderRadius: 10,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    padding: 20,
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
+    shadowOffset: { width: 0, height: -2 },
     shadowOpacity: 0.3,
-    shadowRadius: 4,
-    elevation: 5,
-    zIndex: 2,
+    shadowRadius: 5,
+    elevation: 10,
   },
   infoTitle: {
     fontSize: 16,
