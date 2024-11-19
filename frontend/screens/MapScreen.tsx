@@ -7,6 +7,7 @@ import Modal from "react-native-modal";
 import { API_DOMAIN } from "@env";
 import { Venue } from "@/types/Venue";
 import { useAuth } from "@/context/AuthContext";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const MapScreen: React.FC = () => {
   const [allVenues, setAllVenues] = useState<Venue[]>([]);
@@ -14,6 +15,7 @@ const MapScreen: React.FC = () => {
   const [isModalVisible, setModalVisible] = useState(false);
   const [isInfoModalVisible, setInfoModalVisible] = useState(false);
   const { accessToken } = useAuth();
+  const insets = useSafeAreaInsets(); // Get safe area insets
 
   const getAllVenues = async (): Promise<Venue[] | null> => {
     if (!accessToken) {
@@ -100,7 +102,7 @@ const MapScreen: React.FC = () => {
         isVisible={isInfoModalVisible}
         onSwipeComplete={() => setInfoModalVisible(false)}
         swipeDirection="down"
-        style={styles.infoModal}
+        style={[styles.infoModal, { marginBottom: insets.bottom }]} // Adjust modal position
       >
         {selectedVenue && (
           <View style={styles.infoBox}>
@@ -134,6 +136,7 @@ const styles = StyleSheet.create({
   infoModal: {
     justifyContent: "flex-end",
     margin: 0,
+    paddingBottom: 60,
   },
   infoBox: {
     backgroundColor: "#fff",
