@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import SearchBar from "@/components/Map/SearchBar";
 import BottomModal from "@/components/Map/BottomModal";
@@ -9,6 +9,7 @@ import { useAuth } from "@/context/AuthContext";
 
 const MapScreen: React.FC = () => {
   const [allVenues, setAllVenues] = useState<Venue[]>([]);
+  const [selectedVenue, setSelectedVenue] = useState<Venue | null>(null);
   const [isModalVisible, setModalVisible] = useState(false);
   const { accessToken } = useAuth();
 
@@ -49,8 +50,18 @@ const MapScreen: React.FC = () => {
     });
   }, [accessToken]);
 
+  const handleMarkerPress = (venue: Venue) => {
+    setSelectedVenue(venue);
+    setModalVisible(false);
+  };
+
+  const closeInfoBox = () => {
+    setSelectedVenue(null);
+  };
+
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
+    setSelectedVenue(null);
   };
 
   return (
@@ -58,7 +69,7 @@ const MapScreen: React.FC = () => {
       <BottomModal
         visible={isModalVisible}
         onClose={() => setModalVisible(false)}
-        venues={allVenues} 
+        venues={allVenues}
       />
       <SearchBar />
       <MapView
@@ -81,11 +92,21 @@ const MapScreen: React.FC = () => {
               }}
               title={v.name}
               description={v.address}
+              onPress={() => handleMarkerPress(v)}
             />
           ))}
       </MapView>
-      
-      {/* Circular button to toggle modal visibility */}
+
+      {selectedVenue && (
+        <View style={styles.infoBox}>
+          <Text style={styles.infoTitle}>{selectedVenue.name}</Text>
+          <Text style={styles.infoDescription}>{selectedVenue.address}</Text>
+          <TouchableOpacity onPress={closeInfoBox} style={styles.closeButton}>
+            <Text style={styles.closeButtonText}>Close</Text>
+          </TouchableOpacity>
+        </View>
+      )}
+
       <TouchableOpacity style={styles.circularButton} onPress={toggleModal}>
         <Text style={styles.buttonText}>+</Text>
       </TouchableOpacity>
@@ -100,6 +121,39 @@ const styles = StyleSheet.create({
   map: {
     width: "100%",
     height: "100%",
+  },
+  infoBox: {
+    position: "absolute",
+    bottom: 20,
+    left: 20,
+    right: 20,
+    padding: 15,
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 5,
+    zIndex: 2,
+  },
+  infoTitle: {
+    fontSize: 16,
+    fontWeight: "bold",
+    marginBottom: 5,
+  },
+  infoDescription: {
+    fontSize: 14,
+    color: "#666",
+  },
+  closeButton: {
+    marginTop: 10,
+    alignSelf: "flex-end",
+    padding: 5,
+  },
+  closeButtonText: {
+    fontSize: 14,
+    color: "#007BFF",
   },
   circularButton: {
     position: "absolute",
