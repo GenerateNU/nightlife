@@ -15,7 +15,7 @@ const MapScreen: React.FC = () => {
   const [isModalVisible, setModalVisible] = useState(false);
   const [isInfoModalVisible, setInfoModalVisible] = useState(false);
   const { accessToken } = useAuth();
-  const insets = useSafeAreaInsets(); // Get safe area insets
+  const insets = useSafeAreaInsets();
 
   const getAllVenues = async (): Promise<Venue[] | null> => {
     if (!accessToken) {
