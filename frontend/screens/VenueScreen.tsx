@@ -7,29 +7,22 @@ import Entypo from '@expo/vector-icons/Entypo';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import VibeScrollBar from "@/components/VibeScrollBar";
-import { NavigationContainer } from '@react-navigation/native';
-import { StackNavigationProp  } from '@react-navigation/stack';
 import ScaledText from "@/components/ScaledText";
-import VenueReviews from "@/screens/VenueReviews";
-import { useNavigation } from "@react-navigation/native";
 
-type RootStackParamList = {
-    Home: undefined;   
-    Rating: { venueId: string, venueName: string, venueAddress: string };  
-    VenueReviews: undefined; 
-};
+enum VenueTabs {
+    Overview = "Overview",
+    Reviews = "Reviews",
+    Photos = "Photos",
+}
 
-type VenueScreenProps = {
-    navigation: StackNavigationProp<RootStackParamList, 'Rating'>; // Adjust as necessary based on your stack
-};
-
-
-const VenueScreen: React.FC<VenueScreenProps> = ({ navigation }) => {
+const VenueScreen: React.FC = () => {
     const Tab = createBottomTabNavigator();
+
+    const [selectedTab, setSelectedTab] = useState<VenueTabs>(VenueTabs.Overview);
     
-    const OverviewScreen = () => <Text>Overview Content</Text>;
-    const PhotosScreen = () => <Text>Details Content</Text>;
-    const ReviewsScreen = () => <Text>Reviews Content</Text>;
+    const OverviewScreen = () => <Text style={{color: "white"}}>Overview Content</Text>;
+    const PhotosScreen = () => <Text style={{color: "white"}}>Photos Content</Text>;
+    const ReviewsScreen = () => <Text style={{color: "white"}}>Reviews Content</Text>;
 
     const [venueName, setVenueName] = useState("")
     const [venueAddress, setVenueAddress] = useState("")
@@ -142,40 +135,41 @@ const VenueScreen: React.FC<VenueScreenProps> = ({ navigation }) => {
                             <Text style={{color: 'white'}}>{venueAddress}</Text>
                             <Text style={{right: 40, color: 'white', paddingLeft: 172}}> 6:00 - 2:00 AM </Text>
                         </View>
-                        <View style={{flex: 1}}>
-                        <Tab.Navigator
-                            screenOptions={{
-                                tabBarLabelStyle: { color: 'white', fontSize: 14, textDecorationLine: 'underline' },
-                                tabBarIcon: () => null,
-                                tabBarStyle: {
-                                backgroundColor: 'transparent',
-                                borderTopWidth: 0,
-                                elevation: 0,
-                                shadowOpacity: 0
-                                },
-                            }}
-                            >
-                            <Tab.Screen name="Overview" component={OverviewScreen} />
-                            <Tab.Screen name="Reviews" component={VenueReviews} />
-                            <Tab.Screen name="Photos" component={PhotosScreen} />
-                        </Tab.Navigator>
-                        </View>
                     </View>
                     <View style={styles.bookmark}>
                         <Feather name="bookmark" size={22} color="white" />
                         <Entypo name="dots-three-vertical" size={22} color="white" />
                     </View>
                 </View>
+                <View style={{flexDirection: "row", justifyContent: "space-between", marginTop: 12, width: "100%", paddingHorizontal: 44}}>
+                    <TouchableOpacity onPress={() => setSelectedTab(VenueTabs.Overview)}>
+                        <Text style={styles.buttonText}>Overview</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => setSelectedTab(VenueTabs.Reviews)}>
+                        <Text style={styles.buttonText}>Reviews</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => setSelectedTab(VenueTabs.Photos)}>
+                        <Text style={styles.buttonText}>Photos</Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={{marginTop: 12, marginHorizontal: 6}}>
+                {selectedTab === VenueTabs.Overview && <OverviewScreen />}
+                {selectedTab === VenueTabs.Reviews && <ReviewsScreen />}
+                {selectedTab === VenueTabs.Photos && <PhotosScreen />}
+                </View>
+                
                 <View style={{marginTop: 10}}>
+                
                     <View >
-                        <Text style={{color: 'white', fontSize: 20, marginLeft: 5, marginBottom: -3 }}> 
+                        <Text style={{color: 'white', fontSize: 20, marginLeft: 5, marginBottom: 0 }}> 
                             Upcoming Events
                         </Text>
                     </View>
-                    <View style={{marginTop: -10}}>
+                    <View style={{marginTop: -6}}>
                         <UpcomingEventScroll events={eventDictList}/>
                     </View>
                 </View>
+                
                 <View style={{justifyContent: 'center', alignItems: 'center'}}>
                     <Text style={{color: 'white', textAlign: 'center'}}>
                         Venue Name is Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna.
@@ -233,6 +227,14 @@ const styles = StyleSheet.create({
     },
     tabContainer: {
         marginTop: -20
+    },
+    tabText: {
+        textDecorationColor: 'white',
+        color: 'white',
+        fontSize: 14,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        textDecorationLine: 'underline'
     },
     buttonText: {
     fontSize: 14, 

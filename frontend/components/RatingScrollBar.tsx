@@ -1,7 +1,7 @@
 import Slider from "@react-native-community/slider";
-import {Text, View, StyleSheet, Image} from "react-native";
+import {Text, View, StyleSheet} from "react-native";
 import PropTypes from 'prop-types';
-import {useState} from 'react'
+import React from "react";
 
 const RatingScrollBar = ({minTitle = "", maxTitle = "", value, onSliderChange}) => {
 
