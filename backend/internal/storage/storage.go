@@ -35,6 +35,7 @@ type Profile interface {
 
 type UserRating interface {
 	GetAllUserRatings(context.Context, uuid.UUID) ([]models.UserRating, error)
+	CreateReview(context.Context, models.Review) error
 }
 
 type Venues interface {

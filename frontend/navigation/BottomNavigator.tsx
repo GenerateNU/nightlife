@@ -16,6 +16,7 @@ import EditProfile from "@/screens/profile/EditProfile";
 import EditProfileData from "@/screens/profile/EditProfileData";
 
 import RatingScreen from "@/screens/RatingScreen";
+import VenueReviews from "@/screens/VenueReviews";
 const Tab = createBottomTabNavigator<BottomTabParamList>();
 
 
@@ -105,7 +106,14 @@ export function BottomNavigator() {
           tabBarStyle: { display: "none" },
           tabBarButton: () => null,
         }}
-        
+        />
+      <Tab.Screen
+        name="VenueReviews"
+        component={VenueReviews}
+        options={{
+          tabBarStyle: { display: "none" },
+          tabBarButton: () => null,
+        }}
       />
     </Tab.Navigator>
   );

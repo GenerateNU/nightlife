@@ -9,11 +9,14 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import VibeScrollBar from "@/components/VibeScrollBar";
 import { NavigationContainer } from '@react-navigation/native';
 import { StackNavigationProp  } from '@react-navigation/stack';
-
+import ScaledText from "@/components/ScaledText";
+import VenueReviews from "@/screens/VenueReviews";
+import { useNavigation } from "@react-navigation/native";
 
 type RootStackParamList = {
-    Home: undefined;   // If Home screen doesn't take any parameters
-    Rating: undefined;  // If Venue screen doesn't take any parameters
+    Home: undefined;   
+    Rating: { venueId: string, venueName: string, venueAddress: string };  
+    VenueReviews: undefined; 
 };
 
 type VenueScreenProps = {
@@ -23,23 +26,25 @@ type VenueScreenProps = {
 
 const VenueScreen: React.FC<VenueScreenProps> = ({ navigation }) => {
     const Tab = createBottomTabNavigator();
-
+    
     const OverviewScreen = () => <Text>Overview Content</Text>;
-    const DetailsScreen = () => <Text>Details Content</Text>;
+    const PhotosScreen = () => <Text>Details Content</Text>;
     const ReviewsScreen = () => <Text>Reviews Content</Text>;
 
     const [venueName, setVenueName] = useState("")
     const [venueAddress, setVenueAddress] = useState("")
     const [eventDictList, setEventDictList] = useState([])
 
-    const [ambiance, setAmbianceRating] = useState(0)
-    const [music, setMusicRating] = useState(0)
-    const [crowd, setCrowdRating] = useState(0)
-    const [service, setServiceRating] = useState(0)
+    const [mainstream, setMainstreamRating] = useState(1)
+    const [price, setPriceRating] = useState(1)
+    const [crowd, setCrowdRating] = useState(1)
+    const [hype, setHypeRating] = useState(1)
+    const [energy, setEnergyRating] = useState(1)
+    const [exclusive, setExclusiveRating] = useState(1)
     const [ratingsDictList, setRatingsDictList] = useState([])
 
     useEffect(() => {
-        fetch('http://localhost:8080/venues/2edc969e-bf93-4b3b-9273-5b0aa968b79c')
+        fetch('http://localhost:8080/venues/3e69e3d8-2a07-448b-bb66-07b6a6c8c79f')
         .then(response => response.json())
         .then(json => {
         setVenueName(json.name);
@@ -48,10 +53,10 @@ const VenueScreen: React.FC<VenueScreenProps> = ({ navigation }) => {
         .catch(error => {
         console.error(error);
         });
-    })
+    }, [])
 
     useEffect(() => {
-        fetch('http://localhost:8080/event/2edc969e-bf93-4b3b-9273-5b0aa968b79c')
+        fetch('http://localhost:8080/event/3e69e3d8-2a07-448b-bb66-07b6a6c8c79f')
         .then(response => response.json())
         .then(json => {
             setEventDictList(json)
@@ -59,58 +64,74 @@ const VenueScreen: React.FC<VenueScreenProps> = ({ navigation }) => {
         .catch(error => {
         console.error(error);
         });
-    })
+    }, [])
 
     useEffect(() => {
         fetch('http://localhost:8080/venueratings/venue/3e69e3d8-2a07-448b-bb66-07b6a6c8c79f/ratings')
         .then(response => response.json())
         .then(json => {
             setRatingsDictList(json)
-            const ambiance_rating = json.map(item => item.ambiance_rating);
-            const music_rating = json.map(item => item.music_rating);
+            const mainstream_rating = json.map(item => item.mainstream_rating);
+            const price_rating = json.map(item => item.price_rating);
             const crowd_rating = json.map(item => item.crowd_rating);
-            const service_rating = json.map(item => item.service_rating);
+            const hype_rating = json.map(item => item.hype_rating);
+            const energy_rating = json.map(item => item.energy_rating);
+            const exclusive_rating = json.map(item => item.exclusive_rating);
+
+            const mainstream_total = mainstream_rating.reduce((acc, curr) => acc + curr, 0);
+            const mainstream_average = mainstream_rating.length > 0 ? mainstream_total / mainstream_rating.length : 0;
             
-            const ambiance_total = ambiance_rating.reduce((acc, curr) => acc + curr, 0);
-            const ambiance_average = ambiance_rating.length > 0 ? ambiance_total / ambiance_rating.length : 0;
-            
-            const music_total = music_rating.reduce((acc, curr) => acc + curr, 0);
-            const music_average = music_rating.length > 0 ? music_total / music_rating.length : 0;
+            const price_total = price_rating.reduce((acc, curr) => acc + curr, 0);
+            const price_average = price_rating.length > 0 ? price_total / price_rating.length : 0;
             
             const crowd_total = crowd_rating.reduce((acc, curr) => acc + curr, 0);
             const crowd_average = crowd_rating.length > 0 ? crowd_total / crowd_rating.length : 0;
             
-            const service_total = service_rating.reduce((acc, curr) => acc + curr, 0);
-            const service_average = service_rating.length > 0 ? service_total / service_rating.length : 0;
+            const hype_total = hype_rating.reduce((acc, curr) => acc + curr, 0);
+            const hype_average = hype_rating.length > 0 ? hype_total / hype_rating.length : 0;
             
-            setAmbianceRating(Math.ceil(ambiance_average)-8);
-            setCrowdRating(Math.ceil(crowd_average)-5);
-            setMusicRating(Math.ceil(music_average)-7);
-            setServiceRating(Math.ceil(service_average)-8);
+            const energy_total = energy_rating.reduce((acc, curr) => acc + curr, 0);
+            const energy_average = energy_rating.length > 0 ? energy_total / energy_rating.length : 0;
+            
+            const exclusive_total = exclusive_rating.reduce((acc, curr) => acc + curr, 0);
+            const exclusive_average = exclusive_rating.length > 0 ? exclusive_total / exclusive_rating.length : 0;
+            
+            setMainstreamRating(Math.ceil(mainstream_average));
+            setPriceRating(Math.ceil(price_average));
+            setCrowdRating(Math.ceil(crowd_average));
+            setHypeRating(Math.ceil(hype_average));
+            setEnergyRating(Math.ceil(energy_average));
+            setExclusiveRating(Math.ceil(exclusive_average));
+    
         })
         .catch(error => {
         console.error(error);
         });
-    })
+    }, [])
 
     console.log("****", ratingsDictList)
 
-    console.log("****", ambiance)
+    console.log("****", price)
     console.log("****", crowd)
-    console.log("****", music)
-    console.log("****", service)
+    console.log("****", hype)
+    console.log("****", energy)
+    console.log("****", )
     
     return (
-        <ScrollView style={{backgroundColor: '#121212'}}>
             <View style={styles.container}>
                 <View style={styles.header}> 
                     <View>
-                        <Text style={{marginLeft: -4, color: 'white', fontSize: 26, fontWeight: 'bold'}}>{venueName}</Text>
+                    <ScaledText
+                            text={venueName}
+                            maxFontSize={26}
+                            minFontSize={20}
+                            maxCharacters={20}
+                            />
                             <View style={styles.review}> 
                                 <Text style={{color: 'white'}}> 4.7 </Text>
                                 <StarReview /> 
                                 <Text style={{color: 'white'}}> (14) </Text>
-                                <View style={{display: 'flex', paddingLeft: 165, flexDirection: 'row' }}>
+                                <View style={{display: 'flex', paddingLeft: 135, flexDirection: 'row' }}>
                                     <Text style={{color: 'white'}}>Club</Text>
                                     <FontAwesome style={{paddingLeft: 4}} name="circle" size={16} color="white" />
                                     <FontAwesome style={{paddingLeft: 2}} name="circle" size={16} color="white" />
@@ -119,25 +140,25 @@ const VenueScreen: React.FC<VenueScreenProps> = ({ navigation }) => {
                             </View>
                         <View style={styles.review}> 
                             <Text style={{color: 'white'}}>{venueAddress}</Text>
-                            <Text style={{color: 'white', paddingLeft: 172}}> 6:00 - 2:00 AM </Text>
+                            <Text style={{right: 40, color: 'white', paddingLeft: 172}}> 6:00 - 2:00 AM </Text>
                         </View>
-                        <View style={styles.tabContainer}>
-                            <Tab.Navigator
+                        <View style={{flex: 1}}>
+                        <Tab.Navigator
                             screenOptions={{
-                                tabBarLabelStyle: {color: 'white', fontSize: 14, textDecorationLine: 'underline'},
+                                tabBarLabelStyle: { color: 'white', fontSize: 14, textDecorationLine: 'underline' },
                                 tabBarIcon: () => null,
                                 tabBarStyle: {
-                                    backgroundColor: 'transparent',  
-                                    borderTopWidth: 0,               
-                                    elevation: 0,                    
-                                    shadowOpacity: 0,                
+                                backgroundColor: 'transparent',
+                                borderTopWidth: 0,
+                                elevation: 0,
+                                shadowOpacity: 0
                                 },
                             }}
                             >
                             <Tab.Screen name="Overview" component={OverviewScreen} />
-                            <Tab.Screen name="Details" component={DetailsScreen} />
-                            <Tab.Screen name="Reviews" component={ReviewsScreen} />
-                            </Tab.Navigator>
+                            <Tab.Screen name="Reviews" component={VenueReviews} />
+                            <Tab.Screen name="Photos" component={PhotosScreen} />
+                        </Tab.Navigator>
                         </View>
                     </View>
                     <View style={styles.bookmark}>
@@ -163,23 +184,24 @@ const VenueScreen: React.FC<VenueScreenProps> = ({ navigation }) => {
                 </View>
                 <View style={{flexDirection: 'row'}}>
                     <Text style={{color: 'white', alignItems: 'flex-start', fontSize: 22}}> What&apos;s the vibe? </Text>
-                    <View style={{marginLeft: 80, marginTop: 5}}>
-                    <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Rating')}>
+                    <View style={{marginLeft: 50, marginTop: 5}}>
+                    <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Rating', { venueId: "3e69e3d8-2a07-448b-bb66-07b6a6c8c79f", venueName: venueName, venueAddress: venueAddress })}>
                         <Text style={styles.buttonText}>Resonate</Text>
                     </TouchableOpacity>
                     </View>
                 </View>
-                <View style={{flexDirection: 'column'}}>
-                    <VibeScrollBar rating={ambiance} minTitle="Chill" maxTitle="Energetic"/>
-                    <VibeScrollBar rating={crowd} minTitle="Underground" maxTitle="Mainstream"/>
-                    <VibeScrollBar rating={service} minTitle="Affordable" maxTitle="Expensive"/>
-                    <VibeScrollBar rating={crowd} minTitle="Classy" maxTitle="Rowdy"/>
-                    <VibeScrollBar rating={ambiance} minTitle="Sit down" maxTitle="Rave"/>
-                    <VibeScrollBar rating={ambiance} minTitle="Casual" maxTitle="Exclusive"/>
-                </View>
+            
+                <ScrollView style={{backgroundColor: '#121212'}}>
+                    <View style={{flexDirection: 'column'}}>
+                        <VibeScrollBar rating={hype} minTitle="Chill" maxTitle="Energetic"/>
+                        <VibeScrollBar rating={mainstream} minTitle="Underground" maxTitle="Mainstream"/>
+                        <VibeScrollBar rating={price} minTitle="Affordable" maxTitle="Expensive"/>
+                        <VibeScrollBar rating={crowd} minTitle="Classy" maxTitle="Rowdy"/>
+                        <VibeScrollBar rating={energy} minTitle="Sit down" maxTitle="Rave"/>
+                        <VibeScrollBar rating={exclusive} minTitle="Casual" maxTitle="Exclusive"/>
+                    </View>
+                </ScrollView>
             </View>
-    
-        </ScrollView>
     );
     
 }
@@ -192,7 +214,8 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     paddingLeft: 10,
     paddingRight: 10,
-    paddingTop: 10
+    paddingTop: 10,
+    backgroundColor: '#121212'
     },
     review: {
     display: 'flex',
@@ -204,7 +227,7 @@ const styles = StyleSheet.create({
     },
     bookmark: {
     paddingTop: 5,
-    right: 40,
+    right: 80,
     display: 'flex',
      flexDirection: 'row'
     },

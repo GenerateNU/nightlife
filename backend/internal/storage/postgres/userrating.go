@@ -35,3 +35,14 @@ WHERE
 
 	return pgx.CollectRows(rows, pgx.RowToStructByName[models.UserRating])
 }
+
+func (db *DB) CreateReview(ctx context.Context, p models.Review) error {
+	query := `INSERT INTO review (overall_rating, energy_rating, mainstream_rating, price_rating, crowd_rating, hype_rating, 
+					exclusive_rating, review_text, venue_id, user_id) 
+				VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`
+
+	_, err := db.conn.Query(ctx, query, p.OverallRating, p.EnergyRating,
+		p.MainstreamRating, p.PriceRating, p.CrowdRating,
+		p.HypeRating, p.ExclusiveRating, p.ReviewText, p.VenueID, p.UserID)
+	return err
+}

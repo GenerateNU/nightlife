@@ -6,6 +6,14 @@ const VibeScrollBar = ({rating = 1, minTitle = "", maxTitle = ""}) => {
   const soundWaveImages = {
     1: require("../assets/sound_wave_1.png"),
     2: require("../assets/sound_wave_2.png"),
+    3: require("../assets/sound_wave_3.png"),
+    4: require("../assets/sound_wave_4.png"),
+    5: require("../assets/sound_wave_5.png"),
+    6: require("../assets/sound_wave_6.png"),
+    7: require("../assets/sound_wave_7.png"),
+    8: require("../assets/sound_wave_8.png"),
+    9: require("../assets/sound_wave_9.png"),
+    10: require("../assets/sound_wave_10.png"),
   };
   // const soundWaveImages = {
   //   1: "../assets/sound_wave_1.png",

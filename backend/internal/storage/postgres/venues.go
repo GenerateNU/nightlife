@@ -58,6 +58,7 @@ func (db *DB) GetVenueReviews(ctx context.Context, reviewID int8, venueID uuid.U
 			&review.ReviewText,
 			&review.CreatedAt,
 			&review.UpdatedAt,
+			&review.UserID,
 		); err != nil {
 			return nil, err
 		}

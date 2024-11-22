@@ -11,12 +11,14 @@ export type BottomTabParamList = {
   Settings: undefined;
   Venue: { venue: { venue_id: string; name: string; address: string } };
   Rating: undefined;
+  VenueReviews: undefined
 };
 
 // Define navigation prop types for screens that need parameters
 export type VenueRouteProp = RouteProp<BottomTabParamList, "Venue">;
 export type BrowseRouteProp = RouteProp<BottomTabParamList, "Browse">;
 export type RatingRouteProp = RouteProp<BottomTabParamList, "Rating">;
+export type VenueReviewsRouteProp = RouteProp<BottomTabParamList, "VenueReviews">;
 
 // Define a typed navigation prop for useNavigation
 export type BottomTabNavProps = BottomTabNavigationProp<BottomTabParamList>;

@@ -7,6 +7,7 @@ import (
 )
 
 type Review struct {
+	UserID           uuid.UUID `json:"user_id"`
 	OverallRating    int8      `json:"overall_rating"`
 	EnergyRating     int8      `json:"energy_rating"`
 	MainstreamRating int8      `json:"mainstream_rating"`
