@@ -1,48 +1,36 @@
 import { useAuth } from "@/context/AuthContext";
-import { RouteProp } from "@react-navigation/native";
 import React from "react";
 import { useState } from "react";
 import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 import Chevron from "@/assets/chevron.svg";
 
 type RootStackParamList = {
-    EditProfileAttribute: { field: string };
-  };
-  
-  type EditProfileAttributeProps = {
-    navigation: NativeStackNavigationProp<RootStackParamList, "EditProfileAttribute">;
-    route: RouteProp<RootStackParamList, "EditProfileAttribute">;
-  };
+    EditProfileAttribute: { field: string, existing: string };
+};
+
+type EditProfileAttributeProps = NativeStackScreenProps<RootStackParamList, 'EditProfileAttribute'>;
 
 // TODO: handle for types other than string
 // TODO: handle error responses from API
 
-const EditProfileAttribute = ({ navigation, route }: EditProfileAttributeProps) => {
+const EditProfileAttribute: React.FC<EditProfileAttributeProps> = ({ navigation, route }) => {
 
     const field = route?.params?.field;
+    const existing = route?.params?.existing;
 
     if (!field) navigation.goBack();
 
-    const [value, setValue] = useState(null);
+    const [value, setValue] = useState(existing || "");
 
     const { user, accessToken } = useAuth();
 
     const handleSave = async () => {
 
-        console.log(value)
-        const res = await fetch(`http://localhost:8080/profiles/${user?.email}`, {
-            headers: {
-                Authorization: `Bearer ${accessToken}`,
-                "Content-Type": "application/json",
-            },
-        });
-        const data = await res.json();
-
         if (!value) navigation.goBack();
 
-        const userReq = await fetch(`http://localhost:8080/profiles/update/${data.user_id}`, {
+        await fetch(`http://localhost:8080/profiles/update/${user?.user_id}`, {
             method: "PATCH",
             headers: {
                 Authorization: `Bearer ${accessToken}`,
@@ -52,9 +40,6 @@ const EditProfileAttribute = ({ navigation, route }: EditProfileAttributeProps) 
                 [field]: value
             })
         })
-
-        const userRes = await userReq.json();
-        console.log(userRes)
 
         navigation.goBack();
     }
@@ -72,8 +57,8 @@ const EditProfileAttribute = ({ navigation, route }: EditProfileAttributeProps) 
                 style={styles.input}
                 placeholder="Enter a value..."
                 placeholderTextColor="#888"
-                value={value}
-                onChangeText={setValue}
+                value={value || ""}
+                onChangeText={() => setValue}
             />
 
             <TouchableOpacity onPress={handleSave} style={styles.saveButton}>

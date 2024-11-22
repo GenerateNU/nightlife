@@ -1,6 +1,6 @@
 import { useAuth } from '@/context/AuthContext';
 import React, { useCallback } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, Switch } from 'react-native';
 
 import Chevron from "../../assets/chevron.svg";
 
@@ -10,7 +10,7 @@ import { NavigationProp, useFocusEffect } from "@react-navigation/native";
 import { fetchUserProfileService } from '@/services/authService';
 
 type RootStackParamList = {
-  EditProfileAttribute: { field: string };
+  EditProfileAttribute: { field: string, existing: string };
 }
 
 type EditProfileProps = {
@@ -20,6 +20,24 @@ type EditProfileProps = {
 const EditProfile = ({ navigation }: EditProfileProps) => {
 
   const { user, setUserAsync, accessToken } = useAuth();
+
+  console.log(user)
+
+  const [privacy, setPrivacy] = React.useState(user?.privacy);
+
+  const togglePrivacy = async () => {
+    await fetch(`http://localhost:8080/profiles/update/${user?.user_id}`, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        privacy: !privacy
+      })
+    })
+    setPrivacy(!privacy);
+  }
 
   useFocusEffect(
     useCallback(() => {
@@ -35,52 +53,58 @@ const EditProfile = ({ navigation }: EditProfileProps) => {
     }, [])
   );
 
-  const fields: { key: string, value: string }[] = [
+  const fields: { key: string, display: string, value: string }[] = [
     {
-      key: "Name",
+      key: "firstName",
+      display: "Name",
       value: user?.first_name || "update",
     },
     {
-      key: "Username",
+      key: "username",
+      display: "Username",
       value: user?.username || "update"
     },
     {
-      key: "Age",
+      key: "age",
+      display: "Age",
       value: user?.age.toString() || "update"
     },
     {
-      key: "Email",
+      key: "email",
+      display: "Email",
       value: user?.email || "update"
     },
     {
-      key: "Pronouns",
+      key: "pronouns",
+      display: "Pronouns",
       value: user?.pronouns || "update"
     },
     // TODO: add personality type to user model
     {
-      key: "Personality Type",
+      key: "personality_type",
+      display: "Personality Type",
       value: "update"
     },
     {
-      key: "Biography",
+      key: "biography",
+      display: "Biography",
       value: user?.biography || "update"
     },
     {
-      key: "Instagram",
+      key: "instagram_url",
+      display: "Instagram",
       value: user?.instagram_url || "update"
     },
     {
-      key: "TikTok",
+      key: "tik_tok_url",
+      display: "TikTok",
       value: user?.tik_tok_url || "update"
     },
     {
-      key: "Twitter",
+      key: "twitter_url",
+      display: "Twitter",
       value: user?.twitter_url || "update"
     },
-    {
-      key: "Private?",
-      value: user?.privacy != null ? (user.privacy ? "yes" : "no") : "update"
-    }
   ]
 
   return (
@@ -97,13 +121,23 @@ const EditProfile = ({ navigation }: EditProfileProps) => {
       </View>
       {fields.map((field, index) => (
         <View style={styles.editThing} key={index}>
-          <Text style={styles.aboutYouText}>{field.key}</Text>
-          <TouchableOpacity style={styles.editX} onPress={() => navigation.navigate("EditProfileAttribute", { field: field.key.toLowerCase() })}>
+          <Text style={styles.aboutYouText}>{field.display}</Text>
+          <TouchableOpacity style={styles.editX} onPress={() => navigation.navigate("EditProfileAttribute", { field: field.key, existing: field.value })}>
             <Text style={styles.aboutYouText}>{field.value.length > 20 ? `${field.value.slice(0, 20).trim()}...` : field.value}</Text>
             <EditProfileAttributeIcon style={styles.xImage} />
           </TouchableOpacity>
         </View>
       ))}
+      <View style={styles.editThing}>
+        <Text style={styles.aboutYouText}>Private?</Text>
+        <Switch
+          trackColor={{ false: "#007bff", true: "#007bff" }}
+          ios_backgroundColor="#3e3e3e"
+          onValueChange={togglePrivacy}
+          value={privacy}
+          style={styles.switch}
+        />
+      </View>
     </View>
   );
 };
@@ -142,6 +176,10 @@ const styles = StyleSheet.create({
     fontFamily: "Archivo_500Medium",
     fontSize: 16,
     paddingBottom: 6,
+  },
+  switch: {
+    transform: [{ scaleX: .75 }, { scaleY: .75 }],
+    marginTop: -6,
   },
   profilePictureContainer: {
     marginBottom: 16,

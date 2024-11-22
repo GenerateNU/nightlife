@@ -2,7 +2,7 @@ import React, { createContext, useState, useContext, useEffect, PropsWithChildre
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface UserProfile {
-    userId: string;
+    user_id: string;
     first_name: string;
     username: string;
     email: string;

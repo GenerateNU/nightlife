@@ -138,9 +138,9 @@ func (s *Service) GetProfile(c *fiber.Ctx) error {
 
 func (s *Service) UpdateProfile(c *fiber.Ctx) error {
 
-	userIdString := c.Params("userId")
+	userIDString := c.Params("userId")
 
-	userId, err := uuid.Parse(userIdString)
+	userID, err := uuid.Parse(userIDString)
 
 	if err != nil {
 		if handlerErr := errs.ErrorHandler(c, err); handlerErr != nil {
@@ -156,7 +156,7 @@ func (s *Service) UpdateProfile(c *fiber.Ctx) error {
 		})
 	}
 
-	err = s.store.PatchProfile(c.Context(), userId, req.FirstName,
+	err = s.store.PatchProfile(c.Context(), userID, req.FirstName,
 	req.Username, req.Email, req.Age, req.Location, req.ProfilePictureURL, req.PersonalityType, req.Pronouns, req.Biography, req.InstagramURL, req.TikTokURL, req.TwitterURL, req.Phone, req.Privacy)
 
 	if err != nil {

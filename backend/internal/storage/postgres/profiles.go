@@ -56,19 +56,19 @@ func (db *DB) GetProfileByColumn(ctx context.Context, column string, value strin
 
 func (db *DB) PatchProfile(
 	ctx context.Context,
-	userId uuid.UUID,
+	userID uuid.UUID,
 	firstName *string,
 	username *string,
 	email *string,
 	age *int,
 	location *string,
-	profilePictureUrl *string,
+	profilePictureURL *string,
 	personalityType *string,
 	pronouns *string,
 	biography *string,
-	instagramUrl *string,
-	tikTokUrl *string,
-	twitterUrl *string,
+	instagramURL *string,
+	tikTokURL *string,
+	twitterURL *string,
 	phone *string,
 	privacy *bool) error {
 
@@ -78,13 +78,13 @@ func (db *DB) PatchProfile(
 		"email":               email,
 		"age":                 age,
 		"location":            location,
-		"profile_picture_url": profilePictureUrl,
+		"profile_picture_url": profilePictureURL,
 		"personality_type":    personalityType,
 		"pronouns":            pronouns,
 		"biography":           biography,
-		"instagram_url":       instagramUrl,
-		"tik_tok_url":         tikTokUrl,
-		"twitter_url":         twitterUrl,
+		"instagram_url":       instagramURL,
+		"tik_tok_url":         tikTokURL,
+		"twitter_url":         twitterURL,
 		"phone":               phone,
 		"privacy":             privacy,
 	}
@@ -117,19 +117,19 @@ func (db *DB) PatchProfile(
 	}
 
 	if len(params) == 0 {
-		log.Printf("No fields to update for user %s", userId)
+		log.Printf("No fields to update for user %s", userID)
 		return errors.ErrUnsupported
 	}
 
 	query = query[:len(query)-2] + fmt.Sprintf(" WHERE user_id = $%d", paramIndex)
-	params = append(params, userId)
+	params = append(params, userID)
 
 	_, err := db.conn.Exec(ctx, query, params...)
 	if err != nil {
-		log.Printf("Failed to update %s: %v", userId, err)
+		log.Printf("Failed to update %s: %v", userID, err)
 		return err
 	}
-	log.Printf("Updated %s successfully", userId)
+	log.Printf("Updated %s successfully", userID)
 	return nil
 }
 

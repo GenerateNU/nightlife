@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     padding: 10,
-    backgroundColor: "#333",
+    backgroundColor: "#1c1c1c",
     width: "100%",
     position: "absolute",
     top: 0,
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingLeft: 10,
     color: "#fff",
-    backgroundColor: "#444",
+    backgroundColor: "#1e1e1e",
     fontFamily: "Archivo_500Medium"
   },
 });

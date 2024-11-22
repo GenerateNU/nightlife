@@ -29,13 +29,19 @@ const bottomTabNavOptions: BottomTabNavigationOptions = {
     marginTop: 4,
   },
   headerStyle: {
-    backgroundColor: "#0ea5e9",
+    backgroundColor: "#1c1c1c",
     shadowColor: "transparent",
-    height: 64,
+    height: 48,
   },
   headerTitle: "",
   headerTintColor: "#fff",
   tabBarActiveTintColor: "#0ea5e9",
+};
+
+type RootStackParamList = {
+  Profile: undefined;
+  EditProfile: undefined;
+  EditProfileAttribute: { field: string; existing: string };
 };
 
 const createScreenOptions = (
@@ -48,7 +54,7 @@ const createScreenOptions = (
   ),
 });
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const ProfileStackNavigator = () => (
     <Stack.Navigator>
