@@ -19,30 +19,40 @@ const MapScreen: React.FC = () => {
 
   const getAllVenues = async (): Promise<Venue[] | null> => {
     if (!accessToken) {
-      console.log("No access token available");
+      console.error("No access token available. Ensure the user is logged in.");
       return null;
     }
-
+  
     try {
-      const res = await fetch(`${API_DOMAIN}/venues/getAll`, {
+      const res = await fetch(`${API_DOMAIN}/venues/`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${accessToken}`,
         },
       });
-
+  
       if (!res.ok) {
-        throw new Error(`Error fetching data: ${res.statusText}`);
+        // Try to extract additional information from the response
+        const errorBody = await res.text();
+        console.error(`HTTP Error: ${res.status} - ${res.statusText}`);
+        console.error("Response Body:", errorBody);
+        throw new Error(`Failed to fetch venues. Status: ${res.status}`);
       }
-
+  
       const data: Venue[] = await res.json();
       return data;
     } catch (err) {
-      console.log("Could not connect to db or something", err);
+      // Log detailed error information
+      if (err instanceof Error) {
+        console.error("Error fetching venues:", err.message);
+      } else {
+        console.error("Unexpected error:", err);
+      }
       return null;
     }
   };
+  
 
   useEffect(() => {
     getAllVenues().then((venues) => {

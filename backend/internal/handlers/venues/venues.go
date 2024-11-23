@@ -148,35 +148,35 @@ func (s *Service) GetAllVenues(c *fiber.Ctx) error {
 }
 
 func (s *Service) GetVenuesByIDs(c *fiber.Ctx) error {
-    // Get the "ids" query parameter
-    ids := c.Query("ids")
-    if ids == "" {
-        return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-            "error": "Missing venue IDs",
-        })
-    }
+	// Get the "ids" query parameter
+	ids := c.Query("ids")
+	if ids == "" {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": "Missing venue IDs",
+		})
+	}
 
-    // Split the IDs into a slice
-    idStrings := strings.Split(ids, ",")
-    var venueIDs []uuid.UUID
-    for _, idStr := range idStrings {
-        parsedID, err := uuid.Parse(strings.TrimSpace(idStr))
-        if err != nil {
-            return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-                "error": fmt.Sprintf("Invalid venue ID format: %s", idStr),
-            })
-        }
-        venueIDs = append(venueIDs, parsedID)
-    }
+	// Split the IDs into a slice
+	idStrings := strings.Split(ids, ",")
+	var venueIDs []uuid.UUID
+	for _, idStr := range idStrings {
+		parsedID, err := uuid.Parse(strings.TrimSpace(idStr))
+		if err != nil {
+			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+				"error": fmt.Sprintf("Invalid venue ID format: %s", idStr),
+			})
+		}
+		venueIDs = append(venueIDs, parsedID)
+	}
 
-    // Fetch venues from the store
-    venues, err := s.store.GetVenuesByIDs(c.Context(), venueIDs)
-    if err != nil {
-        return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-            "error": "Failed to fetch venue details",
-        })
-    }
+	// Fetch venues from the store
+	venues, err := s.store.GetVenuesByIDs(c.Context(), venueIDs)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"error": "Failed to fetch venue details",
+		})
+	}
 
-    // Return the list of venues
-    return c.Status(fiber.StatusOK).JSON(venues)
+	// Return the list of venues
+	return c.Status(fiber.StatusOK).JSON(venues)
 }

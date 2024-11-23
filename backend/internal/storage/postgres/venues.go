@@ -124,6 +124,7 @@ func (db *DB) GetAllVenues(ctx context.Context) ([]models.Venue, error) {
 	AS longitude FROM venue`
 	rows, err := db.conn.Query(ctx, query)
 	if err != nil {
+		fmt.Print("hello")
 		return []models.Venue{}, err
 	}
 	defer rows.Close()
