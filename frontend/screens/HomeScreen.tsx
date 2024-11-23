@@ -1,20 +1,13 @@
 import React from "react";
 import {View, StyleSheet } from "react-native";
-import { StackNavigationProp  } from '@react-navigation/stack';
 import SearchBar from "@/components/Map/SearchBar";
+import EventsScrollable from "./explore/EventsScrollable";
 
-type RootStackParamList = {
-    Home: undefined;
-};
-
-type HomeScreenProps = {
-    navigation: StackNavigationProp<RootStackParamList, 'Home'>;
-};
-
-const HomeScreen: React.FC<HomeScreenProps> = () => {
+const HomeScreen: React.FC = () => {
     return (
         <View style={styles.container}>
             <SearchBar placeholderText="Search venues..." />
+            <EventsScrollable />
         </View>
     );
 };
