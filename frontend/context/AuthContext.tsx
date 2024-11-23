@@ -2,13 +2,20 @@ import React, { createContext, useState, useContext, useEffect, PropsWithChildre
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface UserProfile {
-    userId: string;
+    user_id: string;
     first_name: string;
     username: string;
     email: string;
     age: number;
     location?: { latitude: number; longitude: number };
     profile_picture_url: string;
+    pronouns?: string;
+    biography?: string;
+    instagram_url?: string;
+    tik_tok_url?: string;
+    twitter_url?: string;
+    phone?: string;
+    privacy?: boolean;
     created_at: string;
     updated_at?: string;
 }

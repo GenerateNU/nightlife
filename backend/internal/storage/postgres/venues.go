@@ -129,3 +129,38 @@ func (db *DB) GetAllVenues(ctx context.Context) ([]models.Venue, error) {
 	defer rows.Close()
 	return pgx.CollectRows(rows, pgx.RowToStructByName[models.Venue])
 }
+
+func (db *DB) GetVenuesByIDs(ctx context.Context, venueIDs []uuid.UUID) ([]models.Venue, error) {
+	query := `
+		SELECT 
+			venue_id, 
+			name, 
+			ST_Y(location::geometry) AS latitude, 
+			ST_X(location::geometry) AS longitude, 
+			created_at
+		FROM venue
+		WHERE venue_id = ANY($1);
+	`
+	rows, err := db.conn.Query(ctx, query, venueIDs)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	venues := []models.Venue{}
+	for rows.Next() {
+		var venue models.Venue
+		if err := rows.Scan(
+			&venue.VenueID,
+			&venue.Name,
+			&venue.Latitude,
+			&venue.Longitude,
+			&venue.CreatedAt,
+		); err != nil {
+			return nil, err
+		}
+		venues = append(venues, venue)
+	}
+
+	return venues, rows.Err()
+}

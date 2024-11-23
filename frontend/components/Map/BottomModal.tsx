@@ -92,6 +92,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     marginBottom: 8,
+    fontFamily: "Archivo_700Bold"
   },
   listContent: {
     paddingBottom: 20,
@@ -106,10 +107,12 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 16,
     fontWeight: "bold",
+    fontFamily: "Archivo_700Bold"
   },
   venueAddress: {
     color: "#bbb",
     fontSize: 14,
+    fontFamily: "Archivo_500Medium"
   },
 });
 
