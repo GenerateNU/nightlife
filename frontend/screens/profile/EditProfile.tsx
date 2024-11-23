@@ -19,7 +19,7 @@ type EditProfileProps = {
 
 const EditProfile = ({ navigation }: EditProfileProps) => {
 
-  const { user, setUserAsync, accessToken } = useAuth();
+  const { user, logout, setUserAsync, accessToken } = useAuth();
 
   console.log(user)
 
@@ -138,11 +138,20 @@ const EditProfile = ({ navigation }: EditProfileProps) => {
           style={styles.switch}
         />
       </View>
+      <TouchableOpacity style={styles.button} onPress={logout}>
+        <Text style={styles.logoutButtonText}>Logout</Text>
+      </TouchableOpacity>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  logoutButtonText: {
+    color: "white",
+    fontFamily: "Archivo_700Bold",
+    textAlign: "center",
+    fontSize: 14,
+  },
   goBackButton: {
     padding: 6,
     backgroundColor: "#007bff",
