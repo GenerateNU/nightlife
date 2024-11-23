@@ -1,26 +1,20 @@
 import React from "react";
-import {Text, View, TouchableOpacity, StyleSheet } from "react-native";
+import {View, StyleSheet } from "react-native";
 import { StackNavigationProp  } from '@react-navigation/stack';
+import SearchBar from "@/components/Map/SearchBar";
 
 type RootStackParamList = {
-    Home: undefined;   // If Home screen doesn't take any parameters
-    Venue: undefined;  // If Venue screen doesn't take any parameters
+    Home: undefined;
 };
 
 type HomeScreenProps = {
-    navigation: StackNavigationProp<RootStackParamList, 'Home'>; // Adjust as necessary based on your stack
+    navigation: StackNavigationProp<RootStackParamList, 'Home'>;
 };
 
-const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
+const HomeScreen: React.FC<HomeScreenProps> = () => {
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Home Screen</Text>
-            <TouchableOpacity
-                style={styles.button}
-                onPress={() => navigation.navigate('Venue')}
-            >
-                <Text style={styles.buttonText}>Go to Venue</Text>
-            </TouchableOpacity>
+            <SearchBar placeholderText="Search venues..." />
         </View>
     );
 };
@@ -30,6 +24,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: "#1c1c1c"
     },
     title: {
         fontSize: 24,

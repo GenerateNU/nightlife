@@ -22,24 +22,33 @@ const EditProfileAttribute: React.FC<EditProfileAttributeProps> = ({ navigation,
 
     if (!field) navigation.goBack();
 
-    const [value, setValue] = useState(existing || "");
+    const [value, setValue] = useState<string|null>(existing || null);
 
     const { user, accessToken } = useAuth();
+
+    const handleChange = (text: string) => {
+        setValue(text);
+    }
 
     const handleSave = async () => {
 
         if (!value) navigation.goBack();
 
-        await fetch(`http://localhost:8080/profiles/update/${user?.user_id}`, {
+        const req = await fetch(`http://localhost:8080/profiles/update/${user?.user_id}`, {
             method: "PATCH",
             headers: {
                 Authorization: `Bearer ${accessToken}`,
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                [field]: value
+                [field]: field === "age" ? parseInt(value as string) : value
             })
         })
+
+        if (req.ok) {
+            const userData = await req.json();
+            console.log(userData);
+        }
 
         navigation.goBack();
     }
@@ -55,10 +64,11 @@ const EditProfileAttribute: React.FC<EditProfileAttributeProps> = ({ navigation,
 
             <TextInput
                 style={styles.input}
+                keyboardType={field === "age" ? "number-pad" : "default"}
                 placeholder="Enter a value..."
                 placeholderTextColor="#888"
                 value={value || ""}
-                onChangeText={() => setValue}
+                onChangeText={handleChange}
             />
 
             <TouchableOpacity onPress={handleSave} style={styles.saveButton}>
