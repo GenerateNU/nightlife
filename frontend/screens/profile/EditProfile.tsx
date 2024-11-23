@@ -67,7 +67,7 @@ const EditProfile = ({ navigation }: EditProfileProps) => {
     {
       key: "age",
       display: "Age",
-      value: user?.age.toString() || "update"
+      value: user?.age?.toString() || "update"
     },
     {
       key: "email",
