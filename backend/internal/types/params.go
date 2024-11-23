@@ -35,12 +35,9 @@ type ProfileUpdateRequest struct {
 	TwitterURL		  *string	`json:"twitter_url"`
 	Phone			  *string	`json:"phone"`
 	Privacy			  *bool		`json:"privacy"`
-<<<<<<< HEAD
 }
 
 type ReviewWithVenue struct {
 	Review 			models.Review `json:"review"`
 	Venue  			models.Venue  `json:"venue"`
-=======
->>>>>>> f0f92f053b919d67761ee452977cb506d298f1ee
 }
