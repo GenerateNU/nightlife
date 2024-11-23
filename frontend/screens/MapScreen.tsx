@@ -1,28 +1,25 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
 import MapView, { Marker } from "react-native-maps";
+import { Modalize } from "react-native-modalize";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import SearchBar from "@/components/Map/SearchBar";
-import BottomModal from "@/components/Map/BottomModal";
-import Modal from "react-native-modal";
 import { API_DOMAIN } from "@env";
 import { Venue } from "@/types/Venue";
 import { useAuth } from "@/context/AuthContext";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const MapScreen: React.FC = () => {
   const [allVenues, setAllVenues] = useState<Venue[]>([]);
   const [selectedVenue, setSelectedVenue] = useState<Venue | null>(null);
-  const [isModalVisible, setModalVisible] = useState(false);
-  const [isInfoModalVisible, setInfoModalVisible] = useState(false);
   const { accessToken } = useAuth();
-  const insets = useSafeAreaInsets();
+  const modalRef = React.useRef<Modalize>(null);
 
-  const getAllVenues = async (): Promise<Venue[] | null> => {
+  const fetchVenues = async (): Promise<void> => {
     if (!accessToken) {
-      console.error("No access token available. Ensure the user is logged in.");
-      return null;
+      console.log("No access token available");
+      return;
     }
-  
+
     try {
       const res = await fetch(`${API_DOMAIN}/venues/`, {
         method: "GET",
@@ -31,107 +28,98 @@ const MapScreen: React.FC = () => {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-  
-      if (!res.ok) {
-        // Try to extract additional information from the response
-        const errorBody = await res.text();
-        console.error(`HTTP Error: ${res.status} - ${res.statusText}`);
-        console.error("Response Body:", errorBody);
-        throw new Error(`Failed to fetch venues. Status: ${res.status}`);
-      }
-  
+
+      if (!res.ok) throw new Error(`Error: ${res.statusText}`);
       const data: Venue[] = await res.json();
-      return data;
+      setAllVenues(data);
     } catch (err) {
-      // Log detailed error information
-      if (err instanceof Error) {
-        console.error("Error fetching venues:", err.message);
-      } else {
-        console.error("Unexpected error:", err);
-      }
-      return null;
+      console.error("Failed to fetch venues:", err);
     }
   };
-  
 
   useEffect(() => {
-    getAllVenues().then((venues) => {
-      if (venues) {
-        setAllVenues(venues);
-      } else {
-        console.log("Unable to get all venues");
-      }
-    });
+    fetchVenues();
   }, [accessToken]);
 
   const handleMarkerPress = (venue: Venue) => {
     setSelectedVenue(venue);
-    setInfoModalVisible(true);
-    setModalVisible(false);
+    modalRef.current?.open(); // Open the modal
   };
 
-  const toggleMainModal = () => {
-    setModalVisible(!isModalVisible);
-    setInfoModalVisible(false);
+  const handleToggleModal = () => {
+    setSelectedVenue(null); // Clear selected venue
+    modalRef.current?.open(); // Open the modal in "list" mode
   };
 
   return (
-    <View style={styles.container}>
-      <BottomModal
-        visible={isModalVisible}
-        onClose={() => setModalVisible(false)}
-        venues={allVenues}
-      />
-      <SearchBar />
-      <MapView
-        style={styles.map}
-        initialRegion={{
-          latitude: 42.3601,
-          longitude: -71.0589,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
-        }}
-        userInterfaceStyle="dark"
-      >
-        {allVenues.length > 0 &&
-          allVenues.map((v) => (
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <View style={styles.container}>
+        {/* Floating Search Bar */}
+        <SearchBar />
+
+        {/* Map */}
+        <MapView
+          style={styles.map}
+          initialRegion={{
+            latitude: 42.3601,
+            longitude: -71.0589,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}
+          userInterfaceStyle="dark"
+        >
+          {allVenues.map((venue) => (
             <Marker
-              key={v.venue_id}
-              coordinate={{
-                latitude: v.latitude,
-                longitude: v.longitude,
-              }}
-              title={v.name}
-              description={v.address}
-              onPress={() => handleMarkerPress(v)}
+              key={venue.venue_id}
+              coordinate={{ latitude: venue.latitude, longitude: venue.longitude }}
+              title={venue.name}
+              description={venue.address}
+              onPress={() => handleMarkerPress(venue)}
             />
           ))}
-      </MapView>
+        </MapView>
 
-      <Modal
-        isVisible={isInfoModalVisible}
-        onSwipeComplete={() => setInfoModalVisible(false)}
-        swipeDirection="down"
-        style={[styles.infoModal, { marginBottom: insets.bottom }]} // Adjust modal position
-      >
-        {selectedVenue && (
-          <View style={styles.infoBox}>
-            <Text style={styles.infoTitle}>{selectedVenue.name}</Text>
-            <Text style={styles.infoDescription}>{selectedVenue.address}</Text>
-            <TouchableOpacity
-              onPress={() => setInfoModalVisible(false)}
-              style={styles.closeButton}
-            >
-              <Text style={styles.closeButtonText}>Close</Text>
-            </TouchableOpacity>
-          </View>
-        )}
-      </Modal>
+        {/* Toggle Button */}
+        <TouchableOpacity style={styles.toggleButton} onPress={handleToggleModal}>
+          <Text style={styles.buttonText}>+</Text>
+        </TouchableOpacity>
 
-      <TouchableOpacity style={styles.circularButton} onPress={toggleMainModal}>
-        <Text style={styles.buttonText}>+</Text>
-      </TouchableOpacity>
-    </View>
+        {/* Bottom Modal */}
+        <Modalize
+          ref={modalRef}
+          snapPoint={200} // Start height of the modal
+          modalHeight={600} // Max height when fully expanded
+          handlePosition="inside"
+        >
+          {selectedVenue ? (
+            // Selected Venue View
+            <View style={styles.modalContent}>
+              <Text style={styles.venueName}>{selectedVenue.name}</Text>
+              <Text style={styles.venueDetails}>
+                {selectedVenue.address}, {selectedVenue.city}, {selectedVenue.state}
+              </Text>
+              {/* <Text style={styles.rating}>⭐ {selectedVenue.total_rating}</Text> */}
+              {/* <Text style={styles.price}>💲 {selectedVenue.price}</Text> */}
+            </View>
+          ) : (
+            // Venue List View
+            <View style={styles.modalContent}>
+              <Text style={styles.listTitle}>All Venues</Text>
+              {allVenues.map((venue) => (
+                <TouchableOpacity
+                  key={venue.venue_id}
+                  onPress={() => handleMarkerPress(venue)}
+                  style={styles.venueItem}
+                >
+                  <Text style={styles.venueName}>{venue.name}</Text>
+                  <Text style={styles.venueAddress}>{venue.address}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          )}
+        </Modalize>
+      </View>
+    </GestureHandlerRootView>
   );
 };
 
@@ -140,44 +128,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   map: {
-    width: "100%",
-    height: "100%",
+    flex: 1,
   },
-  infoModal: {
-    justifyContent: "flex-end",
-    margin: 0,
-    paddingBottom: 60,
-  },
-  infoBox: {
-    backgroundColor: "#fff",
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    padding: 20,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: -2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 5,
-    elevation: 10,
-  },
-  infoTitle: {
-    fontSize: 16,
-    fontWeight: "bold",
-    marginBottom: 5,
-  },
-  infoDescription: {
-    fontSize: 14,
-    color: "#666",
-  },
-  closeButton: {
-    marginTop: 10,
-    alignSelf: "flex-end",
-    padding: 5,
-  },
-  closeButtonText: {
-    fontSize: 14,
-    color: "#007BFF",
-  },
-  circularButton: {
+  toggleButton: {
     position: "absolute",
     bottom: 30,
     left: "50%",
@@ -198,6 +151,40 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 24,
     fontWeight: "bold",
+  },
+  modalContent: {
+    padding: 20,
+  },
+  listTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  venueItem: {
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
+  },
+  venueName: {
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  venueAddress: {
+    fontSize: 14,
+    color: "#555",
+  },
+  venueDetails: {
+    fontSize: 14,
+    color: "#666",
+    marginBottom: 5,
+  },
+  rating: {
+    fontSize: 14,
+    marginBottom: 5,
+  },
+  price: {
+    fontSize: 14,
+    marginBottom: 5,
   },
 });
 
