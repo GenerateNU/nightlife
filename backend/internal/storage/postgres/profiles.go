@@ -1,3 +1,4 @@
+//nolint
 package postgres
 
 import (
@@ -55,6 +56,7 @@ func (db *DB) GetProfileByColumn(ctx context.Context, column string, value strin
 }
 
 func (db *DB) PatchProfile(
+<<<<<<< HEAD
 	ctx context.Context,
 	userID uuid.UUID,
 	firstName *string,
@@ -87,6 +89,40 @@ func (db *DB) PatchProfile(
 		"twitter_url":         twitterURL,
 		"phone":               phone,
 		"privacy":             privacy,
+=======
+	ctx context.Context, 
+	userId uuid.UUID, 
+	firstName *string, 
+	username *string, 
+	email *string, 
+	age *int, 
+	location *string, 
+	profilePictureUrl *string, 
+	personalityType *string, 
+	pronouns *string, 
+	biography *string, 
+	instagramUrl *string, 
+	tikTokUrl *string, 
+	twitterUrl *string, 
+	phone *string, 
+	privacy *bool) error {
+
+	fields := map[string]interface{}{
+		"first_name":         firstName,
+		"username":           username,
+		"email":              email,
+		"age":                age,
+		"location":           location,
+		"profile_picture_url": profilePictureUrl,
+		"personality_type":   personalityType,
+		"pronouns":           pronouns,
+		"biography":          biography,
+		"instagram_url":      instagramUrl,
+		"tik_tok_url":        tikTokUrl,
+		"twitter_url":        twitterUrl,
+		"phone":              phone,
+		"privacy":            privacy,
+>>>>>>> f0f92f053b919d67761ee452977cb506d298f1ee
 	}
 
 	query := `UPDATE "users" SET `
@@ -117,11 +153,16 @@ func (db *DB) PatchProfile(
 	}
 
 	if len(params) == 0 {
+<<<<<<< HEAD
 		log.Printf("No fields to update for user %s", userID)
+=======
+		log.Printf("No fields to update for user %s", userId)
+>>>>>>> f0f92f053b919d67761ee452977cb506d298f1ee
 		return errors.ErrUnsupported
 	}
 
 	query = query[:len(query)-2] + fmt.Sprintf(" WHERE user_id = $%d", paramIndex)
+<<<<<<< HEAD
 	params = append(params, userID)
 
 	_, err := db.conn.Exec(ctx, query, params...)
@@ -133,6 +174,21 @@ func (db *DB) PatchProfile(
 	return nil
 }
 
+=======
+	params = append(params, userId)
+
+	_, err := db.conn.Exec(ctx, query, params...)
+	if err != nil {
+		log.Printf("Failed to update %s: %v", userId, err)
+		return err
+	}
+	log.Printf("Updated %s successfully", userId)
+	return nil
+}
+
+
+
+>>>>>>> f0f92f053b919d67761ee452977cb506d298f1ee
 func (db *DB) CreatePreferences(ctx context.Context, p models.Preferences) error {
 	// query to save user data to db
 	query := `INSERT INTO preferences (userID, location, age, music, ambiance, notifs) 
