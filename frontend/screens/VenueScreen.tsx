@@ -12,6 +12,7 @@ import { StackNavigationProp  } from '@react-navigation/stack';
 import ScaledText from "@/components/ScaledText";
 import VenueReviews from "@/screens/VenueReviews";
 import { useNavigation } from "@react-navigation/native";
+import { BottomTabNavProps } from "@/types/NavigationTypes";
 
 type RootStackParamList = {
     Home: undefined;   
@@ -26,7 +27,7 @@ type VenueScreenProps = {
 
 const VenueScreen: React.FC<VenueScreenProps> = ({ navigation }) => {
     const Tab = createBottomTabNavigator();
-    
+
     const OverviewScreen = () => <Text>Overview Content</Text>;
     const PhotosScreen = () => <Text>Details Content</Text>;
     const ReviewsScreen = () => <Text>Reviews Content</Text>;
@@ -192,13 +193,13 @@ const VenueScreen: React.FC<VenueScreenProps> = ({ navigation }) => {
                 </View>
             
                 <ScrollView style={{backgroundColor: '#121212'}}>
-                    <View style={{flexDirection: 'column'}}>
-                        <VibeScrollBar rating={hype} minTitle="Chill" maxTitle="Energetic"/>
-                        <VibeScrollBar rating={mainstream} minTitle="Underground" maxTitle="Mainstream"/>
-                        <VibeScrollBar rating={price} minTitle="Affordable" maxTitle="Expensive"/>
-                        <VibeScrollBar rating={crowd} minTitle="Classy" maxTitle="Rowdy"/>
-                        <VibeScrollBar rating={energy} minTitle="Sit down" maxTitle="Rave"/>
-                        <VibeScrollBar rating={exclusive} minTitle="Casual" maxTitle="Exclusive"/>
+                    <View style={{flexDirection: 'column', alignItems: "center", justifyContent: "center", marginBottom: 5}}>
+                        <VibeScrollBar category={1} startColor="#306DFF" stopColor="#FFB4FE" rating={hype} minTitle="Chill" maxTitle="Energetic"/>
+                        <VibeScrollBar category={2} startColor="#43FFBD" stopColor="#FFDF62" rating={mainstream} minTitle="Underground" maxTitle="Mainstream"/>
+                        <VibeScrollBar category={3} startColor="#FF5972" stopColor="#9896FF" rating={price} minTitle="Affordable" maxTitle="Expensive"/>
+                        <VibeScrollBar category={4} startColor="#FF5972" stopColor="#FFDF62" rating={crowd} minTitle="Classy" maxTitle="Rowdy"/>
+                        <VibeScrollBar category={5} startColor="#FFB4FE" stopColor="#6AFFFC" rating={energy} minTitle="Sit down" maxTitle="Rave"/>
+                        <VibeScrollBar category={6} startColor="#43FFBD" stopColor="#FF7E5F" rating={exclusive} minTitle="Casual" maxTitle="Exclusive"/>
                     </View>
                 </ScrollView>
             </View>
