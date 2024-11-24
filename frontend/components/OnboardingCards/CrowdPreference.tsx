@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ImageBackground } from 'react-native';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
+import ProgressBar from './ProgressBar';
+import onboardingStyles from './onboardingStyles';
 
 const crowdOptions = [
   "More Exclusive (Guest-List only)",
   "Mixed ages",
   "Casual & laid-back",
-  "Young profressionals",
+  "Young professionals",
   "Other"
 ];
 
@@ -16,13 +18,18 @@ export type RootStackParamList = {
 }
 
 const CrowdPreference: React.FC = () => {
-
-  const [selectedCrowd, setSelectedCrowd] = useState<string | null>(null);
-
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+  const [selectedCrowds, setSelectedCrowds] = useState<string[]>([]);
+  const [progress, setProgress] = useState(0.3);
 
   const selectCrowd = (option: string) => {
-    setSelectedCrowd(option);
+    setSelectedCrowds((prevSelectedCrowds) => {
+      if (prevSelectedCrowds.includes(option)) {
+        return prevSelectedCrowds.filter((item) => item !== option);
+      } else {
+        return [...prevSelectedCrowds, option];
+      }
+    });
   };
 
   const handleSkip = () => {
@@ -36,107 +43,89 @@ const CrowdPreference: React.FC = () => {
   return (
     <ImageBackground
       source={{ uri: 'https://i.imghippo.com/files/sol3971PuQ.png' }}
-      style={styles.container}
+      style={onboardingStyles.container}
     >
-    <View style={styles.container}>
-      <TouchableOpacity onPress={handleBack} style={styles.backButton}>
-        <Text style={styles.backButtonText}>Back</Text>
+      <Text style={onboardingStyles.topTitle}>ABOUT ME</Text>
+      <TouchableOpacity onPress={handleBack} style={onboardingStyles.backButton}>
+        <Text style={onboardingStyles.buttonText}>Back</Text>
       </TouchableOpacity>
+      <View style={onboardingStyles.mainContent}>
+        <ProgressBar progress={progress} />
+        <Text style={onboardingStyles.title}>When I'm out, I want{"\n"}to be surrounded by...</Text>
+        <Text style={styles.textStyle}>Select all that apply</Text>
+        <View style={styles.optionsContainer}>
+          {/* First option: "More Exclusive" */}
+          <TouchableOpacity
+            key="More Exclusive (Guest-List only)"
+            style={[
+              styles.optionBox,
+              selectedCrowds.includes("More Exclusive (Guest-List only)") 
+                ? onboardingStyles.selectedOption 
+                : onboardingStyles.unselectedOption,
+              { width: '100%' }, // Make this one occupy full width
+            ]}
+            onPress={() => selectCrowd("More Exclusive (Guest-List only)")}
+          >
+            <Text style={onboardingStyles.optionText}>More Exclusive (Guest-List only)</Text>
+          </TouchableOpacity>
 
-      <View style={styles.crowdMainContent}>
-        <Text style={styles.title}>When I'm out, I want to be surrounded by:</Text>
-
-        <View style={styles.optionGrid}>
-          {crowdOptions.map((option) => (
-            <TouchableOpacity
-              key={option}
-              style={styles.optionBox}
-              onPress={() => selectCrowd(option)}
-            >
-              <Text style={styles.optionText}>{option}</Text>
-            </TouchableOpacity>
-          ))}
+          <View style={styles.gridContainer}>
+            {crowdOptions
+              .filter(option => option !== "More Exclusive (Guest-List only)") // Exclude the first option
+              .map((option) => (
+                <TouchableOpacity
+                  key={option}
+                  style={[
+                    styles.optionBox,
+                    selectedCrowds.includes(option) 
+                      ? onboardingStyles.selectedOption 
+                      : onboardingStyles.unselectedOption,
+                  ]}
+                  onPress={() => selectCrowd(option)}
+                >
+                  <Text style={onboardingStyles.optionText}>{option}</Text>
+                </TouchableOpacity>
+              ))}
+          </View>
         </View>
-
-        <TouchableOpacity style={styles.nextButton} onPress={handleSkip}>
-          <Text style={styles.nextButtonText}>&gt;</Text>
+        <TouchableOpacity style={onboardingStyles.nextButton} onPress={handleSkip}>
+          <Text style={onboardingStyles.nextButtonText}>Next</Text>
         </TouchableOpacity>
       </View>
-
-    </View>
     </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-  },
-  backButton: {
-    marginBottom: 20,
-  },
-  backButtonText: {
+  textStyle: {
     color: 'white',
-    fontSize: 16,
-  },
-  title: {
-    width: '100%',
-    color: 'white',
-    fontSize: 36,
+    fontSize: 24,
     fontFamily: 'DT Nightingale',
     fontWeight: '300',
-    lineHeight: 39.6,
-    textAlign: 'center',
-    marginBottom: 40,
-  },
-  crowdMainContent: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  optionGrid: {
+    lineHeight: 28.8,
+    textAlign: 'left',
+    flexWrap: 'wrap',
     width: '100%',
+  },
+  optionsContainer: {
+    width: '100%',
+    alignItems: 'flex-start',
+  },
+  gridContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    gap: 10,
-    marginBottom: 40,
+    justifyContent: 'space-between', 
+    width: '100%',
   },
   optionBox: {
-    width: '48%',
-    height: 120,
-    backgroundColor: 'white',
-    borderRadius: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 12,
-    marginBottom: 10,
-    borderWidth: 1,
-    borderColor: '#ddd',
-  },
-  optionText: {
-    color: 'black',
-    fontSize: 20,
-    fontFamily: 'Archivo',
-    fontWeight: '200',
-    lineHeight: 20,
-    textAlign: 'center',
-  },
-  nextButton: {
-    position: 'absolute',
-    bottom: 40,
-    right: 40,
-    width: 60,
-    height: 60,
-    backgroundColor: 'white',
-    borderRadius: 30,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  nextButtonText: {
-    fontSize: 24,
-    color: 'black',
+    paddingVertical: 20,
+    paddingHorizontal: 20,
+    borderRadius: 100,
+    borderWidth: 2,
+    borderColor: 'white',
+    backgroundColor: 'rgba(255, 255, 255, 0.40)',
+    marginBottom: 12,
+    marginTop: 20,
   },
 });
 
