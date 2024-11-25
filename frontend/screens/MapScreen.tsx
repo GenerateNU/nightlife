@@ -15,6 +15,7 @@ const MapScreen: React.FC = () => {
   const { accessToken } = useAuth();
   const modalRef = React.useRef<Modalize>(null);
 
+  // TODO: Possibly move this over to a services file
   const fetchVenues = async (): Promise<void> => {
     if (!accessToken) {
       console.log("No access token available");
@@ -83,7 +84,7 @@ const MapScreen: React.FC = () => {
               <View style={styles.customMarker}>
                 <Image
                   source={require("@/assets/custom-marker.png")}
-                  style={styles.markerImage} // Apply scaling here
+                  style={styles.markerImage}
                   resizeMode="contain"
                 />
               </View>
@@ -91,6 +92,7 @@ const MapScreen: React.FC = () => {
           ))}
         </MapView>
 
+        {/** TODO: Fix button loading time */}
         {/* Toggle Button */}
         <TouchableOpacity
           style={styles.toggleButton}
@@ -110,6 +112,7 @@ const MapScreen: React.FC = () => {
         >
           {selectedVenue ? (
             // Selected Venue View
+            // TODO: Match fonts to figma
             <View style={styles.modalContent}>
               {/* Venue Title with Glow */}
               <Text style={styles.venueName}>
@@ -123,6 +126,7 @@ const MapScreen: React.FC = () => {
               </Text>
 
               {/* Rating Container */}
+              {/** TODO: Map venue data to star rating, money sign, open status. */}
               <View style={styles.ratingContainer}>
                 {/* Stand-in Rating */}
                 <Text style={styles.standInRating}>
@@ -152,6 +156,7 @@ const MapScreen: React.FC = () => {
               </View>
             </View>
           ) : (
+            // TODO: Replace with Ben's explore page
             // Venue List View
             <View style={styles.modalContent}>
               <Text style={styles.listTitle}>All Venues</Text>
@@ -274,7 +279,7 @@ const styles = StyleSheet.create({
   ratingContainer: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "flex-start", // Ensures items are centered
+    justifyContent: "flex-start",
     marginTop: 10,
   },
   standInRating: {
@@ -283,25 +288,25 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   ratingStar: {
-    width: 20, // Adjust the size of the star icon
+    width: 20,
     height: 20,
     marginHorizontal: 5,
   },
   divider: {
     fontSize: 18,
     color: "#FFFFFF",
-    marginHorizontal: 5, // Add space around dividers
+    marginHorizontal: 5,
   },
   moneySign: {
     fontSize: 18,
-    fontWeight: "bold", // Bold white text for the money sign
+    fontWeight: "bold",
     color: "#FFFFFF",
     marginHorizontal: 5,
   },
   statusText: {
     fontSize: 18,
     color: "#00FF00",
-    marginLeft: 5, // Ensure spacing on the left of the status text
+    marginLeft: 5,
   },
 });
 
