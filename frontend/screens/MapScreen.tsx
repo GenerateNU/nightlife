@@ -4,6 +4,7 @@ import MapView, { Marker } from "react-native-maps";
 import { Modalize } from "react-native-modalize";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import SearchBar from "@/components/Map/SearchBar";
+import { Image } from "react-native";
 import { API_DOMAIN } from "@env";
 import { Venue } from "@/types/Venue";
 import { useAuth } from "@/context/AuthContext";
@@ -78,7 +79,15 @@ const MapScreen: React.FC = () => {
               title={venue.name}
               description={venue.address}
               onPress={() => handleMarkerPress(venue)}
-            />
+            >
+              <View style={styles.customMarker}>
+                <Image
+                  source={require("@/assets/custom-marker.png")}
+                  style={styles.markerImage} // Apply scaling here
+                  resizeMode="contain"
+                />
+              </View>
+            </Marker>
           ))}
         </MapView>
 
@@ -93,7 +102,7 @@ const MapScreen: React.FC = () => {
         {/* Bottom Modal */}
         <Modalize
           ref={modalRef}
-          snapPoint={150}
+          snapPoint={175}
           modalHeight={600}
           handlePosition="inside"
           modalStyle={styles.modalBackground}
@@ -102,14 +111,27 @@ const MapScreen: React.FC = () => {
           {selectedVenue ? (
             // Selected Venue View
             <View style={styles.modalContent}>
-              <Text style={styles.venueName}>{selectedVenue.name}</Text>
-              <Text style={styles.venueDetails}>
-                Venue type | {selectedVenue.city}, {selectedVenue.state}
+              {/* Venue Title with Glow */}
+              <Text style={styles.venueName}>
+                {selectedVenue.name || "Unknown Venue"}
               </Text>
+
+              {/* Venue Details */}
+              <Text style={styles.venueDetails}>
+                Venue type | {selectedVenue.city || "N/A"},{" "}
+                {selectedVenue.state || "N/A"}
+              </Text>
+
+              {/* Rating Container */}
               <View style={styles.ratingContainer}>
-                <Text style={styles.ratingText}>
-                  ⭐ {selectedVenue.total_rating}
+                {/* Stand-in Rating */}
+                <Text style={styles.standInRating}>
+                  {selectedVenue.total_rating
+                    ? selectedVenue.total_rating.toFixed(1)
+                    : "N/A"}
                 </Text>
+                {/* Star with Glow */}
+                <Text style={styles.ratingGlow}>⭐</Text>
                 <Text style={styles.priceText}>💲💲💲</Text>
                 <Text style={styles.statusText}>🟢 Open</Text>
               </View>
@@ -180,12 +202,15 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     padding: 20,
-    paddingTop: 40,
+    paddingTop: 35,
   },
   venueName: {
-    fontSize: 24,
+    fontSize: 30,
     fontWeight: "bold",
     color: "#FFFFFF",
+    textShadowColor: "rgba(255, 255, 255, 0.8)",
+    textShadowOffset: { width: 0, height: 0 },
+    textShadowRadius: 10,
     marginBottom: 5,
   },
   venueDetails: {
@@ -195,20 +220,31 @@ const styles = StyleSheet.create({
   },
   ratingContainer: {
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
+    marginTop: 10,
   },
-  ratingText: {
+  standInRating: {
     fontSize: 18,
+    color: "#FFFFFF",
+    marginRight: 5,
+  },
+  ratingGlow: {
+    fontSize: 24,
     color: "#FFD700",
+    textShadowColor: "rgba(255, 215, 0, 0.8)",
+    textShadowOffset: { width: 0, height: 0 },
+    textShadowRadius: 10,
+    marginRight: 10,
   },
   priceText: {
     fontSize: 18,
     color: "#FFFFFF",
+    marginLeft: 10,
   },
   statusText: {
     fontSize: 18,
-    color: "#FFFFFF",
+    color: "#00FF00",
+    marginLeft: 10,
   },
   listTitle: {
     fontSize: 18,
@@ -224,6 +260,16 @@ const styles = StyleSheet.create({
   venueAddress: {
     fontSize: 14,
     color: "#BBBBBB",
+  },
+  customMarker: {
+    width: 40, 
+    height: 40,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  markerImage: {
+    width: "100%",
+    height: "100%",
   },
 });
 
