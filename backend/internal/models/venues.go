@@ -28,4 +28,8 @@ type Venue struct {
 	CreatedAt time.Time `json:"created_at"`
 
 	//UpdatedAt time.Time `json:"updated_at"`
+
+	TotalRating *float64 `json:"total_rating"`
+
+	Price *float64 `json:"price"`
 }

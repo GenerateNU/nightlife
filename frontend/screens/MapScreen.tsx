@@ -43,12 +43,12 @@ const MapScreen: React.FC = () => {
 
   const handleMarkerPress = (venue: Venue) => {
     setSelectedVenue(venue);
-    modalRef.current?.open(); // Open the modal
+    modalRef.current?.open();
   };
 
   const handleToggleModal = () => {
-    setSelectedVenue(null); // Clear selected venue
-    modalRef.current?.open(); // Open the modal in "list" mode
+    setSelectedVenue(null);
+    modalRef.current?.open();
   };
 
   return (
@@ -87,8 +87,8 @@ const MapScreen: React.FC = () => {
         {/* Bottom Modal */}
         <Modalize
           ref={modalRef}
-          snapPoint={200} // Start height of the modal
-          modalHeight={600} // Max height when fully expanded
+          snapPoint={200} 
+          modalHeight={600}
           handlePosition="inside"
         >
           {selectedVenue ? (

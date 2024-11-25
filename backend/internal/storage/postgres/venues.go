@@ -121,7 +121,7 @@ func (db *DB) GetVenueFromName(ctx context.Context, name string) (models.Venue, 
 
 func (db *DB) GetAllVenues(ctx context.Context) ([]models.Venue, error) {
 	query := `SELECT venue_id, name, address, city, state, zip_code, created_at, ST_Y(location::geometry) AS latitude, ST_X(location::geometry) 
-	AS longitude FROM venue`
+	AS longitude, total_rating, price FROM venue`
 	rows, err := db.conn.Query(ctx, query)
 	if err != nil {
 		fmt.Print("hello")
