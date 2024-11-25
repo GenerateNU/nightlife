@@ -98,8 +98,8 @@ const MapScreen: React.FC = () => {
               <Text style={styles.venueDetails}>
                 {selectedVenue.address}, {selectedVenue.city}, {selectedVenue.state}
               </Text>
-              {/* <Text style={styles.rating}>⭐ {selectedVenue.total_rating}</Text> */}
-              {/* <Text style={styles.price}>💲 {selectedVenue.price}</Text> */}
+              <Text style={styles.rating}>⭐ {selectedVenue.total_rating}</Text>
+              <Text style={styles.price}>💲 {selectedVenue.price}</Text>
             </View>
           ) : (
             // Venue List View

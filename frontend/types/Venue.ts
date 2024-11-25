@@ -8,4 +8,6 @@ export interface Venue {
     longitude: number;
     latitude: number;
     created_at: string;
+    total_rating: number;
+    price: number;
 }
