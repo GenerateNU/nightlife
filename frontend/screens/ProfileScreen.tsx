@@ -31,11 +31,13 @@ type NestedVenue = {
 const ProfileScreen = () => {
     const [isModalVisible, setModalVisible] = useState(false);
     const [activeTab, setActiveTab] = useState('Friends');
-    const { user, accessToken, setUserAsync } = useAuth();
+    const { user, accessToken, setUserAsync, logout } = useAuth();
     const [friendCount, setFriendCount] = useState(0);
     const [savedVenues, setSavedVenues] = useState([]);
     const [visitedVenues, setVisitedVenues] = useState([]);
     const [reviewedVenues, setReviewedVenues] = useState([]);
+
+    const [unauthorized, setUnauthorized] = useState(false);
 
     const navigation = useNavigation()
 
@@ -44,7 +46,7 @@ const ProfileScreen = () => {
             const fetchData = async () => {
                 if (user && accessToken) {
                     const userData = await fetchUserProfileService(user.email, accessToken);
-                    if (userData) setUserAsync(userData);
+                    if (userData) { setUserAsync(userData); } else { setUnauthorized(true); }
                 }
             };
             const fetchFriendCount = async () => {
@@ -109,71 +111,138 @@ const ProfileScreen = () => {
     const toggleModal = () => setModalVisible(!isModalVisible);
 
     return (
-        <View style={styles.container}>
-            <View style={styles.headerContainer}>
-                <Image
-                    style={styles.profileImage}
-                    source={{ uri: user?.profile_picture_url || "https://www.shutterstock.com/image-photo/head-shot-portrait-close-smiling-600nw-1714666150.jpg" }}
-                />
-                <View style={styles.userInfo}>
-                    <Text style={styles.username}>{user?.first_name}</Text>
-                    <Text style={styles.name}>@{user?.username} • {user?.pronouns || "no pronouns"}</Text>
-                    <Text style={styles.name}>{friendCount} friend(s) • {user?.age} yrs</Text>
+        unauthorized ? (
+            <View style={styles.container}>
+                <Text style={{ color: '#fff', textAlign: "center" }}>Unauthorized</Text>
+                <TouchableOpacity
+                    onPress={logout}
+                    style={{
+                        backgroundColor: 'red',
+                        padding: 10,
+                        borderRadius: 5,
+                        marginTop: 10,
+                    }}
+                >
+                    <Text style={{ color: '#fff', textAlign: "center" }}>Logout</Text>
+                </TouchableOpacity>
+            </View>
+        ) : (
+            <View style={styles.container}>
+       
+                <View style={styles.headerContainer}>
+                    <Image
+                        style={styles.profileImage}
+                        source={{
+                            uri: user?.profile_picture_url ||
+                                "https://www.shutterstock.com/image-photo/head-shot-portrait-close-smiling-600nw-1714666150.jpg",
+                        }}
+                    />
+                    <View style={styles.userInfo}>
+                        <Text style={styles.username}>{user?.first_name}</Text>
+                        <Text style={styles.name}>
+                            @{user?.username} • {user?.pronouns || "no pronouns"}
+                        </Text>
+                        <Text style={styles.name}>
+                            {friendCount} friend(s) • {user?.age} yrs
+                        </Text>
+                    </View>
                 </View>
-            </View>
-
-            <View style={styles.bioContainer}>
-                <Text style={styles.bioText}>
-                    {user?.biography || "No biography for this user."}
-                </Text>
-            </View>
-
-            {/* Profile Buttons */}
-            <View style={styles.profileButtonsContainer}>
-                <ProfileButtons onPress={() => navigation.navigate("EditProfile")} title="Edit Profile" />
-                <ProfileButtons onPress={toggleModal} title="Share Profile" />
-            </View>
-
-            <View style={styles.tabsContainer}>
-                <ProfileTabButton onPress={() => setActiveTab(ProfileTabs.Friends)} icon={userAddIcon} />
-                <ProfileTabButton onPress={() => setActiveTab(ProfileTabs.Venues)} icon={venuesIcon} />
-                <ProfileTabButton onPress={() => setActiveTab(ProfileTabs.Bookmarks)} icon={bookmarkIcon} />
-            </View>
-
-            <ScrollView style={{ marginTop: 6 }}>
-                {activeTab === ProfileTabs.Friends && (
-                    <View style={styles.venueListContainer}>
-                        {reviewedVenues.map((venue: NestedVenue, index) => (
-                            <ProfileVenueCard key={index} title={venue.venue.name} distance='0' rating='4.5 ★ (329)' image={{ uri: "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" }} />
-                        ))}
-                    </View>
-                )}
-                {activeTab === ProfileTabs.Bookmarks && (
-                    <View style={styles.venueListContainer}>
-                        {savedVenues.map((venue: Venue, index) => (
-                            <ProfileVenueCard key={index} title={venue.name} distance='0' rating='4.5 ★ (329)' image={{ uri: "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" }} />
-                        ))}
-                    </View>
-                )}
-                {activeTab === ProfileTabs.Venues && (
-                    <View style={styles.venueListContainer}>
-                        {visitedVenues.map((venue: Venue, index) => (
-                            <ProfileVenueCard key={index} title={venue.name} distance='0' rating='4.5 ★ (329)' image={{ uri: "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" }} />
-                        ))}
-                    </View>
-                )}
-            </ScrollView>
-
-            <Modal visible={isModalVisible} transparent animationType="slide">
-                <View style={styles.modalContainer}>
-                    <TouchableOpacity onPress={toggleModal} style={styles.backArrow}>
-                        <Text style={styles.backArrowText}>{'<'}</Text>
-                    </TouchableOpacity>
-                    <Text style={styles.modalTitle}>Share Profile</Text>
+    
+                <View style={styles.bioContainer}>
+                    <Text style={styles.bioText}>
+                        {user?.biography || "No biography for this user."}
+                    </Text>
                 </View>
-            </Modal>
-        </View>
+    
+                <View style={styles.profileButtonsContainer}>
+                    <ProfileButtons
+                        onPress={() => navigation.navigate("EditProfile")}
+                        title="Edit Profile"
+                    />
+                    <ProfileButtons onPress={toggleModal} title="Share Profile" />
+                </View>
+    
+                <View style={styles.tabsContainer}>
+                    <ProfileTabButton
+                        onPress={() => setActiveTab(ProfileTabs.Friends)}
+                        icon={userAddIcon}
+                    />
+                    <ProfileTabButton
+                        onPress={() => setActiveTab(ProfileTabs.Venues)}
+                        icon={venuesIcon}
+                    />
+                    <ProfileTabButton
+                        onPress={() => setActiveTab(ProfileTabs.Bookmarks)}
+                        icon={bookmarkIcon}
+                    />
+                </View>
+    
+                <ScrollView style={{ marginTop: 6 }}>
+                    {activeTab === ProfileTabs.Friends && (
+                        <View style={styles.venueListContainer}>
+                            {reviewedVenues &&
+                                reviewedVenues.map((venue: NestedVenue, index) => (
+                                    <ProfileVenueCard
+                                        key={index}
+                                        title={venue.venue.name}
+                                        distance="0"
+                                        rating="4.5 ★ (329)"
+                                        image={{
+                                            uri: "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png",
+                                        }}
+                                    />
+                                ))}
+                        </View>
+                    )}
+                    {activeTab === ProfileTabs.Bookmarks && (
+                        <View style={styles.venueListContainer}>
+                            {savedVenues &&
+                                savedVenues.map((venue: Venue, index) => (
+                                    <ProfileVenueCard
+                                        key={index}
+                                        title={venue.name}
+                                        distance="0"
+                                        rating="4.5 ★ (329)"
+                                        image={{
+                                            uri: "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png",
+                                        }}
+                                    />
+                                ))}
+                        </View>
+                    )}
+                    {activeTab === ProfileTabs.Venues && (
+                        <View style={styles.venueListContainer}>
+                            {visitedVenues &&
+                                visitedVenues.map((venue: Venue, index) => (
+                                    <ProfileVenueCard
+                                        key={index}
+                                        title={venue.name}
+                                        distance="0"
+                                        rating="4.5 ★ (329)"
+                                        image={{
+                                            uri: "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png",
+                                        }}
+                                    />
+                                ))}
+                        </View>
+                    )}
+                </ScrollView>
+    
+                <Modal visible={isModalVisible} transparent animationType="slide">
+                    <View style={styles.modalContainer}>
+                        <TouchableOpacity
+                            onPress={toggleModal}
+                            style={styles.backArrow}
+                        >
+                            <Text style={styles.backArrowText}>{'<'}</Text>
+                        </TouchableOpacity>
+                        <Text style={styles.modalTitle}>Share Profile</Text>
+                    </View>
+                </Modal>
+            </View>
+        )
     );
+    
 };
 
 const styles = StyleSheet.create({
