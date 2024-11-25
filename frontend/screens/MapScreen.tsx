@@ -128,11 +128,26 @@ const MapScreen: React.FC = () => {
                 <Text style={styles.standInRating}>
                   {selectedVenue.total_rating
                     ? selectedVenue.total_rating.toFixed(1)
-                    : "N/A"}
+                    : "4.2"}
                 </Text>
-                {/* Star with Glow */}
-                <Text style={styles.ratingGlow}>⭐</Text>
-                <Text style={styles.priceText}>💲💲💲</Text>
+
+                {/* Star Icon */}
+                <Image
+                  source={require("@/assets/rating-star.png")}
+                  style={styles.ratingStar}
+                  resizeMode="contain"
+                />
+
+                {/* Divider */}
+                <Text style={styles.divider}>|</Text>
+
+                {/* Money Sign */}
+                <Text style={styles.moneySign}>$$$</Text>
+
+                {/* Divider */}
+                <Text style={styles.divider}>|</Text>
+
+                {/* Open Status */}
                 <Text style={styles.statusText}>🟢 Open</Text>
               </View>
             </View>
@@ -218,16 +233,6 @@ const styles = StyleSheet.create({
     color: "#CCCCCC",
     marginBottom: 10,
   },
-  ratingContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginTop: 10,
-  },
-  standInRating: {
-    fontSize: 18,
-    color: "#FFFFFF",
-    marginRight: 5,
-  },
   ratingGlow: {
     fontSize: 24,
     color: "#FFD700",
@@ -239,11 +244,6 @@ const styles = StyleSheet.create({
   priceText: {
     fontSize: 18,
     color: "#FFFFFF",
-    marginLeft: 10,
-  },
-  statusText: {
-    fontSize: 18,
-    color: "#00FF00",
     marginLeft: 10,
   },
   listTitle: {
@@ -262,7 +262,7 @@ const styles = StyleSheet.create({
     color: "#BBBBBB",
   },
   customMarker: {
-    width: 40, 
+    width: 40,
     height: 40,
     justifyContent: "center",
     alignItems: "center",
@@ -270,6 +270,38 @@ const styles = StyleSheet.create({
   markerImage: {
     width: "100%",
     height: "100%",
+  },
+  ratingContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start", // Ensures items are centered
+    marginTop: 10,
+  },
+  standInRating: {
+    fontSize: 18,
+    color: "#FFFFFF",
+    marginRight: 5,
+  },
+  ratingStar: {
+    width: 20, // Adjust the size of the star icon
+    height: 20,
+    marginHorizontal: 5,
+  },
+  divider: {
+    fontSize: 18,
+    color: "#FFFFFF",
+    marginHorizontal: 5, // Add space around dividers
+  },
+  moneySign: {
+    fontSize: 18,
+    fontWeight: "bold", // Bold white text for the money sign
+    color: "#FFFFFF",
+    marginHorizontal: 5,
+  },
+  statusText: {
+    fontSize: 18,
+    color: "#00FF00",
+    marginLeft: 5, // Ensure spacing on the left of the status text
   },
 });
 
