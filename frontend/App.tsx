@@ -2,7 +2,14 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { BottomNavigator } from "@/navigation/BottomNavigator";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import LoginScreen from "@/screens/LoginScreen";
+//import LoginScreen from "@/screens/LoginScreen";
+import { FormDataProvider } from './components/OnboardingCards/FormDataContext';
+import WhoAreYouWith from "@/components/OnboardingCards/WhoDoYouGoOutWIth";
+import UserFormP1 from './components/OnboardingCards/UserFormP1';
+import UserFormP2 from './components/OnboardingCards/UserFormP2';
+import UserFormP3 from './components/OnboardingCards/UserFormP3';
+import InsideOutside from './components/OnboardingCards/InsideOutside';
+import RankingNightlife from './components/OnboardingCards/RankingNightlifeImportance';
 import { AuthProvider, useAuth } from "@/context/AuthContext";
 import React from 'react';
 import CrowdAndFrequencyPreference from './components/OnboardingCards/CrowdAndFrequencyPreference';
@@ -20,12 +27,11 @@ import EditProfile from './screens/profile/EditProfile';
 const Stack = createNativeStackNavigator();
 
 const LoginStack = () => {
-
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="Home"
-        component={LoginScreen}
+        name="whoAreYouWith"
+        component={WhoAreYouWith}
         options={{
           headerStyle: {
             backgroundColor: "#007bff",
@@ -36,6 +42,61 @@ const LoginStack = () => {
           headerTitle: "Welcome to Nightlife",
           headerTintColor: "#fff",
           headerBlurEffect: "light",
+        }}
+      />
+      <Stack.Screen
+        name="UserFormP1"
+        component={UserFormP1}
+        options={{
+          title: "UserFormP1",
+          headerStyle: {
+            backgroundColor: "#111729",
+          },
+          headerTintColor: "#fff",
+        }}
+      />
+      <Stack.Screen
+        name="UserFormP2"
+        component={UserFormP2}
+        options={{
+          title: "UserFormP2",
+          headerStyle: {
+            backgroundColor: "#111729",
+          },
+          headerTintColor: "#fff",
+        }}
+      />
+      <Stack.Screen
+        name="UserFormP3"
+        component={UserFormP3}
+        options={{
+          title: "UserFormP3",
+          headerStyle: {
+            backgroundColor: "#111729",
+          },
+          headerTintColor: "#fff",
+        }}
+      />
+      <Stack.Screen
+        name="RankingNightlife"
+        component={RankingNightlife}
+        options={{
+          title: "RankingNightlife",
+          headerStyle: {
+            backgroundColor: "#111729",
+          },
+          headerTintColor: "#fff",
+        }}
+      />
+      <Stack.Screen
+        name="InsideOutside"
+        component={InsideOutside}
+        options={{
+          title: "InsideOutside",
+          headerStyle: {
+            backgroundColor: "#111729",
+          },
+          headerTintColor: "#fff",
         }}
       />
     </Stack.Navigator>
@@ -66,6 +127,17 @@ const OnboardingStack = () => {
         component={CrowdAndFrequencyPreference}
         options={{
           title: "Crowd Pref",
+          headerStyle: {
+            backgroundColor: "#111729",
+          },
+          headerTintColor: "#fff",
+        }}
+      />
+      <Stack.Screen
+        name="UserFormP1"
+        component={UserFormP1}
+        options={{
+          title: "UserFormP1",
           headerStyle: {
             backgroundColor: "#111729",
           },
@@ -137,7 +209,6 @@ const OnboardingStack = () => {
 };
 
 export default function App() {
-
   const [fontsLoaded] = useFonts({
     Archivo_400Regular,
     Archivo_500Medium,
@@ -148,7 +219,9 @@ export default function App() {
     fontsLoaded && (
       <AuthProvider>
         <NavigationContainer>
-          <MainNavigator />
+          <FormDataProvider>
+            <MainNavigator />
+          </FormDataProvider>
         </NavigationContainer>
       </AuthProvider>
     )
