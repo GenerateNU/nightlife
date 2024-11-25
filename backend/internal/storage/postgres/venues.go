@@ -49,10 +49,12 @@ func (db *DB) GetVenueReviews(ctx context.Context, reviewID int8, venueID uuid.U
 		if err := rows.Scan(
 			&review.VenueID, // Make sure the order and fields match your table's structure
 			&review.OverallRating,
-			&review.AmbianceRating,
-			&review.MusicRating,
 			&review.CrowdRating,
-			&review.ServiceRating,
+			&review.MainstreamRating,
+			&review.PriceRating,
+			&review.HypeRating,
+			&review.EnergyRating,
+			&review.ExclusiveRating,
 			&review.ReviewText,
 			&review.CreatedAt,
 			&review.UpdatedAt,

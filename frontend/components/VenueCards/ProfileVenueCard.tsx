@@ -36,11 +36,11 @@ const ProfileVenueCard: React.FC<ProfileVenueCardProps> = ({ image, title, dista
 
 const styles = StyleSheet.create({
     card: {
-        width: (width / 2.2) - scaleSize(14),
-        backgroundColor: '#4f4f4f',
+        width: (width / 2.2) - scaleSize(10),
+        backgroundColor: '#333',
         borderRadius: 8,
         overflow: 'hidden',
-        marginVertical: 8,
+        marginVertical: 4,
         borderWidth: 2,
         borderColor: "gray"
     },

@@ -20,10 +20,22 @@ enum ProfileTabs {
     Venues = 'Venues',
 }
 
+type Venue = {
+    name: string;
+}
+
+type NestedVenue = {
+    venue: Venue;
+}
+
 const ProfileScreen = () => {
     const [isModalVisible, setModalVisible] = useState(false);
     const [activeTab, setActiveTab] = useState('Friends');
     const { user, accessToken, setUserAsync } = useAuth();
+    const [friendCount, setFriendCount] = useState(0);
+    const [savedVenues, setSavedVenues] = useState([]);
+    const [visitedVenues, setVisitedVenues] = useState([]);
+    const [reviewedVenues, setReviewedVenues] = useState([]);
 
     const navigation = useNavigation()
 
@@ -35,7 +47,62 @@ const ProfileScreen = () => {
                     if (userData) setUserAsync(userData);
                 }
             };
+            const fetchFriendCount = async () => {
+                if (user && accessToken) {
+                    const response = await fetch(`http://localhost:8080/friendships/${user.user_id}`, {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                        },
+                    });
+                    const data = await response.json();
+                    setFriendCount(data.length);
+                }
+            }
+            const fetchSavedVenues = async () => {
+                if (user && accessToken) {
+                    const response = await fetch(`http://localhost:8080/profiles/saved-venues/${user.user_id}`, {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                        },
+                    });
+                    const data = await response.json();
+                    console.log(data)
+                    if (data) {
+                        setSavedVenues(data);
+                    }
+                }
+            }
+            const fetchVisitedVenues = async () => {
+                if (user && accessToken) {
+                    const response = await fetch(`http://localhost:8080/profiles/visited-venues/${user.user_id}`, {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                        },
+                    });
+                    const data = await response.json();
+                    if (data) {
+                        setVisitedVenues(data);
+                    }
+                }
+            }
+            const fetchReviewedVenues = async () => {
+                if (user && accessToken) {
+                    const response = await fetch(`http://localhost:8080/profiles/reviewed-venues/${user.user_id}`, {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                        },
+                    });
+                    const data = await response.json();
+                    if (data) {
+                        setReviewedVenues(data);
+                    }
+                }
+            }
             fetchData();
+            fetchFriendCount();
+            fetchSavedVenues();
+            fetchVisitedVenues();
+            fetchReviewedVenues();
         }, [])
     );
 
@@ -51,7 +118,7 @@ const ProfileScreen = () => {
                 <View style={styles.userInfo}>
                     <Text style={styles.username}>{user?.first_name}</Text>
                     <Text style={styles.name}>@{user?.username} • {user?.pronouns || "no pronouns"}</Text>
-                    <Text style={styles.name}>12 followers • {user?.age} yrs</Text>
+                    <Text style={styles.name}>{friendCount} friend(s) • {user?.age} yrs</Text>
                 </View>
             </View>
 
@@ -76,17 +143,24 @@ const ProfileScreen = () => {
             <ScrollView style={{ marginTop: 6 }}>
                 {activeTab === ProfileTabs.Friends && (
                     <View style={styles.venueListContainer}>
-                        <ProfileVenueCard title="Club Passim" distance="1.3" rating="4.5 ★ (329)" image={{uri: "https://media.istockphoto.com/id/1464613492/photo/empty-music-venue-with-stage-and-bar.jpg?s=612x612&w=0&k=20&c=s8Vu1K0MLYN1FAn3_WpmrlKscl8L03v8jtn4AHMjZcU="}}/>
-                        <ProfileVenueCard title="Lizard Lounge" distance="2.7" rating="4.8 ★ (112)" image={{uri: "https://www.venuboston.com/wp-content/uploads/2020/01/Venu-001-1024x683.jpg"}}/>
-                        <ProfileVenueCard title="Concord Hall" distance="6.2" rating="4.2 ★ (1.2k)" image={{uri: "https://img.freepik.com/premium-photo/modern-nightclub-interior-with-neon-lights-stylish-bar-trendy-nightlife-venue_621302-8528.jpg"}}/>
-                        <ProfileVenueCard title="Blue Moon" distance="0.1" rating="4.0 ★ (59)" image={{uri: "https://media.istockphoto.com/id/1464613492/photo/empty-music-venue-with-stage-and-bar.jpg?s=612x612&w=0&k=20&c=s8Vu1K0MLYN1FAn3_WpmrlKscl8L03v8jtn4AHMjZcU="}}/>
+                        {reviewedVenues.map((venue: NestedVenue, index) => (
+                            <ProfileVenueCard key={index} title={venue.venue.name} distance='0' rating='4.5 ★ (329)' image={{ uri: "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" }} />
+                        ))}
                     </View>
                 )}
                 {activeTab === ProfileTabs.Bookmarks && (
-                    <Text style={{ color: '#fff', textAlign: 'center', marginTop: 20 }}>Bookmarks</Text>
+                    <View style={styles.venueListContainer}>
+                        {savedVenues.map((venue: Venue, index) => (
+                            <ProfileVenueCard key={index} title={venue.name} distance='0' rating='4.5 ★ (329)' image={{ uri: "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" }} />
+                        ))}
+                    </View>
                 )}
                 {activeTab === ProfileTabs.Venues && (
-                    <Text style={{ color: '#fff', textAlign: 'center', marginTop: 20 }}>Venues</Text>
+                    <View style={styles.venueListContainer}>
+                        {visitedVenues.map((venue: Venue, index) => (
+                            <ProfileVenueCard key={index} title={venue.name} distance='0' rating='4.5 ★ (329)' image={{ uri: "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" }} />
+                        ))}
+                    </View>
                 )}
             </ScrollView>
 

@@ -58,6 +58,7 @@ type VenueRatings interface {
 
 type Friendship interface {
 	CreateFriendship(context.Context, models.Friendship) error
+	GetFriendshipsByUserID(context.Context, uuid.UUID) ([]models.Friendship, error)
 }
 
 type Review interface {
