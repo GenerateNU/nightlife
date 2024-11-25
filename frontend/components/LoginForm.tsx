@@ -1,25 +1,38 @@
 import React, { useState } from "react";
 import {
-  View,
   TextInput,
   StyleSheet,
   Text,
   TouchableOpacity,
+  ImageBackground,
+  View,
 } from "react-native";
 import { useAuth } from "@/context/AuthContext";
+import onboardingStyles from "./OnboardingCards/onboardingStyles";
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 
 interface ValidationErrors {
   email?: string;
   password?: string;
 }
 
+export type RootStackParamList = {
+  LoginForm: undefined;
+  LoginOrSignup: undefined;
+};
+
 const LoginForm = () => {
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [errors, setErrors] = useState<ValidationErrors>({});
   const [loginError, setLoginError] = useState<string | null>(null);
 
   const { login } = useAuth();
+
+  const handleBack = () => {
+    navigation.goBack();
+  };
 
   const handleLogin = async () => {
     console.log("Email: ", email);
@@ -83,10 +96,21 @@ const LoginForm = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <ImageBackground
+      source={{ uri: 'https://i.imghippo.com/files/sol3971PuQ.png' }}
+      style={onboardingStyles.container} 
+    >
+      <TouchableOpacity style={onboardingStyles.backButton} onPress={handleBack}>
+        <Text style={onboardingStyles.buttonText}>Back</Text>
+      </TouchableOpacity>
+
+      <Text style={onboardingStyles.title}>
+        Log in
+      </Text>
+
       <TextInput
         style={[styles.input, errors.email ? styles.inputError : undefined]}
-        placeholder="Email address"
+        placeholder="Email or username"
         value={email}
         onChangeText={setEmail}
         keyboardType="email-address"
@@ -104,19 +128,14 @@ const LoginForm = () => {
       {errors.password && <Text style={styles.error}>{errors.password}</Text>}
 
       <TouchableOpacity
-        style={styles.buttonContainer}
+        style={onboardingStyles.nextButton}
         onPress={handleLoginPress}
       >
-        <Text style={styles.buttonText}>Explore Nightlife</Text>
+        <Text style={onboardingStyles.nextButtonText}>Login</Text>
       </TouchableOpacity>
 
       {loginError && <Text style={styles.error}>{loginError}</Text>}
-
-      <Text style={styles.subtitleText}>
-        NightLife is an interactive platform focused on transforming the way
-        people experience nightlife in urban areas and beyond.
-      </Text>
-    </View>
+    </ImageBackground>
   );
 };
 
@@ -140,15 +159,6 @@ const styles = StyleSheet.create({
   inputError: {
     borderColor: "red",
   },
-  buttonContainer: {
-    marginTop: 10,
-    marginBottom: 20,
-    width: 300,
-    borderRadius: 12,
-    backgroundColor: "#007bff",
-    paddingVertical: 15,
-    alignItems: "center",
-  },
   buttonText: {
     color: "white",
     fontSize: 18,
@@ -158,10 +168,6 @@ const styles = StyleSheet.create({
     color: "red",
     fontSize: 14,
     marginBottom: 10,
-  },
-  subtitleText: {
-    fontSize: 14,
-    textAlign: "center",
   },
 });
 

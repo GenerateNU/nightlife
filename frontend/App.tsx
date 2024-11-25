@@ -5,7 +5,6 @@ import LoginScreen from "@/screens/LoginScreen";
 import { AuthProvider, useAuth } from "@/context/AuthContext";
 import React from 'react';
 import NightlifePreference from './components/OnboardingCards/NightlifePreference';
-import AddPhoto from './components/OnboardingCards/AddPhoto';
 import MusicPreferences from './components/OnboardingCards/MusicPreference';
 import PersonalityScreenReveal from './components/OnboardingCards/PersonalityScreenReveal'
 import PersonalityScreenReveal2 from './components/OnboardingCards/PersonalityScreenReveal2'
@@ -13,6 +12,11 @@ import HowFarFromYou from './components/OnboardingCards/HowFarFromYou';
 import FrequencyPreference from './components/OnboardingCards/FrequencyPreference';
 import CrowdPreference from './components/OnboardingCards/CrowdPreference';
 import TimePreference from './components/OnboardingCards/TimePreference';
+import LoginOrSignup from './components/OnboardingCards/LoginOrSignup';
+import UserFormP1 from './components/OnboardingCards/UserFormP1';
+import UserFormP2 from './components/OnboardingCards/UserFormP2';
+import UserFormP3 from './components/OnboardingCards/UserFormP3';
+import RankingNightlifeImportance from './components/OnboardingCards/RankingNightlifeImportance';
 
 
 const Stack = createNativeStackNavigator();
@@ -21,74 +25,101 @@ const LoginStack = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
+        name="LoginOrSignup"
+        component={LoginOrSignup}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
         name="Home"
         component={LoginScreen}
-        options={{
-          title: "Nightlife 🌃",
-          headerStyle: {
-            backgroundColor: '#111729',
-          },
-          headerTintColor: '#fff',
-        }}
+        options={{ headerShown: false }}
       />
+
+      <Stack.Screen
+        name="UserFormP1"
+        component={UserFormP1}
+        options={{ headerShown: false }}
+      />
+
     </Stack.Navigator>
   );
 };
 
 const OnboardingStack = () => {
   return (
-      <Stack.Navigator initialRouteName="NightlifePreference">
-          <Stack.Screen 
-              name="NightlifePreference" 
-              component={NightlifePreference} 
-              options={{ headerShown: false }}  
-          />
-          <Stack.Screen 
-              name="FrequencyPreference" 
-              component={FrequencyPreference} 
-              options={{ headerShown: false }}   
-          />
-          <Stack.Screen 
-              name="CrowdPreference" 
-              component={CrowdPreference} 
-              options={{ headerShown: false }}   
-          />
-          <Stack.Screen 
-              name="AddPhoto" 
-              component={AddPhoto} 
-              options={{ headerShown: false }}  
-          />
-          <Stack.Screen 
-              name="MusicPreference" 
-              component={MusicPreferences} 
-              options={{ headerShown: false }}  
-          />
-          <Stack.Screen 
-              name="TimePreference" 
-              component={TimePreference} 
-              options={{ headerShown: false }}  
-          />
-          <Stack.Screen 
-              name="HowFarFromYou" 
-              component={HowFarFromYou} 
-              options={{ headerShown: false }}  
-          />
-          <Stack.Screen 
-              name="PersonalityScreenReveal" 
-              component={PersonalityScreenReveal} 
-              options={{ headerShown: false }}  
-          />
-          <Stack.Screen 
-              name="PersonalityScreenReveal2" 
-              component={PersonalityScreenReveal2} 
-              options={{ headerShown: false }}  
-          />
-          <Stack.Screen 
-              name="BottomNavigator" 
-              component={BottomNavigator} 
-              options={{ headerShown: false }} 
-          />
-      </Stack.Navigator>
+    <Stack.Navigator>
+      <Stack.Screen
+        name="NightlifePreference"
+        component={NightlifePreference}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name="RankingNightLifeImportance"
+        component={RankingNightlifeImportance}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name="UserFormP1"
+        component={UserFormP1}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name="UserFormP2"
+        component={UserFormP2}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name="UserFormP3"
+        component={UserFormP3}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name="FrequencyPreference"
+        component={FrequencyPreference}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="CrowdPreference"
+        component={CrowdPreference}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="MusicPreference"
+        component={MusicPreferences}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="TimePreference"
+        component={TimePreference}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="HowFarFromYou"
+        component={HowFarFromYou}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="PersonalityScreenReveal"
+        component={PersonalityScreenReveal}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="PersonalityScreenReveal2"
+        component={PersonalityScreenReveal2}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="BottomNavigator"
+        component={BottomNavigator}
+        options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
   );
 };
 
