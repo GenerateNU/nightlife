@@ -71,7 +71,10 @@ const MapScreen: React.FC = () => {
           {allVenues.map((venue) => (
             <Marker
               key={venue.venue_id}
-              coordinate={{ latitude: venue.latitude, longitude: venue.longitude }}
+              coordinate={{
+                latitude: venue.latitude,
+                longitude: venue.longitude,
+              }}
               title={venue.name}
               description={venue.address}
               onPress={() => handleMarkerPress(venue)}
@@ -80,26 +83,36 @@ const MapScreen: React.FC = () => {
         </MapView>
 
         {/* Toggle Button */}
-        <TouchableOpacity style={styles.toggleButton} onPress={handleToggleModal}>
+        <TouchableOpacity
+          style={styles.toggleButton}
+          onPress={handleToggleModal}
+        >
           <Text style={styles.buttonText}>+</Text>
         </TouchableOpacity>
 
         {/* Bottom Modal */}
         <Modalize
           ref={modalRef}
-          snapPoint={200} 
+          snapPoint={150}
           modalHeight={600}
           handlePosition="inside"
+          modalStyle={styles.modalBackground}
+          handleStyle={styles.handleStyle}
         >
           {selectedVenue ? (
             // Selected Venue View
             <View style={styles.modalContent}>
               <Text style={styles.venueName}>{selectedVenue.name}</Text>
               <Text style={styles.venueDetails}>
-                {selectedVenue.address}, {selectedVenue.city}, {selectedVenue.state}
+                Venue type | {selectedVenue.city}, {selectedVenue.state}
               </Text>
-              <Text style={styles.rating}>⭐ {selectedVenue.total_rating}</Text>
-              <Text style={styles.price}>💲 {selectedVenue.price}</Text>
+              <View style={styles.ratingContainer}>
+                <Text style={styles.ratingText}>
+                  ⭐ {selectedVenue.total_rating}
+                </Text>
+                <Text style={styles.priceText}>💲💲💲</Text>
+                <Text style={styles.statusText}>🟢 Open</Text>
+              </View>
             </View>
           ) : (
             // Venue List View
@@ -152,39 +165,65 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
   },
+  modalBackground: {
+    backgroundColor: "#1E1E2C",
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+  },
+  handleStyle: {
+    backgroundColor: "#FFFFFF",
+    width: 50,
+    height: 5,
+    borderRadius: 2.5,
+    alignSelf: "center",
+    marginVertical: 10,
+  },
   modalContent: {
     padding: 20,
+    paddingTop: 40,
+  },
+  venueName: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#FFFFFF",
+    marginBottom: 5,
+  },
+  venueDetails: {
+    fontSize: 16,
+    color: "#CCCCCC",
+    marginBottom: 10,
+  },
+  ratingContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  ratingText: {
+    fontSize: 18,
+    color: "#FFD700",
+  },
+  priceText: {
+    fontSize: 18,
+    color: "#FFFFFF",
+  },
+  statusText: {
+    fontSize: 18,
+    color: "#FFFFFF",
   },
   listTitle: {
     fontSize: 18,
     fontWeight: "bold",
+    color: "#FFFFFF",
     marginBottom: 10,
   },
   venueItem: {
     paddingVertical: 10,
     borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
-  },
-  venueName: {
-    fontSize: 16,
-    fontWeight: "bold",
+    borderBottomColor: "#444",
   },
   venueAddress: {
     fontSize: 14,
-    color: "#555",
-  },
-  venueDetails: {
-    fontSize: 14,
-    color: "#666",
-    marginBottom: 5,
-  },
-  rating: {
-    fontSize: 14,
-    marginBottom: 5,
-  },
-  price: {
-    fontSize: 14,
-    marginBottom: 5,
+    color: "#BBBBBB",
   },
 });
 
