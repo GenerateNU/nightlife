@@ -26,25 +26,25 @@ type EventsScrollableProps = {
     accent: string;
 };
 
-const EventsScrollable: React.FC = ({ title, persona, accent }: EventsScrollableProps) => {
+const EventsScrollable: React.FC<EventsScrollableProps> = ({ title, persona, accent }) => {
     const events = [
         {
             id: "1",
             image: "https://academy.la/wp-content/uploads/2024/06/best-club-near-me-hollywood-1024x576.webp",
             title: "Concert Night",
-            dateTime: "4:30-11:30 PM",
+            subtitle: "4:30-11:30 PM | ZAP",
         },
         {
             id: "2",
             image: "https://academy.la/wp-content/uploads/2024/06/best-club-near-me-hollywood-1024x576.webp",
             title: "Festival Beats",
-            dateTime: "4:30-11:30 PM",
+            subtitle: "4:30-11:30 PM | ZAP",
         },
         {
             id: "3",
             image: "https://academy.la/wp-content/uploads/2024/06/best-club-near-me-hollywood-1024x576.webp",
             title: "Jazz Evening",
-            dateTime: "4:30-11:30 PM",
+            subtitle: "4:30-11:30 PM | ZAP",
         },
     ];
 
@@ -66,7 +66,7 @@ const EventsScrollable: React.FC = ({ title, persona, accent }: EventsScrollable
                     <EventCard
                         image={item.image}
                         title={item.title}
-                        dateTime={item.dateTime}
+                        subtitle={item.subtitle}
                         accent={accent || "#2d2d44"}
                     />
                 )}
