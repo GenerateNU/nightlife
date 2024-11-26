@@ -23,7 +23,7 @@ const whoAreYouWithOptions = [
 
 export type RootStackParamList = {
   UserFormP1: undefined;
-  BottomNavigator: undefined;
+  ILiveIn: undefined;
 };
 
 type NavigationType = {
@@ -54,7 +54,7 @@ const WhoAreYouWith: React.FC = () => {
   }, [selectedCrowd]);
 
   const handleSkip = () => {
-    navigation.navigate("BottomNavigator");
+    navigation.navigate("ILiveIn");
   };
 
   const handleBack = () => {

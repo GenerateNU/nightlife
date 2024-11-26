@@ -16,6 +16,9 @@ import RankingNightlifeImportance from './components/OnboardingCards/RankingNigh
 import { FormDataProvider } from './components/OnboardingCards/FormDataContext';
 import InsideOutside from './components/OnboardingCards/InsideOutside';
 import WhoAreYouWith from './components/OnboardingCards/WhoDoYouGoOutWIth';
+import ILiveIn from './components/OnboardingCards/ILiveIn';
+import Notifications from './components/OnboardingCards/Notifications';
+import Character from './components/OnboardingCards/Character';
 
 const Stack = createNativeStackNavigator();
 
@@ -94,6 +97,21 @@ const OnboardingStack = () => {
        <Stack.Screen
         name="WhoAreYouWith"
         component={WhoAreYouWith}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="ILiveIn"
+        component={ILiveIn}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Notifications"
+        component={Notifications}
+        options={{ headerShown: false }}
+      />
+       <Stack.Screen
+        name="Character"
+        component={Character}
         options={{ headerShown: false }}
       />
       <Stack.Screen
