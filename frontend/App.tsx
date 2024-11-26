@@ -117,17 +117,6 @@ export default function App() {
 
 const MainNavigator = () => {
   const { accessToken } = useAuth();
-  const hasCompletedOnboarding = false; // Placeholder logic
-
-  // If user is logged in and hasn’t completed onboarding, show the OnboardingStack
-  if (accessToken && !hasCompletedOnboarding) {
-    return (
-      <FormDataProvider>
-        <OnboardingStack />
-      </FormDataProvider>
-    );
-  }
-
   // Show LoginStack if no access token
   if (!accessToken) {
     return (
