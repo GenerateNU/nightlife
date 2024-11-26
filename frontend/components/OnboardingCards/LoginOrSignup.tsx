@@ -6,7 +6,7 @@ import onboardingStyles from './onboardingStyles';
 export type RootStackParamList = {
   LoginOrSignUp: undefined;
   Home: undefined;
-  UserFormP1: undefined;
+  Onboarding: undefined;
 };
 
 const LoginOrSignup: React.FC = () => {
@@ -17,7 +17,7 @@ const LoginOrSignup: React.FC = () => {
   };
 
   const handleSignUp = () => {
-    navigation.navigate('UserFormP1');
+    navigation.navigate('Onboarding');
   };
 
   return (

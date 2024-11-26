@@ -12,7 +12,7 @@ const timeOptions = [
 
 export type RootStackParamList = {
   TimePreference: undefined;
-  HowFarFromYou: undefined;
+  WhoAreYouWith: undefined;
 }
 
 const TimePreference: React.FC = () => {
@@ -25,7 +25,7 @@ const TimePreference: React.FC = () => {
   };
 
   const handleNext = () => {
-    navigation.navigate('HowFarFromYou');
+    navigation.navigate('WhoAreYouWith');
   };
 
   const handleBack = () => {

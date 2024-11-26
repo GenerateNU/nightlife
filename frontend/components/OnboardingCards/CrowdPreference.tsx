@@ -14,7 +14,7 @@ const crowdOptions = [
 
 export type RootStackParamList = {
   CrowdPreference: undefined;
-  FrequencyPreference: undefined;
+  InsideOutside: undefined;
 }
 
 const CrowdPreference: React.FC = () => {
@@ -33,7 +33,7 @@ const CrowdPreference: React.FC = () => {
   };
 
   const handleSkip = () => {
-    navigation.navigate('FrequencyPreference');
+    navigation.navigate('InsideOutside');
   };
 
   const handleBack = () => {

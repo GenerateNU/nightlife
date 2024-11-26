@@ -15,7 +15,7 @@ const timeOptions = ["Outdoors", "Indoors", "I like both"];
 
 export type RootStackParamList = {
   InsideOutside: undefined;
-  UserFormP3: undefined;
+  FrequencyPreference: undefined;
 };
 
 type NavigationType = {
@@ -42,13 +42,13 @@ const InsideOutside: React.FC = () => {
 
   const handleNext = () => {
     console.log("Selected time:", selectedTime);
-    navigation.navigate("UserFormP3");
+    navigation.navigate("FrequencyPreference");
   };
 
   return (
     <ImageBackground
       source={{ uri: "https://i.imghippo.com/files/sol3971PuQ.png" }}
-      style={styles.container}
+      style={onboardingStyles.container}
     >
       <Text style={onboardingStyles.topTitle}>NIGHTLIFE</Text>
 
@@ -56,32 +56,32 @@ const InsideOutside: React.FC = () => {
         <Text style={onboardingStyles.buttonText}>Back</Text>
       </TouchableOpacity>
 
-      <View style={styles.content}>
-        <View style={onboardingStyles.mainContent}>
-          <ProgressBar progress={progress} />
-          <Text style={styles.title}>
-            Do you like dancing{'\n'}under the stars{'\n'}or keeping the party{'\n'}indoors?
-          </Text>
-          <View>
-            {timeOptions.map((option) => (
-              <TouchableOpacity
-                key={option}
-                style={[
-                  selectedTime === option
-                    ? onboardingStyles.selectedOption
-                    : onboardingStyles.unselectedOption,
-                ]}
-                onPress={() => selectTime(option)}
-              >
-                <Text style={styles.optionText}>{option}</Text>
-              </TouchableOpacity>
-            ))}
-
-            <TouchableOpacity onPress={handleNext} style={onboardingStyles.nextButton}>
-              <Text style={onboardingStyles.nextButtonText}> Next </Text>
+      <View style={onboardingStyles.mainContent}>
+        <ProgressBar progress={progress} />
+        <Text style={onboardingStyles.title}>
+          Do you like dancing{'\n'}under the stars{'\n'}or keeping the party{'\n'}indoors?
+        </Text>
+        <View>
+          {timeOptions.map((option) => (
+            <TouchableOpacity
+              key={option}
+              style={[
+                onboardingStyles.optionBox,
+                selectedTime === option
+                  ? onboardingStyles.selectedOption
+                  : onboardingStyles.unselectedOption,
+              ]}
+              onPress={() => selectTime(option)}
+            >
+              <Text style={onboardingStyles.optionText}>{option}</Text>
             </TouchableOpacity>
-          </View>
+          ))}
         </View>
+
+        <TouchableOpacity onPress={handleNext} style={onboardingStyles.nextButton}>
+          <Text style={onboardingStyles.nextButtonText}> Next </Text>
+        </TouchableOpacity>
+
       </View>
     </ImageBackground>
   );

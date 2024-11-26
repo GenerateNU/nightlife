@@ -13,7 +13,7 @@ import onboardingStyles from "./onboardingStyles";
 
 export type RootStackParamList = {
   UserFormP3: undefined;
-  RankingNightlife: undefined;
+  NightlifePreference: undefined;
 };
 
 type NavigationType = {
@@ -30,7 +30,7 @@ const UserFormP3: React.FC = () => {
   const handleSubmit = () => {
     updateFormData({ bio });
     console.log("Submitted Info:", { bio });
-    navigation.navigate("RankingNightlife");
+    navigation.navigate("NightlifePreference");
   };
 
   const handleBack = () => {
@@ -47,7 +47,7 @@ const UserFormP3: React.FC = () => {
       </TouchableOpacity>
       
       <View style={onboardingStyles.mainContent}>
-        <Text style={onboardingStyles.title}>Describe yourself</Text>
+        <Text style={[onboardingStyles.title, { marginTop: 40 }]}>Describe yourself</Text>
         <Text style={styles.body}>
           Tell people about you and your{"\n"}nightlife interests and{"\n"}experiences
         </Text>
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     fontFamily: "DT Nightingale",
     fontWeight: "300",
     lineHeight: 26.4,
-    textAlign: "center",
+    textAlign: "left",
     marginBottom: 40,
   },
   input: {
@@ -108,6 +108,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: "Archivo",
     color: "black",
+    width: "100%",
   },
 });
 

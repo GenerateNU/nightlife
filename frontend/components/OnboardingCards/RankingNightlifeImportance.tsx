@@ -22,7 +22,7 @@ const priorities = [
 
 export type RootStackParamList = {
   RankingNightlife: undefined;
-  InsideOutside: undefined;
+  CrowdPreference: undefined;
 };
 
 type NavigationType = {
@@ -59,7 +59,7 @@ const RankingNightlife: React.FC = () => {
 
   const handleSubmit = () => {
     console.log("Final order of priorities:", items);
-    navigation.navigate("InsideOutside");
+    navigation.navigate("CrowdPreference");
   };
 
   return (
@@ -123,9 +123,12 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   subTitle: {
-    color: "white",
-    fontSize: 18,
-    marginBottom: 20,
+    color: 'white',
+    fontSize: 24,
+    fontFamily: 'DT Nightingale',
+    fontWeight: '300',
+    lineHeight: 28.8,
+    textAlign: 'left'
   },
   item: {
     flexDirection: "row",

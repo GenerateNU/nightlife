@@ -3,7 +3,6 @@ import {
   View,
   Text,
   TextInput,
-  Button,
   StyleSheet,
   ImageBackground,
   TouchableOpacity,
@@ -51,7 +50,7 @@ const UserFormP2: React.FC = () => {
       </TouchableOpacity>
       
       <View style={onboardingStyles.mainContent}>
-        <Text style={styles.title}>Let’s get that profile{"\n"}going...</Text>
+        <Text style={[onboardingStyles.title, { marginTop: 40 }]}>Let’s get that profile{"\n"}going...</Text>
         <TextInput
           style={styles.input}
           placeholder="Username"
@@ -107,6 +106,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: "Archivo",
     color: "black",
+    width: "100%",
   },
 });
 

@@ -3,7 +3,6 @@ import {
   View,
   Text,
   TextInput,
-  Button,
   StyleSheet,
   ImageBackground,
   TouchableOpacity,
@@ -48,7 +47,7 @@ const UserFormP1: React.FC = () => {
       </TouchableOpacity>
 
       <View style={onboardingStyles.mainContent}>
-        <Text style={onboardingStyles.title}>
+        <Text style={[onboardingStyles.title, { marginTop: 40 }]}>
           To get started, we need{"\n"}a few basics...
         </Text>
         <TextInput
@@ -101,6 +100,7 @@ const styles = StyleSheet.create({
     lineHeight: 39.6,
     textAlign: "center",
     marginBottom: 40,
+    marginTop: 40,
   },
   input: {
     height: 50,
@@ -113,6 +113,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: "Archivo",
     color: "black",
+    width: "100%",
   },
 });
 

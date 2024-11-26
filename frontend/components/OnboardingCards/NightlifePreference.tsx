@@ -6,7 +6,7 @@ import onboardingStyles from './onboardingStyles';
 
 export type RootStackParamList = {
   NightlifePreference: undefined;
-  CrowdPreference: undefined;
+  RankingNightLifeImportance: undefined;
 };
 
 const options = [
@@ -26,7 +26,7 @@ const NightlifePreference = () => {
   };
 
   const handleNext = () => {
-    navigation.navigate('CrowdPreference');
+    navigation.navigate('RankingNightLifeImportance');
   };
 
   const handleBack = () => {
