@@ -1,33 +1,63 @@
 import React from "react";
-import { FlatList, View, Text, StyleSheet } from "react-native";
+import { FlatList, View, Text, StyleSheet, Image } from "react-native";
 import EventCard from "./EventCard";
 
-const EventsScrollable = () => {
+import BIRD from "../../assets/personas/BIRD.png";
+import CAT from "../../assets/personas/CAT.png";
+import GIRL from "../../assets/personas/GIRL.png";
+import GREEN from "../../assets/personas/GREEN.png";
+import MAN from "../../assets/personas/MAN.png";
+import MERMAID from "../../assets/personas/MERMAID.png";
+import ZAP from "../../assets/personas/ZAP.png";
 
+const PERSONA_IMAGES = {
+    BIRD,
+    CAT,
+    GIRL,
+    GREEN,
+    MAN,
+    MERMAID,
+    ZAP,
+};
+
+type EventsScrollableProps = {
+    title: string;
+    persona: keyof typeof PERSONA_IMAGES;
+    accent: string;
+};
+
+const EventsScrollable: React.FC = ({ title, persona, accent }: EventsScrollableProps) => {
     const events = [
         {
             id: "1",
-            image: "https://planning-org-uploaded-media.s3.amazonaws.com/image/Planning-2020-02-image26.jpg",
+            image: "https://academy.la/wp-content/uploads/2024/06/best-club-near-me-hollywood-1024x576.webp",
             title: "Concert Night",
-            dateTime: "Dec 10, 2024 • 8:00 PM",
+            dateTime: "4:30-11:30 PM",
         },
         {
             id: "2",
-            image: "https://planning-org-uploaded-media.s3.amazonaws.com/image/Planning-2020-02-image26.jpg",
+            image: "https://academy.la/wp-content/uploads/2024/06/best-club-near-me-hollywood-1024x576.webp",
             title: "Festival Beats",
-            dateTime: "Dec 15, 2024 • 6:00 PM",
+            dateTime: "4:30-11:30 PM",
         },
         {
             id: "3",
-            image: "https://planning-org-uploaded-media.s3.amazonaws.com/image/Planning-2020-02-image26.jpg",
+            image: "https://academy.la/wp-content/uploads/2024/06/best-club-near-me-hollywood-1024x576.webp",
             title: "Jazz Evening",
-            dateTime: "Dec 20, 2024 • 9:00 PM",
+            dateTime: "4:30-11:30 PM",
         },
     ];
 
     return (
         <View style={styles.container}>
-            <Text style={styles.headerText}>Events on Your Radar</Text>
+            {persona && (
+                <Image
+                    source={PERSONA_IMAGES[persona]}
+                    style={styles.backgroundImage}
+                />
+            )}
+
+            <Text style={styles.headerText}>{title}</Text>
             <FlatList
                 horizontal
                 data={events}
@@ -37,6 +67,7 @@ const EventsScrollable = () => {
                         image={item.image}
                         title={item.title}
                         dateTime={item.dateTime}
+                        accent={accent || "#2d2d44"}
                     />
                 )}
                 showsHorizontalScrollIndicator={false}
@@ -48,19 +79,30 @@ const EventsScrollable = () => {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         backgroundColor: "#1a1a2e",
-        paddingVertical: 20,
         paddingHorizontal: 15,
+        marginBottom: 15,
+        position: "relative",
+        overflow: "hidden",
+    },
+    backgroundImage: {
+        position: "absolute",
+        top: -24,
+        right: 24,
+        bottom: 0,
+        width: 84,
+        resizeMode: "cover",
     },
     headerText: {
-        fontSize: 24,
+        fontSize: 20,
         fontWeight: "bold",
         color: "#fff",
-        marginBottom: 10,
+        marginBottom: 16,
+        fontFamily: "Archivo_700Bold",
+        zIndex: 1,
     },
     listContainer: {
-        paddingVertical: 10,
+        paddingVertical: 0,
     },
     card: {
         backgroundColor: "#2d2d44",
@@ -86,19 +128,6 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: "#ccc",
         marginTop: 5,
-    },
-    seeAllButton: {
-        marginTop: 20,
-        alignSelf: "center",
-        borderWidth: 1,
-        borderColor: "#fff",
-        paddingVertical: 8,
-        paddingHorizontal: 20,
-        borderRadius: 20,
-    },
-    seeAllText: {
-        fontSize: 16,
-        color: "#fff",
     },
 });
 

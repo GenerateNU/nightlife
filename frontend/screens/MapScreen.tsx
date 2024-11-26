@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import SearchBar from "@/components/Map/SearchBar";
@@ -6,6 +6,7 @@ import BottomModal from "@/components/Map/BottomModal";
 import { API_DOMAIN } from "@env";
 import { Venue } from "@/types/Venue";
 import { useAuth } from "@/context/AuthContext";
+import React from "react";
 
 const MapScreen: React.FC = () => {
   const [allVenues, setAllVenues] = useState<Venue[]>([]);
@@ -60,7 +61,7 @@ const MapScreen: React.FC = () => {
         onClose={() => setModalVisible(false)}
         venues={allVenues} 
       />
-      <SearchBar />
+      <SearchBar placeholderText={"Search venues..."} />
       <MapView
         style={styles.map}
         initialRegion={{

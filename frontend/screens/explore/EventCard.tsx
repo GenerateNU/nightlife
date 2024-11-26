@@ -4,16 +4,17 @@ import { View, Text, Image, StyleSheet } from "react-native";
 type EventCardProps = {
     image: string;
     title: string;
-    dateTime: string;
+    subtitle: string;
+    accent: string;
 };
 
-const EventCard = ({ image, title, dateTime }: EventCardProps) => {
+const EventCard = ({ image, title, subtitle, accent }: EventCardProps) => {
     return (
-        <View style={styles.card}>
+        <View style={[styles.card, { backgroundColor: accent}]}>
             <Image source={{ uri: image }} style={styles.image} />
             <View style={styles.cardContent}>
                 <Text style={styles.eventTitle}>{title}</Text>
-                <Text style={styles.eventDateTime}>{dateTime}</Text>
+                <Text style={styles.eventDateTime}>{subtitle}</Text>
             </View>
         </View>
     );
@@ -23,7 +24,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#1a1a2e",
-        paddingVertical: 20,
         paddingHorizontal: 15,
     },
     headerText: {
@@ -41,13 +41,13 @@ const styles = StyleSheet.create({
         overflow: "hidden",
         marginRight: 10,
         width: 200,
-        height: 200,
+        height: 170,
         borderWidth: 2,
-        borderColor: "#555",
+        borderColor: "#735ad1",
     },
     image: {
         width: "100%",
-        height: 120,
+        height: 100,
     },
     cardContent: {
         padding: 10,
@@ -59,21 +59,8 @@ const styles = StyleSheet.create({
     },
     eventDateTime: {
         fontSize: 14,
-        color: "#ccc",
+        color: "#ffffff",
         marginTop: 5,
-    },
-    seeAllButton: {
-        marginTop: 20,
-        alignSelf: "center",
-        borderWidth: 1,
-        borderColor: "#fff",
-        paddingVertical: 8,
-        paddingHorizontal: 20,
-        borderRadius: 20,
-    },
-    seeAllText: {
-        fontSize: 16,
-        color: "#fff",
     },
 });
 
