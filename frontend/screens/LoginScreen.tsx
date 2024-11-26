@@ -4,9 +4,7 @@ import React from "react";
 
 const LoginScreen = () => {
     return (
-        <View>
-            <LoginForm />
-        </View>
+        <LoginForm />
     );
 }
 

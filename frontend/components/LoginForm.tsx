@@ -98,43 +98,46 @@ const LoginForm = () => {
   return (
     <ImageBackground
       source={{ uri: 'https://i.imghippo.com/files/sol3971PuQ.png' }}
-      style={onboardingStyles.container} 
+      style={onboardingStyles.container}
     >
       <TouchableOpacity style={onboardingStyles.backButton} onPress={handleBack}>
         <Text style={onboardingStyles.buttonText}>Back</Text>
       </TouchableOpacity>
 
-      <Text style={onboardingStyles.title}>
-        Log in
-      </Text>
+      <View style={onboardingStyles.mainContent}>
+        <Text style={[onboardingStyles.title, { marginTop: 40 }]}>
+          Log in
+        </Text>
 
-      <TextInput
-        style={[styles.input, errors.email ? styles.inputError : undefined]}
-        placeholder="Email or username"
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-        autoCapitalize="none"
-      />
-      {errors.email && <Text style={styles.error}>{errors.email}</Text>}
+        <TextInput
+          style={[styles.input, errors.email ? styles.inputError : undefined]}
+          placeholder="Email or username"
+          value={email}
+          onChangeText={setEmail}
+          keyboardType="email-address"
+          autoCapitalize="none"
+        />
+        {errors.email && <Text style={styles.error}>{errors.email}</Text>}
 
-      <TextInput
-        style={[styles.input, errors.password ? styles.inputError : undefined]}
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
-      {errors.password && <Text style={styles.error}>{errors.password}</Text>}
+        <TextInput
+          style={[styles.input, errors.password ? styles.inputError : undefined]}
+          placeholder="Password"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
+        />
+        {errors.password && <Text style={styles.error}>{errors.password}</Text>}
 
-      <TouchableOpacity
-        style={onboardingStyles.nextButton}
-        onPress={handleLoginPress}
-      >
-        <Text style={onboardingStyles.nextButtonText}>Login</Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={onboardingStyles.nextButton}
+          onPress={handleLoginPress}
+        >
+          <Text style={onboardingStyles.nextButtonText}>Login</Text>
+        </TouchableOpacity>
 
-      {loginError && <Text style={styles.error}>{loginError}</Text>}
+        {loginError && <Text style={styles.error}>{loginError}</Text>}
+      </View>
+
     </ImageBackground>
   );
 };
@@ -151,7 +154,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 10,
     paddingHorizontal: 15,
-    width: 300,
+    width: "100%",
     borderRadius: 12,
     fontSize: 16,
     backgroundColor: "#f9f9f9",

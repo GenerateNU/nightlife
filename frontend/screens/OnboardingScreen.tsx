@@ -1,5 +1,5 @@
 import React from "react";
-import {Text, View} from "react-native";
+import { View } from "react-native";
 import NightlifePreference from "@/components/OnboardingCards/NightlifePreference";
 
 const OnboardingScreen: React.FC = () => {
