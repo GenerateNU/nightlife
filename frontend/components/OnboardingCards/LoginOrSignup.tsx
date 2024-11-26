@@ -25,7 +25,11 @@ const LoginOrSignup: React.FC = () => {
       source={{ uri: 'https://i.imghippo.com/files/sol3971PuQ.png' }}
       style={onboardingStyles.container}
     >
-      <Text style={styles.title}>READY{"\n"}TO FIND{"\n"}YOUR{"\n"}NEW FAV{"\n"}SPOT?</Text>
+      <Text style={styles.title}>
+        READY{"\n"}TO FIND{"\n"}YOUR{"\n"}NEW FAV{"\n"}SPOT?
+      </Text>
+
+      <View style={styles.divider} />
 
       <View style={styles.buttonContainerWrapper}>
         <TouchableOpacity onPress={handleLogin} style={styles.buttonContainer}>
@@ -36,7 +40,6 @@ const LoginOrSignup: React.FC = () => {
           <Text style={styles.buttonText}> Create account </Text>
         </TouchableOpacity>
       </View>
-
     </ImageBackground>
   );
 };
@@ -46,8 +49,8 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 64,
     fontFamily: 'Archivo',
-    fontWeight: 700,
-    marginTop: 20,
+    fontWeight: '700',
+    marginTop: 120,
     marginBottom: 20,
   },
   buttonText: {
@@ -73,8 +76,14 @@ const styles = StyleSheet.create({
   buttonContainerWrapper: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'space-between', 
+    justifyContent: 'space-between',
     width: '100%',
+  },
+  divider: {
+    width: '100%',
+    height: 1,
+    backgroundColor: 'white',
+    marginVertical: 20,
   },
 });
 
