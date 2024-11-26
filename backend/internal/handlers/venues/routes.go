@@ -11,15 +11,14 @@ func Routes(app *fiber.App, params types.Params) {
 	service := newService(params.Store)
 
 	// Create Protected Grouping
-	protected := app.Group("/venues")
-	unprotected := app.Group("/balls")
+	protected := app.Group("/venues") 
 
 	// Register Middleware
-	protected.Use(auth.Protected(&params.Supabase))
+	protected.Use(auth.Protected(&params.Supabase)) 
 
 	//Endpoints
-	protected.Get("/getAll", service.GetAllVenues)
-	unprotected.Get("/filter", service.GetAllVenuesWithFilter)
+	protected.Get("/getAll", service.GetAllVenuesWithFilter)
+	protected.Get("/persona/:venueId", service.GetVenuePersona)
 	protected.Delete("/:venueId", service.DeleteVenue)
 
 	protected.Delete("/reviews/:reviewId", service.DeleteReviewForVenue)

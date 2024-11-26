@@ -3,6 +3,7 @@ package venues
 import (
 	"fmt"
 	"log"
+	"math"
 	"net/http"
 	"strconv"
 	"strings"
@@ -148,6 +149,13 @@ func (s *Service) GetAllVenues(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(venues)
 }
 
+
+// SORT FORMAT: /venues/getAll?sort= {sort}
+// where sort can equal one of the following strings:
+// ByPrice (no extra parameter needed)
+// ByRating (no extra parameter needed)
+// ByDistance {longitude} {latitude}
+// ByRecommendation {persona_name} // must be one of the seven listed personas 
 func (s *Service) GetAllVenuesWithFilter(c *fiber.Ctx) error {
 	// parse all filters from the context 
 	sort := c.Query("sort")
@@ -160,8 +168,9 @@ func (s *Service) GetAllVenuesWithFilter(c *fiber.Ctx) error {
 	sortAndFilter := models.SortAndFilter{}
 	sortAndFilter = sortAndFilter.Make() 
 	whereQuery := sortAndFilter.ConstructFilterQuery(filters)
+	sortQuery := sortAndFilter.SortVenues(sort)
 	// retrieve venues with given filters from db 
-	venues, err := s.store.GetAllVenuesWithFilter(c.Context(), whereQuery, ``)
+	venues, err := s.store.GetAllVenuesWithFilter(c.Context(), whereQuery, sortQuery)
 	if err != nil {
 		fmt.Println(err.Error())
 		return fiber.NewError(fiber.StatusInternalServerError, "Could not get venues")
@@ -172,4 +181,40 @@ func (s *Service) GetAllVenuesWithFilter(c *fiber.Ctx) error {
 	}
 	// Use SortAndFilter instance to sort the filtered list of venues and return final list 
 	return c.Status(fiber.StatusOK).JSON(venues)
+}
+
+func (s *Service) GetVenuePersona(c *fiber.Ctx) error {
+	venueID := c.Params("venueId")
+	if venueID == "" {
+		return fiber.NewError(fiber.StatusBadRequest, "Venue ID is required")
+	}
+	formattedID, err := uuid.Parse(venueID)
+	if err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, "Couldn't parse venue id to uuid")
+	}
+
+	v, err := s.store.GetVenueFromID(c.Context(), formattedID)
+	if err != nil {
+		fmt.Println("error: " + err.Error())
+		return fiber.NewError(fiber.StatusInternalServerError, "Could not get venue")
+	}
+	total := v.AvgEnergy + v.AvgExclusive + v.AvgMainstream + v.AvgPrice
+	price_weight := v.AvgPrice / total
+	exclusive_weight := v.AvgExclusive / total
+	mainstream_weight := v.AvgMainstream / total
+	energy_weight := v.AvgEnergy / total 
+	rec := models.ByRecommendation{}
+	persona := ""
+	min_dist := math.Inf(1)
+	for key, value := range rec.CharacterMap() {
+        distance := math.Abs(float64(energy_weight) - float64(value[0])) + math.Abs(float64(exclusive_weight) - float64(value[1])) + math.Abs(float64(mainstream_weight) - float64(value[2]))+ math.Abs(float64(price_weight) - float64(value[3]))
+		if distance < min_dist {
+			min_dist = distance
+			persona = key
+		}
+    }
+	if persona == "" {
+		return c.Status(fiber.StatusOK).JSON("Cannot Classify Venue (not enough reviews)")
+	}
+	return c.Status(fiber.StatusOK).JSON(persona)
 }

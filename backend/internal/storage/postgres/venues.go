@@ -95,7 +95,7 @@ func (db *DB) PatchVenueReview(ctx context.Context, overallRating int8, ambiance
 	return nil
 }
 func (db *DB) GetVenueFromID(ctx context.Context, id uuid.UUID) (models.Venue, error) {
-	var query = `SELECT venue_id, name, address, city, state, zip_code, created_at, ST_Y(location::geometry) AS latitude, ST_X(location::geometry) 
+	var query = `SELECT venue_id, name, address, city, state, zip_code, created_at, venue_type, updated_at, price, total_rating, avg_energy, avg_mainstream, avg_exclusive, avg_price, ST_Y(location::geometry) AS latitude, ST_X(location::geometry) 
 	AS longitude FROM Venue WHERE venue_id = $1`
 	rows, err := db.conn.Query(ctx, query, id.String())
 	if err != nil {
@@ -107,7 +107,7 @@ func (db *DB) GetVenueFromID(ctx context.Context, id uuid.UUID) (models.Venue, e
 }
 
 func (db *DB) GetVenueFromName(ctx context.Context, name string) (models.Venue, error) {
-	query := `SELECT venue_id, name, address, city, state, zip_code, created_at, ST_Y(location::geometry) AS latitude, ST_X(location::geometry) 
+	query := `SELECT venue_id, name, address, city, state, zip_code, created_at, venue_type, updated_at, price, total_rating, avg_energy, avg_mainstream, avg_exclusive, avg_price, ST_Y(location::geometry) AS latitude, ST_X(location::geometry) 
 	AS longitude FROM Venue WHERE name ilike $1`
 	rows, err := db.conn.Query(ctx, query, name)
 	if err != nil {
@@ -120,8 +120,8 @@ func (db *DB) GetVenueFromName(ctx context.Context, name string) (models.Venue, 
 }
 
 func (db *DB) GetAllVenues(ctx context.Context) ([]models.Venue, error) {
-	query := `SELECT venue_id, name, address, city, state, zip_code, created_at, ST_Y(location::geometry) AS latitude, ST_X(location::geometry) 
-	AS longitude FROM venue`
+	query := `SELECT venue_id, name, address, city, state, zip_code, created_at, venue_type, updated_at, price, total_rating, avg_energy, avg_mainstream, avg_exclusive, avg_price, ST_Y(location::geometry) AS latitude, ST_X(location::geometry) 
+	AS longitude FROM venue LIMIT 20`
 	rows, err := db.conn.Query(ctx, query)
 	if err != nil {
 		return []models.Venue{}, err
@@ -131,8 +131,10 @@ func (db *DB) GetAllVenues(ctx context.Context) ([]models.Venue, error) {
 }
 
 func (db *DB) GetAllVenuesWithFilter(ctx context.Context, where string, sort string) ([]models.Venue, error) {
-	query := `SELECT venue_id, name, address, city, state, zip_code, created_at, ST_Y(location::geometry) AS latitude, ST_X(location::geometry) 
-	AS longitude FROM venue ` + where 
+	query := `SELECT venue_id, name, address, city, state, zip_code, created_at, venue_type, updated_at, price, total_rating, avg_energy, avg_mainstream, avg_exclusive, avg_price, ST_Y(location::geometry) AS latitude, ST_X(location::geometry) 
+	AS longitude FROM venue ` + where  + ` ` + sort + ` LIMIT 20`
+	fmt.Println(query)
+
 	rows, err := db.conn.Query(ctx, query)
 	if err != nil {
 		fmt.Println("WHAT DA WHAA " + err.Error())
@@ -141,6 +143,7 @@ func (db *DB) GetAllVenuesWithFilter(ctx context.Context, where string, sort str
 	defer rows.Close()
 	return pgx.CollectRows(rows, pgx.RowToStructByName[models.Venue])
 }
+
 
 
 
