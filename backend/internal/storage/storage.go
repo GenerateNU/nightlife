@@ -26,9 +26,12 @@ type Profile interface {
     CreatePreferences(context.Context, models.Preferences) error
     UpdateProfilePreferences(context.Context, uuid.UUID, string, string, string, string) error
     DeleteAccount(context.Context, uuid.UUID) error
+	UserCharacter(context.Context, models.Preferences) error
+	GetUserCharacter(context.Context, uuid.UUID) (string, error)
     RemoveFriend(context.Context, uuid.UUID, string) error
 	GetProfileByColumn(context.Context, string, string) (models.Profile, error)
 	GetAllUsers(context.Context) ([]models.Profile, error)
+	AddUser(context.Context, models.Profile) error
 }
 
 type UserRating interface {

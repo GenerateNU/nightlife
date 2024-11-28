@@ -1,31 +1,35 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, ImageBackground } from 'react-native';
+import { TouchableOpacity, View, Text, ImageBackground } from "react-native";
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import onboardingStyles from './onboardingStyles';
 import ProgressBar from './ProgressBar';
-
-const timeOptions = [
-  "Before 9pm",
-  "9-11pm",
-  "After 11pm"
-];
+import onboardingStyles from './onboardingStyles';
+import { useFormData } from './FormDataContext';
 
 export type RootStackParamList = {
   TimePreference: undefined;
-  HowFarFromYou: undefined;
-}
+  WhoAreYouWith: undefined;
+};
 
-const TimePreference: React.FC = () => {
-  const [selectedTime, setSelectedTime] = useState<string | null>(null);
+const options = [
+  "Before 9pm",
+  "9-11pm",
+  "After 11pm",
+];
+
+const TimePreference = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-  const [progress, setProgress] = useState(0.6);
+  const { formData, updateFormData } = useFormData();
+  const [selectedOption, setSelectedOption] = useState<string | ''>('');
+  const [progress, setProgress] = useState(0.1);
 
-  const selectTime = (option: string) => {
-    setSelectedTime(option);
+  const toggleSelection = (option: string) => {
+    setSelectedOption((prev) => (prev === option ? '' : option));
   };
 
   const handleNext = () => {
-    navigation.navigate('HowFarFromYou');
+    updateFormData({ timePreference: selectedOption });
+    console.log('Selected time preference:', formData);
+    navigation.navigate('WhoAreYouWith');
   };
 
   const handleBack = () => {
@@ -38,25 +42,32 @@ const TimePreference: React.FC = () => {
       style={onboardingStyles.container}
     >
       <Text style={onboardingStyles.topTitle}>NIGHTLIFE</Text>
-      <TouchableOpacity onPress={handleBack} style={onboardingStyles.backButton}>
+      <TouchableOpacity style={onboardingStyles.backButton} onPress={handleBack}>
         <Text style={onboardingStyles.buttonText}>Back</Text>
       </TouchableOpacity>
       <View style={onboardingStyles.mainContent}>
         <ProgressBar progress={progress} />
-        <Text style={onboardingStyles.title}>My night starts...</Text>
+        <Text style={onboardingStyles.title}>
+          It’s Friday night!{"\n"}Where are we going?
+        </Text>
         <View>
-          {timeOptions.map((option) => (
+          {options.map((option) => (
             <TouchableOpacity
               key={option}
-              style={onboardingStyles.optionBox}
-              onPress={() => selectTime(option)}
+              style={[
+                onboardingStyles.optionBox,
+                selectedOption === option
+                  ? onboardingStyles.selectedOption
+                  : onboardingStyles.unselectedOption,
+              ]}
+              onPress={() => toggleSelection(option)}
             >
               <Text style={onboardingStyles.optionText}>{option}</Text>
             </TouchableOpacity>
           ))}
         </View>
-        <TouchableOpacity style={onboardingStyles.nextButton} onPress={handleNext}>
-          <Text style={onboardingStyles.nextButtonText}>Next</Text>
+        <TouchableOpacity onPress={handleNext} style={onboardingStyles.nextButton}>
+          <Text style={onboardingStyles.nextButtonText}> Next </Text>
         </TouchableOpacity>
       </View>
     </ImageBackground>

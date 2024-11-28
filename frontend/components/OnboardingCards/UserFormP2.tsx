@@ -11,47 +11,88 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { useFormData } from "./FormDataContext"; // Assuming this is the correct path
 import onboardingStyles from "./onboardingStyles";
+import { API_DOMAIN, BEARER } from "@env";
+import { useEffect } from "react";
+import { NavigationProp } from "@react-navigation/native";
+
 
 export type RootStackParamList = {
   UserFormP2: undefined;
-  UserFormP3: undefined;
+  Home: undefined;
 };
 
 // Define navigation type based on the navigation stack
 type NavigationType = {
   navigate: (screen: keyof RootStackParamList) => void;
-  goBack: ()=> void;
+  goBack: () => void;
 };
 
-const UserFormP2: React.FC = () => {
+const UserFormP2 = () => {
   const { formData, updateFormData } = useFormData();
-  const navigation = useNavigation<NavigationType>();
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
-  const [username, setUsername] = useState<string>(formData.username || "");
-  const [pronouns, setPronouns] = useState<string>(formData.pronouns || "");
+  // Use local state to manage input fields
+  const [username, setUsername] = useState(formData.username || "");
+  const [pronouns, setPronouns] = useState(formData.pronouns || "");
 
-  const handleSubmit = () => {
+  // When the component mounts or formData changes, update local state
+  useEffect(() => {
+    setUsername(formData.username || "");
+    setPronouns(formData.pronouns || "");
+  }, [formData.username, formData.pronouns]);
+
+  const handleSubmit = async () => {
+    // Ensure formData is updated before fetching
     updateFormData({ username, pronouns });
-    console.log("Submitted Info:", { username, pronouns });
-    navigation.navigate("UserFormP3");
+
+    // Delay the fetch to ensure formData updates propagate
+    setTimeout(async () => {
+      const { name, email, password } = formData; // Destructure only needed parts
+      const payload = { name, email, password, username, pronouns };
+
+      console.log("Submitting FormData:", payload);
+
+      try {
+        const response = await fetch(`${API_DOMAIN}/profiles/addUser`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${BEARER}`,
+          },
+          body: JSON.stringify(payload),
+        });
+
+        const data = await response.json();
+        if (data.error) {
+          console.error("Submission Error:", data.error);
+        } else {
+          console.log("Submission Success:", data);
+          navigation.navigate("Home");
+        }
+      } catch (error) {
+        console.error("Network or server error:", error);
+      }
+    }, 500); // Adjust delay as necessary based on your context update delays
   };
 
   const handleBack = () => {
     navigation.goBack();
   };
 
-
   return (
     <ImageBackground
       source={{ uri: "https://i.imghippo.com/files/sol3971PuQ.png" }}
       style={onboardingStyles.container}
     >
-      <TouchableOpacity style={onboardingStyles.backButton} onPress={handleBack}>
+      <TouchableOpacity
+        style={onboardingStyles.backButton}
+        onPress={handleBack}
+      >
         <Text style={onboardingStyles.buttonText}>Back</Text>
       </TouchableOpacity>
-      
+
       <View style={onboardingStyles.mainContent}>
-        <Text style={styles.title}>Let’s get that profile{"\n"}going...</Text>
+        <Text style={styles.title}>Let’s get that profile going...</Text>
         <TextInput
           style={styles.input}
           placeholder="Username"
@@ -63,13 +104,15 @@ const UserFormP2: React.FC = () => {
           style={styles.input}
           placeholder="Pronouns"
           placeholderTextColor="#ccc"
-          secureTextEntry={false} // Assuming pronouns do not require secure text entry
           value={pronouns}
           onChangeText={setPronouns}
         />
 
-        <TouchableOpacity onPress={handleSubmit} style={onboardingStyles.nextButton}>
-          <Text style={onboardingStyles.nextButtonText}> Next </Text>
+        <TouchableOpacity
+          onPress={handleSubmit}
+          style={onboardingStyles.nextButton}
+        >
+          <Text style={onboardingStyles.nextButtonText}>Submit</Text>
         </TouchableOpacity>
       </View>
     </ImageBackground>
@@ -94,7 +137,6 @@ const styles = StyleSheet.create({
     fontWeight: "300",
     lineHeight: 39.6,
     textAlign: "center",
-    marginBottom: 40,
   },
   input: {
     height: 50,

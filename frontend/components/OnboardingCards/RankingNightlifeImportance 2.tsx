@@ -5,12 +5,10 @@ import {
   TouchableOpacity,
   StyleSheet,
   ImageBackground,
+  Button,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useFormData } from "./FormDataContext";
-import ProgressBar from './ProgressBar';
-import { API_DOMAIN, BEARER } from "@env";
-import onboardingStyles from "./onboardingStyles";
 
 const priorities = [
   "Ambience and Vibe",
@@ -23,19 +21,17 @@ const priorities = [
 
 export type RootStackParamList = {
   RankingNightlife: undefined;
-  CrowdPreference: undefined;
+  InsideOutside: undefined;
 };
 
 type NavigationType = {
   navigate: (screen: keyof RootStackParamList) => void;
-  goBack: () => void;
 };
 
 const RankingNightlife: React.FC = () => {
   const { updateFormData } = useFormData();
   const navigation = useNavigation<NavigationType>();
   const [items, setItems] = useState<string[]>(priorities);
-  const [progress, setProgress] = useState(0.2);
 
   const moveItem = (index: number, direction: "up" | "down") => {
     const newItems = Array.from(items);
@@ -54,33 +50,18 @@ const RankingNightlife: React.FC = () => {
     updateFormData({ interests: newItems });
   };
 
-  const handleBack = () => {
-    navigation.goBack();
-  };
-
   const handleSubmit = () => {
     console.log("Final order of priorities:", items);
-    navigation.navigate("CrowdPreference");
+    navigation.navigate("InsideOutside");
   };
 
   return (
     <ImageBackground
       source={{ uri: "https://i.imghippo.com/files/sol3971PuQ.png" }}
-      style={onboardingStyles.container}
+      style={styles.container}
     >
-      <Text style={onboardingStyles.topTitle}>ABOUT ME</Text>
-      <TouchableOpacity
-        style={onboardingStyles.backButton}
-        onPress={handleBack}
-      >
-        <Text style={onboardingStyles.buttonText}>Back</Text>
-      </TouchableOpacity>
-
-      <View style={onboardingStyles.mainContent}>
-        <ProgressBar progress={progress} />
-        <Text style={onboardingStyles.title}>
-          What matters most on{"\n"}a night out?
-        </Text>
+      <View style={styles.crowdMainContent}>
+        <Text style={styles.title}>What matters most on a night out?</Text>
         <Text style={styles.subTitle}>Rank your priorities</Text>
         {items.map((item, index) => (
           <View key={index} style={styles.item}>
@@ -101,13 +82,7 @@ const RankingNightlife: React.FC = () => {
             </View>
           </View>
         ))}
-
-        <TouchableOpacity
-          onPress={handleSubmit}
-          style={onboardingStyles.nextButton}
-        >
-          <Text style={onboardingStyles.nextButtonText}> Next </Text>
-        </TouchableOpacity>
+        <Button title="Submit" onPress={handleSubmit} color="white" />
       </View>
     </ImageBackground>
   );

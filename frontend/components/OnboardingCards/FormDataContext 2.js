@@ -7,12 +7,10 @@ interface FormData {
   username?: string;
   pronouns?: string;
   bio?: string;
-  nightlife?: string;
   interests?: string[];
-  crowdPreference?: string[];
+  currentJob?: string;
+  education?: string;
   timePreference?: string;
-  location?: string;
-  frequency?: string;
   insideOrOutside?: string;
 }
 

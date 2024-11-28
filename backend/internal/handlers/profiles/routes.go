@@ -22,6 +22,9 @@ func Routes(app *fiber.App, params types.Params) {
 	protected.Post("/preferences", service.CreatePreferences)        
 	protected.Patch("/preferences", service.UpdateProfilePreferences) 
 	protected.Delete("/:userId", service.DeleteUser)                
-	protected.Delete("/friends/:username", service.RemoveFriend)   
+	protected.Delete("/friends/:username", service.RemoveFriend) 
+	protected.Post("/userCharacter", service.UserCharacter) 
+	protected.Get("/userCharacter/:userId", service.GetUserCharacter) 
+	protected.Post("/addUser", service.AddUser)
 
 }

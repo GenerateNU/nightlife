@@ -10,6 +10,7 @@ import {
 import { useAuth } from "@/context/AuthContext";
 import onboardingStyles from "./OnboardingCards/onboardingStyles";
 import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { useFormData } from "./OnboardingCards/FormDataContext";
 
 interface ValidationErrors {
   email?: string;
@@ -23,6 +24,7 @@ export type RootStackParamList = {
 
 const LoginForm = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+  const { formData, updateFormData } = useFormData();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [errors, setErrors] = useState<ValidationErrors>({});
@@ -92,6 +94,7 @@ const LoginForm = () => {
 
   const handleLoginPress = () => {
     const isValid = validateForm();
+    updateFormData({ email });
     if (isValid) handleLogin();
   };
 

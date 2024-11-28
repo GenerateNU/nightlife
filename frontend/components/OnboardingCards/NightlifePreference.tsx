@@ -3,10 +3,11 @@ import { TouchableOpacity, View, Text, ImageBackground } from "react-native";
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import ProgressBar from './ProgressBar';
 import onboardingStyles from './onboardingStyles';
+import { useFormData } from './FormDataContext';
 
 export type RootStackParamList = {
   NightlifePreference: undefined;
-  CrowdPreference: undefined;
+  RankingNightLifeImportance: undefined;
 };
 
 const options = [
@@ -17,16 +18,19 @@ const options = [
 ];
 
 const NightlifePreference = () => {
+  const { formData, updateFormData } = useFormData();
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-  const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  const [selectedOption, setSelectedOption] = useState<string | "">("");
   const [progress, setProgress] = useState(0.1);
 
   const toggleSelection = (option: string) => {
-    setSelectedOption((prev) => (prev === option ? null : option));
+    setSelectedOption((prev) => (prev === option ? "" : option));
   };
 
   const handleNext = () => {
-    navigation.navigate('CrowdPreference');
+    updateFormData({ nightlife: selectedOption });
+    console.log("Selected nightlife preference:", formData.nightlife);
+    navigation.navigate('RankingNightLifeImportance');
   };
 
   const handleBack = () => {

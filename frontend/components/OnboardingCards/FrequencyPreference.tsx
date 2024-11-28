@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, ImageBackground } from 'react-native';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import ProgressBar from './ProgressBar';
 import onboardingStyles from './onboardingStyles';
+import { useFormData } from './FormDataContext';
 
 const frequencyOptions = [
   "Every day!",
@@ -18,8 +19,9 @@ export type RootStackParamList = {
 }
 
 const FrequencyPreference: React.FC = () => {
-  const [selectedFrequency, setSelectedFrequency] = useState<string | null>(null);
+  const [selectedFrequency, setSelectedFrequency] = useState<string | ''>('');
   const [progress, setProgress] = useState(0.5);
+  const { formData, updateFormData } = useFormData();
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   const selectFrequency = (option: string) => {
@@ -27,6 +29,8 @@ const FrequencyPreference: React.FC = () => {
   };
 
   const handleSkip = () => {
+    updateFormData({ frequency: selectedFrequency });
+    console.log('Selected frequency:', formData);
     navigation.navigate('TimePreference');
   };
 

@@ -3,21 +3,24 @@ import { BottomNavigator } from "@/navigation/BottomNavigator";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from "@/screens/LoginScreen";
 import { AuthProvider, useAuth } from "@/context/AuthContext";
-import React from 'react';
-import NightlifePreference from './components/OnboardingCards/NightlifePreference';
-import MusicPreferences from './components/OnboardingCards/MusicPreference';
-import PersonalityScreenReveal from './components/OnboardingCards/PersonalityScreenReveal'
-import PersonalityScreenReveal2 from './components/OnboardingCards/PersonalityScreenReveal2'
-import HowFarFromYou from './components/OnboardingCards/HowFarFromYou';
-import FrequencyPreference from './components/OnboardingCards/FrequencyPreference';
-import CrowdPreference from './components/OnboardingCards/CrowdPreference';
-import TimePreference from './components/OnboardingCards/TimePreference';
-import LoginOrSignup from './components/OnboardingCards/LoginOrSignup';
-import UserFormP1 from './components/OnboardingCards/UserFormP1';
-import UserFormP2 from './components/OnboardingCards/UserFormP2';
-import UserFormP3 from './components/OnboardingCards/UserFormP3';
-import RankingNightlifeImportance from './components/OnboardingCards/RankingNightlifeImportance';
-
+import { FormDataProvider } from "../frontend/components/OnboardingCards/FormDataContext";
+import React from "react";
+import UserFormP4 from './components/OnboardingCards/UserFormsP4';
+import WhoAreYouWith from "./components/OnboardingCards/WhoDoYouGoOutWIth";
+import NightlifePreference from "./components/OnboardingCards/NightlifePreference";
+import MusicPreferences from "./components/OnboardingCards/MusicPreference";
+import PersonalityScreenReveal from "./components/OnboardingCards/PersonalityScreenReveal";
+import PersonalityScreenReveal2 from "./components/OnboardingCards/PersonalityScreenReveal2";
+import HowFarFromYou from "./components/OnboardingCards/HowFarFromYou";
+import FrequencyPreference from "./components/OnboardingCards/FrequencyPreference";
+import CrowdPreference from "./components/OnboardingCards/CrowdPreference";
+import TimePreference from "./components/OnboardingCards/TimePreference";
+import LoginOrSignup from "./components/OnboardingCards/LoginOrSignup";
+import UserFormP1 from "./components/OnboardingCards/UserFormP1";
+import UserFormP2 from "./components/OnboardingCards/UserFormP2";
+import UserFormP3 from "./components/OnboardingCards/UserFormP3";
+import InsideOutside from "./components/OnboardingCards/InsideOutside";
+import RankingNightlifeImportance from "./components/OnboardingCards/RankingNightlifeImportance";
 
 const Stack = createNativeStackNavigator();
 
@@ -42,6 +45,11 @@ const LoginStack = () => {
         options={{ headerShown: false }}
       />
 
+      <Stack.Screen
+        name="UserFormP2"
+        component={UserFormP2}
+        options={{ headerShown: false }}
+      />
     </Stack.Navigator>
   );
 };
@@ -70,6 +78,12 @@ const OnboardingStack = () => {
       <Stack.Screen
         name="UserFormP2"
         component={UserFormP2}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name="InsideOutside"
+        component={InsideOutside}
         options={{ headerShown: false }}
       />
 
@@ -119,6 +133,16 @@ const OnboardingStack = () => {
         component={BottomNavigator}
         options={{ headerShown: false }}
       />
+      <Stack.Screen
+        name="UserFormP4"
+        component={UserFormP4}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="WhoAreYouWith"
+        component={WhoAreYouWith}
+        options={{ headerShown: false }}
+      />
     </Stack.Navigator>
   );
 };
@@ -139,12 +163,20 @@ const MainNavigator = () => {
 
   // If user is logged in and hasn't completed onboarding, show the OnboardingStack
   if (accessToken && !hasCompletedOnboarding) {
-    return <OnboardingStack />;
+    return (
+      <FormDataProvider>
+        <OnboardingStack />
+      </FormDataProvider>
+    );
   }
 
   // Show LoginStack if no access token
   if (!accessToken) {
-    return <LoginStack />;
+    return (
+      <FormDataProvider>
+        <LoginStack />
+      </FormDataProvider>
+    );
   }
 
   // Otherwise, show the main app after login & onboarding

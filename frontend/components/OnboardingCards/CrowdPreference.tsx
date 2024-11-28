@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, ImageBackground } from 'react
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import ProgressBar from './ProgressBar';
 import onboardingStyles from './onboardingStyles';
+import { useFormData } from './FormDataContext';
 
 const crowdOptions = [
   "More Exclusive (Guest-List only)",
@@ -14,13 +15,14 @@ const crowdOptions = [
 
 export type RootStackParamList = {
   CrowdPreference: undefined;
-  FrequencyPreference: undefined;
+  InsideOutside: undefined;
 }
 
 const CrowdPreference: React.FC = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const [selectedCrowds, setSelectedCrowds] = useState<string[]>([]);
   const [progress, setProgress] = useState(0.3);
+  const {formData, updateFormData } = useFormData();
 
   const selectCrowd = (option: string) => {
     setSelectedCrowds((prevSelectedCrowds) => {
@@ -33,7 +35,9 @@ const CrowdPreference: React.FC = () => {
   };
 
   const handleSkip = () => {
-    navigation.navigate('FrequencyPreference');
+    updateFormData({ crowdPreference: selectedCrowds });
+    console.log("Selected crowd preference:", formData.crowdPreference);
+    navigation.navigate('InsideOutside');
   };
 
   const handleBack = () => {

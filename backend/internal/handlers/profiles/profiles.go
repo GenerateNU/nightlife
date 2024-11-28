@@ -10,26 +10,69 @@ import (
 	"github.com/GenerateNU/nightlife/internal/models"
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
+	
 )
 
 // POST Endpoint -> allows users to add their preferences to the db
 func (s *Service) CreatePreferences(c *fiber.Ctx) error {
 	var p models.Preferences
+	log.Printf("Request: %+v", p)
 	if err := c.BodyParser(&p); err != nil {
+		log.Printf("Error parsing JSON: %v, Request: %+v", err, p)
 		return errs.BadRequest(err)
 	}
-
 	if verrs := p.Validate(); verrs != nil {
+		log.Printf("Validation errors: %v", verrs)
 		return errs.InvalidRequestData(verrs)
 	}
 
 	if err := s.store.CreatePreferences(c.Context(), p); err != nil {
+		log.Printf("Error creating preferences: %v", err)
 		return err
 	}
 
 	// close out with success status
 	return c.Status(fiber.StatusCreated).JSON(p)
 
+}
+
+func (s *Service) GetUserCharacter(c *fiber.Ctx) error {
+	userID := c.Params("userId")
+	if userID == "" {
+		return fiber.NewError(fiber.StatusBadRequest, "User ID is required")
+	}
+
+	// Convert user ID to UUID
+	userUUID, err := uuid.Parse(userID)
+	if err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, "Invalid User ID format")
+	}
+
+	// Call GetUserCharacter function to get the user character from the database
+	userCharacter, err := s.store.GetUserCharacter(c.Context(), userUUID)
+	if err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, "Failed to get user character")
+	}
+
+	// Return success response
+	return c.Status(http.StatusOK).JSON(userCharacter)
+}
+
+func (s *Service) UserCharacter(c *fiber.Ctx) error {
+	// Parse the request body
+	var req models.Preferences
+	if err := c.BodyParser(&req); err != nil {
+		log.Printf("Error parsing JSON: %v, Request: %+v", err, req)
+		return errs.BadRequest(err)
+	}
+
+	if err := s.store.UserCharacter(c.Context(), req); err != nil {
+		log.Printf("Error creating user character: %v", err)
+		return err
+	}
+
+	// close out with success status
+	return c.Status(fiber.StatusCreated).JSON(req)
 }
 
 func (s *Service) UpdateProfilePreferences(c *fiber.Ctx) error {
@@ -105,6 +148,27 @@ func (s *Service) RemoveFriend(c *fiber.Ctx) error {
 
 	// Return success message
 	return c.Status(http.StatusOK).JSON(fiber.Map{"message": "Friend removed successfully"})
+}
+
+func (s *Service) AddUser(c *fiber.Ctx) error {
+	// Parse the request body
+	var profile models.Profile
+	if err := c.BodyParser(&profile); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Cannot parse JSON"})
+	} else if profile.Username == "" || profile.Email == "" {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Username and email are required"})
+	} else if !utils.IsEmail(profile.Email) {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid email address"})
+	} else if profile.Password == "" {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Password is required"})
+	} else if profile.FirstName == "" {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "First name is required"})
+	}
+	if err := s.store.AddUser(c.Context(), profile); err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to add user"})
+	} else {
+		return c.Status(fiber.StatusCreated).JSON(fiber.Map{"message": "User added successfully"})
+	}
 }
 
 /*

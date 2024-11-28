@@ -8,8 +8,6 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useFormData } from "./FormDataContext";
-import ProgressBar from './ProgressBar';
-import onboardingStyles from './onboardingStyles';
 
 const whoAreYouWithOptions = [
   "Close friends",
@@ -27,9 +25,9 @@ export type RootStackParamList = {
 };
 
 type NavigationType = {
-  navigate: (screen: keyof RootStackParamList) => void;
-  goBack: () => void;
-};
+    navigate: (screen: keyof RootStackParamList) => void;
+    goBack: () => void;
+  };
 
 const WhoAreYouWith: React.FC = () => {
   const { formData, updateFormData } = useFormData();
@@ -37,7 +35,6 @@ const WhoAreYouWith: React.FC = () => {
   const [selectedCrowd, setSelectedCrowd] = useState<string[]>(
     formData.interests || []
   );
-  const [progress, setProgress] = useState(0.7);
 
   const selectCrowd = (option: string) => {
     setSelectedCrowd((prevSelected) => {
@@ -64,24 +61,21 @@ const WhoAreYouWith: React.FC = () => {
   return (
     <ImageBackground
       source={{ uri: "https://i.imghippo.com/files/sol3971PuQ.png" }}
-      style={onboardingStyles.container}
+      style={styles.container}
     >
-      <Text style={onboardingStyles.topTitle}>NIGHTLIFE</Text>
-
-      <TouchableOpacity onPress={handleBack} style={styles.backButton}>
-        <Text style={styles.backButtonText}>Back</Text>
-      </TouchableOpacity>
-
-      <View style={onboardingStyles.mainContent}>
-        <View style={onboardingStyles.mainContent}>
-          <Text style={onboardingStyles.title}>Every time you see me{"\n"}out, I'm with...</Text>
+      <View style={styles.container}>
+        <TouchableOpacity onPress={handleBack} style={styles.backButton}>
+          <Text style={styles.backButtonText}>Back</Text>
+        </TouchableOpacity>
+        <View style={styles.crowdMainContent}>
+          <Text style={styles.title}>Every time you see me out, I'm with:</Text>
           <View style={styles.optionGrid}>
             {whoAreYouWithOptions.map((option) => (
               <TouchableOpacity
                 key={option}
                 style={[
-                  onboardingStyles.optionBox,
-                  selectedCrowd.includes(option) ? onboardingStyles.selectedOption : {},
+                  styles.optionBox,
+                  selectedCrowd.includes(option) ? styles.selectedOption : {},
                 ]}
                 onPress={() => selectCrowd(option)}
               >
@@ -89,9 +83,8 @@ const WhoAreYouWith: React.FC = () => {
               </TouchableOpacity>
             ))}
           </View>
-
-          <TouchableOpacity style={onboardingStyles.nextButton} onPress={handleSkip}>
-            <Text style={onboardingStyles.nextButtonText}>Next</Text>
+          <TouchableOpacity style={styles.nextButton} onPress={handleSkip}>
+            <Text style={styles.nextButtonText}>&gt;</Text>
           </TouchableOpacity>
         </View>
       </View>

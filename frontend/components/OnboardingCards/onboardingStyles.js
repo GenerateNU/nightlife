@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 
 const onboardingStyles = StyleSheet.create({
     container: {
-      flex: 1,
+
       backgroundColor: 'rgba(255, 255, 255, 0.40)',
       padding: 20,
     },
@@ -16,6 +16,7 @@ const onboardingStyles = StyleSheet.create({
       lineHeight: 20,
     },
     backButton: {
+      paddingTop: 24,
       position: 'absolute',
     },
     buttonText: {
@@ -23,7 +24,6 @@ const onboardingStyles = StyleSheet.create({
       fontSize: 16,
     },
     mainContent: {
-      flex: 1,
       justifyContent: 'flex-start',
       alignItems: 'center',
       marginTop: 25,

@@ -47,11 +47,103 @@ func (db *DB) GetProfileByColumn(ctx context.Context, column string, value strin
 
 func (db *DB) CreatePreferences(ctx context.Context, p models.Preferences) error {
 	// query to save user data to db
-	query := `INSERT INTO preferences (userID, location, age, music, ambiance, notifs) 
-				VALUES ($1, $2, $3, $4, $5, $6)`
+	query := `INSERT INTO user_preference (user_id, location, nightlife, interests, crowd_preference, time_preference, frequency, insideoroutside) 
+				VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`
 
-	_, err := db.conn.Query(ctx, query, p.UserID, p.Location, p.Age, p.Music, p.Ambiance, p.Notifs)
+	_, err := db.conn.Query(ctx, query, p.UserID, p.Location, p.Nightlife, p.Interests, p.CrowdPreference, p.TimePreference, p.Frequency, p.InsideOrOutside)
 	return err
+}
+
+func determinePersonality(prefs models.Preferences) string {
+    scores := map[string]int{
+        "Plumehart": 0,
+        "Serafina": 0,
+        "Lumi": 0,
+        "Roux": 0,
+        "Buckley": 0,
+        "Sprig": 0,
+        "Blitz": 0,
+    }
+
+    // Increment scores based on preferences
+    for _, interest := range prefs.Interests {
+        switch interest {
+        case "Ambience and Vibe":
+            scores["Plumehart"]++
+            scores["Serafina"]++
+            scores["Lumi"]++
+        case "Drink Selection and Service":
+            scores["Roux"]++
+            scores["Buckley"]++
+            scores["Serafina"]++
+        case "Crowd and Social Atmosphere":
+            scores["Lumi"]++
+            scores["Buckley"]++
+            scores["Plumehart"]++
+        // Add other cases as necessary
+        }
+    }
+
+    for _, crowd := range prefs.CrowdPreference {
+        switch crowd {
+        case "Casual & Laid-Back":
+            scores["Buckley"]++
+            scores["Sprig"]++
+        case "More Exclusive":
+            scores["Plumehart"]++
+        // Add other cases
+        }
+    }
+
+    // Time preference
+    switch prefs.TimePreference {
+    case "Before 9 PM":
+        scores["Buckley"]++
+        scores["Plumehart"]++
+        scores["Serafina"]++
+    case "9-11 PM":
+        scores["Lumi"]++
+        scores["Roux"]++
+        scores["Sprig"]++
+    case "After 11 PM":
+        scores["Blitz"]++
+    }
+
+    // Find the highest score
+    maxScore := 0
+    personality := "Undetermined"
+    for venue, score := range scores {
+        if score > maxScore {
+            maxScore = score
+            personality = venue
+        }
+    }
+	log.Printf("Personality: %s", personality)
+
+    return personality
+}
+
+func (db *DB) UserCharacter(ctx context.Context, p models.Preferences) error {
+	// query to save user data to db
+	log.Printf("UserCharacter: %+v", p)
+	personality_type := determinePersonality(p)
+	query := `UPDATE users
+			  SET personality_type = $2
+			  WHERE user_id = $1;`
+
+	_, err := db.conn.Query(ctx, query, p.UserID, personality_type)
+	return err
+}
+
+func (db *DB) GetUserCharacter(ctx context.Context, userID uuid.UUID) (string, error) {
+	var personality string
+	row := db.conn.QueryRow(ctx, `SELECT personality_type FROM users WHERE user_id = $1`, userID)
+	err := row.Scan(&personality)
+	if err != nil {
+		return "", err
+	}
+	log.Printf("Personality: %s", personality)
+	return personality, nil
 }
 
 func (db *DB) UpdateProfilePreferences(ctx context.Context, userID uuid.UUID, preferencetypeto string, preferencevalueto string, preferenceType string, preferenceValue string) error {
@@ -141,4 +233,13 @@ func (db *DB) GetAllUsers(ctx context.Context) ([]models.Profile, error) {
 	}
 
 	return profiles, nil
+}
+
+func (db *DB) AddUser(ctx context.Context, user models.Profile) error {
+	// query to save user data to db
+	query := `INSERT INTO users (user_id, first_name, username, email, age, location, profile_picture_url, created_at) 
+				VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`
+
+	_, err := db.conn.Query(ctx, query, user.UserID, user.FirstName, user.Username, user.Email, user.Age, user.Location, user.ProfilePictureURL, user.CreatedAt)
+	return err
 }
