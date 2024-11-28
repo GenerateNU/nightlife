@@ -130,6 +130,41 @@ func (db *DB) GetAllVenues(ctx context.Context) ([]models.Venue, error) {
 	return pgx.CollectRows(rows, pgx.RowToStructByName[models.Venue])
 }
 
+func (db *DB) GetVenuesByIDs(ctx context.Context, venueIDs []uuid.UUID) ([]models.Venue, error) {
+	query := `
+		SELECT 
+			venue_id, 
+			name, 
+			ST_Y(location::geometry) AS latitude, 
+			ST_X(location::geometry) AS longitude, 
+			created_at
+		FROM venue
+		WHERE venue_id = ANY($1);
+	`
+	rows, err := db.conn.Query(ctx, query, venueIDs)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	venues := []models.Venue{}
+	for rows.Next() {
+		var venue models.Venue
+		if err := rows.Scan(
+			&venue.VenueID,
+			&venue.Name,
+			&venue.Latitude,
+			&venue.Longitude,
+			&venue.CreatedAt,
+		); err != nil {
+			return nil, err
+		}
+		venues = append(venues, venue)
+	}
+
+	return venues, rows.Err()
+}
+
 func (db *DB) GetAllVenuesWithFilter(ctx context.Context, where string, sort string) ([]models.Venue, error) {
 	query := `SELECT venue_id, name, address, city, state, zip_code, created_at, venue_type, updated_at, price, total_rating, avg_energy, avg_mainstream, avg_exclusive, avg_price, ST_Y(location::geometry) AS latitude, ST_X(location::geometry) 
 	AS longitude FROM venue ` + where  + ` ` + sort + ` LIMIT 20`

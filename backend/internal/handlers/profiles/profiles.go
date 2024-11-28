@@ -139,9 +139,9 @@ func (s *Service) GetProfile(c *fiber.Ctx) error {
 
 func (s *Service) UpdateProfile(c *fiber.Ctx) error {
 
-	userIdString := c.Params("userId")
+	userIDString := c.Params("userId")
 
-	userId, err := uuid.Parse(userIdString)
+	userID, err := uuid.Parse(userIDString)
 
 	if err != nil {
 		if handlerErr := errs.ErrorHandler(c, err); handlerErr != nil {
@@ -157,7 +157,7 @@ func (s *Service) UpdateProfile(c *fiber.Ctx) error {
 		})
 	}
 
-	err = s.store.PatchProfile(c.Context(), userId, req.FirstName,
+	err = s.store.PatchProfile(c.Context(), userID, req.FirstName,
 	req.Username, req.Email, req.Age, req.Location, req.ProfilePictureURL, req.PersonalityType, req.Pronouns, req.Biography, req.InstagramURL, req.TikTokURL, req.TwitterURL, req.Phone, req.Privacy)
 
 	if err != nil {
@@ -198,3 +198,93 @@ func (s *Service) GetAllUsers(c *fiber.Ctx) error {
 	// Return the list of users with a 200 OK status
 	return c.Status(fiber.StatusOK).JSON(users)
 }
+
+/*
+Get all reviews authored by a given user
+*/
+func (s *Service) GetUserAuthoredReviews(c *fiber.Ctx) error {
+    // Extract the user ID from the URL parameter
+    userID := c.Params("userId")
+    if userID == "" {
+        return fiber.NewError(fiber.StatusBadRequest, "User ID is required")
+    }
+
+    // Convert the user ID to a UUID
+    userUUID, err := uuid.Parse(userID)
+    if err != nil {
+        return fiber.NewError(fiber.StatusBadRequest, "Invalid User ID format")
+    }
+
+    // Call the store to get the reviews authored by the user
+    reviews, err := s.store.GetUserAuthoredReviews(c.Context(), userUUID)
+    if err != nil {
+        return fiber.NewError(fiber.StatusInternalServerError, "Failed to get user reviews")
+    }
+
+    // Return the list of reviews
+    return c.Status(fiber.StatusOK).JSON(reviews)
+}
+
+func (s *Service) GetUserReviewsWithVenueData(c *fiber.Ctx) error {
+	// Extract the user ID from the URL parameter
+	userID := c.Params("userId")
+	if userID == "" {
+		return fiber.NewError(fiber.StatusBadRequest, "User ID is required")
+	}
+
+	// Convert the user ID to a UUID
+	userUUID, err := uuid.Parse(userID)
+	if err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, "Invalid User ID format")
+	}
+
+	// Fetch reviews with venue data from the store
+	data, err := s.store.GetUserReviewsWithVenueData(c.Context(), userUUID)
+	if err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, "Failed to fetch reviewed venues")
+	}
+
+	// Return the combined data as JSON
+	return c.Status(fiber.StatusOK).JSON(data)
+}
+
+// Get saved venues for a user
+func (s *Service) GetUserSavedVenues(c *fiber.Ctx) error {
+	userID := c.Params("userId")
+	if userID == "" {
+		return fiber.NewError(fiber.StatusBadRequest, "User ID is required")
+	}
+
+	userUUID, err := uuid.Parse(userID)
+	if err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, "Invalid User ID format")
+	}
+
+	venues, err := s.store.GetUserSavedVenues(c.Context(), userUUID)
+	if err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, "Failed to fetch saved venues")
+	}
+
+	return c.Status(fiber.StatusOK).JSON(venues)
+}
+
+// Get visited venues for a user
+func (s *Service) GetUserVisitedVenues(c *fiber.Ctx) error {
+	userID := c.Params("userId")
+	if userID == "" {
+		return fiber.NewError(fiber.StatusBadRequest, "User ID is required")
+	}
+
+	userUUID, err := uuid.Parse(userID)
+	if err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, "Invalid User ID format")
+	}
+
+	venues, err := s.store.GetUserVisitedVenues(c.Context(), userUUID)
+	if err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, "Failed to fetch visited venues")
+	}
+
+	return c.Status(fiber.StatusOK).JSON(venues)
+}
+

@@ -5,6 +5,7 @@ import (
 
 	"github.com/GenerateNU/nightlife/internal/models"
 	"github.com/google/uuid"
+
 )
 
 type Storage interface {
@@ -30,6 +31,10 @@ type Profile interface {
 	RemoveFriend(context.Context, uuid.UUID, string) error
 	GetProfileByColumn(context.Context, string, string) (models.Profile, error)
 	GetAllUsers(context.Context) ([]models.Profile, error)
+	GetUserAuthoredReviews(context.Context, uuid.UUID) ([]models.Review, error)
+	GetUserReviewsWithVenueData(ctx context.Context, userID uuid.UUID) ([]models.ReviewWithVenue, error)
+	GetUserSavedVenues(context.Context, uuid.UUID) ([]models.Venue, error)
+	GetUserVisitedVenues(context.Context, uuid.UUID) ([]models.Venue, error)
 }
 
 type UserRating interface {
@@ -43,6 +48,7 @@ type Venues interface {
 	GetVenueFromID(context.Context, uuid.UUID) (models.Venue, error)
 	GetVenueFromName(context.Context, string) (models.Venue, error)
 	GetAllVenues(ctx context.Context) ([]models.Venue, error)
+	GetVenuesByIDs(ctx context.Context, ids []uuid.UUID) ([]models.Venue, error)
 }
 
 type VenueRatings interface {

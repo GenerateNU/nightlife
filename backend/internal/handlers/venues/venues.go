@@ -173,11 +173,7 @@ func (s *Service) GetAllVenuesWithFilter(c *fiber.Ctx) error {
 	venues, err := s.store.GetAllVenuesWithFilter(c.Context(), whereQuery, sortQuery)
 	if err != nil {
 		fmt.Println(err.Error())
-		return fiber.NewError(fiber.StatusInternalServerError, "Could not get venues")
-	}
-	// sort venues if applicable 
-	if sort != `` { // if the sort parameter was present in the request 
-		sortAndFilter.SortVenues(sort)
+		return s.GetAllVenues(c) // attempt to get all venues without the filter (default choice if a sort isn't possible)
 	}
 	// Use SortAndFilter instance to sort the filtered list of venues and return final list 
 	return c.Status(fiber.StatusOK).JSON(venues)
@@ -200,21 +196,56 @@ func (s *Service) GetVenuePersona(c *fiber.Ctx) error {
 	}
 	total := v.AvgEnergy + v.AvgExclusive + v.AvgMainstream + v.AvgPrice
 	price_weight := v.AvgPrice / total
-	exclusive_weight := v.AvgExclusive / total
 	mainstream_weight := v.AvgMainstream / total
 	energy_weight := v.AvgEnergy / total 
-	rec := models.ByRecommendation{}
-	persona := ""
-	min_dist := math.Inf(1)
-	for key, value := range rec.CharacterMap() {
-        distance := math.Abs(float64(energy_weight) - float64(value[0])) + math.Abs(float64(exclusive_weight) - float64(value[1])) + math.Abs(float64(mainstream_weight) - float64(value[2]))+ math.Abs(float64(price_weight) - float64(value[3]))
-		if distance < min_dist {
-			min_dist = distance
+	exclusive_weight := v.AvgExclusive / total 
+	temp := models.ByRecommendation{}
+	persona := ``
+	min_distance := math.Inf(1) 
+	for key, value := range temp.CharacterMap() {
+		// energy, exclusive, mainstream, price 
+		distance := math.Abs(float64(energy_weight) - float64(value[0])) + math.Abs(float64(exclusive_weight) - float64(value[1])) + math.Abs(float64(mainstream_weight) - float64(value[2])) + math.Abs(float64(price_weight) - float64(value[3]))
+		if distance < min_distance {
 			persona = key
+			min_distance = distance 
 		}
-    }
-	if persona == "" {
-		return c.Status(fiber.StatusOK).JSON("Cannot Classify Venue (not enough reviews)")
+	}
+	if persona == `` {
+		return c.Status(fiber.StatusOK).JSON("Not enough reviews to determine venue persona")
 	}
 	return c.Status(fiber.StatusOK).JSON(persona)
+}
+
+func (s *Service) GetVenuesByIDs(c *fiber.Ctx) error {
+    // Get the "ids" query parameter
+    ids := c.Query("ids")
+    if ids == "" {
+        return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+            "error": "Missing venue IDs",
+        })
+    }
+
+    // Split the IDs into a slice
+    idStrings := strings.Split(ids, ",")
+    var venueIDs []uuid.UUID
+    for _, idStr := range idStrings {
+        parsedID, err := uuid.Parse(strings.TrimSpace(idStr))
+        if err != nil {
+            return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+                "error": fmt.Sprintf("Invalid venue ID format: %s", idStr),
+            })
+        }
+        venueIDs = append(venueIDs, parsedID)
+    }
+
+    // Fetch venues from the store
+    venues, err := s.store.GetVenuesByIDs(c.Context(), venueIDs)
+    if err != nil {
+        return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+            "error": "Failed to fetch venue details",
+        })
+    }
+
+    // Return the list of venues
+    return c.Status(fiber.StatusOK).JSON(venues)
 }
