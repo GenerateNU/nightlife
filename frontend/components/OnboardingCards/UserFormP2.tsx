@@ -84,15 +84,12 @@ const UserFormP2 = () => {
       source={{ uri: "https://i.imghippo.com/files/sol3971PuQ.png" }}
       style={onboardingStyles.container}
     >
-      <TouchableOpacity
-        style={onboardingStyles.backButton}
-        onPress={handleBack}
-      >
+      <TouchableOpacity style={onboardingStyles.backButton} onPress={handleBack}>
         <Text style={onboardingStyles.buttonText}>Back</Text>
       </TouchableOpacity>
 
       <View style={onboardingStyles.mainContent}>
-        <Text style={styles.title}>Let’s get that profile going...</Text>
+        <Text style={[onboardingStyles.title, { marginTop: 40 }]}>Let’s get that profile{"\n"}going...</Text>
         <TextInput
           style={styles.input}
           placeholder="Username"
@@ -104,15 +101,13 @@ const UserFormP2 = () => {
           style={styles.input}
           placeholder="Pronouns"
           placeholderTextColor="#ccc"
+          secureTextEntry={false} // Assuming pronouns do not require secure text entry
           value={pronouns}
           onChangeText={setPronouns}
         />
 
-        <TouchableOpacity
-          onPress={handleSubmit}
-          style={onboardingStyles.nextButton}
-        >
-          <Text style={onboardingStyles.nextButtonText}>Submit</Text>
+        <TouchableOpacity onPress={handleSubmit} style={onboardingStyles.nextButton}>
+          <Text style={onboardingStyles.nextButtonText}> Next </Text>
         </TouchableOpacity>
       </View>
     </ImageBackground>
@@ -137,6 +132,7 @@ const styles = StyleSheet.create({
     fontWeight: "300",
     lineHeight: 39.6,
     textAlign: "center",
+    marginBottom: 40,
   },
   input: {
     height: 50,
@@ -149,7 +145,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: "Archivo",
     color: "black",
+    width: "100%",
   },
 });
+
 
 export default UserFormP2;

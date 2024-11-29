@@ -73,14 +73,15 @@ const WhoAreYouWith: React.FC = () => {
       </TouchableOpacity>
 
       <View style={onboardingStyles.mainContent}>
-        <View style={onboardingStyles.mainContent}>
+      <ProgressBar progress={progress} />
           <Text style={onboardingStyles.title}>Every time you see me{"\n"}out, I'm with...</Text>
+          <Text style={styles.textStyle}>Select all that apply</Text>
           <View style={styles.optionGrid}>
             {whoAreYouWithOptions.map((option) => (
               <TouchableOpacity
                 key={option}
                 style={[
-                  onboardingStyles.optionBox,
+                  styles.optionBox,
                   selectedCrowd.includes(option) ? onboardingStyles.selectedOption : {},
                 ]}
                 onPress={() => selectCrowd(option)}
@@ -94,7 +95,6 @@ const WhoAreYouWith: React.FC = () => {
             <Text style={onboardingStyles.nextButtonText}>Next</Text>
           </TouchableOpacity>
         </View>
-      </View>
     </ImageBackground>
   );
 };
@@ -135,16 +135,14 @@ const styles = StyleSheet.create({
     marginBottom: 40,
   },
   optionBox: {
-    width: "48%",
-    height: 120,
-    backgroundColor: "white",
-    borderRadius: 8,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 12,
-    marginBottom: 10,
-    borderWidth: 1,
-    borderColor: "#ddd",
+    paddingVertical: 20,
+    paddingHorizontal: 20,
+    borderRadius: 100,
+    borderWidth: 2,
+    borderColor: 'white',
+    backgroundColor: 'rgba(255, 255, 255, 0.40)',
+    marginBottom: 12,
+    marginTop: 20,
   },
   selectedOption: {
     backgroundColor: "#ddd", // Added style for selected option
@@ -171,6 +169,16 @@ const styles = StyleSheet.create({
   nextButtonText: {
     fontSize: 24,
     color: "black",
+  },
+  textStyle: {
+    color: 'white',
+    fontSize: 24,
+    fontFamily: 'DT Nightingale',
+    fontWeight: '300',
+    lineHeight: 28.8,
+    textAlign: 'left',
+    flexWrap: 'wrap',
+    width: '100%',
   },
 });
 

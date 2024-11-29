@@ -45,9 +45,9 @@ const UserFormP3: React.FC = () => {
        <TouchableOpacity style={onboardingStyles.backButton} onPress={handleBack}>
         <Text style={onboardingStyles.buttonText}>Back</Text>
       </TouchableOpacity>
-      
+
       <View style={onboardingStyles.mainContent}>
-        <Text style={onboardingStyles.title}>Describe yourself</Text>
+        <Text style={[onboardingStyles.title, { marginTop: 40 }]}>Describe yourself</Text>
         <Text style={styles.body}>
           Tell people about you and your{"\n"}nightlife interests and{"\n"}experiences
         </Text>
@@ -58,7 +58,7 @@ const UserFormP3: React.FC = () => {
           value={bio}
           onChangeText={setBio}
         />
-        
+
         <TouchableOpacity onPress={handleSubmit} style={onboardingStyles.nextButton}>
           <Text style={onboardingStyles.nextButtonText}> Next </Text>
         </TouchableOpacity>
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     fontFamily: "DT Nightingale",
     fontWeight: "300",
     lineHeight: 26.4,
-    textAlign: "center",
+    textAlign: "left",
     marginBottom: 40,
   },
   input: {
@@ -108,6 +108,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: "Archivo",
     color: "black",
+    width: "100%",
   },
 });
 
