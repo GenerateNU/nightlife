@@ -66,8 +66,8 @@ const EventsScrollable: React.FC<EventsScrollableProps> = ({
 
                 const data = await res.json();
 
-                const mappedVenues = data.map((venue: any) => ({
-                    id: venue.venue_id,
+                const mappedVenues = data.map((venue: Venue) => ({
+                    id: venue.id,
                     name: venue.name,
                     address: venue.address,
                     city: venue.city,
