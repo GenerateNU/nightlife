@@ -288,3 +288,25 @@ func (s *Service) GetUserVisitedVenues(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(venues)
 }
 
+func (s *Service) GetUserLocation(c *fiber.Ctx) error {
+    userID := c.Params("userId")
+    if userID == "" {
+        return fiber.NewError(fiber.StatusBadRequest, "User ID is required")
+    }
+
+    userUUID, err := uuid.Parse(userID)
+    if err != nil {
+        return fiber.NewError(fiber.StatusBadRequest, "Invalid User ID format")
+    }
+
+    // Fetch latitude and longitude from the store
+    location, err := s.store.GetUserLocation(c.Context(), userUUID)
+    if err != nil {
+        return fiber.NewError(fiber.StatusInternalServerError, "Failed to fetch user location")
+    }
+
+    // Return the latitude and longitude
+    return c.Status(fiber.StatusOK).JSON(location)
+}
+
+

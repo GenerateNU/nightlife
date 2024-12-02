@@ -180,3 +180,36 @@ func (s *Service) GetVenuesByIDs(c *fiber.Ctx) error {
 	// Return the list of venues
 	return c.Status(fiber.StatusOK).JSON(venues)
 }
+
+func (s *Service) GetVenuesByLocation(c *fiber.Ctx) error {
+	// Parse latitude
+	latitude := c.QueryFloat("latitude")
+	if latitude == 0 {
+		log.Printf("Invalid or missing latitude parameter: %v", latitude)
+		return fiber.NewError(fiber.StatusBadRequest, "Invalid or missing latitude parameter")
+	}
+
+	// Parse longitude
+	longitude := c.QueryFloat("longitude")
+	if longitude == 0 {
+		log.Printf("Invalid or missing longitude parameter: %v", longitude)
+		return fiber.NewError(fiber.StatusBadRequest, "Invalid or missing longitude parameter")
+	}
+
+	// Parse radius with default value of 1000
+	radius := c.QueryInt("radius", 1000)
+	if radius <= 0 {
+		log.Printf("Invalid radius parameter: %d", radius)
+		return fiber.NewError(fiber.StatusBadRequest, "Invalid radius parameter")
+	}
+
+	// Fetch venues by location
+	venues, err := s.store.GetVenuesByLocation(c.Context(), latitude, longitude, radius)
+	if err != nil {
+		log.Printf("Error fetching venues by location: %v | Latitude: %f | Longitude: %f | Radius: %d", err, latitude, longitude, radius)
+		return fiber.NewError(fiber.StatusInternalServerError, "Failed to fetch venues by location")
+	}
+
+	// Return the list of venues as JSON
+	return c.Status(fiber.StatusOK).JSON(venues)
+}

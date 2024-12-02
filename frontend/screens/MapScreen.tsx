@@ -12,36 +12,62 @@ import { useAuth } from "@/context/AuthContext";
 const MapScreen: React.FC = () => {
   const [allVenues, setAllVenues] = useState<Venue[]>([]);
   const [selectedVenue, setSelectedVenue] = useState<Venue | null>(null);
-  const { accessToken } = useAuth();
+  const { user, accessToken } = useAuth();
   const modalRef = React.useRef<Modalize>(null);
 
-  // TODO: Possibly move this over to a services file
+  
+
   const fetchVenues = async (): Promise<void> => {
-    if (!accessToken) {
-      console.log("No access token available");
+    if (!accessToken || !user?.location) {
+      console.log("No access token available or user location available");
       return;
     }
 
-    try {
-      const res = await fetch(`${API_DOMAIN}/venues/`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
 
-      if (!res.ok) throw new Error(`Error: ${res.statusText}`);
-      const data: Venue[] = await res.json();
-      setAllVenues(data);
+    try {
+
+      const locationRes = await fetch(
+        `${API_DOMAIN}/profiles/${user.user_id}/location`,
+        {
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${accessToken}`,
+          },
+        }
+      );
+
+      if (!locationRes.ok)
+        throw new Error(`Error fetching user location: ${locationRes.statusText}`);
+      const { latitude, longitude } = await locationRes.json();
+
+
+
+       // Fetch venues by location
+      const radius = 80000; // 80,000 meters (80 km)
+      const venuesRes = await fetch(
+        `${API_DOMAIN}/venues/location?latitude=${latitude}&longitude=${longitude}&radius=${radius}`,
+        {
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${accessToken}`,
+          },
+        }
+      );
+
+      if (!venuesRes.ok)
+        throw new Error(`Error fetching venues: ${venuesRes.statusText}`);
+      const venues: Venue[] = await venuesRes.json();
+
+      setAllVenues(venues);
     } catch (err) {
-      console.error("Failed to fetch venues:", err);
+      console.error("Failed to fetch venues by location:", err);
     }
+
   };
 
   useEffect(() => {
     fetchVenues();
-  }, [accessToken]);
+  }, [accessToken, user?.location]);
 
   const handleMarkerPress = (venue: Venue) => {
     setSelectedVenue(venue);
@@ -52,6 +78,21 @@ const MapScreen: React.FC = () => {
     setSelectedVenue(null);
     modalRef.current?.open();
   };
+
+  // // Get the current day of the week for displaying venue hours
+  // const getCurrentDayHours = (venue: Venue): string => {
+  //   const days = [
+  //     "monday_hours",
+  //     "tuesday_hours",
+  //     "wednesday_hours",
+  //     "thursday_hours",
+  //     "friday_hours",
+  //     "saturday_hours",
+  //     "sunday_hours",
+  //   ];
+  //   const today = new Date().getDay();
+  //   return venue[days[today - 1]] || "Hours not available";
+  // };
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
@@ -152,6 +193,9 @@ const MapScreen: React.FC = () => {
                 <Text style={styles.divider}>|</Text>
 
                 {/* Open Status */}
+                {/* <Text style={styles.statusText}>
+                  {getCurrentDayHours(selectedVenue)}
+                </Text> */}
                 <Text style={styles.statusText}>🟢 Open</Text>
               </View>
             </View>

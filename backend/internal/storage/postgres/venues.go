@@ -165,3 +165,89 @@ func (db *DB) GetVenuesByIDs(ctx context.Context, venueIDs []uuid.UUID) ([]model
 
 	return venues, rows.Err()
 }
+
+func (db *DB) GetVenuesByLocation(ctx context.Context, latitude float64, longitude float64, radiusInMeters int) ([]models.VenueWithHours, error) {
+	query := `
+		SELECT 
+			venue_id, 
+			name, 
+			address, 
+			city, 
+			state, 
+			zip_code, 
+			ST_Y(location::geometry) AS latitude, 
+			ST_X(location::geometry) AS longitude, 
+			venue_type, 
+			total_rating, 
+			price, 
+			avg_mainstream, 
+			avg_price, 
+			avg_exclusive, 
+			avg_energy, 
+			monday_hours, 
+			tuesday_hours, 
+			wednesday_hours, 
+			thursday_hours, 
+			friday_hours, 
+			saturday_hours, 
+			sunday_hours, 
+			created_at, 
+			COALESCE(updated_at, '9999-12-31 23:59:59') AS updated_at 
+		FROM venue
+		WHERE ST_DWithin(
+			location::geography, 
+			ST_MakePoint($1, $2)::geography, 
+			$3
+		);
+	`
+
+	rows, err := db.conn.Query(ctx, query, longitude, latitude, radiusInMeters)
+	if err != nil {
+		log.Printf("Database query failed: %v | Query: %s | Params: longitude=%f, latitude=%f, radius=%d", err, query, longitude, latitude, radiusInMeters)
+		return nil, fmt.Errorf("database query error: %w", err)
+	}
+	defer rows.Close() // No need to handle rows.Close()'s return, just defer the call
+
+	venues := []models.VenueWithHours{}
+	for rows.Next() {
+		var venue models.VenueWithHours
+		if err := rows.Scan(
+			&venue.VenueID,
+			&venue.Name,
+			&venue.Address,
+			&venue.City,
+			&venue.State,
+			&venue.ZipCode,
+			&venue.Latitude,
+			&venue.Longitude,
+			&venue.VenueType,
+			&venue.TotalRating,
+			&venue.Price,
+			&venue.AvgMainstream,
+			&venue.AvgPrice,
+			&venue.AvgExclusive,
+			&venue.AvgEnergy,
+			&venue.MondayHours,
+			&venue.TuesdayHours,
+			&venue.WednesdayHours,
+			&venue.ThursdayHours,
+			&venue.FridayHours,
+			&venue.SaturdayHours,
+			&venue.SundayHours,
+			&venue.CreatedAt,
+			&venue.UpdatedAt,
+		); err != nil {
+			log.Printf("Error scanning row: %v", err)
+			return nil, fmt.Errorf("row scan error: %w", err)
+		}
+		venues = append(venues, venue)
+	}
+
+	// Check for errors in row iteration
+	if err := rows.Err(); err != nil {
+		log.Printf("Row iteration error: %v", err)
+		return nil, fmt.Errorf("row iteration error: %w", err)
+	}
+
+	return venues, nil
+}
