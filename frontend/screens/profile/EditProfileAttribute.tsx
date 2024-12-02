@@ -5,6 +5,7 @@ import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-nativ
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 import Chevron from "@/assets/chevron.svg";
+import {API_DOMAIN} from "@env";
 
 type RootStackParamList = {
     EditProfileAttribute: { field: string, existing: string };
@@ -34,7 +35,7 @@ const EditProfileAttribute: React.FC<EditProfileAttributeProps> = ({ navigation,
 
         if (!value) navigation.goBack();
 
-        const req = await fetch(`http://localhost:8080/profiles/update/${user?.user_id}`, {
+        const req = await fetch(`${API_DOMAIN}/profiles/update/${user?.user_id}`, {
             method: "PATCH",
             headers: {
                 Authorization: `Bearer ${accessToken}`,
