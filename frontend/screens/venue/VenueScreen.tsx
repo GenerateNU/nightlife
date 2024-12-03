@@ -8,6 +8,7 @@ import isCurrentTimeInRange from "@/components/Venue/TimeCheck";
 import VenueHeader from "@/components/Venue/VenueScreenHeader";
 import RatingScreen from "./RatingScreen";
 import { useRoute } from "@react-navigation/native";
+import { useAuth } from "@/context/AuthContext";
 
 enum VenueTabs {
     Overview = "Overview",
@@ -27,6 +28,8 @@ const VenueScreen: React.FC = ({ navigation }) => {
 
     const defaultTab = VenueTabs.Overview
 
+    const { user } = useAuth();
+
     const route = useRoute();
 
     const [selectedTab, setSelectedTab] = useState<VenueTabs>(VenueTabs.Overview);
@@ -35,7 +38,7 @@ const VenueScreen: React.FC = ({ navigation }) => {
     console.log(route.params);
 
     const venueID = venue_id;
-    const userID = "26d636d9-f8b0-4ad7-be9c-9b98c4c8a0c4";
+    const userID = user?.user_id;
     const day = new Date().getDay();
     const dayNames = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
     const dayName = dayNames[day] + "_hours";
