@@ -4,6 +4,7 @@ import { RouteProp } from "@react-navigation/native";
 import { UploadImage } from "@/components/UploadImage";
 import Slider from '@react-native-community/slider';
 import { Feather } from "@expo/vector-icons";
+import PropTypes from "prop-types";
 
 type RootStackParamList = {
   Home: undefined;
@@ -14,7 +15,6 @@ type RootStackParamList = {
     venueCity: string;
     username: string;
   };
-  VenueReviews: undefined;
 };
 
 type ReviewScreenProps = {
@@ -172,6 +172,19 @@ const RateReviewScreen: React.FC<ReviewScreenProps> = ({ route, navigation }) =>
       </View>
     </SafeAreaView>
   );
+};
+
+RateReviewScreen.propTypes = {
+  route: PropTypes.shape({
+    params: PropTypes.shape({
+      venueName: PropTypes.string.isRequired,
+      venueAddress: PropTypes.string.isRequired,
+      venueType: PropTypes.string.isRequired,
+      venueCity: PropTypes.string.isRequired,
+      username: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
+  navigation: PropTypes.object.isRequired,
 };
 
 const styles = StyleSheet.create({

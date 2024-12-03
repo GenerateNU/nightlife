@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, TouchableOpacity, ScrollView, StyleSheet, Image } from "react-native";
+import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
 import OverviewScreen from "./VenueOverviewScreen";
 import VenueReviews from "./VenueReviews";
 import PhotosScreen from "./PhotosScreen";
@@ -52,7 +52,6 @@ const VenueScreen: React.FC = ({ navigation, route }) => {
         energyRating,
         exclusiveRating,
         overallRating,
-        numRatings,
     } = useVenueRatings(venueID);
 
     useEffect(() => {
@@ -151,7 +150,7 @@ const VenueScreen: React.FC = ({ navigation, route }) => {
                         energy={energyRating}
                         exclusive={exclusiveRating}
                     />)}
-                {selectedTab === VenueTabs.Reviews && <VenueReviews navigation={navigation} venueName={venueName} venueAddress={venueAddress} venueType={venueType} venueCity={venueCity} username="cam" />}
+                {selectedTab === VenueTabs.Reviews && <VenueReviews navigation={navigation} venueName={venueName} venueAddress={venueAddress} venueType={venueType} venueCity={venueCity} />}
                 {selectedTab === VenueTabs.Photos && <PhotosScreen venueID={venueID}/>}
             </View>
         </View>

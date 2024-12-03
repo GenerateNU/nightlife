@@ -78,8 +78,7 @@ const useVenueRatings = (venueID) => {
     hypeRating,
     energyRating,
     exclusiveRating,
-    overallRating,
-    numRatings,
+    overallRating
   };
 };
 

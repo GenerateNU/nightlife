@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, Image, StyleSheet } from "react-native";
 import ScaledText from "@/components/ScaledText";
 import BookmarkButton from "@/components/BookmarkButton";
 import StarReview from "@/components/StarReview";
@@ -38,7 +38,7 @@ const VenueHeader: React.FC<VenueHeaderProps> = ({
       />
       <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
         <Text style={{ color: "white", fontFamily: "DTNightingale-Light" }}>{venueType} | {venueAddress}, {venueCity}</Text>
-        <Image source={require('../assets/share_button.png')} style={styles.buttonImage} />
+        {/* <Image source={require('../assets/share_button.png')} style={styles.buttonImage} /> */}
         <BookmarkButton venueID={venueID} userID={userID} />
       </View>
       <View style={styles.review}>

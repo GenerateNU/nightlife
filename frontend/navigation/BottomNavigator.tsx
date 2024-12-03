@@ -11,15 +11,7 @@ import VenueScreen from "@/screens/venue/VenueScreen";
 import { BottomTabParamList } from "../types/NavigationTypes";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import EditProfile from "@/screens/profile/EditProfile";
-<<<<<<< HEAD
-import EditProfileData from "@/screens/profile/EditProfileData";
-import RateReviewScreen from "@/screens/venue/RateReviewScreen";
-import RatingScreen from "@/screens/venue/RatingScreen";
-import VenueReviews from "@/screens/venue/VenueReviews";
-=======
 import EditProfileAttribute from "@/screens/profile/EditProfileAttribute";
-
->>>>>>> origin/main
 const Tab = createBottomTabNavigator<BottomTabParamList>();
 
 

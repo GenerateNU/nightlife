@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { View, StyleSheet, Image } from "react-native";
 import Stars from "@/components/Stars";
-
+import PropTypes from "prop-types";
 
 // Takes a rating => represents using filled/empty stars
 const StarReview = ({ rating }) => {  
@@ -21,6 +21,10 @@ const StarReview = ({ rating }) => {
         </View>
     );
 }; 
+
+StarReview.propTypes = {
+    rating: PropTypes.number.isRequired // Validates that `rating` is a required number
+};
 
 const styles = StyleSheet.create({
     starContainer: {

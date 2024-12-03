@@ -32,7 +32,7 @@ function isCurrentTimeInRange(startTimeStr, endTimeStr) {
   }
 
   const startTime = parseTimeToDate(startTimeStr, targetDay);
-  let endTime = parseTimeToDate(endTimeStr, targetDay);
+  const endTime = parseTimeToDate(endTimeStr, targetDay);
 
   if (startTime.getTime() === new Date("invalid").getTime() || endTime.getTime() === new Date("invalid").getTime()) {
     return false;

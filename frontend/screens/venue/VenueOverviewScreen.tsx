@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types'; // Import PropTypes
 import { View, Text, ScrollView, TouchableOpacity, SafeAreaView, StyleSheet, Image } from 'react-native';
 import UpcomingEventScroll from '@/components/UpcomingEventScroll';
 import VibeScrollBar from '@/components/VibeScrollBar';
@@ -12,7 +13,7 @@ import VibeScrollBar from '@/components/VibeScrollBar';
  * @param price user-rated score: "Affordable" -> "Expensive"
  * @param crowd user-rated score: "Classy" -> "Rowdy"
  * @param energy user-rated score: "Chill" -> "Energetic"
- * @param exclusive user rated score: "Casual" -> "Exclusive"
+ * @param exclusive user-rated score: "Casual" -> "Exclusive"
  * @returns sound wave list
  */
 
@@ -30,7 +31,7 @@ const OverviewScreen = ({ navigation, eventDictList, hype, mainstream, price, cr
                             </Text>
                         </View>
                         <View>
-                            <UpcomingEventScroll events={eventDictList}/>
+                            <UpcomingEventScroll events={eventDictList} />
                         </View>
                     </View>
                     <Text style={styles.separator}>______________________________________________________________</Text>
@@ -38,7 +39,7 @@ const OverviewScreen = ({ navigation, eventDictList, hype, mainstream, price, cr
                     <View style={styles.vibeSection}>
                         <View style={styles.rowContainer}>
                             <Text style={styles.vibeTitle}>
-                                What's the vibe?
+                                What&apos;s the vibe?
                             </Text>
                             <TouchableOpacity
                                 onPress={() =>
@@ -48,11 +49,10 @@ const OverviewScreen = ({ navigation, eventDictList, hype, mainstream, price, cr
                                 }
                                 style={styles.buttonWrapper}>
                                 <Image
-                                    source={require('../../assets/RESONATE.png')}
+                                    // source={require('../../assets/RESONATE.png')}
                                     style={styles.buttonImage}
-                            />
+                                />
                             </TouchableOpacity>
-
                         </View>
                     </View>
                     
@@ -62,11 +62,30 @@ const OverviewScreen = ({ navigation, eventDictList, hype, mainstream, price, cr
                     <VibeScrollBar category={4} startColor="#FF5972" stopColor="#FFDF62" rating={crowd} minTitle="Classy" maxTitle="Rowdy" />
                     <VibeScrollBar category={5} startColor="#FFB4FE" stopColor="#6AFFFC" rating={energy} minTitle="Sit down" maxTitle="Rave" />
                     <VibeScrollBar category={6} startColor="#43FFBD" stopColor="#FF7E5F" rating={exclusive} minTitle="Casual" maxTitle="Exclusive" />
-                    
                 </ScrollView>
             </View>
         </SafeAreaView>
     );
+};
+
+// Prop type validation
+OverviewScreen.propTypes = {
+    navigation: PropTypes.shape({
+        navigate: PropTypes.func.isRequired, // Validate the navigation object with a 'navigate' method
+    }).isRequired,
+    eventDictList: PropTypes.arrayOf(
+        PropTypes.shape({
+            name: PropTypes.string,
+            date: PropTypes.string,
+            image: PropTypes.string,
+        })
+    ).isRequired, // Array of event objects
+    hype: PropTypes.number.isRequired, // Expected to be a number
+    mainstream: PropTypes.number.isRequired, // Expected to be a number
+    price: PropTypes.number.isRequired, // Expected to be a number
+    crowd: PropTypes.number.isRequired, // Expected to be a number
+    energy: PropTypes.number.isRequired, // Expected to be a number
+    exclusive: PropTypes.number.isRequired, // Expected to be a number
 };
 
 const styles = StyleSheet.create({

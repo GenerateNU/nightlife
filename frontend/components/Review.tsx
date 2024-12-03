@@ -1,5 +1,6 @@
 import { Dimensions, Text, View, StyleSheet, Image } from "react-native";
 import { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 
 const Review = ({ reviewDict = { 
     review_id: 0, 
@@ -17,17 +18,19 @@ const Review = ({ reviewDict = {
     image_path: "" 
 }}) => {
 
-    const screenWidth = Dimensions.get("window").width;
-
     const [username, setUserName] = useState("");
     const [hasImage, setHasImage] = useState(false);
     const [hasReviewText, setHasReviewText] = useState(false);
     
 
+    // const stars = {
+    //     "full": require("../assets/filled_star.png"),
+    //     "empty": require("../assets/empty_star.png")
+    //   }
     const stars = {
-        "full": require("../assets/filled_star.png"),
-        "empty": require("../assets/empty_star.png")
-      }
+    "full": "../assets/filled_star.png",
+    "empty": "../assets/empty_star.png"
+    }
 
     useEffect(() => {
         if (reviewDict.image_path && reviewDict.image_path.trim() !== "") {
@@ -71,7 +74,7 @@ const Review = ({ reviewDict = {
         );
     };
 
-    const getTimeAgo = (timestamp: string) => {
+    const getTimeAgo = (timestamp) => {
         const now = new Date();
         const past = new Date(timestamp);
         const diffInMs = now.getTime() - past.getTime();
@@ -113,6 +116,24 @@ const Review = ({ reviewDict = {
             )}
         </View>
     );
+};
+
+Review.propTypes = {
+    reviewDict: PropTypes.shape({
+        review_id: PropTypes.number,
+        user_id: PropTypes.string,
+        venue_id: PropTypes.string,
+        overall_rating: PropTypes.number,
+        crowd_rating: PropTypes.number,
+        review_text: PropTypes.string,
+        created_at: PropTypes.string,
+        updated_at: PropTypes.string,
+        energy_rating: PropTypes.number,
+        mainstream_rating: PropTypes.number,
+        price_rating: PropTypes.number,
+        exclusive_rating: PropTypes.number,
+        image_path: PropTypes.string
+    })
 };
 
 const styles = StyleSheet.create({

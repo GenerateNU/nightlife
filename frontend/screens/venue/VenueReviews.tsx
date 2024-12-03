@@ -15,7 +15,7 @@ import Review from "@/components/Review";
  * @returns scrollable list of venues
  */
 
-const VenueReviews: React.FC = ({ navigation, venueName, venueAddress, venueType, venueCity, username }) => {
+const VenueReviews: React.FC = ({ navigation, venueName, venueAddress, venueType, venueCity}) => {
   const [reviewDictList, setReviewDictList] = useState([]);
   
   const stars = {

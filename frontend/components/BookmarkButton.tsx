@@ -59,7 +59,7 @@ const BookmarkButton = ({ venueID = "", userID = "" }) => {
     <View>
       <TouchableOpacity onPress={bookmarkVenue}>
         <Image
-          source={require("../assets/bookmark_button.png")}
+          //source={require("../assets/bookmark_button.png")}
           style={styles.buttonImage}
         />
       </TouchableOpacity>

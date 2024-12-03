@@ -32,7 +32,6 @@ export const UploadImage: React.FC<UploadImageProps> = ({ onImageUpload }) => {
         {({
           imageList,
           onImageUpload,
-          onImageRemoveAll,
           onImageUpdate,
           onImageRemove,
           isDragging,
