@@ -195,16 +195,16 @@ func (s *Service) GetVenuePersona(c *fiber.Ctx) error {
 		return fiber.NewError(fiber.StatusInternalServerError, "Could not get venue")
 	}
 	total := v.AvgEnergy + v.AvgExclusive + v.AvgMainstream + v.AvgPrice
-	price_weight := v.AvgPrice / total
-	mainstream_weight := v.AvgMainstream / total
-	energy_weight := v.AvgEnergy / total 
-	exclusive_weight := v.AvgExclusive / total 
+	priceWeight := v.AvgPrice / total
+	mainstreamWeight := v.AvgMainstream / total
+	energyWeight := v.AvgEnergy / total 
+	exclusiveWeight := v.AvgExclusive / total 
 	temp := models.ByRecommendation{}
 	persona := ``
 	min_distance := math.Inf(1) 
 	for key, value := range temp.CharacterMap() {
 		// energy, exclusive, mainstream, price 
-		distance := math.Abs(float64(energy_weight) - float64(value[0])) + math.Abs(float64(exclusive_weight) - float64(value[1])) + math.Abs(float64(mainstream_weight) - float64(value[2])) + math.Abs(float64(price_weight) - float64(value[3]))
+		distance := math.Abs(float64(energyWeight) - float64(value[0])) + math.Abs(float64(exclusiveWeight) - float64(value[1])) + math.Abs(float64(mainstreamWeight) - float64(value[2])) + math.Abs(float64(priceWeight) - float64(value[3]))
 		if distance < min_distance {
 			persona = key
 			min_distance = distance 

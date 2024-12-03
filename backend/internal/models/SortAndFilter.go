@@ -83,9 +83,8 @@ func (s *SortAndFilter) createSort(command string, input string, index int) Sort
 		return &ByPrice{}
 	} else if command == `ByRating` {
 		return &ByRating{}
-	} else {
-		return &ByDistance{} // throw an error/return blank sort or something 
-	}
+	} 
+	return &ByDistance{} // throw an error/return blank sort or something 
 }
 
 // SORT TYPES
