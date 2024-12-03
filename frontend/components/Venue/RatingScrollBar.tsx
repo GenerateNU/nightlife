@@ -3,7 +3,19 @@ import {Text, View, StyleSheet} from "react-native";
 import PropTypes from 'prop-types';
 import SoundWave from "./SoundWave";
 
-const RatingScrollBar = ({minTitle = "", maxTitle = "", value, onSliderChange, category, startColor, stopColor, avg_value}) => {
+/**
+ * Allows a user to submit a rating from 0 - 10 on a specific category
+ * @param minTitle left hand side of rating bar
+ * @param maxTitle right hand side of rating bar
+ * @param value slider value
+ * @param onSliderChange handler function for slider 
+ * @param category unique identifier for each sound wave for gradient 
+ * @param startColor first color in gradient
+ * @param stopColor second color in gradient
+ * @param avgValue avg rating value of the current category
+ * @returns slider over opaque average rating sound wave
+ */
+const RatingScrollBar = ({minTitle = "", maxTitle = "", value, onSliderChange, category, startColor, stopColor, avgValue}) => {
 
   return(
     <View style={styles.container}>
@@ -11,7 +23,7 @@ const RatingScrollBar = ({minTitle = "", maxTitle = "", value, onSliderChange, c
         <View style={{position: 'absolute', opacity: 0.5}}>
           <SoundWave
             category={category}
-            rating={avg_value}
+            rating={avgValue}
             startColor={startColor}
             stopColor={stopColor}
           />
@@ -23,7 +35,8 @@ const RatingScrollBar = ({minTitle = "", maxTitle = "", value, onSliderChange, c
           step={1}
           value={value}
           thumbTintColor="transparent" 
-          //thumbImage={require('../assets/large_filled_star.png')}
+          // eslint-disable-next-line
+          thumbImage={require('../../assets/large_filled_star.png')}
           minimumTrackTintColor="white"
           maximumTrackTintColor="gray"
           onValueChange={onSliderChange}/>
@@ -41,10 +54,10 @@ RatingScrollBar.propTypes = {
   maxTitle: PropTypes.string.isRequired,
   value: PropTypes.number.isRequired,
   onSliderChange: PropTypes.func.isRequired,
-  category: PropTypes.string, 
+  category: PropTypes.number, 
   startColor: PropTypes.string, 
   stopColor: PropTypes.string, 
-  avg_value: PropTypes.number.isRequired, 
+  avgValue: PropTypes.number.isRequired, 
 };
 
 const styles = StyleSheet.create({

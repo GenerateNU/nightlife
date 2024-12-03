@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, View, StyleSheet, SafeAreaView, Image, TouchableOpacity, ScrollView } from "react-native";
 import { useEffect, useState } from "react";
-import Review from "@/components/Review";
+import Review from "@/components/Venue/Review";
 
 /**
  * Displays a list of all the reviews that users have posted for the given venue containing the text, overall rating
@@ -18,12 +18,9 @@ import Review from "@/components/Review";
 const VenueReviews: React.FC = ({ navigation, venueName, venueAddress, venueType, venueCity}) => {
   const [reviewDictList, setReviewDictList] = useState([]);
   
-  // const stars = {
-  //   empty: require("../../assets/empty_star.png"),
-  // };
-
+  // eslint-disable-next-line
   const stars = {
-    empty: "../../assets/empty_star.png",
+    empty: require("../../assets/empty_star.png"),
   };
 
   useEffect(() => {

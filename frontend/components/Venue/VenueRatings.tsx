@@ -1,5 +1,10 @@
 import { useState, useEffect } from "react";
 
+/**
+ * Averages all rating info for a specific venue
+ * @param venueID venue being currently explored
+ * @returns average ratings
+ */
 const useVenueRatings = (venueID) => {
   const [mainstreamRating, setMainstreamRating] = useState(5);
   const [priceRating, setPriceRating] = useState(5);

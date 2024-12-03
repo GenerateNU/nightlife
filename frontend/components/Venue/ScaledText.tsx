@@ -8,6 +8,10 @@ type ScaledTextProps = {
   maxCharacters: number; 
 };
 
+/*
+Scale text with # of characters -> doesn't trail off past the edge of the screen
+*/
+
 const ScaledText: React.FC<ScaledTextProps> = ({
   text,
   maxFontSize,

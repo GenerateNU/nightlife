@@ -1,8 +1,8 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
-import ScaledText from "@/components/ScaledText";
-import BookmarkButton from "@/components/BookmarkButton";
-import StarReview from "@/components/StarReview";
+import { View, Text, StyleSheet, Image } from "react-native";
+import ScaledText from "@/components/Venue/ScaledText";
+import BookmarkButton from "@/components/Venue/BookmarkButton";
+import StarReview from "@/components/Venue/StarReview";
 
 type VenueHeaderProps = {
   venueName: string;
@@ -15,6 +15,10 @@ type VenueHeaderProps = {
   venueID: string;
   userID: string;
 };
+
+/**
+ * Header of venue screen - contains venue name, address, type, open/close status, price, etc
+ */
 
 const VenueHeader: React.FC<VenueHeaderProps> = ({
   venueName,
@@ -38,7 +42,8 @@ const VenueHeader: React.FC<VenueHeaderProps> = ({
       />
       <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
         <Text style={{ color: "white", fontFamily: "DTNightingale-Light" }}>{venueType} | {venueAddress}, {venueCity}</Text>
-        {/* <Image source={require('../assets/share_button.png')} style={styles.buttonImage} /> */}
+        {/* eslint-disable-next-line */}
+        <Image source={require('../../assets/share_button.png')} style={styles.buttonImage} />
         <BookmarkButton venueID={venueID} userID={userID} />
       </View>
       <View style={styles.review}>

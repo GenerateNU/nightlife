@@ -1,3 +1,9 @@
+/**
+ * Determines if the venue is currently open 
+ * @param startTimeStr when venue opens (in the form "11:00 AM")
+ * @param endTimeStr when venue closes (in the form "12:00 AM")
+ * @returns boolean
+ */
 function isCurrentTimeInRange(startTimeStr, endTimeStr) {
   const now = new Date();
   const targetDay = now.getDay();  

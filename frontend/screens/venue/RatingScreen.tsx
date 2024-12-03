@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import {Text, View, TouchableOpacity, ScrollView, StyleSheet} from "react-native";
-import RatingScrollBar from "@/components/RatingScrollBar";
+import RatingScrollBar from "@/components/Venue/RatingScrollBar";
 
 /**
  * Allows a user to submit a rating score for various specific categories
@@ -90,7 +90,7 @@ const RatingScreen: React.FC<{ venueId: string, hype: number, mainstream: number
                         category={1}
                         startColor="#306DFF"
                         stopColor="#FFB4FE"
-                        avg_value={hype}/>
+                        avgValue={hype}/>
             </View>
             <View style={{ marginBottom: 20 }}>
                 <RatingScrollBar 
@@ -101,7 +101,7 @@ const RatingScreen: React.FC<{ venueId: string, hype: number, mainstream: number
                     category={2}
                     startColor="#43FFBD"
                     stopColor="#FFDF62"
-                    avg_value={mainstream}
+                    avgValue={mainstream}
                 />
             </View>
             <View style={{ marginBottom: 20 }}>
@@ -113,7 +113,7 @@ const RatingScreen: React.FC<{ venueId: string, hype: number, mainstream: number
                     category={3}
                     startColor="#FF5972"
                     stopColor="#9896FF"
-                    avg_value={price}
+                    avgValue={price}
                 />
             </View>
             <View style={{ marginBottom: 20 }}>
@@ -125,7 +125,7 @@ const RatingScreen: React.FC<{ venueId: string, hype: number, mainstream: number
                     category={4}
                     startColor="#FF5972"
                     stopColor="#FFDF62"
-                    avg_value={crowd}
+                    avgValue={crowd}
                 />
             </View>
             <View style={{ marginBottom: 20 }}>
@@ -137,7 +137,7 @@ const RatingScreen: React.FC<{ venueId: string, hype: number, mainstream: number
                     category={5}
                     startColor="#FFB4FE"
                     stopColor="#6AFFFC"
-                    avg_value={energy}
+                    avgValue={energy}
                 />
             </View>
             <View style={{ marginBottom: 20 }}>
@@ -149,7 +149,7 @@ const RatingScreen: React.FC<{ venueId: string, hype: number, mainstream: number
                     category={6}
                     startColor="#43FFBD"
                     stopColor="#FF7E5F" 
-                    avg_value={exclusive}
+                    avgValue={exclusive}
                 />
                 </View>
             </View>

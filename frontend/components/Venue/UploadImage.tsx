@@ -2,17 +2,19 @@ import React, { useState } from "react";
 import ImageUploading from "react-images-uploading";
 
 type UploadImageProps = {
-  onImageUpload: (uri: string | null) => void; // Expect a callback from parent
+  onImageUpload: (uri: string | null) => void; 
 };
 
+/**
+ * Allows image uploading capabilities
+ */
 export const UploadImage: React.FC<UploadImageProps> = ({ onImageUpload }) => {
-  const [images, setImages] = useState([]); // State for the image list
-  const maxNumber = 1; // Limit to one image
+  const [images, setImages] = useState([]); 
+  const maxNumber = 1; 
 
   const onChange = (imageList) => {
-    setImages(imageList); // Update the component's state
+    setImages(imageList); 
 
-    // Pass the URI of the first image (or null if no image) to the parent
     if (imageList.length > 0) {
       onImageUpload(imageList[0].data_url);
     } else {
@@ -23,7 +25,7 @@ export const UploadImage: React.FC<UploadImageProps> = ({ onImageUpload }) => {
   return (
     <div className="App">
       <ImageUploading
-        multiple={false} // Only allow one image
+        multiple={false} 
         value={images}
         onChange={onChange}
         maxNumber={maxNumber}
@@ -41,23 +43,23 @@ export const UploadImage: React.FC<UploadImageProps> = ({ onImageUpload }) => {
             <div
               style={{
                 display: "flex",
-                justifyContent: "center", // Center horizontally
-                alignItems: "center", // Center vertically
-                height: "40px", // Adjust height for spacing
+                justifyContent: "center",
+                alignItems: "center", 
+                height: "40px", 
               }}
             >
               <button
                 style={{
-                  backgroundColor: "white", // White background
+                  backgroundColor: "white", 
                   marginLeft:-20,
-                  color: "black", // Black text
-                  padding: "12px 125px", // Adequate padding for a round shape
-                  fontSize: "16px", // Larger font size
-                  border: "none", // Remove border
-                  borderRadius: "50px", // Fully rounded corners
-                  cursor: "pointer", // Pointer cursor on hover
-                  boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)", // Optional shadow
-                  transition: "background-color 0.3s ease", // Smooth hover effect
+                  color: "black",
+                  padding: "12px 125px", 
+                  fontSize: "16px", 
+                  border: "none", 
+                  borderRadius: "50px", 
+                  cursor: "pointer", 
+                  boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)", 
+                  transition: "background-color 0.3s ease",
                   ...(isDragging ? { backgroundColor: "#f8d7da", color: "red" } : {}),
                 }}
                 onClick={onImageUpload}
@@ -74,28 +76,28 @@ export const UploadImage: React.FC<UploadImageProps> = ({ onImageUpload }) => {
                 style={{
                   display: "flex",
                   flexDirection: "column",
-                  alignItems: "center", // Center content horizontally
-                  justifyContent: "center", // Center content vertically
+                  alignItems: "center", 
+                  justifyContent: "center", 
                   marginTop: "15px",
-                  width: "100%", // Take full container width
+                  width: "100%",
                 }}
               >
                 <img
                   src={image.data_url}
                   alt="Uploaded"
                   style={{
-                    maxWidth: "80%", // Ensure the image doesn’t exceed the screen width
-                    maxHeight: "300px", // Limit the height
-                    objectFit: "contain", // Maintain aspect ratio
-                    borderRadius: "10px", // Optional rounded corners
+                    maxWidth: "80%", 
+                    maxHeight: "300px",
+                    objectFit: "contain", 
+                    borderRadius: "10px",
                   }}
                 />
                 <div
                   className="image-item__btn-wrapper"
                   style={{
                     display: "flex",
-                    justifyContent: "space-evenly", // Space buttons evenly
-                    width: "60%", // Ensure buttons align under the image
+                    justifyContent: "space-evenly", 
+                    width: "60%", 
                     marginTop: "10px",
                   }}
                 >
@@ -104,7 +106,7 @@ export const UploadImage: React.FC<UploadImageProps> = ({ onImageUpload }) => {
                       backgroundColor: "white",
                       color: "black",
                       padding: "12px 24px",
-                      fontSize: "14px", // Slightly smaller font for secondary actions
+                      fontSize: "14px",
                       border: "none",
                       borderRadius: "50px",
                       cursor: "pointer",

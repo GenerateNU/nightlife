@@ -69,8 +69,10 @@ func (db *DB) GetVenueReviews(ctx context.Context, reviewID int8, venueID uuid.U
 }
 
 func (db *DB) GetVenueFromID(ctx context.Context, id uuid.UUID) (models.Venue, error) {
-	var query = `SELECT venue_id, venue_type, name, address, city, state, zip_code, created_at, ST_Y(location::geometry) AS latitude, ST_X(location::geometry) 
-	AS longitude, monday_hours, tuesday_hours, wednesday_hours, thursday_hours, friday_hours, saturday_hours, sunday_hours FROM Venue WHERE venue_id = $1`
+	var query = `SELECT venue_id, name, address, city, state, zip_code, created_at, venue_type, updated_at, price, total_rating,
+	avg_energy, avg_mainstream, avg_exclusive, avg_price, monday_hours, tuesday_hours, wednesday_hours, thursday_hours, friday_hours,
+	saturday_hours, sunday_hours, ST_Y(location::geometry) AS latitude, ST_X(location::geometry) AS longitude FROM Venue WHERE venue_id = $1`
+	fmt.Println(id.String())
 	rows, err := db.conn.Query(ctx, query, id.String())
 	if err != nil {
 		return models.Venue{}, err
@@ -81,8 +83,9 @@ func (db *DB) GetVenueFromID(ctx context.Context, id uuid.UUID) (models.Venue, e
 }
 
 func (db *DB) GetVenueFromName(ctx context.Context, name string) (models.Venue, error) {
-	query := `SELECT venue_id, venue_type, name, address, city, state, zip_code, created_at, ST_Y(location::geometry) AS latitude, ST_X(location::geometry) 
-	AS longitude, price, total_rating, avg_energy, avg_mainstream, avg_exclusive, avg_price, monday_hours, tuesday_hours, wednesday_hours, thursday_hours, friday_hours, saturday_hours, sunday_hours FROM Venue WHERE name ilike $1`
+	query := `SELECT venue_id, name, address, city, state, zip_code, created_at, venue_type, updated_at, price, total_rating,
+	avg_energy, avg_mainstream, avg_exclusive, avg_price, monday_hours, tuesday_hours, wednesday_hours, thursday_hours, friday_hours,
+	saturday_hours, sunday_hours, ST_Y(location::geometry) AS latitude, ST_X(location::geometry) AS longitude FROM Venue WHERE name ilike $1`
 	rows, err := db.conn.Query(ctx, query, name)
 	if err != nil {
 		fmt.Println("HALLO " + err.Error())
@@ -94,8 +97,9 @@ func (db *DB) GetVenueFromName(ctx context.Context, name string) (models.Venue, 
 }
 
 func (db *DB) GetAllVenues(ctx context.Context) ([]models.Venue, error) {
-	query := `SELECT venue_id, venue_type, name, address, city, state, zip_code, created_at, ST_Y(location::geometry) AS latitude, ST_X(location::geometry) 
-	AS longitude, price, total_rating, avg_energy, avg_mainstream, avg_exclusive, avg_price, monday_hours, tuesday_hours, wednesday_hours, thursday_hours, friday_hours, saturday_hours, sunday_hours FROM venue`
+	query := `SELECT venue_id, name, address, city, state, zip_code, created_at, venue_type, updated_at, price, total_rating,
+	avg_energy, avg_mainstream, avg_exclusive, avg_price, monday_hours, tuesday_hours, wednesday_hours, thursday_hours, friday_hours,
+	saturday_hours, sunday_hours, ST_Y(location::geometry) AS latitude, ST_X(location::geometry) AS longitude FROM venue`
 	rows, err := db.conn.Query(ctx, query)
 	if err != nil {
 		return []models.Venue{}, err
@@ -121,7 +125,6 @@ func (db *DB) PatchVenueReview(ctx context.Context, overallRating int8, energyRa
 			hype_rating = $6,
 			exclusive_rating = $7,
             review_text = $8,
-            udpated_at = CURRENT_TIMESTAMP
             updated_at = CURRENT_TIMESTAMP
         WHERE review_id = $9 AND venue_id = $10;
     `, overallRating, energyRating, mainstreamRating, priceRating, crowdRating, hypeRating, exclusiveRating, reviewText, reviewID, venueID)
@@ -173,8 +176,9 @@ func (db *DB) GetVenuesByIDs(ctx context.Context, venueIDs []uuid.UUID) ([]model
 }
 
 func (db *DB) GetAllVenuesWithFilter(ctx context.Context, where string, sort string) ([]models.Venue, error) {
-	query := `SELECT venue_id, name, address, city, state, zip_code, created_at, venue_type, updated_at, price, total_rating, avg_energy, avg_mainstream, avg_exclusive, avg_price, ST_Y(location::geometry) AS latitude, ST_X(location::geometry) 
-	AS longitude FROM venue ` + where + ` ` + sort + ` LIMIT 20`
+	query := `SELECT venue_id, name, address, city, state, zip_code, created_at, venue_type, updated_at, price, total_rating,
+	avg_energy, avg_mainstream, avg_exclusive, avg_price, monday_hours, tuesday_hours, wednesday_hours, thursday_hours, friday_hours,
+	saturday_hours, sunday_hours, ST_Y(location::geometry) AS latitude, ST_X(location::geometry) AS longitude FROM venue ` + where + ` ` + sort + ` LIMIT 20`
 	fmt.Println(query)
 
 	rows, err := db.conn.Query(ctx, query)

@@ -114,6 +114,8 @@ func (s *Service) PatchVenueReview(c *fiber.Ctx) error {
 
 func (s *Service) GetVenueFromID(c *fiber.Ctx) error {
 	venueID := c.Params("venueId")
+	fmt.Println("GETTING VENUE FROM ID")
+	fmt.Println(venueID)
 	if venueID == "" {
 		return fiber.NewError(fiber.StatusBadRequest, "Venue ID is required")
 	}
@@ -141,6 +143,7 @@ func (s *Service) GetVenueFromName(c *fiber.Ctx) error {
 }
 
 func (s *Service) GetAllVenues(c *fiber.Ctx) error {
+	fmt.Println("GETTING ALL VENUES")
 	venues, err := s.store.GetAllVenues(c.Context())
 	if err != nil {
 		return fiber.NewError(fiber.StatusInternalServerError, "Could not get venue")
@@ -155,6 +158,7 @@ func (s *Service) GetAllVenues(c *fiber.Ctx) error {
 // ByDistance {longitude} {latitude}
 // ByRecommendation {persona_name} // must be one of the seven listed personas
 func (s *Service) GetAllVenuesWithFilter(c *fiber.Ctx) error {
+	fmt.Println("GETTING ALL VENUES")
 	// parse all filters from the context
 	sort := c.Query("sort")
 	f := c.Query("filters")

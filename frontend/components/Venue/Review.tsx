@@ -2,35 +2,38 @@ import { Text, View, StyleSheet, Image } from "react-native";
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
+/**
+ * Used to display reviews on the VenueReviews page. Contains information like overall rating, review summary, and images
+ * @param reviewDict review dictionary containing relevant info 
+ * @returns 
+ */
+
 const Review = ({ reviewDict = { 
-    review_id: 0, 
-    user_id: "", 
-    venue_id: "", 
-    overall_rating: 0, 
-    crowd_rating: 0, 
-    review_text: "",
-    created_at: "", 
-    updated_at: "", 
-    energy_rating: 0, 
-    mainstream_rating: 0,
-    price_rating: 0, 
-    exclusive_rating: 0, 
-    image_path: "" 
-}}) => {
+        review_id: 0, 
+        user_id: "", 
+        venue_id: "", 
+        overall_rating: 0, 
+        crowd_rating: 0, 
+        review_text: "",
+        created_at: "", 
+        updated_at: "", 
+        energy_rating: 0, 
+        mainstream_rating: 0,
+        price_rating: 0, 
+        exclusive_rating: 0, 
+        image_path: "" 
+    }}) => {
 
     const [username, setUserName] = useState("");
     const [hasImage, setHasImage] = useState(false);
     const [hasReviewText, setHasReviewText] = useState(false);
     
-
-    // const stars = {
-    //     "full": require("../assets/filled_star.png"),
-    //     "empty": require("../assets/empty_star.png")
-    //   }
+    // eslint-disable-next-line
     const stars = {
-    "full": "../assets/filled_star.png",
-    "empty": "../assets/empty_star.png"
-    }
+        "full": require("../../assets/filled_star.png"),
+        "empty": require("../../assets/empty_star.png")
+      }
+   
 
     useEffect(() => {
         if (reviewDict.image_path && reviewDict.image_path.trim() !== "") {
@@ -53,7 +56,7 @@ const Review = ({ reviewDict = {
             .catch(error => {
                 console.error(error);
             });
-    }, [reviewDict.image_path, reviewDict.review_text, reviewDict.user_id]); // Dependency array includes relevant keys
+    }, [reviewDict.image_path, reviewDict.review_text, reviewDict.user_id]); 
     
      const starReview = (rating) => {
         console.log(rating)

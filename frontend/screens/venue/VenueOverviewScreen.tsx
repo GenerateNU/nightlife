@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types'; // Import PropTypes
 import { View, Text, ScrollView, TouchableOpacity, SafeAreaView, StyleSheet, Image } from 'react-native';
-import UpcomingEventScroll from '@/components/UpcomingEventScroll';
-import VibeScrollBar from '@/components/VibeScrollBar';
+import UpcomingEventScroll from '@/components/Venue/UpcomingEventScroll';
+import VibeScrollBar from '@/components/Venue/VibeScrollBar';
 
 /**
  * Displays a summary of user ratings on various categories, along with current events hosted by the venue
@@ -46,8 +46,9 @@ const OverviewScreen = ({ navigation, eventDictList, hype, mainstream, price, cr
                                     })
                                 }
                                 style={styles.buttonWrapper}>
+                                {/* eslint-disable-next-line */}
                                 <Image
-                                    // source={require('../../assets/RESONATE.png')}
+                                    source={require('../../assets/RESONATE.png')}
                                     style={styles.buttonImage}
                                 />
                             </TouchableOpacity>

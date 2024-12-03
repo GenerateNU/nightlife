@@ -2,34 +2,26 @@ import { View, StyleSheet } from "react-native";
 import PropTypes from "prop-types";
 import Svg, { Defs, LinearGradient, Stop, Mask, Rect, Image } from 'react-native-svg';
 
+/**
+ * Creates a sound wave like in Figma depending on the category & average provided rating
+ */
 
 const SoundWave = ({ category = 1, rating = 1, startColor = "", stopColor = ""}) => {
-    // const soundWaveImages = {
-    //   1: require("../assets/sound_wave_1.png"),
-    //   2: require("../assets/sound_wave_2.png"),
-    //   3: require("../assets/sound_wave_3.png"),
-    //   4: require("../assets/sound_wave_4.png"),
-    //   5: require("../assets/sound_wave_5.png"),
-    //   6: require("../assets/sound_wave_6.png"),
-    //   7: require("../assets/sound_wave_7.png"),
-    //   8: require("../assets/sound_wave_8.png"),
-    //   9: require("../assets/sound_wave_9.png"),
-    //   10: require("../assets/sound_wave_10.png"),
-    // };
-
+    // eslint-disable-next-line
     const soundWaveImages = {
-        1: "../assets/sound_wave_1.png",
-        2: "../assets/sound_wave_2.png",
-        3: "../assets/sound_wave_3.png",
-        4: "../assets/sound_wave_4.png",
-        5: "../assets/sound_wave_5.png",
-        6: "../assets/sound_wave_6.png",
-        7: "../assets/sound_wave_7.png",
-        8: "../assets/sound_wave_8.png",
-        9: "../assets/sound_wave_9.png",
-        10: "../assets/sound_wave_10.png",
-      };
-  
+      1: require("../../assets/sound_wave_1.png"),
+      2: require("../../assets/sound_wave_2.png"),
+      3: require("../../assets/sound_wave_3.png"),
+      4: require("../../assets/sound_wave_4.png"),
+      5: require("../../assets/sound_wave_5.png"),
+      6: require("../../assets/sound_wave_6.png"),
+      7: require("../../assets/sound_wave_7.png"),
+      8: require("../../assets/sound_wave_8.png"),
+      9: require("../../assets/sound_wave_9.png"),
+      10: require("../../assets/sound_wave_10.png"),
+    };
+
+    
     const gradientId = `grad-${category}`; 
   
     return (
@@ -59,8 +51,8 @@ const SoundWave = ({ category = 1, rating = 1, startColor = "", stopColor = ""})
             y="0"
             width="100%"
             height="100%"
-            fill={`url(#${gradientId})`} // Reference unique gradient
-            mask={`url(#mask-${category})`} // Reference unique mask
+            fill={`url(#${gradientId})`} 
+            mask={`url(#mask-${category})`} 
           />
         </Svg>
         </View>

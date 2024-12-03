@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Text, View, StyleSheet, SafeAreaView, Image, TextInput, TouchableOpacity } from "react-native";
 import { RouteProp } from "@react-navigation/native";
-import { UploadImage } from "@/components/UploadImage";
+import { UploadImage } from "@/components/Venue/UploadImage";
 import Slider from '@react-native-community/slider';
 import { Feather } from "@expo/vector-icons";
 import PropTypes from "prop-types";
-
+import stars from "@/components/Venue/Stars";
 type RootStackParamList = {
   Home: undefined;
   RateReviews: {
@@ -36,16 +36,6 @@ const RateReviewScreen: React.FC<ReviewScreenProps> = ({ route, navigation }) =>
   const [sliderValue, setSliderValue] = useState(1);
 
   const labels = ['$', '$$', '$$$', '$$$$', '$$$$$'];
-
-  // const stars = {
-  //   empty: require("../../assets/empty_star.png"),
-  //   full: require("../../assets/filled_star.png"),
-  // };
-
-  const stars = {
-    empty: "../../assets/empty_star.png",
-    full: "../../assets/filled_star.png",
-  };
 
   // on-click handler for star review 
   const handleStarPress = (index: number) => {

@@ -3,9 +3,9 @@ import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
 import OverviewScreen from "./VenueOverviewScreen";
 import VenueReviews from "./VenueReviews";
 import PhotosScreen from "./PhotosScreen";
-import useVenueRatings from "@/components/VenueRatings";
-import isCurrentTimeInRange from "@/components/TimeCheck";
-import VenueHeader from "@/components/VenueScreenHeader";
+import useVenueRatings from "@/components/Venue/VenueRatings";
+import isCurrentTimeInRange from "@/components/Venue/TimeCheck";
+import VenueHeader from "@/components/Venue/VenueScreenHeader";
 import RatingScreen from "./RatingScreen";
 
 enum VenueTabs {
