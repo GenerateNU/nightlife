@@ -10,7 +10,7 @@ type EventCardProps = {
 
 const EventCard = ({ image, title, subtitle, accent }: EventCardProps) => {
     return (
-        <View style={[styles.card, { backgroundColor: accent}]}>
+        <View style={[styles.card, { backgroundColor: accent }]}>
             <Image source={{ uri: image }} style={styles.image} />
             <View style={styles.cardContent}>
                 <Text style={styles.eventTitle}>{title}</Text>
@@ -21,39 +21,25 @@ const EventCard = ({ image, title, subtitle, accent }: EventCardProps) => {
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "#1a1a2e",
-        paddingHorizontal: 15,
-    },
-    headerText: {
-        fontSize: 24,
-        fontWeight: "bold",
-        color: "#fff",
-        marginBottom: 10,
-    },
-    listContainer: {
-        paddingVertical: 10,
-    },
     card: {
         backgroundColor: "#2d2d44",
         borderRadius: 10,
         overflow: "hidden",
         marginRight: 10,
         width: 200,
-        height: 170,
         borderWidth: 2,
         borderColor: "#735ad1",
     },
     image: {
         width: "100%",
-        height: 100,
+        aspectRatio: 16 / 9,
     },
     cardContent: {
         padding: 10,
+        height: "auto"
     },
     eventTitle: {
-        fontSize: 16,
+        fontSize: 14,
         fontWeight: "bold",
         color: "#fff",
     },

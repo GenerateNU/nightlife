@@ -7,6 +7,8 @@ import { useAuth } from '@/context/AuthContext';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { fetchUserProfileService } from '@/services/authService';
 
+import { API_DOMAIN } from "@env";
+
 import userAddIcon from '@/assets/user-add.png';
 import venuesIcon from '@/assets/venues.png';
 import bookmarkIcon from '@/assets/bookmark.png';
@@ -51,7 +53,7 @@ const ProfileScreen = () => {
             };
             const fetchFriendCount = async () => {
                 if (user && accessToken) {
-                    const response = await fetch(`http://localhost:8080/friendships/${user.user_id}`, {
+                    const response = await fetch(`${API_DOMAIN}/friendships/${user.user_id}`, {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
                         },
@@ -62,7 +64,7 @@ const ProfileScreen = () => {
             }
             const fetchSavedVenues = async () => {
                 if (user && accessToken) {
-                    const response = await fetch(`http://localhost:8080/profiles/saved-venues/${user.user_id}`, {
+                    const response = await fetch(`${API_DOMAIN}/profiles/saved-venues/${user.user_id}`, {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
                         },
@@ -76,7 +78,7 @@ const ProfileScreen = () => {
             }
             const fetchVisitedVenues = async () => {
                 if (user && accessToken) {
-                    const response = await fetch(`http://localhost:8080/profiles/visited-venues/${user.user_id}`, {
+                    const response = await fetch(`${API_DOMAIN}/profiles/visited-venues/${user.user_id}`, {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
                         },
@@ -89,7 +91,7 @@ const ProfileScreen = () => {
             }
             const fetchReviewedVenues = async () => {
                 if (user && accessToken) {
-                    const response = await fetch(`http://localhost:8080/profiles/reviewed-venues/${user.user_id}`, {
+                    const response = await fetch(`h${API_DOMAIN}/profiles/reviewed-venues/${user.user_id}`, {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
                         },

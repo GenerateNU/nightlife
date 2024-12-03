@@ -8,6 +8,7 @@ import EditProfileAttributeIcon from "@/assets/editProfileAttributeChevron.svg";
 
 import { NavigationProp, useFocusEffect } from "@react-navigation/native";
 import { fetchUserProfileService } from '@/services/authService';
+import {API_DOMAIN} from "@env";
 
 type RootStackParamList = {
   EditProfileAttribute: { field: string, existing: string };
@@ -26,7 +27,7 @@ const EditProfile = ({ navigation }: EditProfileProps) => {
   const [privacy, setPrivacy] = React.useState(user?.privacy);
 
   const togglePrivacy = async () => {
-    await fetch(`http://localhost:8080/profiles/update/${user?.user_id}`, {
+    await fetch(`${API_DOMAIN}/profiles/update/${user?.user_id}`, {
       method: "PATCH",
       headers: {
         Authorization: `Bearer ${accessToken}`,
