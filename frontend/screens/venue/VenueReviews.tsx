@@ -18,7 +18,6 @@ import Review from "@/components/Venue/Review";
 const VenueReviews: React.FC = ({ navigation, venueName, venueAddress, venueType, venueCity}) => {
   const [reviewDictList, setReviewDictList] = useState([]);
   
-  // eslint-disable-next-line
   const stars = {
      // eslint-disable-next-line
     empty: require("../../assets/empty_star.png"),

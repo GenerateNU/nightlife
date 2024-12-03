@@ -7,6 +7,8 @@ import useVenueRatings from "@/components/Venue/VenueRatings";
 import isCurrentTimeInRange from "@/components/Venue/TimeCheck";
 import VenueHeader from "@/components/Venue/VenueScreenHeader";
 import RatingScreen from "./RatingScreen";
+import { useRoute } from "@react-navigation/native";
+import { useAuth } from "@/context/AuthContext";
 
 enum VenueTabs {
     Overview = "Overview",
@@ -22,12 +24,21 @@ enum VenueTabs {
  * @returns overall venue screen 
  */
 
-const VenueScreen: React.FC = ({ navigation, route }) => {
-    const [selectedTab, setSelectedTab] = useState<VenueTabs>(VenueTabs.Overview);
-    const { defaultTab = VenueTabs.Overview } = route.params || {};  
+const VenueScreen: React.FC = ({ navigation }) => {
 
-    const venueID = "0006b62a-21bd-4e48-8fc7-e3bcca66d0d0";
-    const userID = "26d636d9-f8b0-4ad7-be9c-9b98c4c8a0c4";
+    const defaultTab = VenueTabs.Overview
+
+    const { user } = useAuth();
+
+    const route = useRoute();
+
+    const [selectedTab, setSelectedTab] = useState<VenueTabs>(VenueTabs.Overview);
+    const { venue_id } = route.params as { venue_id: string }; 
+    
+    console.log(route.params);
+
+    const venueID = venue_id;
+    const userID = user?.user_id;
     const day = new Date().getDay();
     const dayNames = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
     const dayName = dayNames[day] + "_hours";
@@ -93,6 +104,9 @@ const VenueScreen: React.FC = ({ navigation, route }) => {
     
     return (
         <View style={styles.container}>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+                <Text style={{color: "white", backgroundColor: "gray", padding: 6}}>Go Back</Text>
+            </TouchableOpacity>
             <View style={styles.header}>
                 {selectedTab === VenueTabs.Rating && (
                     <TouchableOpacity

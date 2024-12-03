@@ -19,7 +19,7 @@ const UpcomingEventScroll = ({ events = [] }) => {
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.scrollContent}
         >
-          {events.map((event, index) => (
+          {events && events.map((event, index) => (
             <View key={index} style={styles.item}>
               <Event event={event} />
             </View>

@@ -28,7 +28,6 @@ const Review = ({ reviewDict = {
     const [hasImage, setHasImage] = useState(false);
     const [hasReviewText, setHasReviewText] = useState(false);
     
-    // eslint-disable-next-line
     const stars = {
          // eslint-disable-next-line
         "full": require("../../assets/filled_star.png"),

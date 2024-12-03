@@ -1,6 +1,7 @@
 import { API_DOMAIN } from "@env";
 
 export const loginService = async (email: string, password: string) => {
+
   const res = await fetch(`${API_DOMAIN}/auth/login`, {
     method: "POST",
     headers: {
@@ -23,7 +24,7 @@ export const loginService = async (email: string, password: string) => {
 
 export const fetchUserProfileService = async (email: string, token: string) => {
   email = email.toLowerCase();
-  const res = await fetch(`http://127.0.0.1:8080/profiles/${email}`, {
+  const res = await fetch(`${API_DOMAIN}/profiles/${email}`, {
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
