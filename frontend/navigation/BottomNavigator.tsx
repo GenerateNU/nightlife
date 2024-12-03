@@ -6,7 +6,7 @@ import {
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import HomeScreen from "@/screens/HomeScreen";
 import ProfileScreen from "@/screens/ProfileScreen";
-import MapScreen from "@/screens/MapScreen";
+//import MapScreen from "@/screens/MapScreen";
 import VenueScreen from "@/screens/venue/VenueScreen";
 import { BottomTabParamList } from "../types/NavigationTypes";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
