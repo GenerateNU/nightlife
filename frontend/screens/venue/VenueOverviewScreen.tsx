@@ -48,6 +48,7 @@ const OverviewScreen = ({ navigation, eventDictList, hype, mainstream, price, cr
                                 style={styles.buttonWrapper}>
                                 {/* eslint-disable-next-line */}
                                 <Image
+                                    // eslint-disable-next-line
                                     source={require('../../assets/RESONATE.png')}
                                     style={styles.buttonImage}
                                 />

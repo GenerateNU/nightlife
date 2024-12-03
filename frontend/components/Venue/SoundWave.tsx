@@ -9,15 +9,25 @@ import Svg, { Defs, LinearGradient, Stop, Mask, Rect, Image } from 'react-native
 const SoundWave = ({ category = 1, rating = 1, startColor = "", stopColor = ""}) => {
     // eslint-disable-next-line
     const soundWaveImages = {
+       // eslint-disable-next-line
       1: require("../../assets/sound_wave_1.png"),
+       // eslint-disable-next-line
       2: require("../../assets/sound_wave_2.png"),
+       // eslint-disable-next-line
       3: require("../../assets/sound_wave_3.png"),
+       // eslint-disable-next-line
       4: require("../../assets/sound_wave_4.png"),
+       // eslint-disable-next-line
       5: require("../../assets/sound_wave_5.png"),
+       // eslint-disable-next-line
       6: require("../../assets/sound_wave_6.png"),
+       // eslint-disable-next-line
       7: require("../../assets/sound_wave_7.png"),
+       // eslint-disable-next-line
       8: require("../../assets/sound_wave_8.png"),
+       // eslint-disable-next-line
       9: require("../../assets/sound_wave_9.png"),
+       // eslint-disable-next-line
       10: require("../../assets/sound_wave_10.png"),
     };
 
