@@ -6,14 +6,18 @@ import {
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import HomeScreen from "@/screens/HomeScreen";
 import ProfileScreen from "@/screens/ProfileScreen";
-import MapScreen from "@/screens/MapScreen";
-import VenueScreen from "@/screens/VenueScreen";
+//import MapScreen from "@/screens/MapScreen";
+import VenueScreen from "@/screens/venue/VenueScreen";
 import { BottomTabParamList } from "../types/NavigationTypes";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import EditProfile from "@/screens/profile/EditProfile";
 import EditProfileAttribute from "@/screens/profile/EditProfileAttribute";
+import RatingScreen from "@/screens/venue/RatingScreen";
+import VenueReviews from "@/screens/venue/VenueReviews";
+import RateReviewScreen from "@/screens/venue/RateReviewScreen";
 
 const Tab = createBottomTabNavigator<BottomTabParamList>();
+
 
 const bottomTabNavOptions: BottomTabNavigationOptions = {
   tabBarStyle: {
@@ -70,7 +74,7 @@ export function BottomNavigator() {
         component={HomeScreen}
         options={createScreenOptions("Home", "home")}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Browse"
         component={MapScreen}
         options={createScreenOptions("Search", "magnify")}
@@ -93,6 +97,31 @@ export function BottomNavigator() {
       <Tab.Screen
         name="Venue"
         component={VenueScreen}
+        options={{
+          tabBarStyle: { display: "none" },
+          tabBarButton: () => null,
+        }}
+        />
+
+      <Tab.Screen
+        name="Rating"
+        component={RatingScreen}
+        options={{
+          tabBarStyle: { display: "none" },
+          tabBarButton: () => null,
+        }}
+        />
+        <Tab.Screen
+        name="RatingReview"
+        component={RateReviewScreen}
+        options={{
+          tabBarStyle: { display: "none" },
+          tabBarButton: () => null,
+        }}
+        />
+      <Tab.Screen
+        name="VenueReviews"
+        component={VenueReviews}
         options={{
           tabBarStyle: { display: "none" },
           tabBarButton: () => null,

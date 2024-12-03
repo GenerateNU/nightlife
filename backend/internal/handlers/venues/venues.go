@@ -97,10 +97,10 @@ func (s *Service) PatchVenueReview(c *fiber.Ctx) error {
 		})
 	}
 
-	log.Printf("Updating review with OverallRating: %d, AmbianceRating: %d, MusicRating: %d, CrowdRating: %d, ServiceRating: %d, ReviewText: %s, VenueID: %v, ReviewID: %d",
-		int8(req.OverallRating), int8(req.AmbianceRating), int8(req.MusicRating), int8(req.CrowdRating), int8(req.ServiceRating), req.ReviewText, venueID, int8(reviewID))
+	log.Printf("Updating review with OverallRating: %d, EnergyRating: %d, MainstreamRating: %d, PriceRating: %d, CrowdRating: %d, HypeRating: %d, ExclusiveRating: %d, ReviewText: %s, VenueID: %v, ReviewID: %d",
+		int8(req.OverallRating), int8(req.EnergyRating), int8(req.MainstreamRating), int8(req.PriceRating), int8(req.CrowdRating), int8(req.HypeRating), int8(req.ExclusiveRating), req.ReviewText, venueID, int8(reviewID))
 	// Call the store method to update the review
-	err = s.store.PatchVenueReview(c.Context(), int8(req.OverallRating), int8(req.AmbianceRating), int8(req.MusicRating), int8(req.CrowdRating), int8(req.ServiceRating), req.ReviewText, venueID, int8(reviewID))
+	err = s.store.PatchVenueReview(c.Context(), int8(req.OverallRating), int8(req.EnergyRating), int8(req.MainstreamRating), int8(req.PriceRating), int8(req.CrowdRating), int8(req.HypeRating), int8(req.ExclusiveRating), req.ReviewText, venueID, int8(reviewID))
 	if err != nil {
 		if handlerErr := errs.ErrorHandler(c, err); handlerErr != nil {
 			return handlerErr
@@ -114,6 +114,8 @@ func (s *Service) PatchVenueReview(c *fiber.Ctx) error {
 
 func (s *Service) GetVenueFromID(c *fiber.Ctx) error {
 	venueID := c.Params("venueId")
+	fmt.Println("GETTING VENUE FROM ID")
+	fmt.Println(venueID)
 	if venueID == "" {
 		return fiber.NewError(fiber.StatusBadRequest, "Venue ID is required")
 	}
@@ -141,10 +143,10 @@ func (s *Service) GetVenueFromName(c *fiber.Ctx) error {
 }
 
 func (s *Service) GetAllVenues(c *fiber.Ctx) error {
+	fmt.Println("GETTING ALL VENUES")
 	venues, err := s.store.GetAllVenues(c.Context())
 	if err != nil {
-		fmt.Println(err.Error())
-		return fiber.NewError(fiber.StatusInternalServerError, "Could not get venues")
+		return fiber.NewError(fiber.StatusInternalServerError, "Could not get venue")
 	}
 	return c.Status(fiber.StatusOK).JSON(venues)
 }
@@ -156,6 +158,7 @@ func (s *Service) GetAllVenues(c *fiber.Ctx) error {
 // ByDistance {longitude} {latitude}
 // ByRecommendation {persona_name} // must be one of the seven listed personas
 func (s *Service) GetAllVenuesWithFilter(c *fiber.Ctx) error {
+	fmt.Println("GETTING ALL VENUES")
 	// parse all filters from the context
 	sort := c.Query("sort")
 	f := c.Query("filters")

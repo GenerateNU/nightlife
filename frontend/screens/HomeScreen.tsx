@@ -8,7 +8,7 @@ type RootStackParamList = {
 };
 
 type HomeScreenProps = {
-    navigation: StackNavigationProp<RootStackParamList, 'Home'>; // Adjust as necessary based on your stack
+    navigation: StackNavigationProp<RootStackParamList, 'Home'>; 
 };
 
 const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
