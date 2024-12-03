@@ -5,18 +5,21 @@ import {
 } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import HomeScreen from "@/screens/HomeScreen";
-import UpdatesScreen from "@/screens/UpdatesScreen";
 import ProfileScreen from "@/screens/ProfileScreen";
-import SettingsScreen from "@/screens/SettingsScreen";
 import MapScreen from "@/screens/MapScreen";
 import VenueScreen from "@/screens/venue/VenueScreen";
 import { BottomTabParamList } from "../types/NavigationTypes";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import EditProfile from "@/screens/profile/EditProfile";
+<<<<<<< HEAD
 import EditProfileData from "@/screens/profile/EditProfileData";
 import RateReviewScreen from "@/screens/venue/RateReviewScreen";
 import RatingScreen from "@/screens/venue/RatingScreen";
 import VenueReviews from "@/screens/venue/VenueReviews";
+=======
+import EditProfileAttribute from "@/screens/profile/EditProfileAttribute";
+
+>>>>>>> origin/main
 const Tab = createBottomTabNavigator<BottomTabParamList>();
 
 
@@ -32,13 +35,19 @@ const bottomTabNavOptions: BottomTabNavigationOptions = {
     marginTop: 4,
   },
   headerStyle: {
-    backgroundColor: "#0ea5e9",
+    backgroundColor: "#1c1c1c",
     shadowColor: "transparent",
-    height: 64,
+    height: 48,
   },
   headerTitle: "",
   headerTintColor: "#fff",
   tabBarActiveTintColor: "#0ea5e9",
+};
+
+type RootStackParamList = {
+  Profile: undefined;
+  EditProfile: undefined;
+  EditProfileAttribute: { field: string; existing: string };
 };
 
 const createScreenOptions = (
@@ -51,13 +60,13 @@ const createScreenOptions = (
   ),
 });
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const ProfileStackNavigator = () => (
     <Stack.Navigator>
         <Stack.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false}} />
         <Stack.Screen name="EditProfile" component={EditProfile} options={{ headerShown: false }} />
-        <Stack.Screen name="EditProfileData" component={EditProfileData} options={{ headerShown: false }} />
+        <Stack.Screen name="EditProfileAttribute" component={EditProfileAttribute} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 
@@ -73,23 +82,32 @@ export function BottomNavigator() {
         name="Browse"
         component={MapScreen}
         options={createScreenOptions("Search", "magnify")}
+<<<<<<< HEAD
       /> */}
       <Tab.Screen
+=======
+      />
+      {/* <Tab.Screen
+>>>>>>> origin/main
         name="Updates"
         component={UpdatesScreen}
         options={createScreenOptions("Updates", "bell")}
-      />
+      /> */}
       <Tab.Screen
         name="Profile"
         component={ProfileStackNavigator}
         options={createScreenOptions("Profile", "account-circle")}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Settings"
         component={SettingsScreen}
         options={createScreenOptions("Settings", "cog")}
+<<<<<<< HEAD
       />
       
+=======
+      /> */}
+>>>>>>> origin/main
       <Tab.Screen
         name="Venue"
         component={VenueScreen}

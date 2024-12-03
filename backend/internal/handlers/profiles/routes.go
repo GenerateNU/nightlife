@@ -23,5 +23,9 @@ func Routes(app *fiber.App, params types.Params) {
 	protected.Patch("/update/:userId", service.UpdateProfile)
 	protected.Delete("/:userId", service.DeleteUser)
 	protected.Delete("/friends/:username", service.RemoveFriend)
+	protected.Get("/reviews/:userId", service.GetUserAuthoredReviews)
+	protected.Get("/reviewed-venues/:userId", service.GetUserReviewsWithVenueData)
+	protected.Get("/saved-venues/:userId", service.GetUserSavedVenues)
+	protected.Get("/visited-venues/:userId", service.GetUserVisitedVenues)
 
 }

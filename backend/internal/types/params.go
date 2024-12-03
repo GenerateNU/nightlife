@@ -2,6 +2,7 @@ package types
 
 import (
 	"github.com/GenerateNU/nightlife/internal/config"
+	"github.com/GenerateNU/nightlife/internal/models"
 	"github.com/GenerateNU/nightlife/internal/storage"
 )
 
@@ -36,4 +37,9 @@ type ProfileUpdateRequest struct {
 	TwitterURL        *string `json:"twitter_url"`
 	Phone             *string `json:"phone"`
 	Privacy           *bool   `json:"privacy"`
+}
+
+type ReviewWithVenue struct {
+	Review models.Review `json:"review"`
+	Venue  models.Venue  `json:"venue"`
 }
