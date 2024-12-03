@@ -37,8 +37,11 @@ const ScaledText: React.FC<ScaledTextProps> = ({
 const styles = StyleSheet.create({
   text: {
     marginLeft: -4,
-    fontWeight: 'bold',
-    color: 'white'
+    color: 'white',
+    fontFamily: 'DTNightingale-Light',
+    textShadowColor: 'rgba(200, 150, 255, 0.75)', 
+    textShadowOffset: { width: 0, height: 0 }, 
+    textShadowRadius: 5, 
   },
 });
 

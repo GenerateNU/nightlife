@@ -17,6 +17,7 @@ type Storage interface {
 	Review
 	Friendship
 	Event
+	Bookmarks
 }
 
 type Test interface {
@@ -62,4 +63,9 @@ type Event interface {
 
 type Review interface {
 	PatchVenueReview(ctx context.Context, overallRating int8, energyRating int8, mainstreamRating int8, priceRating int8, crowdRating int8, hypeRating int8, exclusiveRating int8, reviewText string, venueID uuid.UUID, reviewID int8) error
+}
+
+type Bookmarks interface {
+	GetBookmarkFromID(context.Context, uuid.UUID) (models.Bookmarks, error)
+	CreateBookmark(context.Context, models.Bookmarks) error
 }

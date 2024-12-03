@@ -1,15 +1,38 @@
-import { AntDesign } from '@expo/vector-icons';
 import * as React from 'react';
-import {View} from "react-native";
+import { View, StyleSheet, Image } from "react-native";
+import Stars from "@/components/Stars";
 
-const StarReview = () => {
+
+// Takes a rating => represents using filled/empty stars
+const StarReview = ({ rating }) => {  
+    const filledStars = Array(rating).fill(Stars.full);
+    const emptyStars = Array(5 - rating).fill(Stars.empty);
+    const starIcons = [...filledStars, ...emptyStars];
+
     return (
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        {Array.from({ length: 4 }, (_, index) => (
-            <AntDesign key={index} name="star" size={15} color="white"/>
-        ))}
+        <View style={styles.starContainer}>
+            {starIcons.map((star, index) => (
+                <Image
+                    key={index}
+                    source={star}
+                    style={styles.star}
+                />
+            ))}
         </View>
-    )
-}
+    );
+}; 
+
+const styles = StyleSheet.create({
+    starContainer: {
+        flexDirection: "row", 
+        marginBottom: 10,
+        justifyContent: "flex-start", 
+    },
+    star: {
+        width: 20, 
+        height: 20, 
+        marginRight: 3, 
+    }
+});
 
 export default StarReview;

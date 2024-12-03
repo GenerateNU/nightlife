@@ -2,21 +2,34 @@ import Slider from "@react-native-community/slider";
 import {Text, View, StyleSheet, Image} from "react-native";
 import PropTypes from 'prop-types';
 import {useState} from 'react'
+import SoundWave from "./SoundWave";
+const RatingScrollBar = ({minTitle = "", maxTitle = "", value, onSliderChange, category, startColor, stopColor, avg_value}) => {
 
-const RatingScrollBar = ({minTitle = "", maxTitle = "", value, onSliderChange}) => {
 
   return(
   <View style={styles.container}>
+    
+      <View style={{paddingBottom: 20}}>
+      <View style={{position: 'absolute', opacity: 0.5}}>
+        <SoundWave
+            category={category}
+            rating={avg_value}
+            startColor={startColor}
+            stopColor={stopColor}
+          />
+      </View>
       <Slider 
-          style={{ width: 350, height: 40}}
+          style={{ marginLeft: 5, width: 350, height: 40}}
           minimumValue={0}
           maximumValue={10}
           step={1}
           value={value}
-          thumbTintColor="white"
+          thumbTintColor="transparent" 
+          thumbImage={require('../assets/large_filled_star.png')}
           minimumTrackTintColor="white"
           maximumTrackTintColor="gray"
           onValueChange={onSliderChange}/>
+      </View>
       <View style={styles.labelContainer}>
           <Text style={styles.label}>{minTitle}</Text>
           <Text style={styles.label}>{maxTitle}</Text>
@@ -33,31 +46,28 @@ RatingScrollBar.propTypes = {
 
 const styles = StyleSheet.create({
     container: {
-      alignItems: 'center',
+      alignItems: 'center'
     },
     title: {
       fontSize: 18,
       marginBottom: 10,
     },
-    slider: {
-      width: 300,
-      height: 40,
-    },
     labelContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        width: 300, 
-      },
+      flexDirection: "row",
+      justifyContent: "space-between",
+      width: "100%",
+      marginTop: -10,
+    },
       label: {
-        fontSize: 14,
-        color: 'white',
+        fontSize: 8,
+        color: "white",
         padding: 5,
-        borderWidth: 1,
-        backgroundColor: '#4B4B4D',
-        borderColor: 'white', 
-        borderRadius: 5, 
-        textAlign: 'center', 
-        width: 100, 
+        paddingHorizontal: 5,
+        backgroundColor: 'rgba(255, 255, 255, 0.25)',
+        borderWidth: 2,
+        borderColor: "white",
+        borderRadius: 8,
+        textAlign: "center"
       },
   });
 

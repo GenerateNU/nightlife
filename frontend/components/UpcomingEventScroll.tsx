@@ -1,17 +1,19 @@
 import React from 'react';
-import { ScrollView, View, StyleSheet, SafeAreaView } from 'react-native';
+import { ScrollView, View, StyleSheet, SafeAreaView, Dimensions } from 'react-native';
 import Event from './Event';
 import PropTypes from 'prop-types';
 
+// Get screen width dynamically
+const screenWidth = Dimensions.get('window').width;
 
-const UpcomingEventScroll = ({events = []}) => {
+const UpcomingEventScroll = ({ events = [] }) => {
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.scrollContainer}>
-        <ScrollView 
-          horizontal 
+      <View style={[styles.scrollContainer, { width: screenWidth }]}>
+        <ScrollView
+          horizontal
           showsHorizontalScrollIndicator={false}
-          style={styles.scrollView}
+          contentContainerStyle={styles.scrollContent}
         >
           {events.map((event, index) => (
             <View key={index} style={styles.item}>
@@ -25,30 +27,31 @@ const UpcomingEventScroll = ({events = []}) => {
 };
 
 UpcomingEventScroll.propTypes = {
-  events: PropTypes.object.isRequired, 
+  events: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
-
 
 const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   scrollContainer: {
-    width: 360,
-    height: 180
+    height: 148,
   },
-  scrollView: {
-    paddingVertical: 20,
-    paddingRight: 10
+  scrollContent: {
+    flexDirection: 'row',
+    paddingHorizontal: 10, 
+    paddingVertical: 10,
+    borderRadius:10
   },
   item: {
-    width: 150, 
-    height: 150, 
+    width: 148,
+    height: 140,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#f0f0f0',
-    marginHorizontal: 30
+    marginRight: 16,
+    borderRadius: 10,
   },
 });
 

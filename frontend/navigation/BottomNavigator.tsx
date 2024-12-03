@@ -9,14 +9,14 @@ import UpdatesScreen from "@/screens/UpdatesScreen";
 import ProfileScreen from "@/screens/ProfileScreen";
 import SettingsScreen from "@/screens/SettingsScreen";
 import MapScreen from "@/screens/MapScreen";
-import VenueScreen from "@/screens/VenueScreen";
+import VenueScreen from "@/screens/venue/VenueScreen";
 import { BottomTabParamList } from "../types/NavigationTypes";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import EditProfile from "@/screens/profile/EditProfile";
 import EditProfileData from "@/screens/profile/EditProfileData";
-
-import RatingScreen from "@/screens/RatingScreen";
-import VenueReviews from "@/screens/VenueReviews";
+import RateReviewScreen from "@/screens/venue/RateReviewScreen";
+import RatingScreen from "@/screens/venue/RatingScreen";
+import VenueReviews from "@/screens/venue/VenueReviews";
 const Tab = createBottomTabNavigator<BottomTabParamList>();
 
 
@@ -102,6 +102,14 @@ export function BottomNavigator() {
       <Tab.Screen
         name="Rating"
         component={RatingScreen}
+        options={{
+          tabBarStyle: { display: "none" },
+          tabBarButton: () => null,
+        }}
+        />
+        <Tab.Screen
+        name="RatingReview"
+        component={RateReviewScreen}
         options={{
           tabBarStyle: { display: "none" },
           tabBarButton: () => null,
