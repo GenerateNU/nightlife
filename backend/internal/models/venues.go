@@ -1,6 +1,7 @@
 package models
 
 import (
+	"database/sql"
 	"time"
 
 	"github.com/google/uuid"
@@ -23,9 +24,22 @@ type Venue struct {
 
 	Longitude float64 `json:"longitude"`
 
-	// VenueType string `json:"venue_type"`
+	VenueType string `json:"venue_type"`
 
 	CreatedAt time.Time `json:"created_at"`
 
-	//UpdatedAt time.Time `json:"updated_at"`
+	UpdatedAt sql.NullTime `json:"updated_at"`
+
+	TotalRating float32 `json:"total_rating"`
+
+	Price float32 `json:"price"`
+
+	AvgEnergy float32 `json:"avg_energy"`
+
+	AvgMainstream float32 `json:"avg_mainstream"`
+
+	AvgPrice float32 `json:"avg_price"`
+
+	AvgExclusive float32 `json:"avg_exclusive"`
 }
+

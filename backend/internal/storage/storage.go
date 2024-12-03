@@ -54,6 +54,7 @@ type Venues interface {
 type VenueRatings interface {
 	DeleteReviewForVenue(context.Context, int8) error
 	GetAllVenueRatings(context.Context, uuid.UUID) ([]models.VenueRatings, error)
+	GetAllVenuesWithFilter(ctx context.Context, where string, sort string) ([]models.Venue, error)
 }
 
 type Friendship interface {
