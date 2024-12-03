@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { FlatList, View, Text, StyleSheet, Image } from "react-native";
+import { FlatList, View, Text, StyleSheet } from "react-native";
 import EventCard from "./EventCard";
+import BIRD from "../../assets/personas/BIRD.svg";
+import CAT from "../../assets/personas/CAT.svg";
+import GIRL from "../../assets/personas/GIRL.svg";
+import GREEN from "../../assets/personas/GREEN.svg";
+import MAN from "../../assets/personas/MAN.svg";
+import MERMAID from "../../assets/personas/MERMAID.svg";
+import ZAP from "../../assets/personas/ZAP.svg";
 
-import BIRD from "../../assets/personas/BIRD.png";
-import CAT from "../../assets/personas/CAT.png";
-import GIRL from "../../assets/personas/GIRL.png";
-import GREEN from "../../assets/personas/GREEN.png";
-import MAN from "../../assets/personas/MAN.png";
-import MERMAID from "../../assets/personas/MERMAID.png";
-import ZAP from "../../assets/personas/ZAP.png";
 import { API_DOMAIN } from "@env";
 import { useAuth } from "@/context/AuthContext";
+import { SvgProps } from "react-native-svg";
 
-const PERSONA_IMAGES = {
+const PERSONA_IMAGES: Record<string, React.FC<SvgProps>> = {
     BIRD,
     CAT,
     GIRL,
@@ -23,7 +24,7 @@ const PERSONA_IMAGES = {
 };
 
 type Venue = {
-    id: string;
+    venue_id: string;
     name: string;
     address: string;
     city: string;
@@ -45,10 +46,10 @@ const shuffleArray = <T,>(array: T[]): T[] => {
 };
 
 const EventsScrollable: React.FC<EventsScrollableProps> = ({
-                                                               title,
-                                                               persona,
-                                                               accent,
-                                                           }) => {
+    title,
+    persona,
+    accent,
+}) => {
     const { accessToken } = useAuth();
     const [venues, setVenues] = useState<Venue[]>([]);
     const [loading, setLoading] = useState(true);
@@ -67,7 +68,7 @@ const EventsScrollable: React.FC<EventsScrollableProps> = ({
                 const data = await res.json();
 
                 const mappedVenues = data.map((venue: Venue) => ({
-                    id: venue.id,
+                    venue_id: venue.venue_id,
                     name: venue.name,
                     address: venue.address,
                     city: venue.city,
@@ -99,24 +100,22 @@ const EventsScrollable: React.FC<EventsScrollableProps> = ({
 
     return (
         <View style={styles.container}>
-            {persona && (
-                <Image
-                    source={PERSONA_IMAGES[persona]}
-                    style={styles.backgroundImage}
-                />
+            {persona && PERSONA_IMAGES[persona] && (
+                React.createElement(PERSONA_IMAGES[persona], { style: styles.backgroundImage })
             )}
-
             <Text style={styles.headerText}>{title}</Text>
             <FlatList
                 horizontal
                 data={venues}
-                keyExtractor={(venue) => venue.id}
+                keyExtractor={(venue) => venue.venue_id}
                 renderItem={({ item }) => (
                     <EventCard
+                        key={item.venue_id}
                         image={item.image}
                         title={item.name}
                         subtitle={`${item.city}, ${item.state}`}
                         accent={accent || "#2d2d44"}
+                        venue_id={item.venue_id}
                     />
                 )}
                 showsHorizontalScrollIndicator={false}
@@ -140,7 +139,7 @@ const styles = StyleSheet.create({
         right: 24,
         bottom: 0,
         width: 84,
-        resizeMode: "cover",
+        height: 84,
     },
     headerText: {
         fontSize: 20,

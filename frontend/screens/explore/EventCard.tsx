@@ -1,4 +1,6 @@
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
+import { TouchableOpacity } from "react-native";
 import { View, Text, Image, StyleSheet } from "react-native";
 
 type EventCardProps = {
@@ -6,17 +8,23 @@ type EventCardProps = {
     title: string;
     subtitle: string;
     accent: string;
+    venue_id: string;
 };
 
-const EventCard = ({ image, title, subtitle, accent }: EventCardProps) => {
+const EventCard = ({ image, title, subtitle, accent, venue_id }: EventCardProps) => {
+
+    const navigation = useNavigation();
+
     return (
-        <View style={[styles.card, { backgroundColor: accent, borderColor: accent }]}>
-            <Image source={{ uri: image }} style={styles.image} />
-            <View style={styles.cardContent}>
-                <Text style={styles.eventTitle}>{title.length > 20 ? title.slice(0, 20) + "..." : title}</Text>
-                <Text style={styles.eventDateTime}>{subtitle}</Text>
+        <TouchableOpacity onPress={() => navigation.navigate("Venue", { venue_id })}>
+            <View style={[styles.card, { backgroundColor: accent, borderColor: accent }]}>
+                <Image source={{ uri: image }} style={styles.image} />
+                <View style={styles.cardContent}>
+                    <Text style={styles.eventTitle}>{title.length > 20 ? title.slice(0, 20) + "..." : title}</Text>
+                    <Text style={styles.eventDateTime}>{subtitle}</Text>
+                </View>
             </View>
-        </View>
+        </TouchableOpacity>
     );
 };
 
@@ -29,6 +37,7 @@ const styles = StyleSheet.create({
         width: 200,
         borderWidth: 2,
         borderColor: "#735ad1",
+        marginVertical: 4,
     },
     image: {
         width: "100%",

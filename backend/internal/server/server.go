@@ -3,6 +3,8 @@ package server
 import (
 	"github.com/GenerateNU/nightlife/internal/errs"
 	"github.com/GenerateNU/nightlife/internal/handlers/auth"
+	"github.com/GenerateNU/nightlife/internal/handlers/bookmarks"
+	"github.com/GenerateNU/nightlife/internal/handlers/event"
 	"github.com/GenerateNU/nightlife/internal/handlers/friendship"
 	"github.com/GenerateNU/nightlife/internal/handlers/health"
 	"github.com/GenerateNU/nightlife/internal/handlers/hello"
@@ -43,7 +45,7 @@ func New(params types.Params) *fiber.App {
 
 	// Profile (User) route group
 	profiles.Routes(app, params)
-
+	event.Routes(app, params)
 	//User Ratings route group
 	userrating.Routes(app, params)
 
@@ -52,6 +54,8 @@ func New(params types.Params) *fiber.App {
 
 	// Friendship route group
 	friendship.Routes(app, params)
+
+	bookmarks.Routes(app, params)
 
 	return app
 }

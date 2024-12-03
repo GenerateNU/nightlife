@@ -107,7 +107,7 @@ const ProfileScreen = () => {
             }
             const fetchReviewedVenues = async () => {
                 if (user && accessToken) {
-                    const response = await fetch(`h${API_DOMAIN}/profiles/reviewed-venues/${user.user_id}`, {
+                    const response = await fetch(`${API_DOMAIN}/profiles/reviewed-venues/${user.user_id}`, {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
                         },
