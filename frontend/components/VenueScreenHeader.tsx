@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import ScaledText from "@/components/ScaledText";
 import BookmarkButton from "@/components/BookmarkButton";
 import StarReview from "@/components/StarReview";

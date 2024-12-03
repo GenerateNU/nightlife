@@ -37,9 +37,14 @@ const RateReviewScreen: React.FC<ReviewScreenProps> = ({ route, navigation }) =>
 
   const labels = ['$', '$$', '$$$', '$$$$', '$$$$$'];
 
+  // const stars = {
+  //   empty: require("../../assets/empty_star.png"),
+  //   full: require("../../assets/filled_star.png"),
+  // };
+
   const stars = {
-    empty: require("../../assets/empty_star.png"),
-    full: require("../../assets/filled_star.png"),
+    empty: "../../assets/empty_star.png",
+    full: "../../assets/filled_star.png",
   };
 
   // on-click handler for star review 

@@ -18,8 +18,6 @@ import VibeScrollBar from '@/components/VibeScrollBar';
  */
 
 const OverviewScreen = ({ navigation, eventDictList, hype, mainstream, price, crowd, energy, exclusive }) => {
-    const venueID = "0006b62a-21bd-4e48-8fc7-e3bcca66d0d0";
-
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.scrollView}>

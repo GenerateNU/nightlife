@@ -8,7 +8,6 @@ const useVenueRatings = (venueID) => {
   const [energyRating, setEnergyRating] = useState(5);
   const [exclusiveRating, setExclusiveRating] = useState(5);
   const [overallRating, setOverallRating] = useState(5);
-  const [numRatings, setNumRatings] = useState(0);
 
   useEffect(() => {
     fetch(`http://localhost:8080/venueratings/venue/${venueID}/ratings`)
@@ -64,7 +63,7 @@ const useVenueRatings = (venueID) => {
         setEnergyRating(Math.ceil(energy_average));
         setExclusiveRating(Math.ceil(exclusive_average));
         setOverallRating(overall_average);
-        setNumRatings(json.length ?? 0);
+        
       })
       .catch((error) => {
         console.error(error);

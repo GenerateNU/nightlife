@@ -18,8 +18,12 @@ import Review from "@/components/Review";
 const VenueReviews: React.FC = ({ navigation, venueName, venueAddress, venueType, venueCity}) => {
   const [reviewDictList, setReviewDictList] = useState([]);
   
+  // const stars = {
+  //   empty: require("../../assets/empty_star.png"),
+  // };
+
   const stars = {
-    empty: require("../../assets/empty_star.png"),
+    empty: "../../assets/empty_star.png",
   };
 
   useEffect(() => {

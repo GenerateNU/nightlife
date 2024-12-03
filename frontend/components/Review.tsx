@@ -1,4 +1,4 @@
-import { Dimensions, Text, View, StyleSheet, Image } from "react-native";
+import { Text, View, StyleSheet, Image } from "react-native";
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 

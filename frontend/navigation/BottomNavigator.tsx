@@ -74,13 +74,8 @@ export function BottomNavigator() {
         name="Browse"
         component={MapScreen}
         options={createScreenOptions("Search", "magnify")}
-<<<<<<< HEAD
-      /> */}
-      <Tab.Screen
-=======
       />
       {/* <Tab.Screen
->>>>>>> origin/main
         name="Updates"
         component={UpdatesScreen}
         options={createScreenOptions("Updates", "bell")}
@@ -94,12 +89,7 @@ export function BottomNavigator() {
         name="Settings"
         component={SettingsScreen}
         options={createScreenOptions("Settings", "cog")}
-<<<<<<< HEAD
-      />
-      
-=======
       /> */}
->>>>>>> origin/main
       <Tab.Screen
         name="Venue"
         component={VenueScreen}
