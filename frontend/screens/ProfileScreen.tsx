@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { ScrollView, Text, View, StyleSheet, Dimensions, Modal, TouchableOpacity, Image } from 'react-native';
 import ProfileButtons from '@/components/Buttons/ProfileButtons';
 import ProfileTabButton from '@/components/Buttons/ProfileTabButton';
@@ -42,6 +42,22 @@ const ProfileScreen = () => {
     const [unauthorized, setUnauthorized] = useState(false);
 
     const navigation = useNavigation()
+
+    useEffect(() => {
+        const fetchData = async () => {
+            if (user && accessToken) {
+                const userData = await fetchUserProfileService(user.email, accessToken);
+                if (userData) { setUserAsync(userData); } else { setUnauthorized(true); }
+            }
+        };
+        try {
+            fetchData();
+        }
+        catch (error) {
+            console.error(error);
+            setUnauthorized(true);
+        }
+    });
 
     useFocusEffect(
         useCallback(() => {

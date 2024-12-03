@@ -10,10 +10,10 @@ type EventCardProps = {
 
 const EventCard = ({ image, title, subtitle, accent }: EventCardProps) => {
     return (
-        <View style={[styles.card, { backgroundColor: accent }]}>
+        <View style={[styles.card, { backgroundColor: accent, borderColor: accent }]}>
             <Image source={{ uri: image }} style={styles.image} />
             <View style={styles.cardContent}>
-                <Text style={styles.eventTitle}>{title}</Text>
+                <Text style={styles.eventTitle}>{title.length > 20 ? title.slice(0, 20) + "..." : title}</Text>
                 <Text style={styles.eventDateTime}>{subtitle}</Text>
             </View>
         </View>
