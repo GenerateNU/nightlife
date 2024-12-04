@@ -16,6 +16,7 @@ import RatingScreen from "@/screens/venue/RatingScreen";
 import VenueReviews from "@/screens/venue/VenueReviews";
 import RateReviewScreen from "@/screens/venue/RateReviewScreen";
 import MapScreen from "@/screens/MapScreen";
+import VenueCardPage from "@/screens/explore/VenueCardPage";
 
 const Tab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -53,6 +54,7 @@ type RootStackParamList = {
   EditProfile: undefined;
   EditProfileAttribute: { field: string; existing: string };
   Venue: undefined;
+  VenueCards: undefined;
 };
 
 const createScreenOptions = (
@@ -79,6 +81,7 @@ const HomeStackNavigator = () => (
   <Stack.Navigator>
     <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
     <Stack.Screen name="Venue" component={VenueScreen} options={{ headerShown: false }} />
+    <Stack.Screen name="VenueCards" component={VenueCardPage} options={{ headerShown: false }} />
   </Stack.Navigator>
 );
 

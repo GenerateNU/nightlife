@@ -3,10 +3,31 @@ import { ScrollView, View, StyleSheet } from "react-native";
 import SearchBar from "@/components/Map/SearchBar";
 import EventsScrollable from "./explore/EventsScrollable";
 
+import { API_DOMAIN } from "@env";
+import { useNavigation } from "@react-navigation/native";
+
 const HomeScreen: React.FC = () => {
+
+    const navigation = useNavigation();
+
+    const handleSearch = async (text: string) => {
+
+
+        const req = await fetch(`${API_DOMAIN}/venues/search?q=${encodeURIComponent(text)}`);
+    
+        if (!req.ok) {
+            console.error("Failed to search for venues");
+            return;
+        }
+    
+        const res = await req.json();
+
+        navigation.navigate("VenueCards", { venues: res });
+    }
+
     return (
         <View style={styles.container}>
-            <SearchBar placeholderText="Search venues..." />
+            <SearchBar placeholderText="Search venues..." onSubmitEditing={handleSearch} />
             <ScrollView contentContainerStyle={styles.scrollableContent}>
                 <EventsScrollable title={"On Your Radar"} accent="#382873"/>
                 <EventsScrollable title={"Recommended for You"} accent="#382873" />

@@ -5,9 +5,10 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 type SearchBarProps = {
   placeholderText: string;
   icon?: boolean
+  onSubmitEditing?: (text: string) => void;
 }
 
-const SearchBar = ({ placeholderText, icon }: SearchBarProps) => {
+const SearchBar = ({ placeholderText, icon, onSubmitEditing }: SearchBarProps) => {
   const [searchText, setSearchText] = React.useState("");
 
   return (
@@ -24,6 +25,7 @@ const SearchBar = ({ placeholderText, icon }: SearchBarProps) => {
         placeholderTextColor="#aaa"
         value={searchText}
         onChangeText={setSearchText}
+        onSubmitEditing={() => onSubmitEditing && onSubmitEditing(searchText)}
       />
     </View>
   );
