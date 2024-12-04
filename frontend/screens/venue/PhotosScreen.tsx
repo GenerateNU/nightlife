@@ -1,7 +1,6 @@
 import React from "react";
-import { View, StyleSheet, SafeAreaView, Image } from "react-native";
+import { View, StyleSheet, SafeAreaView, Image, ScrollView } from "react-native";
 import { useEffect, useState } from "react";
-import { ScrollView } from "react-native-gesture-handler";
 
 /**
  * Screen to display all photos that have been included in any reviews of current venue

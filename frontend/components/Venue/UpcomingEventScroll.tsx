@@ -41,6 +41,7 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     height: 148,
+    paddingLeft: 5
   },
   scrollContent: {
     flexDirection: 'row',
@@ -54,8 +55,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#f0f0f0',
-    marginRight: 16,
+    marginRight: 25,
     borderRadius: 10,
+
   },
 });
 

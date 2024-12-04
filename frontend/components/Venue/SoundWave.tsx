@@ -70,8 +70,6 @@ const SoundWave = ({ category = 1, rating = 1, startColor = "", stopColor = ""})
 };
 
 SoundWave.propTypes = {
-  minTitle: PropTypes.string.isRequired,
-  maxTitle: PropTypes.string.isRequired,
   rating: PropTypes.number.isRequired,
   startColor: PropTypes.string.isRequired,
   stopColor: PropTypes.string.isRequired,

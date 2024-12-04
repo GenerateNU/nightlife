@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
-
+	"sort"
 	"github.com/GenerateNU/nightlife/internal/errs"
 	"github.com/GenerateNU/nightlife/internal/models"
 	"github.com/GenerateNU/nightlife/internal/types"
@@ -196,26 +196,54 @@ func (s *Service) GetVenuePersona(c *fiber.Ctx) error {
 		fmt.Println("error: " + err.Error())
 		return fiber.NewError(fiber.StatusInternalServerError, "Could not get venue")
 	}
+
+	// Calculate weights
 	total := v.AvgEnergy + v.AvgExclusive + v.AvgMainstream + v.AvgPrice
 	priceWeight := v.AvgPrice / total
 	mainstreamWeight := v.AvgMainstream / total
 	energyWeight := v.AvgEnergy / total
 	exclusiveWeight := v.AvgExclusive / total
+
 	temp := models.ByRecommendation{}
-	persona := ``
-	minDistance := math.Inf(1)
+	allDists := []struct {
+		Persona  string
+		Distance float64
+	}{}
+
+	// Calculate distances and populate allDists
 	for key, value := range temp.CharacterMap() {
-		// energy, exclusive, mainstream, price
-		distance := math.Abs(float64(energyWeight)-float64(value[0])) + math.Abs(float64(exclusiveWeight)-float64(value[1])) + math.Abs(float64(mainstreamWeight)-float64(value[2])) + math.Abs(float64(priceWeight)-float64(value[3]))
-		if distance < minDistance {
-			persona = key
-			minDistance = distance
-		}
+		distance := math.Abs(float64(energyWeight)-float64(value[0])) +
+			math.Abs(float64(exclusiveWeight)-float64(value[1])) +
+			math.Abs(float64(mainstreamWeight)-float64(value[2])) +
+			math.Abs(float64(priceWeight)-float64(value[3]))
+
+		allDists = append(allDists, struct {
+			Persona  string
+			Distance float64
+		}{
+			Persona:  key,
+			Distance: distance,
+		})
 	}
-	if persona == `` {
+
+	// If no personas are available
+	if len(allDists) == 0 {
 		return c.Status(fiber.StatusOK).JSON("Not enough reviews to determine venue persona")
 	}
-	return c.Status(fiber.StatusOK).JSON(persona)
+
+	// Sort allDists by ascending distance
+	sort.Slice(allDists, func(i, j int) bool {
+		return allDists[i].Distance < allDists[j].Distance
+	})
+
+	// Collect the top 3 personas (or fewer if less than 3 exist)
+	top3Personas := []string{}
+	for i := 0; i < len(allDists) && i < 3; i++ {
+		top3Personas = append(top3Personas, allDists[i].Persona)
+	}
+
+	// Return the top 3 personas
+	return c.Status(fiber.StatusOK).JSON(top3Personas)
 }
 
 func (s *Service) GetVenuesByIDs(c *fiber.Ctx) error {

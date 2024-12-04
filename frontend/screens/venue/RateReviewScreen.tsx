@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { Text, View, StyleSheet, SafeAreaView, Image, TextInput, TouchableOpacity } from "react-native";
 import { RouteProp } from "@react-navigation/native";
-import { UploadImage } from "@/components/Venue/UploadImage";
+import UploadImage from "@/components/Venue/UploadImage";
 import Slider from '@react-native-community/slider';
 import { Feather } from "@expo/vector-icons";
 import PropTypes from "prop-types";
 import stars from "@/components/Venue/Stars";
+import Toast from 'react-native-root-toast'
+
 type RootStackParamList = {
   Home: undefined;
   RateReviews: {
@@ -21,28 +23,20 @@ type ReviewScreenProps = {
   route: RouteProp<RootStackParamList, "RateReviews">;
 };
 
-/**
- * Allows the user to submit a *generic* review (i.e. overall rating, image, summary review)
- * @param route venue- & user- specific info
- * @param navigation project navigation
- * @returns screen for reviewing
- */
-
 const RateReviewScreen: React.FC<ReviewScreenProps> = ({ route, navigation }) => {
   const { venueName, venueAddress, venueType, venueCity, username } = route.params;
   const [userInput, setUserInput] = useState("");
   const [rating, setRating] = useState(0); 
   const [imageURI, setImageURI] = useState<string | null>(null);
   const [sliderValue, setSliderValue] = useState(1);
+  const [imageUploaded, setImageUploaded] = useState(false)
 
   const labels = ['$', '$$', '$$$', '$$$$', '$$$$$'];
 
-  // on-click handler for star review 
   const handleStarPress = (index: number) => {
     setRating(index + 1); 
   };
 
-  // star review 
   const starReview = () => {
     return (
       <View style={styles.starContainer}>
@@ -60,18 +54,16 @@ const RateReviewScreen: React.FC<ReviewScreenProps> = ({ route, navigation }) =>
     );
   };
 
-  // collect user input for review text
   const handleInputChange = (text: string) => {
     setUserInput(text);
   };
 
-  // collect user input for image
   const handleImageUpload = (uri: string | null) => {
+    setImageUploaded(true);
     setImageURI(uri); 
   };
 
   const saveReviews = async () => {
-    // collect all info to post to db
     const reviewData = {
       overall_rating: rating, 
       energy_rating: null,
@@ -101,9 +93,27 @@ const RateReviewScreen: React.FC<ReviewScreenProps> = ({ route, navigation }) =>
       if (response.ok) {
         const data = await response.json();
         console.log("Review submitted successfully:", data);
+        let toast = Toast.show("Review Submitted!", {
+          duration: 800, 
+          position: Toast.positions.BOTTOM, 
+          backgroundColor: "white", 
+          textColor: "black", 
+          shadow: true,
+          animation: true,
+          hideOnPress: true,
+        });
       } else {
         const errorData = await response.json();
         console.error("Error submitting review:", errorData);
+        let toast = Toast.show("Error Submitting Review", {
+          duration: 800, 
+          position: Toast.positions.BOTTOM, 
+          backgroundColor: "#ffffff", 
+          textColor: "#000000", 
+          shadow: true,
+          animation: true,
+          hideOnPress: true,
+        });
       }
     } catch (error) {
       console.error("Error:", error);
@@ -112,23 +122,25 @@ const RateReviewScreen: React.FC<ReviewScreenProps> = ({ route, navigation }) =>
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{marginLeft: 20, marginTop: 10}}>
+      <View style={styles.mainContent}>
         <TouchableOpacity onPress={() => navigation.navigate('Venue')}>
-          <Text style={{color: 'white'}}>Back</Text>
+          <Text style={{ color: 'white' }}>Back</Text>
         </TouchableOpacity>
         
-        <Text style={{fontSize: 36, color: 'white'}}>{venueName}</Text>
-        <Text style={{fontSize: 12, color: 'white'}}>{venueType} | {venueAddress}, {venueCity} </Text>
-        <View style={{flexDirection: 'row'}}>
-          <Text style={{fontSize: 16, color: 'white'}}>{username}</Text>
-          <View style={{marginTop: 5, marginLeft: 4}}>
+        <Text style={styles.title}>{venueName}</Text>
+        <Text style={{ fontSize: 12, color: 'white' }}>
+          {venueType} | {venueAddress}, {venueCity}
+        </Text>
+        <View style={{ flexDirection: 'row' }}>
+          <Text style={{ fontSize: 16, color: 'white' }}>{username}</Text>
+          <View style={{ marginTop: 5, marginLeft: 4 }}>
             <Feather name="eye" size={13} color="white" />
           </View>
         </View>
-        
+
         {starReview()}
         
-        <Text style={{paddingTop: 10, paddingBottom: 1, fontSize: 12, color: 'white'}}>Label</Text>
+        <Text style={{ paddingTop: 10, paddingBottom: 1, fontSize: 12, color: 'white' }}>Label</Text>
         <TextInput
           style={styles.input}
           value={userInput}
@@ -136,28 +148,39 @@ const RateReviewScreen: React.FC<ReviewScreenProps> = ({ route, navigation }) =>
           placeholder="Enter your review here..."
           placeholderTextColor="gray"
         />
-        
-        <UploadImage onImageUpload={handleImageUpload} />
-        
-        <Slider
-          style={styles.slider}
-          minimumValue={1}
-          maximumValue={5}
-          step={1}
-          value={sliderValue}
-          onValueChange={(value) => setSliderValue(value)}
-          minimumTrackTintColor="#FFFFFF"
-          maximumTrackTintColor="#CCCCCC"
-          thumbTintColor="#FFFFFF"
-        />
-        
-        <View style={styles.markers}>
-          {labels.map((label, index) => (
-            <Text key={index} style={styles.marker}>
-              {label}
-            </Text>
-          ))}
+
+        <View style={styles.uploadImageContainer}>
+          <UploadImage onImageUpload={handleImageUpload} />
+          {imageURI && <Image source={{ uri: imageURI }} style={styles.imagePreview} />}
         </View>
+
+        <View>
+        {imageURI && (
+          <Image source={{ uri: imageURI }} style={styles.imagePreview} />
+        )}
+
+        <View style={styles.sliderContainer}>
+          <Slider
+            style={styles.slider}
+            minimumValue={1}
+            maximumValue={5}
+            step={1}
+            value={sliderValue}
+            onValueChange={(value) => setSliderValue(value)}
+            minimumTrackTintColor="#FFFFFF"
+            maximumTrackTintColor="#CCCCCC"
+            thumbTintColor="#FFFFFF"
+          />
+          <View style={styles.markers}>
+            {labels.map((label, index) => (
+              <Text key={index} style={styles.marker}>
+                {label}
+              </Text>
+            ))}
+          </View>
+        </View>
+      </View>
+
 
         <View style={{ marginTop: 20 }}>
           <TouchableOpacity onPress={saveReviews}>
@@ -185,18 +208,18 @@ RateReviewScreen.propTypes = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#060019"
+    backgroundColor: "#060019",
+    flexDirection: 'column'
   },
-  text: {
-    color: "white",
-    fontSize: 24,
+  mainContent: {
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    flexDirection: 'column',
   },
   starContainer: {
     flexDirection: "row",
     justifyContent: "center",
     marginVertical: 10,
-    alignContent: 'center',
-    marginLeft: -15
   },
   star: {
     width: 60,
@@ -213,7 +236,36 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     fontSize: 16,
     padding: 15,
-    textAlignVertical: 'top', // Ensures the text starts at the top
+    textAlignVertical: 'top',
+  },
+  uploadImageContainer: {
+    alignItems: 'center',
+    marginVertical: 20,
+  },
+  imagePreview: {
+    width: 200,
+    height: 200,
+    marginVertical: 10,
+  },
+  sliderContainer: {
+    paddingTop: 20, 
+  },
+  sliderContainerWithImage: {
+    marginTop: 200, 
+  },
+  slider: {
+    width: 350,
+    height: 40,
+  },
+  markers: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: 340,
+    marginLeft: 10,
+  },
+  marker: {
+    fontSize: 14,
+    color: '#FFFFFF',
   },
   saveButton: {
     color: "black",
@@ -222,28 +274,14 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     padding: 10,
     borderRadius: 20,
-    width: 350
-  },
-  label: {
-    fontSize: 24,
-    color: '#FFFFFF',
-    marginBottom: 10,
-  },
-  slider: {
     width: 350,
-    height: 40,
   },
-  
-  markers: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: 340,
-    marginLeft: 10
-  },
-  marker: {
-    fontSize: 14,
-    color: '#FFFFFF',
-  },
+  title: {
+    fontSize: 36, color: 'white', 
+    textShadowColor: 'rgba(200, 150, 255, 0.75)', 
+    textShadowOffset: { width: 0, height: 0 }, 
+    textShadowRadius: 5 
+  }
 });
 
 export default RateReviewScreen;

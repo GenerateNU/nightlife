@@ -29,14 +29,14 @@ const RatingScrollBar = ({minTitle = "", maxTitle = "", value, onSliderChange, c
           />
         </View>
         <Slider 
-          style={{ marginLeft: 5, width: 350, height: 40}}
+          style={{ marginLeft: 5, width: 355, marginTop: 2}}
           minimumValue={0}
           maximumValue={10}
           step={1}
           value={value}
           thumbTintColor="transparent" 
           // eslint-disable-next-line
-          thumbImage={require('../../assets/large_filled_star.png')}
+          thumbImage={require('../../assets/mid_size_star.png')}
           minimumTrackTintColor="white"
           maximumTrackTintColor="gray"
           onValueChange={onSliderChange}/>
@@ -62,7 +62,8 @@ RatingScrollBar.propTypes = {
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundColor: '#060019',
   },
   title: {
     fontSize: 18,

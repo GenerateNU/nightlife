@@ -7,6 +7,7 @@ import useVenueRatings from "@/components/Venue/VenueRatings";
 import isCurrentTimeInRange from "@/components/Venue/TimeCheck";
 import VenueHeader from "@/components/Venue/VenueScreenHeader";
 import RatingScreen from "./RatingScreen";
+import PersonaIcons from "@/components/Venue/PersonaIcons";
 
 enum VenueTabs {
     Overview = "Overview",
@@ -39,7 +40,7 @@ const VenueScreen: React.FC = ({ navigation, route }) => {
     const [venueCity, setVenueCity] = useState("");
     const [venueAddress, setVenueAddress] = useState("");
     const [venueType, setVenueType] = useState("");
-    
+    const [venuePrice, setVenuePrice] = useState(1);
     // venue-specific event info
     const [eventDictList, setEventDictList] = useState([]);
 
@@ -73,6 +74,7 @@ const VenueScreen: React.FC = ({ navigation, route }) => {
                 const [start, stop] = times.split(" – ").map(time => time.trim());
                 setCurrentStartHours(start);
                 setCurrentStopHours(stop);
+                setVenuePrice(json.price)
             })
             .catch(error => {
                 console.error(error);
@@ -106,7 +108,7 @@ const VenueScreen: React.FC = ({ navigation, route }) => {
                         venueAddress={venueAddress}
                         venueCity={venueCity}
                         overallRating={overallRating}
-                        priceRating={priceRating}
+                        priceRating={venuePrice}
                         isOpen={isCurrentTimeInRange(currentStartHours, currentStopHours)}
                         venueID={venueID}
                         userID={userID}
@@ -114,18 +116,30 @@ const VenueScreen: React.FC = ({ navigation, route }) => {
             </View>
         
             {selectedTab === VenueTabs.Rating && (
-                <RatingScreen 
-                venueId={venueID}
-                hype={hypeRating}
-                mainstream={mainstreamRating}
-                price={priceRating}
-                crowd={crowdRating}
-                energy={energyRating}
-                exclusive={exclusiveRating}/>)}
+                    <View style={{flexDirection: 'column'}}>
+                        {/* Render the text and PersonaIcons */}
+                        <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10, marginLeft: 45}}>
+                        <Text style={{color: 'white', fontSize: 16}}>Recommended for ...</Text>
+                        <PersonaIcons venueID={venueID}/>
+                        </View>
+
+                        {/* Render the RatingScreen component */}
+                        <RatingScreen 
+                        venueId={venueID}
+                        hype={hypeRating}
+                        mainstream={mainstreamRating}
+                        price={priceRating}
+                        crowd={crowdRating}
+                        energy={energyRating}
+                        exclusive={exclusiveRating}
+                        />
+                    </View>
+                    )}
+
 
             {/* TAB NAVIGATION */}
             {selectedTab !== VenueTabs.Rating && (
-                <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: 12, width: "100%", paddingHorizontal: 44 }}>
+                <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 15, marginTop: 12, width: "100%", paddingHorizontal: 44 }}>
                     <TouchableOpacity onPress={() => setSelectedTab(VenueTabs.Overview)}>
                         <Text style={styles.buttonText}>Overview</Text>
                     </TouchableOpacity>
@@ -137,19 +151,28 @@ const VenueScreen: React.FC = ({ navigation, route }) => {
                     </TouchableOpacity>
                 </View>
             )}
+            
+            <View style={{ marginHorizontal: 6 }}>
+                
+            {selectedTab === VenueTabs.Overview && (
+                    <View style={{alignItems: 'center'}}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: -5 }}>
+                            <Text style={{ color: 'white', fontSize: 16 }}>Recommended for ...</Text>
+                            <PersonaIcons venueID={venueID} />
+                        </View>
+                        <OverviewScreen
+                            navigation={navigation}
+                            eventDictList={eventDictList}
+                            hype={hypeRating}
+                            mainstream={mainstreamRating}
+                            price={priceRating}
+                            crowd={crowdRating}
+                            energy={energyRating}
+                            exclusive={exclusiveRating}
+                        />
+                    </View>
+                )}
 
-            <View style={{ marginTop: 12, marginHorizontal: 6 }}>
-                {selectedTab === VenueTabs.Overview && (
-                    <OverviewScreen
-                        navigation={navigation}
-                        eventDictList={eventDictList}
-                        hype={hypeRating}
-                        mainstream={mainstreamRating}
-                        price={priceRating}
-                        crowd={crowdRating}
-                        energy={energyRating}
-                        exclusive={exclusiveRating}
-                    />)}
                 {selectedTab === VenueTabs.Reviews && <VenueReviews navigation={navigation} venueName={venueName} venueAddress={venueAddress} venueType={venueType} venueCity={venueCity} />}
                 {selectedTab === VenueTabs.Photos && <PhotosScreen venueID={venueID}/>}
             </View>

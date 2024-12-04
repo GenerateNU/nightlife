@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 const Event = ({ event = { create_at: "", event_date: "", event_id: 0, event_time: "", image_path: "", name: "", venue_id: "" } }) => {
   const date = parseISO(event.event_date);
-  const displayDate = format(date, "MMMM do, yyyy");
+  const displayDate = format(date, "MMMM do");
   const displayTime = format(date, 'h:mm a');
 
   return (
@@ -17,8 +17,7 @@ const Event = ({ event = { create_at: "", event_date: "", event_id: 0, event_tim
         />
         <View style={styles.overlay}>
           <Text style={styles.eventText}>{event.name}</Text>
-          <Text style={styles.dateText}>{displayDate}</Text>
-          <Text style={styles.timeText}>{displayTime}</Text>
+          <Text style={styles.dateText}>{displayDate} + {displayTime}</Text>
         </View>
       </View>
     </View>
@@ -63,6 +62,7 @@ const styles = StyleSheet.create({
   dateText: {
     color: 'white',
     fontSize: 8,
+    paddingTop: 3
   },
   timeText: {
     color: 'white',

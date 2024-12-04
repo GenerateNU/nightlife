@@ -79,13 +79,13 @@ OverviewScreen.propTypes = {
             date: PropTypes.string,
             image: PropTypes.string,
         })
-    ).isRequired, // Array of event objects
-    hype: PropTypes.number.isRequired, // Expected to be a number
-    mainstream: PropTypes.number.isRequired, // Expected to be a number
-    price: PropTypes.number.isRequired, // Expected to be a number
-    crowd: PropTypes.number.isRequired, // Expected to be a number
-    energy: PropTypes.number.isRequired, // Expected to be a number
-    exclusive: PropTypes.number.isRequired, // Expected to be a number
+    ).isRequired, 
+    hype: PropTypes.number.isRequired, 
+    mainstream: PropTypes.number.isRequired, 
+    price: PropTypes.number.isRequired, 
+    crowd: PropTypes.number.isRequired, 
+    energy: PropTypes.number.isRequired, 
+    exclusive: PropTypes.number.isRequired, 
 };
 
 const styles = StyleSheet.create({
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#060019',
     },
     scrollView: {
-        height: 650
+        height: 520
       },
     upcomingText: {
         color: 'white',
