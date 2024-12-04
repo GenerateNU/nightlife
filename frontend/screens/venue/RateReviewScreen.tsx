@@ -120,6 +120,9 @@ const RateReviewScreen: React.FC<ReviewScreenProps> = ({ route, navigation }) =>
     }
   };
 
+  const formattedVenueType = venueType.charAt(0).toUpperCase() + venueType.slice(1).toLowerCase();
+
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.mainContent}>
@@ -129,10 +132,10 @@ const RateReviewScreen: React.FC<ReviewScreenProps> = ({ route, navigation }) =>
         
         <Text style={styles.title}>{venueName}</Text>
         <Text style={{ fontSize: 12, color: 'white' }}>
-          {venueType} | {venueAddress}, {venueCity}
+          {formattedVenueType} | {venueAddress}, {venueCity}
         </Text>
         <View style={{ flexDirection: 'row' }}>
-          <Text style={{ fontSize: 16, color: 'white' }}>{username}</Text>
+          <Text style={{ fontSize: 14, color: 'white' }}>{username}</Text>
           <View style={{ marginTop: 5, marginLeft: 4 }}>
             <Feather name="eye" size={13} color="white" />
           </View>

@@ -78,6 +78,7 @@ const styles = StyleSheet.create({
   review: {
     flexDirection: "row",
     marginTop: 10,
+    marginLeft: 4
   },
   buttonImage: {
     width: 30,

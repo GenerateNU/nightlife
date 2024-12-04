@@ -119,7 +119,7 @@ const VenueScreen: React.FC = ({ navigation, route }) => {
                     <View style={{flexDirection: 'column'}}>
                         {/* Render the text and PersonaIcons */}
                         <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10, marginLeft: 45}}>
-                        <Text style={{color: 'white', fontSize: 14, marginLeft: -20}}>Recommended for ...</Text>
+                        <Text style={{color: 'white', fontSize: 14, marginLeft: -25}}>Recommended for ...</Text>
                         <PersonaIcons venueID={venueID}/>
                         </View>
 
