@@ -102,7 +102,7 @@ const Review = ({ reviewDict = {
     return (
         <View style={styles.container}>
             <Text style={styles.separator}>
-                _____________________________________________________________________
+                ___________________________________________________
             </Text>
             <Text style={styles.username}> {username} </Text>
             <View style={{flexDirection: 'row'}}>
@@ -143,7 +143,8 @@ Review.propTypes = {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: "#121212",
+        backgroundColor: "#060019",
+        flex: 1
     },
     separator: {
         color: "white",
@@ -154,23 +155,23 @@ const styles = StyleSheet.create({
         fontSize: 10,
         color: "white",
         marginBottom: 5,
-        marginLeft: 20
+        marginLeft: 30
     },
     reviewText: {
         fontSize: 16,
         color: "white",
-        marginLeft: 20
+        marginLeft: 30
     },
     eventImage: {
         height: 200,
-        width: 400,
+        width: 500,
         marginTop: 10,
         marginLeft: -10
     },
     starContainer: {
         flexDirection: "row", 
         justifyContent: "flex-start", 
-        marginLeft: 20,
+        marginLeft: 30,
         marginBottom: 5
     },
     star: {

@@ -32,12 +32,12 @@ const OverviewScreen = ({ navigation, eventDictList, hype, mainstream, price, cr
                             <UpcomingEventScroll events={eventDictList} />
                         </View>
                     </View>
-                    <Text style={styles.separator}>______________________________________________________________</Text>
+                    <Text style={styles.separator}>________________________________________________</Text>
                     
                     <View style={styles.vibeSection}>
                         <View style={styles.rowContainer}>
                             <Text style={styles.vibeTitle}>
-                                What&apos;s the vibe?
+                                What's the vibe?
                             </Text>
                             <TouchableOpacity
                                 onPress={() =>
@@ -109,7 +109,6 @@ const styles = StyleSheet.create({
     },
     venueText: {
         color: 'white',
-        textAlign: 'center',
         marginBottom: 5,
     },
     separator: {
@@ -122,8 +121,6 @@ const styles = StyleSheet.create({
     vibeTitle: {
         color: 'white',
         fontSize: 22,
-        flex: 1,
-        alignContent: 'flex-start'
     },
     buttonContainer: {
         marginLeft: 50,

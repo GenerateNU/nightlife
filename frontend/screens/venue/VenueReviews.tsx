@@ -67,9 +67,8 @@ const VenueReviews: React.FC = ({ navigation, venueName, venueAddress, venueType
         </View>
       </TouchableOpacity>
 
-      {/* Scrollable content */}
-      <View>
-        <ScrollView style={{height: 550}}>
+      <View style={{ backgroundColor: "#060019"}}>
+        <ScrollView style={{height: 550,  marginLeft: -30, backgroundColor: "#060019"}}>
           {reviewDictList.map((review, index) => (
             <View key={index} >
               <Review reviewDict={review} />
@@ -85,17 +84,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#060019",
-    marginLeft: -25
+    width: 500
   },
   rateReviewContainer: {
-    paddingLeft: 20
+    backgroundColor: "#060019"
   },
   rateReviewText: {
     color: "white",
     paddingBottom: 5
   },
   scrollView: {
-    
+    backgroundColor: "#060019",
   },
   scrollContent: {
     paddingBottom: 20, 
