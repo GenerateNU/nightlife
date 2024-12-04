@@ -3,11 +3,13 @@ package venues
 import (
 	"fmt"
 	"log"
+	"math"
 	"net/http"
 	"strconv"
 	"strings"
 
 	"github.com/GenerateNU/nightlife/internal/errs"
+	"github.com/GenerateNU/nightlife/internal/models"
 	"github.com/GenerateNU/nightlife/internal/types"
 
 	"github.com/gofiber/fiber/v2"
@@ -95,10 +97,10 @@ func (s *Service) PatchVenueReview(c *fiber.Ctx) error {
 		})
 	}
 
-	log.Printf("Updating review with OverallRating: %d, AmbianceRating: %d, MusicRating: %d, CrowdRating: %d, ServiceRating: %d, ReviewText: %s, VenueID: %v, ReviewID: %d",
-		int8(req.OverallRating), int8(req.AmbianceRating), int8(req.MusicRating), int8(req.CrowdRating), int8(req.ServiceRating), req.ReviewText, venueID, int8(reviewID))
+	log.Printf("Updating review with OverallRating: %d, EnergyRating: %d, MainstreamRating: %d, PriceRating: %d, CrowdRating: %d, HypeRating: %d, ExclusiveRating: %d, ReviewText: %s, VenueID: %v, ReviewID: %d",
+		int8(req.OverallRating), int8(req.EnergyRating), int8(req.MainstreamRating), int8(req.PriceRating), int8(req.CrowdRating), int8(req.HypeRating), int8(req.ExclusiveRating), req.ReviewText, venueID, int8(reviewID))
 	// Call the store method to update the review
-	err = s.store.PatchVenueReview(c.Context(), int8(req.OverallRating), int8(req.AmbianceRating), int8(req.MusicRating), int8(req.CrowdRating), int8(req.ServiceRating), req.ReviewText, venueID, int8(reviewID))
+	err = s.store.PatchVenueReview(c.Context(), int8(req.OverallRating), int8(req.EnergyRating), int8(req.MainstreamRating), int8(req.PriceRating), int8(req.CrowdRating), int8(req.HypeRating), int8(req.ExclusiveRating), req.ReviewText, venueID, int8(reviewID))
 	if err != nil {
 		if handlerErr := errs.ErrorHandler(c, err); handlerErr != nil {
 			return handlerErr
@@ -112,6 +114,8 @@ func (s *Service) PatchVenueReview(c *fiber.Ctx) error {
 
 func (s *Service) GetVenueFromID(c *fiber.Ctx) error {
 	venueID := c.Params("venueId")
+	fmt.Println("GETTING VENUE FROM ID")
+	fmt.Println(venueID)
 	if venueID == "" {
 		return fiber.NewError(fiber.StatusBadRequest, "Venue ID is required")
 	}
@@ -139,12 +143,79 @@ func (s *Service) GetVenueFromName(c *fiber.Ctx) error {
 }
 
 func (s *Service) GetAllVenues(c *fiber.Ctx) error {
+	fmt.Println("GETTING ALL VENUES")
 	venues, err := s.store.GetAllVenues(c.Context())
 	if err != nil {
-		fmt.Println(err.Error())
 		return fiber.NewError(fiber.StatusInternalServerError, "Could not get venue")
 	}
 	return c.Status(fiber.StatusOK).JSON(venues)
+}
+
+// SORT FORMAT: /venues/getAll?sort= {sort}
+// where sort can equal one of the following strings:
+// ByPrice (no extra parameter needed)
+// ByRating (no extra parameter needed)
+// ByDistance {longitude} {latitude}
+// ByRecommendation {persona_name} // must be one of the seven listed personas
+func (s *Service) GetAllVenuesWithFilter(c *fiber.Ctx) error {
+	fmt.Println("GETTING ALL VENUES")
+	// parse all filters from the context
+	sort := c.Query("sort")
+	f := c.Query("filters")
+	filters := []string{} // default to empty array if no filters applied
+	if f != `` {
+		filters = strings.Split(f, ",")
+	}
+	// pass filters into SortAndFilter instance and retrieve query string
+	sortAndFilter := models.SortAndFilter{}
+	sortAndFilter = sortAndFilter.Make()
+	whereQuery := sortAndFilter.ConstructFilterQuery(filters)
+	sortQuery := sortAndFilter.SortVenues(sort)
+	// retrieve venues with given filters from db
+	venues, err := s.store.GetAllVenuesWithFilter(c.Context(), whereQuery, sortQuery)
+	if err != nil {
+		fmt.Println(err.Error())
+		return s.GetAllVenues(c) // attempt to get all venues without the filter (default choice if a sort isn't possible)
+	}
+	// Use SortAndFilter instance to sort the filtered list of venues and return final list
+	return c.Status(fiber.StatusOK).JSON(venues)
+}
+
+func (s *Service) GetVenuePersona(c *fiber.Ctx) error {
+	venueID := c.Params("venueId")
+	if venueID == "" {
+		return fiber.NewError(fiber.StatusBadRequest, "Venue ID is required")
+	}
+	formattedID, err := uuid.Parse(venueID)
+	if err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, "Couldn't parse venue id to uuid")
+	}
+
+	v, err := s.store.GetVenueFromID(c.Context(), formattedID)
+	if err != nil {
+		fmt.Println("error: " + err.Error())
+		return fiber.NewError(fiber.StatusInternalServerError, "Could not get venue")
+	}
+	total := v.AvgEnergy + v.AvgExclusive + v.AvgMainstream + v.AvgPrice
+	priceWeight := v.AvgPrice / total
+	mainstreamWeight := v.AvgMainstream / total
+	energyWeight := v.AvgEnergy / total
+	exclusiveWeight := v.AvgExclusive / total
+	temp := models.ByRecommendation{}
+	persona := ``
+	minDistance := math.Inf(1)
+	for key, value := range temp.CharacterMap() {
+		// energy, exclusive, mainstream, price
+		distance := math.Abs(float64(energyWeight)-float64(value[0])) + math.Abs(float64(exclusiveWeight)-float64(value[1])) + math.Abs(float64(mainstreamWeight)-float64(value[2])) + math.Abs(float64(priceWeight)-float64(value[3]))
+		if distance < minDistance {
+			persona = key
+			minDistance = distance
+		}
+	}
+	if persona == `` {
+		return c.Status(fiber.StatusOK).JSON("Not enough reviews to determine venue persona")
+	}
+	return c.Status(fiber.StatusOK).JSON(persona)
 }
 
 func (s *Service) GetVenuesByIDs(c *fiber.Ctx) error {
@@ -155,6 +226,7 @@ func (s *Service) GetVenuesByIDs(c *fiber.Ctx) error {
 			"error": "Missing venue IDs",
 		})
 	}
+	
 
 	// Split the IDs into a slice
 	idStrings := strings.Split(ids, ",")

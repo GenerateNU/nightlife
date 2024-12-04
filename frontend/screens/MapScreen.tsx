@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { Modalize } from "react-native-modalize";
@@ -8,6 +8,7 @@ import { Image } from "react-native";
 import { API_DOMAIN } from "@env";
 import { Venue } from "@/types/Venue";
 import { useAuth } from "@/context/AuthContext";
+import React from "react";
 
 const MapScreen: React.FC = () => {
   const [allVenues, setAllVenues] = useState<Venue[]>([]);
@@ -98,7 +99,7 @@ const MapScreen: React.FC = () => {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <View style={styles.container}>
         {/* Floating Search Bar */}
-        <SearchBar />
+        <SearchBar placeholderText="Search for venues"/>
 
         {/* Map */}
         <MapView

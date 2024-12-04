@@ -1,6 +1,7 @@
 {
   "expo": {
     "name": "nightlife-mobile",
+    "newArchEnabled": true,
     "slug": "frontend",
     "version": "1.0.0",
     "orientation": "portrait",

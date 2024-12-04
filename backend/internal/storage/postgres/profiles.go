@@ -1,4 +1,4 @@
-//nolint
+// nolint
 package postgres
 
 import (
@@ -253,10 +253,10 @@ func (db *DB) GetUserAuthoredReviews(ctx context.Context, userID uuid.UUID) ([]m
 			&review.ReviewID,
 			&review.VenueID,
 			&review.OverallRating,
-			&review.AmbianceRating,
-			&review.MusicRating,
+			&review.ExclusiveRating,
+			&review.PriceRating,
 			&review.CrowdRating,
-			&review.ServiceRating,
+			&review.EnergyRating,
 			&review.ReviewText,
 			&review.CreatedAt,
 		); err != nil {
@@ -281,10 +281,10 @@ func (db *DB) GetUserReviewsWithVenueData(ctx context.Context, userID uuid.UUID)
 			r.review_id, 
 			r.venue_id, 
 			r.overall_rating, 
-			r.ambiance_rating, 
-			r.music_rating, 
+			r.energy_rating, 
+			r.price_rating, 
 			r.crowd_rating, 
-			r.service_rating, 
+			r.mainstream_rating, 
 			r.review_text, 
 			r.created_at, 
 			COALESCE(r.updated_at, '0001-01-01 00:00:00') AS updated_at,
@@ -317,10 +317,10 @@ func (db *DB) GetUserReviewsWithVenueData(ctx context.Context, userID uuid.UUID)
 			&rwv.Review.ReviewID,
 			&rwv.Review.VenueID,
 			&rwv.Review.OverallRating,
-			&rwv.Review.AmbianceRating,
-			&rwv.Review.MusicRating,
+			&rwv.Review.ExclusiveRating,
+			&rwv.Review.PriceRating,
 			&rwv.Review.CrowdRating,
-			&rwv.Review.ServiceRating,
+			&rwv.Review.EnergyRating,
 			&rwv.Review.ReviewText,
 			&rwv.Review.CreatedAt,
 			&rwv.Review.UpdatedAt,

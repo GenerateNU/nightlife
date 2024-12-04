@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/GenerateNU/nightlife/internal/errs"
+	"github.com/GenerateNU/nightlife/internal/models"
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
 )
@@ -32,5 +34,20 @@ func (s *Service) GetAllUserRatings(c *fiber.Ctx) error {
 	}
 
 	return c.Status(http.StatusOK).JSON(UserRatings)
+
+}
+
+func (s *Service) CreateReview(c *fiber.Ctx) error {
+	var p models.Review
+	if err := c.BodyParser(&p); err != nil {
+		return errs.BadRequest(err)
+	}
+
+	if err := s.store.CreateReview(c.Context(), p); err != nil {
+		return err
+	}
+
+	// close out with success status
+	return c.Status(fiber.StatusCreated).JSON(p)
 
 }

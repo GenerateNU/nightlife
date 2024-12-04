@@ -1,4 +1,4 @@
-//nolint
+// nolint
 package profiles
 
 import (
@@ -158,7 +158,7 @@ func (s *Service) UpdateProfile(c *fiber.Ctx) error {
 	}
 
 	err = s.store.PatchProfile(c.Context(), userID, req.FirstName,
-	req.Username, req.Email, req.Age, req.Location, req.ProfilePictureURL, req.PersonalityType, req.Pronouns, req.Biography, req.InstagramURL, req.TikTokURL, req.TwitterURL, req.Phone, req.Privacy)
+		req.Username, req.Email, req.Age, req.Location, req.ProfilePictureURL, req.PersonalityType, req.Pronouns, req.Biography, req.InstagramURL, req.TikTokURL, req.TwitterURL, req.Phone, req.Privacy)
 
 	if err != nil {
 		if handlerErr := errs.ErrorHandler(c, err); handlerErr != nil {
@@ -203,26 +203,26 @@ func (s *Service) GetAllUsers(c *fiber.Ctx) error {
 Get all reviews authored by a given user
 */
 func (s *Service) GetUserAuthoredReviews(c *fiber.Ctx) error {
-    // Extract the user ID from the URL parameter
-    userID := c.Params("userId")
-    if userID == "" {
-        return fiber.NewError(fiber.StatusBadRequest, "User ID is required")
-    }
+	// Extract the user ID from the URL parameter
+	userID := c.Params("userId")
+	if userID == "" {
+		return fiber.NewError(fiber.StatusBadRequest, "User ID is required")
+	}
 
-    // Convert the user ID to a UUID
-    userUUID, err := uuid.Parse(userID)
-    if err != nil {
-        return fiber.NewError(fiber.StatusBadRequest, "Invalid User ID format")
-    }
+	// Convert the user ID to a UUID
+	userUUID, err := uuid.Parse(userID)
+	if err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, "Invalid User ID format")
+	}
 
-    // Call the store to get the reviews authored by the user
-    reviews, err := s.store.GetUserAuthoredReviews(c.Context(), userUUID)
-    if err != nil {
-        return fiber.NewError(fiber.StatusInternalServerError, "Failed to get user reviews")
-    }
+	// Call the store to get the reviews authored by the user
+	reviews, err := s.store.GetUserAuthoredReviews(c.Context(), userUUID)
+	if err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, "Failed to get user reviews")
+	}
 
-    // Return the list of reviews
-    return c.Status(fiber.StatusOK).JSON(reviews)
+	// Return the list of reviews
+	return c.Status(fiber.StatusOK).JSON(reviews)
 }
 
 func (s *Service) GetUserReviewsWithVenueData(c *fiber.Ctx) error {

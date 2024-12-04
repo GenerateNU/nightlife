@@ -1,20 +1,26 @@
 import React from "react";
 import { View, TextInput, StyleSheet } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-const SearchBar = () => {
+
+type SearchBarProps = {
+  placeholderText: string;
+  icon?: boolean
+}
+
+const SearchBar = ({ placeholderText, icon }: SearchBarProps) => {
   const [searchText, setSearchText] = React.useState("");
 
   return (
     <View style={styles.searchContainer}>
-      <MaterialCommunityIcons
+      {icon && <MaterialCommunityIcons
         name="magnify"
         size={20}
         color="#aaa"
         style={styles.searchIcon}
-      />
+      />}
       <TextInput
         style={styles.searchInput}
-        placeholder="Search location"
+        placeholder={placeholderText}
         placeholderTextColor="#aaa"
         value={searchText}
         onChangeText={setSearchText}
