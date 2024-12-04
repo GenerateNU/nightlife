@@ -10,14 +10,14 @@ import { Venue } from "@/types/Venue";
 import { useAuth } from "@/context/AuthContext";
 import React from "react";
 import HomeScreen from "./HomeScreen";
+import EventCard from "./explore/EventCard";
 
 const MapScreen: React.FC = () => {
   const [allVenues, setAllVenues] = useState<Venue[]>([]);
   const [selectedVenue, setSelectedVenue] = useState<Venue | null>(null);
+  const [mapKey, setMapKey] = useState(0);
   const { user, accessToken } = useAuth();
   const modalRef = React.useRef<Modalize>(null);
-
-  
 
   const fetchVenues = async (): Promise<void> => {
     if (!accessToken || !user?.location) {
@@ -25,46 +25,55 @@ const MapScreen: React.FC = () => {
       return;
     }
 
-
     try {
-
       const locationRes = await fetch(
         `${API_DOMAIN}/profiles/${user.user_id}/location`,
         {
           method: "GET",
           headers: {
-            "Authorization": `Bearer ${accessToken}`,
+            Authorization: `Bearer ${accessToken}`,
           },
         }
       );
 
       if (!locationRes.ok)
-        throw new Error(`Error fetching user location: ${locationRes.statusText}`);
+        throw new Error(
+          `Error fetching user location: ${locationRes.statusText}`
+        );
       const { latitude, longitude } = await locationRes.json();
-
-
-
-       // Fetch venues by location
+      // Fetch venues by location
       const radius = 80000; // 80,000 meters (80 km)
       const venuesRes = await fetch(
         `${API_DOMAIN}/venues/location?latitude=${latitude}&longitude=${longitude}&radius=${radius}`,
+        // `${API_DOMAIN}/venues`,
         {
           method: "GET",
           headers: {
-            "Authorization": `Bearer ${accessToken}`,
+            Authorization: `Bearer ${accessToken}`,
           },
         }
       );
 
-      if (!venuesRes.ok)
+      if (!venuesRes.ok) {
         throw new Error(`Error fetching venues: ${venuesRes.statusText}`);
+      }
       const venues: Venue[] = await venuesRes.json();
+      console.log(venues[1]);
 
       setAllVenues(venues);
+      setMapKey((prevKey) => prevKey + 1);
     } catch (err) {
       console.error("Failed to fetch venues by location:", err);
     }
+  };
 
+  const getPriceRepresentation = (price: number | undefined): string => {
+    // Fallback to 1 star if price is undefined or 0
+    if (!price || price === 0) {
+      return "$";
+    }
+    // Return the correct number of dollar signs
+    return "$".repeat(price);
   };
 
   useEffect(() => {
@@ -81,29 +90,36 @@ const MapScreen: React.FC = () => {
     modalRef.current?.open();
   };
 
-  // // Get the current day of the week for displaying venue hours
-  // const getCurrentDayHours = (venue: Venue): string => {
-  //   const days = [
-  //     "monday_hours",
-  //     "tuesday_hours",
-  //     "wednesday_hours",
-  //     "thursday_hours",
-  //     "friday_hours",
-  //     "saturday_hours",
-  //     "sunday_hours",
-  //   ];
-  //   const today = new Date().getDay();
-  //   return venue[days[today - 1]] || "Hours not available";
-  // };
+  // Get the current day of the week for displaying venue hours
+  const getCurrentDayHours = (venue: Venue): string | number => {
+    const days = [
+      "monday_hours",
+      "tuesday_hours",
+      "wednesday_hours",
+      "thursday_hours",
+      "friday_hours",
+      "saturday_hours",
+      "sunday_hours",
+    ];
+    const today = new Date().getDay();
+    const dayKey = days[today - 1] as keyof Venue;
+
+    if (venue[dayKey] == "NULL") {
+      return "Hours not available";
+    }
+
+    return venue[dayKey] || "Hours not available";
+  };
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <View style={styles.container}>
         {/* Floating Search Bar */}
-        <SearchBar placeholderText="Search for venues"/>
+        <SearchBar placeholderText="Search for venues" />
 
         {/* Map */}
         <MapView
+          key={mapKey}
           style={styles.map}
           initialRegion={{
             latitude: 42.3601,
@@ -130,6 +146,7 @@ const MapScreen: React.FC = () => {
                   style={styles.markerImage}
                   resizeMode="contain"
                 />
+                {/* <LocationIcon/> */}
               </View>
             </Marker>
           ))}
@@ -173,9 +190,7 @@ const MapScreen: React.FC = () => {
               <View style={styles.ratingContainer}>
                 {/* Stand-in Rating */}
                 <Text style={styles.standInRating}>
-                  {selectedVenue.total_rating
-                    ? selectedVenue.total_rating.toFixed(1)
-                    : "4.2"}
+                  {selectedVenue.total_rating}
                 </Text>
 
                 {/* Star Icon */}
@@ -189,35 +204,35 @@ const MapScreen: React.FC = () => {
                 <Text style={styles.divider}>|</Text>
 
                 {/* Money Sign */}
-                <Text style={styles.moneySign}>$$$</Text>
+                <Text style={styles.moneySign}>
+                  {getPriceRepresentation(selectedVenue?.price)}
+                </Text>
 
                 {/* Divider */}
                 <Text style={styles.divider}>|</Text>
 
-                {/* Open Status */}
-                {/* <Text style={styles.statusText}>
+                {/* Hours for the Day */}
+                <Text style={styles.statusText}>
                   {getCurrentDayHours(selectedVenue)}
-                </Text> */}
-                <Text style={styles.statusText}>🟢 Open</Text>
+                </Text>
+              </View>
+
+              {/* Centered EventCard */}
+              <View style={styles.eventCardContainer}>
+                <EventCard
+                  key={selectedVenue.venue_id}
+                  image={
+                    "https://academy.la/wp-content/uploads/2024/06/best-club-near-me-hollywood-1024x576.webp"
+                  }
+                  title={selectedVenue.name}
+                  subtitle={`${selectedVenue.city}, ${selectedVenue.state}`}
+                  accent={"#2d2d44"}
+                  venue_id={selectedVenue.venue_id}
+                />
               </View>
             </View>
           ) : (
-            // TODO: Replace with Ben's explore page
-            // Venue List View
-            // <View style={styles.modalContent}>
-            //   <Text style={styles.listTitle}>All Venues</Text>
-            //   {allVenues.map((venue) => (
-            //     <TouchableOpacity
-            //       key={venue.venue_id}
-            //       onPress={() => handleMarkerPress(venue)}
-            //       style={styles.venueItem}
-            //     >
-            //       <Text style={styles.venueName}>{venue.name}</Text>
-            //       <Text style={styles.venueAddress}>{venue.address}</Text>
-            //     </TouchableOpacity>
-            //   ))}
-            // </View>
-            <HomeScreen/>
+            <HomeScreen showSearchBar={false} />
           )}
         </Modalize>
       </View>
@@ -352,8 +367,15 @@ const styles = StyleSheet.create({
   },
   statusText: {
     fontSize: 18,
-    color: "#00FF00",
+    color: "#FFFFFF",
     marginLeft: 5,
+  },
+  eventCardContainer: {
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 20,
+    paddingHorizontal: 10, // Add some padding for aesthetic spacing
   },
 });
 

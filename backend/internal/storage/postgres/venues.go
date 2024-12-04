@@ -206,60 +206,17 @@ func (db *DB) GetVenuesByLocation(ctx context.Context, latitude float64, longitu
 		FROM venue
 		WHERE ST_DWithin(
 			location::geography, 
-			ST_MakePoint($1, $2)::geography, 
-			$3
-		);
+			ST_MakePoint($1, $2)::geography, $3) limit 20
 	`
 
-	rows, err := db.conn.Query(ctx, query, longitude, latitude, radiusInMeters)
+	rows, err := db.conn.Query(ctx, query, latitude, longitude, radiusInMeters)
 	if err != nil {
 		log.Printf("Database query failed: %v | Query: %s | Params: longitude=%f, latitude=%f, radius=%d", err, query, longitude, latitude, radiusInMeters)
 		return nil, fmt.Errorf("database query error: %w", err)
 	}
-	defer rows.Close() // No need to handle rows.Close()'s return, just defer the call
-
-	venues := []models.Venue{}
-	for rows.Next() {
-		var venue models.Venue
-		if err := rows.Scan(
-			&venue.VenueID,
-			&venue.Name,
-			&venue.Address,
-			&venue.City,
-			&venue.State,
-			&venue.ZipCode,
-			&venue.Latitude,
-			&venue.Longitude,
-			&venue.VenueType,
-			&venue.TotalRating,
-			&venue.Price,
-			&venue.AvgMainstream,
-			&venue.AvgPrice,
-			&venue.AvgExclusive,
-			&venue.AvgEnergy,
-			&venue.MondayHours,
-			&venue.TuesdayHours,
-			&venue.WednesdayHours,
-			&venue.ThursdayHours,
-			&venue.FridayHours,
-			&venue.SaturdayHours,
-			&venue.SundayHours,
-			&venue.CreatedAt,
-			&venue.UpdatedAt,
-		); err != nil {
-			log.Printf("Error scanning row: %v", err)
-			return nil, fmt.Errorf("row scan error: %w", err)
-		}
-		venues = append(venues, venue)
-	}
-
-	// Check for errors in row iteration
-	if err := rows.Err(); err != nil {
-		log.Printf("Row iteration error: %v", err)
-		return nil, fmt.Errorf("row iteration error: %w", err)
-	}
-
-	return venues, nil
+	defer rows.Close()
+	arr, err := pgx.CollectRows(rows, pgx.RowToStructByName[models.Venue])
+	return arr, err
 }
 
 func (db *DB) GetAllVenuesWithFilter(ctx context.Context, where string, sort string) ([]models.Venue, error) {

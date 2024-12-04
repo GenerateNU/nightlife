@@ -226,7 +226,6 @@ func (s *Service) GetVenuesByIDs(c *fiber.Ctx) error {
 			"error": "Missing venue IDs",
 		})
 	}
-	
 
 	// Split the IDs into a slice
 	idStrings := strings.Split(ids, ",")
@@ -256,6 +255,7 @@ func (s *Service) GetVenuesByIDs(c *fiber.Ctx) error {
 func (s *Service) GetVenuesByLocation(c *fiber.Ctx) error {
 	// Parse latitude
 	latitude := c.QueryFloat("latitude")
+	fmt.Print(latitude)
 	if latitude == 0 {
 		log.Printf("Invalid or missing latitude parameter: %v", latitude)
 		return fiber.NewError(fiber.StatusBadRequest, "Invalid or missing latitude parameter")
