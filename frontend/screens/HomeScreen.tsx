@@ -11,11 +11,24 @@ interface HomeScreenProps {
 }
 
 const HomeScreen: React.FC<HomeScreenProps> = ({ showSearchBar = true }) => {
+  const navigation = useNavigation();
+  const handleSearch = async (text: string) => {
+      const req = await fetch(`${API_DOMAIN}/venues/search?q=${encodeURIComponent(text)}`);
+  
+      if (!req.ok) {
+          console.error("Failed to search for venues");
+          return;
+      }
+  
+      const res = await req.json();
+      navigation.navigate("VenueCards", { venues: res });
+  }
+
   return (
     <View style={styles.container}>
       {showSearchBar && (
         <View style={styles.searchBarContainer}>
-          <SearchBar placeholderText="Search venues..." />
+          <SearchBar placeholderText="Search venues..." onSubmitEditing={handleSearch}/>
         </View>
       )}
       <ScrollView contentContainerStyle={styles.scrollableContent}>

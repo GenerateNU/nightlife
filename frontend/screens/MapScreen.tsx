@@ -11,6 +11,8 @@ import { useAuth } from "@/context/AuthContext";
 import React from "react";
 import HomeScreen from "./HomeScreen";
 import EventCard from "./explore/EventCard";
+import CustomMarkerImage from "@/assets/custom-marker.png";
+import RatingStarImage from "@/assets/rating-star.png";
 
 const MapScreen: React.FC = () => {
   const [allVenues, setAllVenues] = useState<Venue[]>([]);
@@ -142,7 +144,7 @@ const MapScreen: React.FC = () => {
             >
               <View style={styles.customMarker}>
                 <Image
-                  source={require("@/assets/custom-marker.png")}
+                  source={CustomMarkerImage}
                   style={styles.markerImage}
                   resizeMode="contain"
                 />
@@ -195,7 +197,7 @@ const MapScreen: React.FC = () => {
 
                 {/* Star Icon */}
                 <Image
-                  source={require("@/assets/rating-star.png")}
+                  source={RatingStarImage}
                   style={styles.ratingStar}
                   resizeMode="contain"
                 />
@@ -375,7 +377,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: 20,
-    paddingHorizontal: 10, // Add some padding for aesthetic spacing
+    paddingHorizontal: 10,
   },
 });
 
