@@ -37,12 +37,12 @@ const ProfileVenueCard: React.FC<ProfileVenueCardProps> = ({ image, title, dista
 const styles = StyleSheet.create({
     card: {
         width: (width / 2.2) - scaleSize(10),
-        backgroundColor: '#333',
+        backgroundColor: '#3a3a54',
         borderRadius: 8,
         overflow: 'hidden',
         marginVertical: 4,
         borderWidth: 2,
-        borderColor: "gray"
+        borderColor: "#5656a6"
     },
     imageContainer: {
         height: width * 0.3,
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     },
     infoContainer: {
         padding: scaleSize(8),
-        backgroundColor: '#333',
+        backgroundColor: '#3a3a54',
     },
     title: {
         color: '#fff',

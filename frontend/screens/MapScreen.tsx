@@ -13,6 +13,7 @@ import HomeScreen from "./HomeScreen";
 import EventCard from "./explore/EventCard";
 import CustomMarkerImage from "@/assets/custom-marker.png";
 import RatingStarImage from "@/assets/rating-star.png";
+import { useNavigation } from "@react-navigation/native";
 
 const MapScreen: React.FC = () => {
   const [allVenues, setAllVenues] = useState<Venue[]>([]);
@@ -113,13 +114,27 @@ const MapScreen: React.FC = () => {
     return venue[dayKey] || "Hours not available";
   };
 
+  const navigation = useNavigation();
+
+  const handleSearch = async (text: string) => {
+    const req = await fetch(`${API_DOMAIN}/venues/search?q=${encodeURIComponent(text)}`);
+
+    if (!req.ok) {
+      console.error("Failed to search for venues");
+      return;
+    }
+
+    const res = await req.json();
+    navigation.navigate("VenueCards", { venues: res });
+  };
+
   return (
+
     <GestureHandlerRootView style={{ flex: 1 }}>
       <View style={styles.container}>
-        {/* Floating Search Bar */}
-        <SearchBar placeholderText="Search for venues" />
 
-        {/* Map */}
+        <SearchBar placeholderText="Search for venues..." icon={true} onSubmitEditing={handleSearch} />
+
         <MapView
           key={mapKey}
           style={styles.map}
@@ -256,7 +271,9 @@ const styles = StyleSheet.create({
     transform: [{ translateX: -30 }],
     width: 60,
     height: 60,
-    backgroundColor: "#1c1c1e",
+    backgroundColor: "#3a3a54",
+    borderWidth: 2,
+    borderColor: "#5656a6",
     borderRadius: 30,
     justifyContent: "center",
     alignItems: "center",

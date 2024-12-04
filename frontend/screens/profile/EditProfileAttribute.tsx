@@ -82,7 +82,7 @@ const EditProfileAttribute: React.FC<EditProfileAttributeProps> = ({ navigation,
 const styles = StyleSheet.create({
     goBackButton: {
         padding: 6,
-        backgroundColor: "#007bff",
+        backgroundColor: "#382873",
         borderRadius: 6,
         alignSelf: "flex-start",
         flexDirection: "row",
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     },
     scrollContainer: {
         padding: 20,
-        backgroundColor: '#1c1c1c',
+        backgroundColor: '#1a1a2e',
         flex: 1
     },
     title: {
@@ -104,14 +104,14 @@ const styles = StyleSheet.create({
     input: {
         borderWidth: 1,
         borderColor: '#444',
-        backgroundColor: '#1e1e1e',
+        backgroundColor: '#1a1a2e',
         color: '#fff',
         borderRadius: 5,
         padding: 10,
         fontFamily: 'Archivo_500Medium',
     },
     saveButton: {
-        backgroundColor: '#007bff',
+        backgroundColor: '#382873',
         padding: 10,
         borderRadius: 5,
         marginTop: 10,

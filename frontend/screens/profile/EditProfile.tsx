@@ -132,7 +132,7 @@ const EditProfile = ({ navigation }: EditProfileProps) => {
       <View style={styles.editThing}>
         <Text style={styles.aboutYouText}>Private?</Text>
         <Switch
-          trackColor={{ false: "#007bff", true: "#007bff" }}
+          trackColor={{ false: "#382873", true: "#382873" }}
           ios_backgroundColor="#3e3e3e"
           onValueChange={togglePrivacy}
           value={privacy}
@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
   },
   goBackButton: {
     padding: 6,
-    backgroundColor: "#007bff",
+    backgroundColor: "#382873",
     borderRadius: 6,
     alignSelf: "flex-start",
     flexDirection: "row",
@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   editThing: {
-    backgroundColor: "#1c1c1c",
+    backgroundColor: "#1a1a2e",
     flexDirection: "row",
     justifyContent: "space-between",
     alignContent: "center",
@@ -210,7 +210,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: "#1c1c1c",
+    backgroundColor: "#1a1a2e",
   },
   title: {
     fontSize: 26,
@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
   },
   button: {
     padding: 16,
-    backgroundColor: "#007bff",
+    backgroundColor: "#382873",
     borderRadius: 6,
     marginVertical: 16,
   },

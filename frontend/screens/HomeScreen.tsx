@@ -28,7 +28,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ showSearchBar = true }) => {
     <View style={styles.container}>
       {showSearchBar && (
         <View style={styles.searchBarContainer}>
-          <SearchBar placeholderText="Search venues..." onSubmitEditing={handleSearch}/>
+          <SearchBar icon={true} placeholderText="Search venues..." onSubmitEditing={handleSearch} style={{marginTop: -8}}/>
         </View>
       )}
       <ScrollView contentContainerStyle={styles.scrollableContent}>
@@ -49,10 +49,10 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ showSearchBar = true }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#1c1c1c",
+        backgroundColor: "#1a1a2e",
     },
     scrollableContent: {
-        paddingTop: 64,
+        paddingTop: 54,
         paddingHorizontal: 2
     },
     searchBarContainer: {

@@ -19,7 +19,7 @@ const VenueCardPage: React.FC<VenueCardPageProps> = () => {
 
     return (
         <View style={styles.container}>
-            <TouchableOpacity onPress={() => navigation.goBack()} style={{ display: "flex", borderColor: "gray", borderWidth: 2, borderRadius: 6, marginBottom: 4, marginHorizontal: 12}}>
+            <TouchableOpacity onPress={() => navigation.goBack()} style={{ display: "flex", borderColor: "#5656a6", borderWidth: 2, borderRadius: 6, marginTop: 10, marginHorizontal: 20}}>
                 <Text style={{ color: "#fff", padding: 10, marginLeft: 10 }}>Back</Text>
             </TouchableOpacity>
             <FlatList
@@ -29,7 +29,7 @@ const VenueCardPage: React.FC<VenueCardPageProps> = () => {
                 horizontal={false}
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={styles.listContent}
-                style={{ flex: 1, marginTop: 10 }}
+                style={{ marginTop: 10, marginHorizontal: 10 }}
             />
         </View>
     );
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        backgroundColor: "#1c1c1e",
+        backgroundColor: "#1a1a2e",
         paddingVertical: 10,
     },
     listContent: {
