@@ -97,10 +97,10 @@ func (s *Service) PatchVenueReview(c *fiber.Ctx) error {
 		})
 	}
 
-	log.Printf("Updating review with OverallRating: %d, AmbianceRating: %d, MusicRating: %d, CrowdRating: %d, ServiceRating: %d, ReviewText: %s, VenueID: %v, ReviewID: %d",
-		int8(req.OverallRating), int8(req.AmbianceRating), int8(req.MusicRating), int8(req.CrowdRating), int8(req.ServiceRating), req.ReviewText, venueID, int8(reviewID))
+	log.Printf("Updating review with OverallRating: %d, EnergyRating: %d, MainstreamRating: %d, PriceRating: %d, CrowdRating: %d, HypeRating: %d, ExclusiveRating: %d, ReviewText: %s, VenueID: %v, ReviewID: %d",
+		int8(req.OverallRating), int8(req.EnergyRating), int8(req.MainstreamRating), int8(req.PriceRating), int8(req.CrowdRating), int8(req.HypeRating), int8(req.ExclusiveRating), req.ReviewText, venueID, int8(reviewID))
 	// Call the store method to update the review
-	err = s.store.PatchVenueReview(c.Context(), int8(req.OverallRating), int8(req.AmbianceRating), int8(req.MusicRating), int8(req.CrowdRating), int8(req.ServiceRating), req.ReviewText, venueID, int8(reviewID))
+	err = s.store.PatchVenueReview(c.Context(), int8(req.OverallRating), int8(req.EnergyRating), int8(req.MainstreamRating), int8(req.PriceRating), int8(req.CrowdRating), int8(req.HypeRating), int8(req.ExclusiveRating), req.ReviewText, venueID, int8(reviewID))
 	if err != nil {
 		if handlerErr := errs.ErrorHandler(c, err); handlerErr != nil {
 			return handlerErr
@@ -114,6 +114,8 @@ func (s *Service) PatchVenueReview(c *fiber.Ctx) error {
 
 func (s *Service) GetVenueFromID(c *fiber.Ctx) error {
 	venueID := c.Params("venueId")
+	fmt.Println("GETTING VENUE FROM ID")
+	fmt.Println(venueID)
 	if venueID == "" {
 		return fiber.NewError(fiber.StatusBadRequest, "Venue ID is required")
 	}
@@ -141,6 +143,7 @@ func (s *Service) GetVenueFromName(c *fiber.Ctx) error {
 }
 
 func (s *Service) GetAllVenues(c *fiber.Ctx) error {
+	fmt.Println("GETTING ALL VENUES")
 	venues, err := s.store.GetAllVenues(c.Context())
 	if err != nil {
 		fmt.Println(err.Error())
@@ -251,35 +254,35 @@ func (s *Service) GetVenuePersona(c *fiber.Ctx) error {
 }
 
 func (s *Service) GetVenuesByIDs(c *fiber.Ctx) error {
-    // Get the "ids" query parameter
-    ids := c.Query("ids")
-    if ids == "" {
-        return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-            "error": "Missing venue IDs",
-        })
-    }
+	// Get the "ids" query parameter
+	ids := c.Query("ids")
+	if ids == "" {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": "Missing venue IDs",
+		})
+	}
 
-    // Split the IDs into a slice
-    idStrings := strings.Split(ids, ",")
-    var venueIDs []uuid.UUID
-    for _, idStr := range idStrings {
-        parsedID, err := uuid.Parse(strings.TrimSpace(idStr))
-        if err != nil {
-            return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-                "error": fmt.Sprintf("Invalid venue ID format: %s", idStr),
-            })
-        }
-        venueIDs = append(venueIDs, parsedID)
-    }
+	// Split the IDs into a slice
+	idStrings := strings.Split(ids, ",")
+	var venueIDs []uuid.UUID
+	for _, idStr := range idStrings {
+		parsedID, err := uuid.Parse(strings.TrimSpace(idStr))
+		if err != nil {
+			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+				"error": fmt.Sprintf("Invalid venue ID format: %s", idStr),
+			})
+		}
+		venueIDs = append(venueIDs, parsedID)
+	}
 
-    // Fetch venues from the store
-    venues, err := s.store.GetVenuesByIDs(c.Context(), venueIDs)
-    if err != nil {
-        return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-            "error": "Failed to fetch venue details",
-        })
-    }
+	// Fetch venues from the store
+	venues, err := s.store.GetVenuesByIDs(c.Context(), venueIDs)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"error": "Failed to fetch venue details",
+		})
+	}
 
-    // Return the list of venues
-    return c.Status(fiber.StatusOK).JSON(venues)
+	// Return the list of venues
+	return c.Status(fiber.StatusOK).JSON(venues)
 }

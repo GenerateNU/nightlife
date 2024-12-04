@@ -28,6 +28,20 @@ type Venue struct {
 
 	CreatedAt time.Time `json:"created_at"`
 
+	MondayHours string `json:"monday_hours"`
+
+	TuesdayHours string `json:"tuesday_hours"`
+
+	WednesdayHours string `json:"wednesday_hours"`
+
+	ThursdayHours string `json:"thursday_hours"`
+
+	FridayHours string `json:"friday_hours"`
+
+	SaturdayHours string `json:"saturday_hours"`
+
+	SundayHours string `json:"sunday_hours"`
+
 	UpdatedAt sql.NullTime `json:"updated_at"`
 
 	TotalRating float32 `json:"total_rating"`

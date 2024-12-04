@@ -5,7 +5,6 @@ import (
 
 	"github.com/GenerateNU/nightlife/internal/models"
 	"github.com/google/uuid"
-
 )
 
 type Storage interface {
@@ -17,6 +16,8 @@ type Storage interface {
 	Profile
 	Review
 	Friendship
+	Event
+	Bookmarks
 }
 
 type Test interface {
@@ -39,6 +40,7 @@ type Profile interface {
 
 type UserRating interface {
 	GetAllUserRatings(context.Context, uuid.UUID) ([]models.UserRating, error)
+	CreateReview(context.Context, models.Review) error
 }
 
 type Venues interface {
@@ -59,8 +61,18 @@ type VenueRatings interface {
 
 type Friendship interface {
 	CreateFriendship(context.Context, models.Friendship) error
+	GetFriendshipsByUserID(context.Context, uuid.UUID) ([]models.Friendship, error)
+}
+
+type Event interface {
+	GetEventForVenue(context.Context, uuid.UUID) ([]models.Event, error)
 }
 
 type Review interface {
-	PatchVenueReview(ctx context.Context, overallRating int8, ambianceRating int8, musicRating int8, crowdRating int8, serviceRating int8, reviewText string, venueID uuid.UUID, reviewID int8) error
+	PatchVenueReview(ctx context.Context, overallRating int8, energyRating int8, mainstreamRating int8, priceRating int8, crowdRating int8, hypeRating int8, exclusiveRating int8, reviewText string, venueID uuid.UUID, reviewID int8) error
+}
+
+type Bookmarks interface {
+	GetBookmarkFromID(context.Context, uuid.UUID) (models.Bookmarks, error)
+	CreateBookmark(context.Context, models.Bookmarks) error
 }
