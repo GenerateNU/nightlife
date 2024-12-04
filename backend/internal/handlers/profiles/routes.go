@@ -27,5 +27,6 @@ func Routes(app *fiber.App, params types.Params) {
 	protected.Get("/reviewed-venues/:userId", service.GetUserReviewsWithVenueData)
 	protected.Get("/saved-venues/:userId", service.GetUserSavedVenues)
 	protected.Get("/visited-venues/:userId", service.GetUserVisitedVenues)
+	protected.Get("/:userId/location", service.GetUserLocation) 
 
 }

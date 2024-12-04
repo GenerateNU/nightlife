@@ -37,6 +37,7 @@ type Profile interface {
 	GetUserReviewsWithVenueData(ctx context.Context, userID uuid.UUID) ([]models.ReviewWithVenue, error)
 	GetUserSavedVenues(context.Context, uuid.UUID) ([]models.Venue, error)
 	GetUserVisitedVenues(context.Context, uuid.UUID) ([]models.Venue, error)
+	GetUserLocation(ctx context.Context, userID uuid.UUID) (models.Location, error)
 }
 
 type UserRating interface {
@@ -52,6 +53,7 @@ type Venues interface {
 	GetVenuesFromName(context.Context, string) ([]models.Venue, error)
 	GetAllVenues(ctx context.Context) ([]models.Venue, error)
 	GetVenuesByIDs(ctx context.Context, ids []uuid.UUID) ([]models.Venue, error)
+	GetVenuesByLocation(ctx context.Context, latitude float64, longitude float64, radiusInMeters int) ([]models.Venue, error)
 }
 
 type VenueRatings interface {

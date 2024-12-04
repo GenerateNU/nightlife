@@ -1,31 +1,15 @@
 import React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Modal,
-  TouchableWithoutFeedback,
-  TouchableOpacity,
-  Dimensions,
-  FlatList,
-} from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { BottomTabNavProps } from "@/types/NavigationTypes";
-
-const { height: screenHeight } = Dimensions.get("window");
+import { View, Text, StyleSheet, Modal, TouchableWithoutFeedback } from "react-native";
+import { Venue } from "@/types/Venue";
 
 interface BottomModalProps {
   visible: boolean;
   onClose: () => void;
-  venues: Array<{ venue_id: string; name: string; address: string }>;
+  venue: Venue | null;
 }
 
-const BottomModal: React.FC<BottomModalProps> = ({
-  visible,
-  onClose,
-  venues,
-}) => {
-  const navigation = useNavigation<BottomTabNavProps>();
+const BottomModal: React.FC<BottomModalProps> = ({ visible, onClose, venue }) => {
+  if (!venue) return null;
 
   return (
     <Modal
@@ -38,27 +22,14 @@ const BottomModal: React.FC<BottomModalProps> = ({
         <View style={styles.overlay}>
           <View style={styles.modalContainer}>
             <View style={styles.tabIndicator} />
-            <Text style={styles.sectionTitle}>Happening Today</Text>
-
-            <FlatList
-              data={venues}
-              keyExtractor={(item) => item.venue_id}
-              renderItem={({ item }) => (
-                <TouchableOpacity
-                  onPress={() => {
-                    onClose();
-                    navigation.navigate("Venue", { venue: item });
-                  }}
-                >
-                  <View style={styles.venueItem}>
-                    <Text style={styles.venueName}>{item.name}</Text>
-                    <Text style={styles.venueAddress}>{item.address}</Text>
-                  </View>
-                </TouchableOpacity>
-              )}
-              showsVerticalScrollIndicator={false}
-              contentContainerStyle={styles.listContent}
-            />
+            <Text style={styles.venueName}>{venue.name}</Text>
+            <Text style={styles.venueDetails}>
+              {venue.address}
+            </Text>
+            {/* <Text style={styles.rating}>⭐ {venue.rating} | 💲{venue.price}</Text> */}
+            {/* <Text style={styles.status}>
+              {venue.isOpen ? "Open Now" : "Closed"}
+            </Text> */}
           </View>
         </View>
       </TouchableWithoutFeedback>
@@ -69,15 +40,14 @@ const BottomModal: React.FC<BottomModalProps> = ({
 const styles = StyleSheet.create({
   overlay: {
     flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.4)",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
     justifyContent: "flex-end",
   },
   modalContainer: {
     backgroundColor: "#1c1c1e",
-    padding: 16,
+    padding: 20,
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
-    height: screenHeight * 0.5,
   },
   tabIndicator: {
     width: 40,
@@ -87,32 +57,24 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     borderRadius: 2,
   },
-  sectionTitle: {
-    color: "#fff",
+  venueName: {
     fontSize: 18,
     fontWeight: "bold",
-    marginBottom: 8,
-    fontFamily: "Archivo_700Bold"
-  },
-  listContent: {
-    paddingBottom: 20,
-  },
-  venueItem: {
-    backgroundColor: "#333",
-    padding: 10,
-    borderRadius: 8,
-    marginBottom: 10,
-  },
-  venueName: {
     color: "#fff",
-    fontSize: 16,
-    fontWeight: "bold",
-    fontFamily: "Archivo_700Bold"
   },
-  venueAddress: {
-    color: "#bbb",
+  venueDetails: {
     fontSize: 14,
-    fontFamily: "Archivo_500Medium"
+    color: "#bbb",
+    marginVertical: 4,
+  },
+  rating: {
+    fontSize: 14,
+    color: "#fff",
+    marginVertical: 4,
+  },
+  status: {
+    fontSize: 14,
+    // color: venue.isOpen ? "#4caf50" : "#f44336",
   },
 });
 

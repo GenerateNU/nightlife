@@ -110,6 +110,7 @@ func (db *DB) GetAllVenues(ctx context.Context) ([]models.Venue, error) {
 	saturday_hours, sunday_hours, ST_Y(location::geometry) AS latitude, ST_X(location::geometry) AS longitude FROM venue`
 	rows, err := db.conn.Query(ctx, query)
 	if err != nil {
+		fmt.Print("hello")
 		return []models.Venue{}, err
 	}
 	defer rows.Close()
@@ -181,6 +182,49 @@ func (db *DB) GetVenuesByIDs(ctx context.Context, venueIDs []uuid.UUID) ([]model
 	}
 
 	return venues, rows.Err()
+}
+
+func (db *DB) GetVenuesByLocation(ctx context.Context, latitude float64, longitude float64, radiusInMeters int) ([]models.Venue, error) {
+	query := `
+		SELECT 
+			venue_id, 
+			name, 
+			address, 
+			city, 
+			state, 
+			zip_code, 
+			ST_Y(location::geometry) AS latitude, 
+			ST_X(location::geometry) AS longitude, 
+			venue_type, 
+			total_rating, 
+			price, 
+			avg_mainstream, 
+			avg_price, 
+			avg_exclusive, 
+			avg_energy, 
+			monday_hours, 
+			tuesday_hours, 
+			wednesday_hours, 
+			thursday_hours, 
+			friday_hours, 
+			saturday_hours, 
+			sunday_hours, 
+			created_at, 
+			COALESCE(updated_at, '9999-12-31 23:59:59') AS updated_at 
+		FROM venue
+		WHERE ST_DWithin(
+			location::geography, 
+			ST_MakePoint($1, $2)::geography, $3) limit 20
+	`
+
+	rows, err := db.conn.Query(ctx, query, latitude, longitude, radiusInMeters)
+	if err != nil {
+		log.Printf("Database query failed: %v | Query: %s | Params: longitude=%f, latitude=%f, radius=%d", err, query, longitude, latitude, radiusInMeters)
+		return nil, fmt.Errorf("database query error: %w", err)
+	}
+	defer rows.Close()
+	arr, err := pgx.CollectRows(rows, pgx.RowToStructByName[models.Venue])
+	return arr, err
 }
 
 func (db *DB) GetAllVenuesWithFilter(ctx context.Context, where string, sort string) ([]models.Venue, error) {

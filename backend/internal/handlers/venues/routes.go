@@ -18,6 +18,7 @@ func Routes(app *fiber.App, params types.Params) {
 	//Endpoints
 	protected.Get("/", service.GetAllVenuesWithFilter)
 	protected.Get("/batch", service.GetVenuesByIDs)
+	protected.Get("/location", service.GetVenuesByLocation)
 	protected.Get("/persona/:venueId", service.GetVenuePersona)
 
 	protected.Get("/search", service.GetVenuesFromName)

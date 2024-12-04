@@ -440,3 +440,24 @@ func (db *DB) GetUserVisitedVenues(ctx context.Context, userID uuid.UUID) ([]mod
 
 	return venues, rows.Err()
 }
+
+func (db *DB) GetUserLocation(ctx context.Context, userID uuid.UUID) (models.Location, error) {
+    query := `
+        SELECT 
+            ST_Y(location::geometry) AS latitude,
+            ST_X(location::geometry) AS longitude
+        FROM users
+        WHERE user_id = $1
+    `
+
+    var location models.Location
+    row := db.conn.QueryRow(ctx, query, userID)
+    if err := row.Scan(&location.Latitude, &location.Longitude); err != nil {
+        if errors.Is(err, sql.ErrNoRows) {
+            return models.Location{}, fmt.Errorf("no location found for user_id: %s", userID)
+        }
+        return models.Location{}, err
+    }
+
+    return location, nil
+}
