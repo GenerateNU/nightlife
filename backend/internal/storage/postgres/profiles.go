@@ -18,10 +18,11 @@ Gets a user profile by a column, (username, id, or email).
 func (db *DB) GetProfileByColumn(ctx context.Context, column string, value string) (models.Profile, error) {
 	var profile models.Profile
 	var query = fmt.Sprintf(`
-		SELECT user_id, first_name, username, email, age, location, profile_picture_url, created_at
+		SELECT user_id, first_name, username, email
 		FROM users
 		WHERE %s = $1`, column)
-
+	log.Printf("Query: %s", query)
+	log.Printf("Value: %s", value)
 	row := db.conn.QueryRow(ctx, query, value)
 
 	err := row.Scan(
@@ -29,10 +30,6 @@ func (db *DB) GetProfileByColumn(ctx context.Context, column string, value strin
 		&profile.FirstName,
 		&profile.Username,
 		&profile.Email,
-		&profile.Age,
-		&profile.Location,
-		&profile.ProfilePictureURL,
-		&profile.CreatedAt,
 	)
 
 	if err != nil {
@@ -237,10 +234,10 @@ func (db *DB) GetAllUsers(ctx context.Context) ([]models.Profile, error) {
 
 func (db *DB) AddUser(ctx context.Context, user models.Profile) error {
 	// query to save user data to db
-	query := `INSERT INTO users (user_id, first_name, username, email, age, location, profile_picture_url, created_at) 
-				VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`
+	query := `INSERT INTO users (user_id, first_name, username, email, age, created_at) 
+				VALUES ($1, $2, $3, $4, $5, $6)`
 
-	_, err := db.conn.Query(ctx, query, user.UserID, user.FirstName, user.Username, user.Email, user.Age, user.Location, user.ProfilePictureURL, user.CreatedAt)
+	_, err := db.conn.Query(ctx, query, user.UserID, user.FirstName, user.Username, user.Email, user.Age,user.CreatedAt)
 	return err
 }
 

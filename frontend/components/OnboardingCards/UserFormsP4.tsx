@@ -39,8 +39,10 @@ const UserFormP4: React.FC = () => {
     setTimeout(async () => {
       let dataUserId = null;
       try {
+      const email = formData.email;
+
         const response = await fetch(
-          `${API_DOMAIN}/profiles/${formData.email}`,
+          `${API_DOMAIN}/profiles/${email}`,
           {
             method: "GET",
             headers: {

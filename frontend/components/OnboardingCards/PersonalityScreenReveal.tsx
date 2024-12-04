@@ -30,20 +30,21 @@ const PersonalityPreference = () => {
   const { formData } = useFormData();
   const [loading, setLoading] = useState(true);
   const characters: CharacterImages = {
-    serafina: 'https://i.ibb.co/C0D7DLw/serafina.png',
-    buckley: 'https://i.ibb.co/sbfpyBt/buckley.png',
-    roux: 'https://i.ibb.co/drZ8sDX/roux.png',
-    sprig: 'https://i.ibb.co/f12bhHb/sprig.png',
-    blitz: 'https://i.ibb.co/Bq7LVbb/blitz.png',
-    lumi: 'https://i.ibb.co/2d02Gbd/lumi.png',
-    plumehart: 'https://i.ibb.co/9y7MvY4/plumehart.png',
+    Serafina: 'https://i.ibb.co/C0D7DLw/serafina.png',
+    Buckley: 'https://i.ibb.co/sbfpyBt/buckley.png',
+    Roux: 'https://i.ibb.co/drZ8sDX/roux.png',
+    Sprig: 'https://i.ibb.co/f12bhHb/sprig.png',
+    Blitz: 'https://i.ibb.co/Bq7LVbb/blitz.png',
+    Lumi: 'https://i.ibb.co/2d02Gbd/lumi.png',
+    Plumehart: 'https://i.ibb.co/9y7MvY4/plumehart.png',
     MERMAID: 'https://i.ibb.co/9y7MvY4/plumehart.png'
   };
 
   useEffect(() => {
     const fetchPersonality = async () => {
       try {
-        const email = formData.email.toLowerCase();
+        const email = formData.email;
+        console.log("email: ", email);
         const data = await fetch(`${API_DOMAIN}/profiles/${email}`, {
           method: "GET",
           headers: {
@@ -83,61 +84,6 @@ const PersonalityPreference = () => {
         setLoading(false);
       }
     };
-    //   try {
-    //     const response = await fetch(
-    //       `${API_DOMAIN}/profiles/${formData.email}`,
-    //       {
-    //         method: "GET",
-    //         headers: {
-    //           "Content-Type": "application/json",
-    //           Authorization: `Bearer ${BEARER}`,
-    //         },
-    //       }
-    //     );
-    //     if (!response.ok) {
-    //       throw new Error(
-    //         `Failed to fetch user: HTTP status ${response.status}`
-    //       );
-    //     }
-    //     const userInfo = await response.json();
-
-    //     const userPreferences = {
-    //       userId: userInfo.user_id,
-    //       location: formData.location,
-    //       nightlife: formData.nightlife,
-    //       interests: formData.interests,
-    //       crowdPreference: formData.crowdPreference,
-    //       timePreference: formData.timePreference,
-    //       frequency: formData.frequency,
-    //       insideOrOutside: formData.insideOrOutside,
-    //     };
-
-    //     const prefResponse = await fetch(
-    //       `${API_DOMAIN}/profiles/userCharacter`,
-    //       {
-    //         method: "POST",
-    //         headers: {
-    //           "Content-Type": "application/json",
-    //           Authorization: `Bearer ${BEARER}`,
-    //         },
-    //         body: JSON.stringify(userPreferences),
-    //       }
-    //     );
-
-    //     if (!prefResponse.ok) {
-    //       throw new Error(
-    //         `Failed to post preferences: HTTP status ${prefResponse.status}`
-    //       );
-    //     }
-    //     const personalityData = await prefResponse.json();
-    //     setPersonality(personalityData.personality);
-    //   } catch (error) {
-    //     console.error("Network or server error:", error);
-    //   } finally {
-    //     setLoading(false);
-    //   }
-    // };
-
     fetchPersonality();
   }, []);
 

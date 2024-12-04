@@ -174,8 +174,6 @@ func (s *Service) AddUser(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Username and email are required"})
 	} else if !utils.IsEmail(profile.Email) {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid email address"})
-	} else if profile.Password == "" {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Password is required"})
 	} else if profile.FirstName == "" {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "First name is required"})
 	}
@@ -188,6 +186,8 @@ func (s *Service) AddUser(c *fiber.Ctx) error {
     // Assign userID to the profile
     profile.UserID = userID
 	log.Printf("Request inside add user: %+v", userID)
+
+	log.Printf("Request inside add user the profile: %+v", profile)
 
 
     // Save the user
