@@ -108,7 +108,7 @@ func determinePersonality(prefs models.Preferences) string {
 
     // Find the highest score
     maxScore := 0
-    personality := "Undetermined"
+    personality := "Buckley"
     for venue, score := range scores {
         if score > maxScore {
             maxScore = score
@@ -123,6 +123,8 @@ func determinePersonality(prefs models.Preferences) string {
 func (db *DB) UserCharacter(ctx context.Context, p models.Preferences) error {
 	// query to save user data to db
 	log.Printf("UserCharacter: %+v", p)
+	log.Printf("UserCharacter: %+v", p.UserID)
+	
 	personality_type := determinePersonality(p)
 	query := `UPDATE "users"
 			  SET personality_type = $2
@@ -215,10 +217,6 @@ func (db *DB) GetAllUsers(ctx context.Context) ([]models.Profile, error) {
 			&profile.FirstName,
 			&profile.Username,
 			&profile.Email,
-			&profile.Age,
-			&profile.Location,
-			&profile.ProfilePictureURL,
-			&profile.CreatedAt,
 		); err != nil {
 			return nil, err
 		}
@@ -234,10 +232,10 @@ func (db *DB) GetAllUsers(ctx context.Context) ([]models.Profile, error) {
 
 func (db *DB) AddUser(ctx context.Context, user models.Profile) error {
 	// query to save user data to db
-	query := `INSERT INTO users (user_id, first_name, username, email, age, created_at) 
-				VALUES ($1, $2, $3, $4, $5, $6)`
+	query := `INSERT INTO users (first_name, username, email, age, created_at) 
+				VALUES ($1, $2, $3, $4, $5)`
 
-	_, err := db.conn.Query(ctx, query, user.UserID, user.FirstName, user.Username, user.Email, user.Age,user.CreatedAt)
+	_, err := db.conn.Query(ctx, query, user.FirstName, user.Username, user.Email, user.Age,user.CreatedAt)
 	return err
 }
 

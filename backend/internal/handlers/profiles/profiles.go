@@ -60,13 +60,15 @@ func (s *Service) GetUserCharacter(c *fiber.Ctx) error {
 }
 
 func (s *Service) UserCharacter(c *fiber.Ctx) error {
-	// Parse the request body
+
 	var req models.Preferences
+	log.Printf("Request inside usercharacter: %+v", req)
 	if err := c.BodyParser(&req); err != nil {
 		log.Printf("Error parsing JSON: %v, Request: %+v", err, req)
 		return errs.BadRequest(err)
 	}
-
+	log.Printf("Request: %+v", req.UserID)
+	
 	if err := s.store.UserCharacter(c.Context(), req); err != nil {
 		log.Printf("Error creating user character: %v", err)
 		return err

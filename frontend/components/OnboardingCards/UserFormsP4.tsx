@@ -59,38 +59,39 @@ const UserFormP4: React.FC = () => {
 
       // Create the payload using updated formData
       const payload = {
-        userId: dataUserId.user_id,
+        user_id: dataUserId.user_id,
         nightlife: formData.nightlife,
         interests: formData.interests,
         crowd_preference: formData.crowdPreference,
         time_preference: formData.timePreference,
-        location: formData.location,
+        location: 'Boston',
         frequency: formData.frequency,
         insideoroutside: formData.insideOrOutside,
       };
 
       console.log("Submitting FormData:", payload);
 
-      try {
-        const response = await fetch(`${API_DOMAIN}/profiles/preferences`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${BEARER}`,
-          },
-          body: JSON.stringify(payload),
-        });
+      // try {
+      //   const response = await fetch(`${API_DOMAIN}/profiles/preferences`, {
+      //     method: "POST",
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //       Authorization: `Bearer ${BEARER}`,
+      //     },
+      //     body: JSON.stringify(payload),
+      //   });
 
-        const data = await response.json();
-        if (data.error) {
-          console.error("Submission Error:", data.error);
-        } else {
-          console.log("Submission Success:", data);
-          navigation.navigate("Notifications");
-        }
-      } catch (error) {
-        console.error("Network or server error:", error);
-      }
+      //   const data = await response.json();
+      //   if (data.error) {
+      //     console.error("Submission Error:", data.error);
+      //   } else {
+      //     console.log("Submission Success:", data);
+      //     navigation.navigate("Notifications");
+      //   }
+      // } catch (error) {
+      //   console.error("Network or server error:", error);
+      // }
+      console.log("payload for userCharacter: ", payload);
       const prefResponse = await fetch(
         `${API_DOMAIN}/profiles/userCharacter`,
         {
