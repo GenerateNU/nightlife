@@ -176,7 +176,7 @@ func (db *DB) GetVenuesByIDs(ctx context.Context, venueIDs []uuid.UUID) ([]model
 	return venues, rows.Err()
 }
 
-func (db *DB) GetVenuesByLocation(ctx context.Context, latitude float64, longitude float64, radiusInMeters int) ([]models.VenueWithHours, error) {
+func (db *DB) GetVenuesByLocation(ctx context.Context, latitude float64, longitude float64, radiusInMeters int) ([]models.Venue, error) {
 	query := `
 		SELECT 
 			venue_id, 
@@ -218,9 +218,9 @@ func (db *DB) GetVenuesByLocation(ctx context.Context, latitude float64, longitu
 	}
 	defer rows.Close() // No need to handle rows.Close()'s return, just defer the call
 
-	venues := []models.VenueWithHours{}
+	venues := []models.Venue{}
 	for rows.Next() {
-		var venue models.VenueWithHours
+		var venue models.Venue
 		if err := rows.Scan(
 			&venue.VenueID,
 			&venue.Name,

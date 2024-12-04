@@ -53,7 +53,7 @@ type Venues interface {
 	GetVenueFromName(context.Context, string) (models.Venue, error)
 	GetAllVenues(ctx context.Context) ([]models.Venue, error)
 	GetVenuesByIDs(ctx context.Context, ids []uuid.UUID) ([]models.Venue, error)
-	GetVenuesByLocation(ctx context.Context, latitude float64, longitude float64, radiusInMeters int) ([]models.VenueWithHours, error)
+	GetVenuesByLocation(ctx context.Context, latitude float64, longitude float64, radiusInMeters int) ([]models.Venue, error)
 }
 
 type VenueRatings interface {
