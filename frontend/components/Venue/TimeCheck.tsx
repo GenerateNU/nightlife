@@ -6,18 +6,25 @@
  */
 function isCurrentTimeInRange(startTimeStr, endTimeStr) {
   const now = new Date();
-  const targetDay = now.getDay();  
- 
+  const targetDay = now.getDay();
 
   function parseTimeToDate(timeStr, targetDay) {
     const timeParts = timeStr.trim().match(/(\d{1,2}):(\d{2})\s?(AM|PM)/i);
-   
+
     if (!timeParts) {
-      console.error("Invalid time format:", timeStr);
-      return new Date("invalid");
+      if (timeStr.toLowerCase().includes("open")) {
+        const date = new Date();
+        date.setDate(date.getDate() - date.getDay() + targetDay);
+        date.setHours(0, 0, 0, 0); 
+        return date;
+      } else if (timeStr.toLowerCase().includes("closed")) {
+        return null; 
+      } else {
+        return null; 
+      }
     }
 
-    const [ , hoursStr, minutesStr, modifier] = timeParts;
+    const [, hoursStr, minutesStr, modifier] = timeParts;
     let hours = parseInt(hoursStr, 10);
     const minutes = parseInt(minutesStr, 10);
 
@@ -29,27 +36,25 @@ function isCurrentTimeInRange(startTimeStr, endTimeStr) {
     }
 
     const date = new Date();
-    date.setDate(date.getDate() - date.getDay() + targetDay); 
-    date.setHours(hours);
-    date.setMinutes(minutes);
-    date.setSeconds(0);
-    date.setMilliseconds(0);
+    date.setDate(date.getDate() - date.getDay() + targetDay);
+    date.setHours(hours, minutes, 0, 0);
+
+    if (isNaN(date.getTime())) {
+      return null;
+    }
+
     return date;
   }
 
   const startTime = parseTimeToDate(startTimeStr, targetDay);
   const endTime = parseTimeToDate(endTimeStr, targetDay);
 
-  if (startTime.getTime() === new Date("invalid").getTime() || endTime.getTime() === new Date("invalid").getTime()) {
+  if (startTime === null || endTime === null) {
     return false;
   }
 
   if (endTime < startTime) {
     endTime.setDate(endTime.getDate() + 1);
-  }
-
-  if (now < startTime) {
-    return now <= endTime;
   }
 
   return now >= startTime && now <= endTime;
