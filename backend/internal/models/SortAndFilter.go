@@ -46,39 +46,31 @@ func (s *SortAndFilter) ConstructFilterQuery(filters []string) string {
 }
 
 // assumes input is a non-empty string and one of the possible sort types, case sensitive 
-func (s *SortAndFilter) SortVenues(input string) string {
+func (s *SortAndFilter) SortVenues(input string, paramOne string, paramTwo string) string {
 	if input == `` {
 		return ``
 	}
-	// parse given input string to get sort string value and possible parameters for the sort 
-	index := strings.Index(input, " ")
-	command := input
-	if index != -1 { // if the sort has a parameter 
-		command = input[0:index]
-	}
 	// create sort object and sort array of venues based on sort 
-	createdSort := s.createSort(command, input, index) 
+	createdSort := s.createSort(input, paramOne, paramTwo) 
 	return createdSort.SortQuery()
 }
 
 // takes in an array of venues to sort, command string determing what sort we want to create, input string storing that commands parameters, and index of the first space is applicable 
-func (s *SortAndFilter) createSort(command string, input string, index int) SortBy {
+func (s *SortAndFilter) createSort(command string, paramOne string, paramTwo string) SortBy {
 	if command == "ByDistance" { // format: ByDistance long lat 
 		// parse location to check distance from 
-		lastIndex := strings.LastIndex(input, " ")
-		long, err := strconv.ParseFloat(input[index + 1: lastIndex], 64)
+		long, err := strconv.ParseFloat(paramOne, 64)
 		if err != nil {
 			fmt.Println("Formatting error Long " + err.Error())
 		}
-		lat, err := strconv.ParseFloat(input[lastIndex + 1:], 64)
+		lat, err := strconv.ParseFloat(paramTwo, 64)
 		if err != nil {
 			fmt.Println("Formatting error Lat " + err.Error())
 		}
 		s := ByDistance{long, lat}
 		return &s 
 	} else if command == `ByRecommendation`{
-		arr := strings.Split(input, " ")
-		return &ByRecommendation{arr[1]}
+		return &ByRecommendation{paramOne}
 	} else if command == `ByPrice` {
 		return &ByPrice{}
 	} else if command == `ByRating` {

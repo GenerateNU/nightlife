@@ -165,9 +165,9 @@ func (db *DB) GetVenuesByIDs(ctx context.Context, venueIDs []uuid.UUID) ([]model
 	return venues, rows.Err()
 }
 
-func (db *DB) GetAllVenuesWithFilter(ctx context.Context, where string, sort string) ([]models.Venue, error) {
+func (db *DB) GetAllVenuesWithFilter(ctx context.Context, sort string) ([]models.Venue, error) {
 	query := `SELECT venue_id, name, address, city, state, zip_code, created_at, venue_type, updated_at, price, total_rating, avg_energy, avg_mainstream, avg_exclusive, avg_price, ST_Y(location::geometry) AS latitude, ST_X(location::geometry) 
-	AS longitude FROM venue ` + where  + ` ` + sort + ` LIMIT 20`
+	AS longitude FROM venue ` + sort + ` LIMIT 20`
 	fmt.Println(query)
 
 	rows, err := db.conn.Query(ctx, query)

@@ -149,28 +149,14 @@ func (s *Service) GetAllVenues(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(venues)
 }
 
-
-// SORT FORMAT: /venues/getAll?sort= {sort}
-// where sort can equal one of the following strings:
-// ByPrice (no extra parameter needed)
-// ByRating (no extra parameter needed)
-// ByDistance {longitude} {latitude}
-// ByRecommendation {persona_name} // must be one of the seven listed personas 
-func (s *Service) GetAllVenuesWithFilter(c *fiber.Ctx) error {
-	// parse all filters from the context 
-	sort := c.Query("sort")
-	f := c.Query("filters")
-	filters := []string{} // default to empty array if no filters applied 
-	if f != `` {
-		filters = strings.Split(f, ",")
-	}
+func (s *Service) GetVenuesByPersona(c *fiber.Ctx) error {
+	persona := c.Params("persona")
 	// pass filters into SortAndFilter instance and retrieve query string 
 	sortAndFilter := models.SortAndFilter{}
 	sortAndFilter = sortAndFilter.Make() 
-	whereQuery := sortAndFilter.ConstructFilterQuery(filters)
-	sortQuery := sortAndFilter.SortVenues(sort)
+	sortQuery := sortAndFilter.SortVenues("ByRecommendation", persona, ``)
 	// retrieve venues with given filters from db 
-	venues, err := s.store.GetAllVenuesWithFilter(c.Context(), whereQuery, sortQuery)
+	venues, err := s.store.GetAllVenuesWithFilter(c.Context(), sortQuery)
 	if err != nil {
 		fmt.Println(err.Error())
 		return s.GetAllVenues(c) // attempt to get all venues without the filter (default choice if a sort isn't possible)
@@ -178,6 +164,54 @@ func (s *Service) GetAllVenuesWithFilter(c *fiber.Ctx) error {
 	// Use SortAndFilter instance to sort the filtered list of venues and return final list 
 	return c.Status(fiber.StatusOK).JSON(venues)
 }
+
+func (s *Service) GetVenuesByDistance(c *fiber.Ctx) error {
+	longitude := c.Params("longitude")
+	latitude := c.Params("latitude")
+	// pass filters into SortAndFilter instance and retrieve query string 
+	sortAndFilter := models.SortAndFilter{}
+	sortAndFilter = sortAndFilter.Make() 
+	sortQuery := sortAndFilter.SortVenues("ByDistance", longitude, latitude)
+	// retrieve venues with given filters from db 
+	venues, err := s.store.GetAllVenuesWithFilter(c.Context(), sortQuery)
+	if err != nil {
+		fmt.Println(err.Error())
+		return s.GetAllVenues(c) // attempt to get all venues without the filter (default choice if a sort isn't possible)
+	}
+	// Use SortAndFilter instance to sort the filtered list of venues and return final list 
+	return c.Status(fiber.StatusOK).JSON(venues)
+}
+
+func (s *Service) GetVenuesByPrice(c *fiber.Ctx) error {
+	// pass filters into SortAndFilter instance and retrieve query string 
+	sortAndFilter := models.SortAndFilter{}
+	sortAndFilter = sortAndFilter.Make() 
+	sortQuery := sortAndFilter.SortVenues("ByPrice", ``, ``)
+	// retrieve venues with given filters from db 
+	venues, err := s.store.GetAllVenuesWithFilter(c.Context(), sortQuery)
+	if err != nil {
+		fmt.Println(err.Error())
+		return s.GetAllVenues(c) // attempt to get all venues without the filter (default choice if a sort isn't possible)
+	}
+	// Use SortAndFilter instance to sort the filtered list of venues and return final list 
+	return c.Status(fiber.StatusOK).JSON(venues)
+}
+
+func (s *Service) GetVenuesByRating(c *fiber.Ctx) error {
+	// pass filters into SortAndFilter instance and retrieve query string 
+	sortAndFilter := models.SortAndFilter{}
+	sortAndFilter = sortAndFilter.Make() 
+	sortQuery := sortAndFilter.SortVenues("ByRating", ``, ``)
+	// retrieve venues with given filters from db 
+	venues, err := s.store.GetAllVenuesWithFilter(c.Context(), sortQuery)
+	if err != nil {
+		fmt.Println(err.Error())
+		return s.GetAllVenues(c) // attempt to get all venues without the filter (default choice if a sort isn't possible)
+	}
+	// Use SortAndFilter instance to sort the filtered list of venues and return final list 
+	return c.Status(fiber.StatusOK).JSON(venues)
+}
+
 
 func (s *Service) GetVenuePersona(c *fiber.Ctx) error {
 	venueID := c.Params("venueId")
