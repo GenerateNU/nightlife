@@ -119,7 +119,7 @@ const VenueScreen: React.FC = ({ navigation, route }) => {
                     <View style={{flexDirection: 'column'}}>
                         {/* Render the text and PersonaIcons */}
                         <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10, marginLeft: 45}}>
-                        <Text style={{color: 'white', fontSize: 16}}>Recommended for ...</Text>
+                        <Text style={{color: 'white', fontSize: 14, marginLeft: -20}}>Recommended for ...</Text>
                         <PersonaIcons venueID={venueID}/>
                         </View>
 
@@ -157,7 +157,7 @@ const VenueScreen: React.FC = ({ navigation, route }) => {
             {selectedTab === VenueTabs.Overview && (
                     <View style={{alignItems: 'center'}}>
                         <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: -5 }}>
-                            <Text style={{ color: 'white', fontSize: 16 }}>Recommended for ...</Text>
+                            <Text style={{ color: 'white', fontSize: 14, marginLeft: -10 }}>Recommended for ...</Text>
                             <PersonaIcons venueID={venueID} />
                         </View>
                         <OverviewScreen
