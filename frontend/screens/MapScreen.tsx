@@ -9,6 +9,7 @@ import { API_DOMAIN } from "@env";
 import { Venue } from "@/types/Venue";
 import { useAuth } from "@/context/AuthContext";
 import React from "react";
+import HomeScreen from "./HomeScreen";
 
 const MapScreen: React.FC = () => {
   const [allVenues, setAllVenues] = useState<Venue[]>([]);
@@ -203,19 +204,20 @@ const MapScreen: React.FC = () => {
           ) : (
             // TODO: Replace with Ben's explore page
             // Venue List View
-            <View style={styles.modalContent}>
-              <Text style={styles.listTitle}>All Venues</Text>
-              {allVenues.map((venue) => (
-                <TouchableOpacity
-                  key={venue.venue_id}
-                  onPress={() => handleMarkerPress(venue)}
-                  style={styles.venueItem}
-                >
-                  <Text style={styles.venueName}>{venue.name}</Text>
-                  <Text style={styles.venueAddress}>{venue.address}</Text>
-                </TouchableOpacity>
-              ))}
-            </View>
+            // <View style={styles.modalContent}>
+            //   <Text style={styles.listTitle}>All Venues</Text>
+            //   {allVenues.map((venue) => (
+            //     <TouchableOpacity
+            //       key={venue.venue_id}
+            //       onPress={() => handleMarkerPress(venue)}
+            //       style={styles.venueItem}
+            //     >
+            //       <Text style={styles.venueName}>{venue.name}</Text>
+            //       <Text style={styles.venueAddress}>{venue.address}</Text>
+            //     </TouchableOpacity>
+            //   ))}
+            // </View>
+            <HomeScreen/>
           )}
         </Modalize>
       </View>
