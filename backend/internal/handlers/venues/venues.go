@@ -130,12 +130,12 @@ func (s *Service) GetVenueFromID(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(venue)
 }
 
-func (s *Service) GetVenueFromName(c *fiber.Ctx) error {
+func (s *Service) GetVenuesFromName(c *fiber.Ctx) error {
 	name := c.Query("q")
 	if name == "" {
 		return fiber.NewError(fiber.StatusBadRequest, "Venue name is required")
 	}
-	venue, err := s.store.GetVenueFromName(c.Context(), name)
+	venue, err := s.store.GetVenuesFromName(c.Context(), name)
 	if err != nil {
 		return fiber.NewError(fiber.StatusInternalServerError, "Could not get venue")
 	}

@@ -3,6 +3,9 @@ import { ScrollView, View, StyleSheet } from "react-native";
 import SearchBar from "@/components/Map/SearchBar";
 import EventsScrollable from "./explore/EventsScrollable";
 
+import { API_DOMAIN } from "@env";
+import { useNavigation } from "@react-navigation/native";
+
 interface HomeScreenProps {
   showSearchBar?: boolean;
 }
