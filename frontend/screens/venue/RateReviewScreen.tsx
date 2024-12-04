@@ -29,8 +29,7 @@ const RateReviewScreen: React.FC<ReviewScreenProps> = ({ route, navigation }) =>
   const [rating, setRating] = useState(0); 
   const [imageURI, setImageURI] = useState<string | null>(null);
   const [sliderValue, setSliderValue] = useState(1);
-  const [imageUploaded, setImageUploaded] = useState(false)
-
+  
   const labels = ['$', '$$', '$$$', '$$$$', '$$$$$'];
 
   const handleStarPress = (index: number) => {
@@ -59,7 +58,7 @@ const RateReviewScreen: React.FC<ReviewScreenProps> = ({ route, navigation }) =>
   };
 
   const handleImageUpload = (uri: string | null) => {
-    setImageUploaded(true);
+    console.log("-------------------")
     setImageURI(uri); 
   };
 
@@ -154,35 +153,29 @@ const RateReviewScreen: React.FC<ReviewScreenProps> = ({ route, navigation }) =>
 
         <View style={styles.uploadImageContainer}>
           <UploadImage onImageUpload={handleImageUpload} />
-          {imageURI && <Image source={{ uri: imageURI }} style={styles.imagePreview} />}
         </View>
-
-        <View>
-        {imageURI && (
-          <Image source={{ uri: imageURI }} style={styles.imagePreview} />
-        )}
 
         <View style={styles.sliderContainer}>
-          <Slider
-            style={styles.slider}
-            minimumValue={1}
-            maximumValue={5}
-            step={1}
-            value={sliderValue}
-            onValueChange={(value) => setSliderValue(value)}
-            minimumTrackTintColor="#FFFFFF"
-            maximumTrackTintColor="#CCCCCC"
-            thumbTintColor="#FFFFFF"
-          />
-          <View style={styles.markers}>
-            {labels.map((label, index) => (
-              <Text key={index} style={styles.marker}>
-                {label}
-              </Text>
-            ))}
+            <Slider
+              style={styles.slider}
+              minimumValue={1}
+              maximumValue={5}
+              step={1}
+              value={sliderValue}
+              onValueChange={(value) => setSliderValue(value)}
+              minimumTrackTintColor="#FFFFFF"
+              maximumTrackTintColor="#CCCCCC"
+              thumbTintColor="#FFFFFF"
+            />
+            <View style={styles.markers}>
+              {labels.map((label, index) => (
+                <Text key={index} style={styles.marker}>
+                  {label}
+                </Text>
+              ))}
+            </View>
           </View>
         </View>
-      </View>
 
 
         <View style={{ marginTop: 20 }}>
@@ -190,7 +183,6 @@ const RateReviewScreen: React.FC<ReviewScreenProps> = ({ route, navigation }) =>
             <Text style={styles.saveButton}>Submit</Text>
           </TouchableOpacity>
         </View>
-      </View>
     </SafeAreaView>
   );
 };
@@ -278,10 +270,12 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 20,
     width: 350,
+    marginLeft: 25
   },
   title: {
-    fontSize: 36, color: 'white', 
-    textShadowColor: 'rgba(200, 150, 255, 0.75)', 
+    fontSize: 36, 
+    color: 'white', 
+    textShadowColor: 'rgba(255, 255, 255, 0.9)', 
     textShadowOffset: { width: 0, height: 0 }, 
     textShadowRadius: 5 
   }

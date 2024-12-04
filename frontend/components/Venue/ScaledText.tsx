@@ -43,9 +43,9 @@ const styles = StyleSheet.create({
     marginLeft: -4,
     color: 'white',
     fontFamily: 'DTNightingale-Light',
-    textShadowColor: 'rgba(200, 150, 255, 0.75)', 
+    textShadowColor: 'rgba(255, 255, 255, 0.9)', 
     textShadowOffset: { width: 0, height: 0 }, 
-    textShadowRadius: 5, 
+    textShadowRadius: 5 
   },
 });
 

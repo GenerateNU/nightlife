@@ -71,7 +71,7 @@ const RatingScreen: React.FC<{ venueId: string, hype: number, mainstream: number
                 console.log('Review submitted successfully:', data);
                 let toast = Toast.show("Rating Submitted!", {
                     duration: 800, 
-                    position: Toast.positions.BOTTOM, 
+                    position: Toast.positions.CENTER, 
                     backgroundColor: "#ffffff", 
                     textColor: "#000000", 
                     shadow: true,
@@ -98,9 +98,8 @@ const RatingScreen: React.FC<{ venueId: string, hype: number, mainstream: number
     };
               
     return (
-        <ScrollView style={{ backgroundColor: '#060019', width: 365, height: 800, paddingBottom: 50}} contentContainerStyle={{alignItems: 'center'}}>
-            <View style={{ flexDirection: 'column' }}>
-            <View style={{ marginBottom: 20 }}>
+        <ScrollView style={{ backgroundColor: '#060019', width: 365}} >
+            <View style={{ marginBottom: 20, flexDirection: 'column' }}>
                 <RatingScrollBar 
                         minTitle="Chill" 
                         maxTitle="Energetic"
@@ -170,12 +169,11 @@ const RatingScreen: React.FC<{ venueId: string, hype: number, mainstream: number
                     stopColor="#FF7E5F" 
                     avgValue={exclusive}
                 />
+                <View>
+                    <TouchableOpacity style={styles.button} onPress={saveReviews}>
+                            <Text style={styles.buttonText}>Save</Text>
+                    </TouchableOpacity>
                 </View>
-            </View>
-            <View>
-                <TouchableOpacity style={styles.button} onPress={saveReviews}>
-                        <Text style={styles.buttonText}>Save</Text>
-                </TouchableOpacity>
             </View>
         </ScrollView>
     );
@@ -186,12 +184,11 @@ const styles = StyleSheet.create({
         flex: 1,
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'flex-start',
         paddingLeft: 10,
         paddingRight: 10,
         paddingTop: 10,
         marginLeft: 0,
-        backgroundColor: '#060019',
+        backgroundColor: '#060019'
     },
     buttonText: {
         fontSize: 20, 

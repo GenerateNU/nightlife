@@ -54,7 +54,7 @@ const VenueHeader: React.FC<VenueHeaderProps> = ({
         <BookmarkButton venueID={venueID} userID={userID} />
       </View>
       <View style={styles.review}>
-        <Text style={{ fontSize: 18, color: "white", marginTop: -1, marginLeft: -3, marginRight: 3 }}> 
+        <Text style={styles.overallRating}> 
           {parseFloat(overallRating.toFixed(1))} 
         </Text>
         <StarReview rating={Math.floor(overallRating)} />
@@ -84,6 +84,16 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
   },
+  overallRating: {
+    textShadowColor: 'rgba(255, 255, 255, 1)', 
+    textShadowOffset: { width: 0, height: 0 }, 
+    textShadowRadius: 5,
+    fontSize: 18, 
+    color: "white", 
+    marginTop: -1, 
+    marginLeft: -3, 
+    marginRight: 3
+  }
 });
 
 export default VenueHeader;

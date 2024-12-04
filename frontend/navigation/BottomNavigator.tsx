@@ -15,6 +15,9 @@ import EditProfileAttribute from "@/screens/profile/EditProfileAttribute";
 import RatingScreen from "@/screens/venue/RatingScreen";
 import VenueReviews from "@/screens/venue/VenueReviews";
 import RateReviewScreen from "@/screens/venue/RateReviewScreen";
+import MapScreen from "@/screens/MapScreen";
+import SettingsScreen from "@/screens/SettingsScreen";
+import UpdatesScreen from "@/screens/UpdatesScreen";
 
 const Tab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -74,26 +77,26 @@ export function BottomNavigator() {
         component={HomeScreen}
         options={createScreenOptions("Home", "home")}
       />
-      {/* <Tab.Screen
+      <Tab.Screen
         name="Browse"
         component={MapScreen}
         options={createScreenOptions("Search", "magnify")}
       />
-      {/* <Tab.Screen
+      <Tab.Screen
         name="Updates"
         component={UpdatesScreen}
         options={createScreenOptions("Updates", "bell")}
-      /> */}
+      />
       <Tab.Screen
         name="Profile"
         component={ProfileStackNavigator}
         options={createScreenOptions("Profile", "account-circle")}
       />
-      {/* <Tab.Screen
+      <Tab.Screen
         name="Settings"
         component={SettingsScreen}
         options={createScreenOptions("Settings", "cog")}
-      /> */}
+      />
       <Tab.Screen
         name="Venue"
         component={VenueScreen}

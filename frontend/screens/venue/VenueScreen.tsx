@@ -116,7 +116,7 @@ const VenueScreen: React.FC = ({ navigation, route }) => {
             </View>
         
             {selectedTab === VenueTabs.Rating && (
-                    <View style={{flexDirection: 'column'}}>
+                    <View style={{flexDirection: 'column', height: 650}}>
                         {/* Render the text and PersonaIcons */}
                         <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10, marginLeft: 45}}>
                         <Text style={{color: 'white', fontSize: 14, marginLeft: -25}}>Recommended for ...</Text>
@@ -152,9 +152,9 @@ const VenueScreen: React.FC = ({ navigation, route }) => {
                 </View>
             )}
             
-            <View style={{ marginHorizontal: 6 }}>
+            <View style={{ marginHorizontal: 6, }}>
                 
-            {selectedTab === VenueTabs.Overview && (
+                {selectedTab === VenueTabs.Overview && (
                     <View style={{alignItems: 'center'}}>
                         <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: -5 }}>
                             <Text style={{ color: 'white', fontSize: 14, marginLeft: -10 }}>Recommended for ...</Text>
@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
         paddingRight: 10,
         paddingTop: 10,
-        backgroundColor: '#060019',
+        backgroundColor: '#060019'
     },
     review: {
         display: 'flex',
@@ -199,6 +199,7 @@ const styles = StyleSheet.create({
     header: {
         display: 'flex',
         flexDirection: 'column',
+        marginBottom: -10
     },
     bookmark: {
         paddingTop: 5,
