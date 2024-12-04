@@ -33,24 +33,24 @@ const ProfileTab: React.FC<ProfileTabProps> = ({ onPress, icon, isActive = false
 
 const styles = StyleSheet.create({
     tab: {
-        backgroundColor: '#333',
-        paddingVertical: scaleSize(10), // Dynamically scale padding
-        borderRadius: scaleSize(8), // Dynamically scale border radius
+        backgroundColor: '#3a3a54',
+        paddingVertical: scaleSize(10),
+        borderRadius: scaleSize(8),
         alignItems: 'center',
         width: scaleSize(106),
         borderWidth: 2,
-        borderColor: "gray"
+        borderColor: "#5656a6"
     },
     tabActive: {
-        backgroundColor: '#000', // Darker background for active tab
+        backgroundColor: '#000',
     },
     tabPressed: {
-        backgroundColor: '#555', // Even darker background when tab is pressed
+        backgroundColor: '#3a3a54',
     },
     icon: {
-        width: scaleSize(30), // Dynamically scale icon size
-        height: scaleSize(30), // Dynamically scale icon size
-        resizeMode: 'contain', // Ensure icons fit well within their bounds
+        width: scaleSize(30),
+        height: scaleSize(30),
+        resizeMode: 'contain',
     },
 });
 
