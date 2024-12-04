@@ -13,7 +13,7 @@ import onboardingStyles from "./onboardingStyles";
 
 export type RootStackParamList = {
   UserFormP3: undefined;
-  RankingNightlife: undefined;
+  NightlifePreference: undefined;
 };
 
 type NavigationType = {
@@ -30,7 +30,7 @@ const UserFormP3: React.FC = () => {
   const handleSubmit = () => {
     updateFormData({ bio });
     console.log("Submitted Info:", { bio });
-    navigation.navigate("RankingNightlife");
+    navigation.navigate("NightlifePreference");
   };
 
   const handleBack = () => {

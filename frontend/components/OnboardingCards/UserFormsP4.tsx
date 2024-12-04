@@ -11,10 +11,12 @@ import { useNavigation } from "@react-navigation/native";
 import { useFormData } from "./FormDataContext";
 import onboardingStyles from "./onboardingStyles";
 import { API_DOMAIN, BEARER } from "@env";
+import ProgressBar from "./ProgressBar";
+
 
 export type RootStackParamList = {
   UserFormP4: undefined;
-  PersonalityScreenReveal: undefined;
+  Notifications: undefined;
 };
 
 type NavigationType = {
@@ -25,6 +27,7 @@ type NavigationType = {
 const UserFormP4: React.FC = () => {
   const { formData, updateFormData } = useFormData();
   const navigation = useNavigation<NavigationType>();
+  const [progress, setProgress] = useState(0.75);
 
   const [location, setLocation] = useState<string>(formData.location || "");
 
@@ -81,7 +84,7 @@ const UserFormP4: React.FC = () => {
           console.error("Submission Error:", data.error);
         } else {
           console.log("Submission Success:", data);
-          navigation.navigate("PersonalityScreenReveal");
+          navigation.navigate("Notifications");
         }
       } catch (error) {
         console.error("Network or server error:", error);
@@ -104,6 +107,7 @@ const UserFormP4: React.FC = () => {
         );
       }
       const personalityData = await prefResponse.json();
+      console.log("personalityData: ", personalityData);
     },); 
   };
 
@@ -113,80 +117,46 @@ const UserFormP4: React.FC = () => {
 
   return (
     <ImageBackground
-      source={{ uri: "https://i.imghippo.com/files/sol3971PuQ.png" }}
-      style={onboardingStyles.container}
+        source={{ uri: 'https://i.imghippo.com/files/sol3971PuQ.png' }}
+        style={onboardingStyles.container}
     >
-      <TouchableOpacity
-        style={onboardingStyles.backButton}
-        onPress={handleBack}
-      >
-        <Text style={onboardingStyles.buttonText}>Back</Text>
-      </TouchableOpacity>
+        <Text style={onboardingStyles.topTitle}>NIGHTLIFE</Text>
 
-      <View style={onboardingStyles.mainContent}>
-        <Text style={onboardingStyles.title}>Where Do you live?</Text>
-        <Text style={styles.body}>WYA HOMIE</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="location"
-          placeholderTextColor="#ccc"
-          value={location}
-          onChangeText={setLocation}
-        />
-
-        <TouchableOpacity
-          onPress={handleSubmit}
-          style={onboardingStyles.nextButton}
-        >
-          <Text style={onboardingStyles.nextButtonText}> Submit </Text>
+        <TouchableOpacity style={onboardingStyles.backButton} onPress={handleBack}>
+            <Text style={onboardingStyles.buttonText}>Back</Text>
         </TouchableOpacity>
-      </View>
+
+        <View style={onboardingStyles.mainContent}>
+            <ProgressBar progress={progress} />
+
+            <Text style={onboardingStyles.title}>
+                I live in...
+            </Text>
+
+            <TextInput
+                style={styles.input}
+                value={location}
+                onChangeText={(text) => setLocation(text)}
+                placeholder='Search'      
+            />
+
+            <TouchableOpacity onPress={handleSubmit} style={onboardingStyles.nextButton}>
+                <Text style={onboardingStyles.nextButtonText}> Next </Text>
+            </TouchableOpacity>
+        </View>
     </ImageBackground>
-  );
+);
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-  },
-  crowdMainContent: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  title: {
-    width: "100%",
-    color: "white",
-    fontSize: 36,
-    fontFamily: "DT Nightingale",
-    fontWeight: "300",
-    lineHeight: 39.6,
-    textAlign: "center",
-    marginBottom: 40,
-  },
-  body: {
-    width: "100%",
-    color: "white",
-    fontSize: 24,
-    fontFamily: "DT Nightingale",
-    fontWeight: "300",
-    lineHeight: 26.4,
-    textAlign: "center",
-    marginBottom: 40,
-  },
-  input: {
-    height: 50,
-    backgroundColor: "white",
-    borderWidth: 1,
-    borderColor: "#ddd",
+input: {
+    backgroundColor: '#fff',
     padding: 10,
-    marginBottom: 10,
     borderRadius: 5,
-    fontSize: 20,
-    fontFamily: "Archivo",
-    color: "black",
-  },
+    width: '100%',
+    marginVertical: 20,
+},
 });
+
 
 export default UserFormP4;

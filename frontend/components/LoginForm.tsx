@@ -146,22 +146,32 @@ const LoginForm = () => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    alignItems: "center",
+  },
   input: {
     height: 55,
-    borderColor: '#ccc',
+    borderColor: "#ccc",
     borderWidth: 1,
     marginBottom: 10,
     paddingHorizontal: 15,
-    width: '100%',
+    width: "100%",
     borderRadius: 12,
     fontSize: 16,
-    backgroundColor: '#f9f9f9',
+    backgroundColor: "#F9F9F9",
   },
   inputError: {
-    borderColor: 'red',
+    borderColor: "red",
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 18,
+    fontWeight: "bold",
   },
   error: {
-    color: 'red',
+    color: "red",
     fontSize: 14,
     marginBottom: 10,
   },

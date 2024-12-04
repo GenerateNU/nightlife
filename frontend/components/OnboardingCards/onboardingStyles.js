@@ -18,7 +18,8 @@ const onboardingStyles = StyleSheet.create({
     lineHeight: 20,
   },
   backButton: {
-    paddingTop: 12,
+    paddingLeft: 16,
+    paddingTop: 64,
     position: 'absolute',
   },
   buttonText: {

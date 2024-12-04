@@ -18,7 +18,7 @@ import { NavigationProp } from "@react-navigation/native";
 
 export type RootStackParamList = {
   UserFormP2: undefined;
-  Home: undefined;
+  UserFormP3: undefined;
 };
 
 // Define navigation type based on the navigation stack
@@ -67,7 +67,7 @@ const UserFormP2 = () => {
           console.error("Submission Error:", data.error);
         } else {
           console.log("Submission Success:", data);
-          navigation.navigate("Home");
+          navigation.navigate("UserFormP3");
         }
       } catch (error) {
         console.error("Network or server error:", error);

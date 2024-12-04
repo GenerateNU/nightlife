@@ -22,7 +22,7 @@ const whoAreYouWithOptions = [
 ];
 
 export type RootStackParamList = {
-  UserFormP4: undefined;
+  ILiveIn: undefined;
   WhoAreYouWith: undefined;
 };
 
@@ -54,7 +54,7 @@ const WhoAreYouWith: React.FC = () => {
   }, [selectedCrowd]);
 
   const handleSkip = () => {
-    navigation.navigate("UserFormP4");
+    navigation.navigate("ILiveIn");
   };
 
   const handleBack = () => {
@@ -73,28 +73,35 @@ const WhoAreYouWith: React.FC = () => {
       </TouchableOpacity>
 
       <View style={onboardingStyles.mainContent}>
-      <ProgressBar progress={progress} />
-          <Text style={onboardingStyles.title}>Every time you see me{"\n"}out, I'm with...</Text>
-          <Text style={styles.textStyle}>Select all that apply</Text>
-          <View style={styles.optionGrid}>
-            {whoAreYouWithOptions.map((option) => (
-              <TouchableOpacity
-                key={option}
-                style={[
-                  styles.optionBox,
-                  selectedCrowd.includes(option) ? onboardingStyles.selectedOption : {},
-                ]}
-                onPress={() => selectCrowd(option)}
-              >
-                <Text style={styles.optionText}>{option}</Text>
-              </TouchableOpacity>
-            ))}
-          </View>
-
-          <TouchableOpacity style={onboardingStyles.nextButton} onPress={handleSkip}>
-            <Text style={onboardingStyles.nextButtonText}>Next</Text>
-          </TouchableOpacity>
+        <ProgressBar progress={progress} />
+        <Text style={onboardingStyles.title}>
+          Every time you see me{"\n"}out, I'm with...
+        </Text>
+        <Text style={styles.textStyle}>Select all that apply</Text>
+        <View style={styles.optionGrid}>
+          {whoAreYouWithOptions.map((option) => (
+            <TouchableOpacity
+              key={option}
+              style={[
+                styles.optionBox,
+                selectedCrowd.includes(option)
+                  ? onboardingStyles.selectedOption
+                  : {},
+              ]}
+              onPress={() => selectCrowd(option)}
+            >
+              <Text style={styles.optionText}>{option}</Text>
+            </TouchableOpacity>
+          ))}
         </View>
+
+        <TouchableOpacity
+          style={onboardingStyles.nextButton}
+          onPress={handleSkip}
+        >
+          <Text style={onboardingStyles.nextButtonText}>Next</Text>
+        </TouchableOpacity>
+      </View>
     </ImageBackground>
   );
 };

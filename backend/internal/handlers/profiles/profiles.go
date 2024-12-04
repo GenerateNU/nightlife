@@ -1,16 +1,17 @@
 package profiles
 
 import (
+	"context"
+
 	"log"
 	"net/http"
 
 	"github.com/GenerateNU/nightlife/internal/errs"
-  "github.com/GenerateNU/nightlife/internal/utils" 
+	"github.com/GenerateNU/nightlife/internal/utils"
 
 	"github.com/GenerateNU/nightlife/internal/models"
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
-	
 )
 
 // POST Endpoint -> allows users to add their preferences to the db
@@ -150,6 +151,20 @@ func (s *Service) RemoveFriend(c *fiber.Ctx) error {
 	return c.Status(http.StatusOK).JSON(fiber.Map{"message": "Friend removed successfully"})
 }
 
+func (s *Service) generateUniqueUserID(ctx context.Context) (uuid.UUID, error) {
+    for {
+        userID := uuid.New() // Generate a random ID
+        exists, err := s.store.UserIDExists(ctx, userID)
+        if err != nil {
+            return uuid.UUID{}, err
+        }
+        if !exists {
+            return userID, nil
+        }
+    }
+}
+
+
 func (s *Service) AddUser(c *fiber.Ctx) error {
 	// Parse the request body
 	var profile models.Profile
@@ -164,11 +179,23 @@ func (s *Service) AddUser(c *fiber.Ctx) error {
 	} else if profile.FirstName == "" {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "First name is required"})
 	}
-	if err := s.store.AddUser(c.Context(), profile); err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to add user"})
-	} else {
-		return c.Status(fiber.StatusCreated).JSON(fiber.Map{"message": "User added successfully"})
-	}
+	// Generate a unique user ID
+    userID, err := s.generateUniqueUserID(c.Context())
+    if err != nil {
+        return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to generate user ID"})
+    }
+
+    // Assign userID to the profile
+    profile.UserID = userID
+	log.Printf("Request inside add user: %+v", userID)
+
+
+    // Save the user
+    if err := s.store.AddUser(c.Context(), profile); err != nil {
+        return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to add user"})
+    }
+    return c.Status(fiber.StatusCreated).JSON(fiber.Map{"message": "User added successfully"})
+
 }
 
 /*

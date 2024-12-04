@@ -127,7 +127,7 @@ func (db *DB) UserCharacter(ctx context.Context, p models.Preferences) error {
 	// query to save user data to db
 	log.Printf("UserCharacter: %+v", p)
 	personality_type := determinePersonality(p)
-	query := `UPDATE users
+	query := `UPDATE "users"
 			  SET personality_type = $2
 			  WHERE user_id = $1;`
 
@@ -150,7 +150,7 @@ func (db *DB) UpdateProfilePreferences(ctx context.Context, userID uuid.UUID, pr
 
 	// SQL query execution
 	_, err := db.conn.Exec(ctx, `
-        UPDATE user_preference up
+        UPDATE "user_preference" up
         SET
             user_id = $1,
             preference_type = $2,
@@ -243,3 +243,12 @@ func (db *DB) AddUser(ctx context.Context, user models.Profile) error {
 	_, err := db.conn.Query(ctx, query, user.UserID, user.FirstName, user.Username, user.Email, user.Age, user.Location, user.ProfilePictureURL, user.CreatedAt)
 	return err
 }
+
+func (db *DB) UserIDExists(ctx context.Context, userID uuid.UUID) (bool, error) {
+    var exists bool
+	query := `SELECT EXISTS(SELECT 1 FROM users WHERE user_id = $1)`
+
+	_, err := db.conn.Query(ctx, query, userID)
+	return exists, err
+}
+

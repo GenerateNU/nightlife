@@ -5,28 +5,46 @@ import {
   TouchableOpacity,
   ScrollView,
   Image,
+  ImageBackground,
   ActivityIndicator,
 } from "react-native";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
+import onboardingStyles from "./onboardingStyles";
 import { useState, useEffect } from "react";
 import { useFormData } from "./FormDataContext";
 import { API_DOMAIN, BEARER } from "@env";
 
 export type RootStackParamList = {
   PersonalityScreenReveal: undefined;
-  AddPhoto: undefined;
+  BottomNavigator: undefined;
 };
+
+interface CharacterImages {
+  [key: string]: string;
+}
 
 const PersonalityPreference = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const [personality, setPersonality] = useState(null);
+  const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
   const { formData } = useFormData();
   const [loading, setLoading] = useState(true);
+  const characters: CharacterImages = {
+    serafina: 'https://i.ibb.co/C0D7DLw/serafina.png',
+    buckley: 'https://i.ibb.co/sbfpyBt/buckley.png',
+    roux: 'https://i.ibb.co/drZ8sDX/roux.png',
+    sprig: 'https://i.ibb.co/f12bhHb/sprig.png',
+    blitz: 'https://i.ibb.co/Bq7LVbb/blitz.png',
+    lumi: 'https://i.ibb.co/2d02Gbd/lumi.png',
+    plumehart: 'https://i.ibb.co/9y7MvY4/plumehart.png',
+    MERMAID: 'https://i.ibb.co/9y7MvY4/plumehart.png'
+  };
 
   useEffect(() => {
     const fetchPersonality = async () => {
       try {
-        const data = await fetch(`${API_DOMAIN}/profiles/${formData.email}`, {
+        const email = formData.email.toLowerCase();
+        const data = await fetch(`${API_DOMAIN}/profiles/${email}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -54,7 +72,9 @@ const PersonalityPreference = () => {
           );
         }
         console.log("response: ", response);
-        const personalityData = await response.json();  
+        const personalityData = await response.json();
+        setPersonality(personalityData);
+        setImageUrl(characters[personalityData.characterName.toLowerCase()]);
         console.log("personalityData: ", personalityData);
         setPersonality(personalityData);
       } catch (error) {
@@ -125,28 +145,34 @@ const PersonalityPreference = () => {
     return <ActivityIndicator size="large" color="#0000ff" />;
   }
   console.log("Personality: in frontend ", personality);
+
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <TouchableOpacity
-        onPress={() => navigation.goBack()}
-        style={styles.backButton}
-      >
-        <Text style={styles.backButtonText}>Back</Text>
-      </TouchableOpacity>
-      <Text style={styles.header}>Your party personality type is...</Text>
-      <Image
-        style={styles.pieChartContainer}
-        source={{ uri: "https://i.ibb.co/4K0YbPp/image-2.png" }}
-      />
-      <Text style={styles.personalityName}>{personality}</Text>
-      <Text style={styles.description}>{personality}</Text>
-      <TouchableOpacity
-        onPress={() => navigation.navigate("AddPhoto")}
-        style={styles.skipButton}
-      >
-        <Text style={styles.skipButtonText}>SKIP</Text>
-      </TouchableOpacity>
-    </ScrollView>
+    <ImageBackground
+      source={{ uri: "https://i.imghippo.com/files/sol3971PuQ.png" }}
+      style={onboardingStyles.container}
+    >
+      <ScrollView contentContainerStyle={styles.container}>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={styles.backButton}
+        >
+          <Text style={styles.backButtonText}>Back</Text>
+        </TouchableOpacity>
+        <Text style={styles.header}>Your party personality type is...</Text>
+        <Image style={styles.pieChartContainer} source={{ uri: imageUrl }} />
+        <Text style={styles.personalityName}>{personality && personality}</Text>
+        <Text style={styles.description}>
+          Based on your responses, you are most like{" "}
+          {personality}!
+        </Text>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("BottomNavigator")}
+          style={styles.skipButton}
+        >
+          <Text style={styles.skipButtonText}>NEXT</Text>
+        </TouchableOpacity>
+      </ScrollView>
+    </ImageBackground>
   );
 };
 
@@ -155,7 +181,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     padding: 20,
-    backgroundColor: "#313131",
   },
   backButton: {
     alignSelf: "flex-start",

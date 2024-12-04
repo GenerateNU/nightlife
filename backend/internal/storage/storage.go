@@ -32,6 +32,7 @@ type Profile interface {
 	GetProfileByColumn(context.Context, string, string) (models.Profile, error)
 	GetAllUsers(context.Context) ([]models.Profile, error)
 	AddUser(context.Context, models.Profile) error
+	UserIDExists(context.Context, uuid.UUID) (bool, error)
 }
 
 type UserRating interface {

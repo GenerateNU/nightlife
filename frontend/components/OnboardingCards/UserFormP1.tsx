@@ -30,6 +30,7 @@ const UserFormP1: React.FC = () => {
   const [password, setPassword] = useState<string>(formData.password);
 
   const handleSubmit = () => {
+    //const emailUpdate = email.toLowerCase();
     updateFormData({ name, email, password });
     navigation.navigate("UserFormP2");
   };
