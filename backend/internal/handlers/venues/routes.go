@@ -1,6 +1,7 @@
 package venues
 
 import (
+	"github.com/GenerateNU/nightlife/internal/auth"
 	"github.com/GenerateNU/nightlife/internal/types"
 	"github.com/gofiber/fiber/v2"
 )
@@ -10,13 +11,17 @@ func Routes(app *fiber.App, params types.Params) {
 	service := newService(params.Store)
 
 	// Create Protected Grouping
-	protected := app.Group("/venues")
+	protected := app.Group("/venues") 
 
 	// Register Middleware
-	//protected.Use(auth.Protected(&params.Supabase))
+	protected.Use(auth.Protected(&params.Supabase)) 
 
 	//Endpoints
-	protected.Get("/", service.GetAllVenuesWithFilter)
+	protected.Get("/", service.GetAllVenues)
+	protected.Get("/sort/persona/:persona", service.GetVenuesByPersona)
+	protected.Get("/sort/distance/:longitude/:latitude", service.GetVenuesByDistance)
+	protected.Get("sort/price", service.GetVenuesByPrice)
+	protected.Get("sort/rating", service.GetVenuesByRating)
 	protected.Get("/batch", service.GetVenuesByIDs)
 	protected.Get("/persona/:venueId", service.GetVenuePersona)
 

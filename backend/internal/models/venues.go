@@ -56,3 +56,4 @@ type Venue struct {
 
 	AvgExclusive float32 `json:"avg_exclusive"`
 }
+
