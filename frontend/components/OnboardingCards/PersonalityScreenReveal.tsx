@@ -1,18 +1,27 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import {
   Text,
   StyleSheet,
   TouchableOpacity,
   ScrollView,
-  Image,
   ImageBackground,
   ActivityIndicator,
+  View,
 } from "react-native";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
+import Plumehart from "../../assets/personas/Plumehart.svg";
+import Serafina from "../../assets/personas/Serafina.svg";
+import Buckley from "../../assets/personas/Buckley.svg";
+import Roux from "../../assets/personas/Roux.svg";
+import Sprig from "../../assets/personas/Sprig.svg";
+import Blitz from "../../assets/personas/Blitz.svg";
+import Lumi from "../../assets/personas/Lumi.svg";
+import Mermaid from "../../assets/personas/MERMAID.svg";
 import onboardingStyles from "./onboardingStyles";
 import { useState, useEffect } from "react";
 import { useFormData } from "./FormDataContext";
 import { API_DOMAIN, BEARER } from "@env";
+
 
 export type RootStackParamList = {
   PersonalityScreenReveal: undefined;
@@ -20,24 +29,26 @@ export type RootStackParamList = {
 };
 
 interface CharacterImages {
-  [key: string]: string;
+  [key: string]: ReactElement<any, any>;
 }
 
 const PersonalityPreference = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const [personality, setPersonality] = useState(null);
-  const [imageUrl, setImageUrl] = useState<string | undefined>(undefined);
+  const [imageUrl, setImageUrl] = useState<
+    ReactElement<any, any> | undefined
+  >();
   const { formData } = useFormData();
   const [loading, setLoading] = useState(true);
   const characters: CharacterImages = {
-    Serafina: 'https://i.ibb.co/C0D7DLw/serafina.png',
-    Buckley: 'https://i.ibb.co/sbfpyBt/buckley.png',
-    Roux: 'https://i.ibb.co/drZ8sDX/roux.png',
-    Sprig: 'https://i.ibb.co/f12bhHb/sprig.png',
-    Blitz: 'https://i.ibb.co/Bq7LVbb/blitz.png',
-    Lumi: 'https://i.ibb.co/2d02Gbd/lumi.png',
-    Plumehart: 'https://i.ibb.co/9y7MvY4/plumehart.png',
-    MERMAID: 'https://i.ibb.co/9y7MvY4/plumehart.png'
+    Serafina: <Serafina />,
+    Buckley: <Buckley />,
+    Roux: <Roux />,
+    Sprig: <Sprig />,
+    Blitz: <Blitz />,
+    Lumi: <Lumi />,
+    Plumehart: <Plumehart />,
+    MERMAID: <Mermaid />,
   };
 
   useEffect(() => {
@@ -45,7 +56,7 @@ const PersonalityPreference = () => {
       try {
         const email = formData.email;
         console.log("email: ", email);
-        const data = await fetch(`${API_DOMAIN}/profiles/${email}`, {
+        const data = await fetch(`${API_DOMAIN}/profiles/onboarding/${email}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -105,11 +116,10 @@ const PersonalityPreference = () => {
           <Text style={styles.backButtonText}>Back</Text>
         </TouchableOpacity>
         <Text style={styles.header}>Your party personality type is...</Text>
-        <Image style={styles.pieChartContainer} source={{ uri: imageUrl }} />
+        <View>{imageUrl}</View>
         <Text style={styles.personalityName}>{personality && personality}</Text>
         <Text style={styles.description}>
-          Based on your responses, you are most like{" "}
-          {personality}!
+          Based on your responses, you are most like {personality}!
         </Text>
         <TouchableOpacity
           onPress={() => navigation.navigate("BottomNavigator")}

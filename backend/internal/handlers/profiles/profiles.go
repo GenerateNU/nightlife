@@ -139,6 +139,11 @@ func (s *Service) AddUser(c *fiber.Ctx) error {
 
 	log.Printf("Request inside add user the profile: %+v", profile)
 
+	err = s.signUp.CreateUser(profile.Email, profile.Password) 
+	if err != nil {
+		fmt.Printf(err.Error())
+	}
+
 
     // Save the user
     if err := s.store.AddUser(c.Context(), profile); err != nil {

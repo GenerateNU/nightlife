@@ -48,8 +48,8 @@ const UserFormP2 = () => {
     // Delay the fetch to ensure formData updates propagate
     setTimeout(async () => {
       //const { name, email, password } = formData; // Destructure only needed parts
-      const { name, email } = formData; // Assuming only name and email are needed
-      const payload = { name, email, username, pronouns };
+      const { name, password, email } = formData; // Assuming only name and email are needed
+      const payload = { name, email, password, username, pronouns };
 
       console.log("Submitting FormData:", payload);
 

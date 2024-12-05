@@ -170,7 +170,13 @@ func determinePersonality(prefs models.Preferences) string {
             scores["Lumi"]++
             scores["Buckley"]++
             scores["Plumehart"]++
-        // Add other cases as necessary
+        case "Music and Entertainment":
+			scores["Blitz"]++
+			scores["Sprig"]++
+		case "Food and Dining":
+			scores["Roux"]++
+			scores["Buckley"]++
+			scores["Serafina"]++
         }
     }
 
@@ -181,7 +187,11 @@ func determinePersonality(prefs models.Preferences) string {
             scores["Sprig"]++
         case "More Exclusive":
             scores["Plumehart"]++
-        // Add other cases
+		case "Mixed ages":
+			scores["Lumi"]++
+			scores["Roux"]++
+		case "Younger professionals":
+			scores["Blitz"]++
         }
     }
 
@@ -199,9 +209,9 @@ func determinePersonality(prefs models.Preferences) string {
         scores["Blitz"]++
     }
 
-    // Find the highest score
+    
     maxScore := 0
-    personality := "Buckley"
+    personality := "Blitz"
     for venue, score := range scores {
         if score > maxScore {
             maxScore = score

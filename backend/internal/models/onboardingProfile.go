@@ -7,6 +7,7 @@ type OnboardingProfile struct {
 	UserID            uuid.UUID    `json:"user_id,omitempty"`
 	FirstName         	  string    `json:"name"`
 	Username          string    `json:"username"`
+	Password		  string    `json:"password"`
 	Email             string    `json:"email"`
 	Age               int       `json:"age"`
 	Location          string    `json:"location"`

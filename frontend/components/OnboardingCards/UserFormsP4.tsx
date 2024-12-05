@@ -40,7 +40,7 @@ const UserFormP4: React.FC = () => {
       try {
         const email = formData.email;
 
-        const response = await fetch(`${API_DOMAIN}/profiles/${email}`, {
+        const response = await fetch(`${API_DOMAIN}/profiles/onboarding/${email}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
