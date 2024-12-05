@@ -23,6 +23,7 @@ import { RootSiblingParent } from 'react-native-root-siblings';
 import { Archivo_400Regular, Archivo_500Medium, Archivo_700Bold, useFonts } from "@expo-google-fonts/archivo";
 import { PlayfairDisplay_400Regular } from '@expo-google-fonts/playfair-display';
 
+
 const Stack = createNativeStackNavigator();
 
 const LoginStack = () => {
