@@ -16,6 +16,8 @@ const PersonaIcons = ({ personas = [] }) => {
     buckley: require('../../assets/buckley.png'),
     // eslint-disable-next-line
     blitz: require('../../assets/blitz.png'),
+    // eslint-disable-next-line
+    plumehart: require('../../assets/plumehart.png'),
   };
 
   console.log("*************", personas);
