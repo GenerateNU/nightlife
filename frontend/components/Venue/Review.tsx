@@ -27,6 +27,7 @@ const Review = ({ reviewDict = {
     const [username, setUserName] = useState("");
     const [hasImage, setHasImage] = useState(false);
     const [hasReviewText, setHasReviewText] = useState(false);
+    const [randomPersona, setRandomPersona] = useState(null); 
     
     // eslint-disable-next-line
     const stars = {
@@ -36,6 +37,23 @@ const Review = ({ reviewDict = {
         "empty": require("../../assets/empty_star.png")
       }
    
+    const PersonaIconImages = {
+        // eslint-disable-next-line
+        roux: require('../../assets/roux.png'),
+        // eslint-disable-next-line
+        lumi: require('../../assets/lumi.png'),
+        // eslint-disable-next-line
+        sprig: require('../../assets/sprig.png'),
+        // eslint-disable-next-line
+        serafina: require('../../assets/serafina.png'),
+        // eslint-disable-next-line
+        buckley: require('../../assets/buckley.png'),
+        // eslint-disable-next-line
+        blitz: require('../../assets/blitz.png'),
+        // eslint-disable-next-line
+        plumehart: require('../../assets/plumehart.png'),
+      };
+    
 
     useEffect(() => {
         if (reviewDict.image_path && reviewDict.image_path.trim() !== "") {
@@ -54,6 +72,8 @@ const Review = ({ reviewDict = {
             .then(response => response.json())
             .then(json => {
                 setUserName(json.username);
+                const personas = Object.values(PersonaIconImages);
+                setRandomPersona(personas[Math.floor(Math.random() * personas.length)]);
             })
             .catch(error => {
                 console.error(error);
@@ -105,7 +125,15 @@ const Review = ({ reviewDict = {
             <Text style={styles.separator}>
                 ___________________________________________________
             </Text>
-            <Text style={styles.username}> {username} </Text>
+            <View style={{flexDirection: 'row', marginLeft: -20, paddingBottom: 10}}>
+                {randomPersona && (
+                    <Image
+                        source={randomPersona}
+                        style={{ width: 20, height: 20, marginLeft: 50, marginRight: -20, marginTop: -3 }}
+                    />
+                )}
+                <Text style={styles.username}> {username} </Text>
+            </View>
             <View style={{flexDirection: 'row'}}>
              {starReview(Math.floor(reviewDict.overall_rating / 2))}
              <Text style={{color: 'white', fontSize: 12, marginTop: 1}}>    {getTimeAgo(reviewDict.created_at)} </Text>
@@ -156,7 +184,8 @@ const styles = StyleSheet.create({
         fontSize: 10,
         color: "white",
         marginBottom: 5,
-        marginLeft: 30
+        marginLeft: 30,
+        marginTop: 1
     },
     reviewText: {
         fontSize: 16,

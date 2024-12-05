@@ -138,9 +138,13 @@ const RateReviewScreen: React.FC<ReviewScreenProps> = ({ route, navigation }) =>
           {formattedVenueType} | {venueAddress}, {venueCity}
         </Text>
         <View style={{ flexDirection: 'row' }}>
-          <Text style={{ fontSize: 14, color: 'white' }}>{username}</Text>
-          <View style={{ marginTop: 5, marginLeft: 4 }}>
-            <Feather name="eye" size={13} color="white" />
+          <View style={{ marginTop: 5, marginLeft: 4, flexDirection: 'row'}}>
+            <Image
+            source={require('../../assets/plumehart.png')}
+            style={{width: 20, height: 20, paddingRight: 10}} /> 
+            <Text style={{ fontSize: 14, color: 'white', paddingRight: 10 }}>{username}</Text>
+          
+            <Feather style={{marginTop: 3}}name="eye" size={13} color="white" />
           </View>
         </View>
 
@@ -282,7 +286,8 @@ const styles = StyleSheet.create({
     color: 'white', 
     textShadowColor: 'rgba(255, 255, 255, 0.9)', 
     textShadowOffset: { width: 0, height: 0 }, 
-    textShadowRadius: 5 
+    textShadowRadius: 5,
+    fontFamily: 'PlayfairDisplay_400Regular',
   }
 });
 

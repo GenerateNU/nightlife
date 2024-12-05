@@ -35,6 +35,11 @@ const VenueHeader: React.FC<VenueHeaderProps> = ({
   // Capitalize first letter of venueType and make the rest lowercase
   const formattedVenueType = venueType.charAt(0).toUpperCase() + venueType.slice(1).toLowerCase();
 
+  const formatVenueDetails = (venueAddress, venueCity) => {
+    const combined = `${venueAddress}, ${venueCity}`;
+    return combined.length > 20 ? `${combined.slice(0, 20)}...` : combined;
+  };
+
   return (
     <View style={styles.header}>
       <View style={{marginLeft: 3}}> 
@@ -47,7 +52,7 @@ const VenueHeader: React.FC<VenueHeaderProps> = ({
       </View>
       <View style={{ flexDirection: "row", alignItems: "center", paddingTop: 5 }}>
         <Text style={{ color: "white", marginRight: 5, marginTop: 5}}>
-          {formattedVenueType} | {venueAddress}, {venueCity}
+          {formattedVenueType} | {formatVenueDetails(venueAddress, venueCity)}
         </Text>
         {/* eslint-disable-next-line */}
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
