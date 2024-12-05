@@ -2,6 +2,7 @@ import React from "react";
 import { Text, View, StyleSheet, SafeAreaView, Image, TouchableOpacity, ScrollView } from "react-native";
 import { useEffect, useState } from "react";
 import Review from "@/components/Venue/Review";
+import { API_DOMAIN } from "@env";
 
 /**
  * Displays a list of all the reviews that users have posted for the given venue containing the text, overall rating
@@ -24,7 +25,7 @@ const VenueReviews: React.FC = ({ navigation, venueID, venueName, venueAddress, 
   };
 
   useEffect(() => {
-    fetch(`http://localhost:8080/venueratings/venue/${venueID}/ratings`)
+    fetch(`${API_DOMAIN}/venueratings/venue/${venueID}/ratings`)
       .then((response) => response.json())
       .then((json) => {
         setReviewDictList(json);

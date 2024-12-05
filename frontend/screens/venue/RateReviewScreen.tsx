@@ -7,7 +7,7 @@ import { Feather } from "@expo/vector-icons";
 import PropTypes from "prop-types";
 import stars from "@/components/Venue/Stars";
 import Toast from 'react-native-root-toast'
-
+import { API_DOMAIN } from "@env";
 type RootStackParamList = {
   Home: undefined;
   RateReviews: {
@@ -81,7 +81,7 @@ const RateReviewScreen: React.FC<ReviewScreenProps> = ({ route, navigation }) =>
     
     try {
       const response = await fetch(
-        `http://localhost:8080/userratings/user/${reviewData.user_id}/${reviewData.venue_id}`,
+        `${API_DOMAIN}/userratings/user/${reviewData.user_id}/${reviewData.venue_id}`,
         {
           method: "POST",
           headers: {

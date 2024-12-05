@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import {Text, View, TouchableOpacity, ScrollView, StyleSheet} from "react-native";
 import RatingScrollBar from "@/components/Venue/RatingScrollBar";
 import Toast from "react-native-root-toast";
+import { API_DOMAIN } from "@env";
 /**
  * Allows a user to submit a rating score for various specific categories
  * @param venueId venueId of the venue currently being explored
@@ -58,7 +59,7 @@ const RatingScreen: React.FC<{ venueId: string, personas: object, hype: number, 
         };
         
         try {
-            const response = await fetch(`http://localhost:8080/userratings/user/${userID}/${venueId}`, {
+            const response = await fetch(`${API_DOMAIN}/userratings/user/${userID}/${venueId}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json', 
