@@ -1,6 +1,6 @@
-import React from "react";
 import {Button, Text, TouchableOpacity, View} from "react-native";
 import {useAuth} from "@/context/AuthContext";
+import React from "react";
 
 const SettingsScreen: React.FC = () => {
 

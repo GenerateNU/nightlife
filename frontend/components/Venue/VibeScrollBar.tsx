@@ -1,6 +1,6 @@
 import { Text, View, StyleSheet } from "react-native";
 import PropTypes from "prop-types";
-import SoundWave from "./SoundWave";  
+import SoundWave from "@/components/Venue/SoundWave"
 
 /**
  * Combines sound wave image with respective labels into one component

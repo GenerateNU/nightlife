@@ -1,7 +1,7 @@
 import Slider from "@react-native-community/slider";
 import {Text, View, StyleSheet} from "react-native";
 import PropTypes from 'prop-types';
-import SoundWave from "./SoundWave";
+import SoundWave from "@/components/Venue/SoundWave";
 
 /**
  * Allows a user to submit a rating from 0 - 10 on a specific category
@@ -62,8 +62,12 @@ RatingScrollBar.propTypes = {
 
 const styles = StyleSheet.create({
   container: {
+<<<<<<< HEAD
     alignItems: 'center',
     backgroundColor: '#060019',
+=======
+    alignItems: 'center'
+>>>>>>> main
   },
   title: {
     fontSize: 18,
