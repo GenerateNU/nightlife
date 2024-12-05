@@ -1,17 +1,19 @@
 import { Text, View, StyleSheet } from "react-native";
 import PropTypes from "prop-types";
-import SoundWave from "./SoundWave";  
+import SoundWave from "@/components/Venue/SoundWave"
 
 /**
  * Combines sound wave image with respective labels into one component
  */
 const VibeScrollBar = ({ category = 1, rating = 1, startColor = "", stopColor = "", minTitle = "", maxTitle = "" }) => {
+  const adjustedRating = rating === 0 ? 1 : rating;
+
   return (
     <View style={styles.container}>
       <View style={{paddingBottom: 30}}>
         <SoundWave
           category={category}
-          rating={rating}
+          rating={adjustedRating}
           startColor={startColor}
           stopColor={stopColor}
         />

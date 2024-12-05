@@ -110,7 +110,6 @@ func (db *DB) GetAllVenues(ctx context.Context) ([]models.Venue, error) {
 	saturday_hours, sunday_hours, ST_Y(location::geometry) AS latitude, ST_X(location::geometry) AS longitude FROM venue`
 	rows, err := db.conn.Query(ctx, query)
 	if err != nil {
-		fmt.Print("hello")
 		return []models.Venue{}, err
 	}
 	defer rows.Close()

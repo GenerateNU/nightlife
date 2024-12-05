@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import {Text, View, TouchableOpacity, ScrollView, StyleSheet} from "react-native";
 import RatingScrollBar from "@/components/Venue/RatingScrollBar";
-
+import Toast from "react-native-root-toast";
 /**
  * Allows a user to submit a rating score for various specific categories
  * @param venueId venueId of the venue currently being explored
@@ -13,9 +13,8 @@ import RatingScrollBar from "@/components/Venue/RatingScrollBar";
  * @param exclusive average exclusive score for the current venue (*see VenueOverviewScreen)
  * @returns a rating page for users
  */
-const RatingScreen: React.FC<{ venueId: string, hype: number, mainstream: number, price: number, crowd: number, energy: number, exclusive: number }> = ({ venueId, hype, mainstream, price, crowd, energy, exclusive }) => {
+const RatingScreen: React.FC<{ venueId: string, personas: object, hype: number, mainstream: number, price: number, crowd: number, energy: number, exclusive: number }> = ({ venueId, hype, mainstream, price, crowd, energy, exclusive }) => {
     const userID = "26d636d9-f8b0-4ad7-be9c-9b98c4c8a0c4";
-
     // initial state of ratings
     const [ratings, setRatings] = useState({
         hype: 0,
@@ -69,9 +68,28 @@ const RatingScreen: React.FC<{ venueId: string, hype: number, mainstream: number
             if (response.ok) {
                 const data = await response.json();
                 console.log('Review submitted successfully:', data);
+                Toast.show("Rating Submitted!", {
+                    duration: 800, 
+                    position: Toast.positions.CENTER, 
+                    backgroundColor: "#ffffff", 
+                    textColor: "#000000", 
+                    shadow: true,
+                    animation: true,
+                    hideOnPress: true,
+                  });
+
             } else {
                 const errorData = await response.json();
                 console.error('Error submitting review:', errorData);
+                Toast.show("Error Submitting Rating", {
+                    duration: 800, 
+                    position: Toast.positions.BOTTOM, 
+                    backgroundColor: "#ffffff", 
+                    textColor: "#000000", 
+                    shadow: true,
+                    animation: true,
+                    hideOnPress: true,
+                  });
             }
         } catch (error) {
             console.error('Error:', error);
@@ -79,9 +97,8 @@ const RatingScreen: React.FC<{ venueId: string, hype: number, mainstream: number
     };
               
     return (
-        <ScrollView style={{ backgroundColor: '#121212', width: 365}}>
-            <View style={{ flexDirection: 'column' }}>
-            <View style={{ marginBottom: 20 }}>
+        <ScrollView style={{ backgroundColor: '#060019', width: 365}} >
+            <View style={{ marginBottom: 20, flexDirection: 'column' }}>
                 <RatingScrollBar 
                         minTitle="Chill" 
                         maxTitle="Energetic"
@@ -151,12 +168,11 @@ const RatingScreen: React.FC<{ venueId: string, hype: number, mainstream: number
                     stopColor="#FF7E5F" 
                     avgValue={exclusive}
                 />
+                <View>
+                    <TouchableOpacity style={styles.button} onPress={saveReviews}>
+                            <Text style={styles.buttonText}>Save</Text>
+                    </TouchableOpacity>
                 </View>
-            </View>
-            <View>
-                <TouchableOpacity style={styles.button} onPress={saveReviews}>
-                        <Text style={styles.buttonText}>Save</Text>
-                </TouchableOpacity>
             </View>
         </ScrollView>
     );
@@ -167,11 +183,11 @@ const styles = StyleSheet.create({
         flex: 1,
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'flex-start',
         paddingLeft: 10,
         paddingRight: 10,
         paddingTop: 10,
-        marginLeft: 0
+        marginLeft: 0,
+        backgroundColor: '#060019'
     },
     buttonText: {
         fontSize: 20, 
@@ -187,6 +203,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         width: 300,
         marginTop: 10,
+        
     },
 });
 

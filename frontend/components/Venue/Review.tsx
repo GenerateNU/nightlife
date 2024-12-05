@@ -27,7 +27,9 @@ const Review = ({ reviewDict = {
     const [username, setUserName] = useState("");
     const [hasImage, setHasImage] = useState(false);
     const [hasReviewText, setHasReviewText] = useState(false);
+    const [randomPersona, setRandomPersona] = useState(null); 
     
+    // eslint-disable-next-line
     const stars = {
          // eslint-disable-next-line
         "full": require("../../assets/filled_star.png"),
@@ -35,6 +37,23 @@ const Review = ({ reviewDict = {
         "empty": require("../../assets/empty_star.png")
       }
    
+    const PersonaIconImages = {
+        // eslint-disable-next-line
+        roux: require('../../assets/roux.png'),
+        // eslint-disable-next-line
+        lumi: require('../../assets/lumi.png'),
+        // eslint-disable-next-line
+        sprig: require('../../assets/sprig.png'),
+        // eslint-disable-next-line
+        serafina: require('../../assets/serafina.png'),
+        // eslint-disable-next-line
+        buckley: require('../../assets/buckley.png'),
+        // eslint-disable-next-line
+        blitz: require('../../assets/blitz.png'),
+        // eslint-disable-next-line
+        plumehart: require('../../assets/plumehart.png'),
+      };
+    
 
     useEffect(() => {
         if (reviewDict.image_path && reviewDict.image_path.trim() !== "") {
@@ -53,6 +72,8 @@ const Review = ({ reviewDict = {
             .then(response => response.json())
             .then(json => {
                 setUserName(json.username);
+                const personas = Object.values(PersonaIconImages);
+                setRandomPersona(personas[Math.floor(Math.random() * personas.length)]);
             })
             .catch(error => {
                 console.error(error);
@@ -79,6 +100,7 @@ const Review = ({ reviewDict = {
     };
 
     const getTimeAgo = (timestamp) => {
+        console.log(timestamp)
         const now = new Date();
         const past = new Date(timestamp);
         const diffInMs = now.getTime() - past.getTime();
@@ -101,9 +123,17 @@ const Review = ({ reviewDict = {
     return (
         <View style={styles.container}>
             <Text style={styles.separator}>
-                _____________________________________________________________________
+                ___________________________________________________
             </Text>
-            <Text style={styles.username}> {username} </Text>
+            <View style={{flexDirection: 'row', marginLeft: -20, paddingBottom: 10}}>
+                {randomPersona && (
+                    <Image
+                        source={randomPersona}
+                        style={{ width: 20, height: 20, marginLeft: 50, marginRight: -20, marginTop: -3 }}
+                    />
+                )}
+                <Text style={styles.username}> {username} </Text>
+            </View>
             <View style={{flexDirection: 'row'}}>
              {starReview(Math.floor(reviewDict.overall_rating / 2))}
              <Text style={{color: 'white', fontSize: 12, marginTop: 1}}>    {getTimeAgo(reviewDict.created_at)} </Text>
@@ -142,7 +172,8 @@ Review.propTypes = {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: "#121212",
+        backgroundColor: "#060019",
+        flex: 1
     },
     separator: {
         color: "white",
@@ -153,23 +184,24 @@ const styles = StyleSheet.create({
         fontSize: 10,
         color: "white",
         marginBottom: 5,
-        marginLeft: 20
+        marginLeft: 30,
+        marginTop: 1
     },
     reviewText: {
         fontSize: 16,
         color: "white",
-        marginLeft: 20
+        marginLeft: 30
     },
     eventImage: {
         height: 200,
-        width: 400,
+        width: 500,
         marginTop: 10,
         marginLeft: -10
     },
     starContainer: {
         flexDirection: "row", 
         justifyContent: "flex-start", 
-        marginLeft: 20,
+        marginLeft: 30,
         marginBottom: 5
     },
     star: {

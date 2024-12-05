@@ -12,8 +12,9 @@ import MusicPreferences from './components/OnboardingCards/MusicPreference';
 import PersonalityScreenReveal from './components/OnboardingCards/PersonalityScreenReveal'
 import PersonalityScreenReveal2 from './components/OnboardingCards/PersonalityScreenReveal2'
 import HowFarFromYou from './components/OnboardingCards/HowFarFromYou';
-
+import { RootSiblingParent } from 'react-native-root-siblings';
 import { Archivo_400Regular, Archivo_500Medium, Archivo_700Bold, useFonts } from "@expo-google-fonts/archivo";
+import { PlayfairDisplay_400Regular } from '@expo-google-fonts/playfair-display';
 
 const Stack = createNativeStackNavigator();
 
@@ -140,15 +141,18 @@ export default function App() {
     Archivo_400Regular,
     Archivo_500Medium,
     Archivo_700Bold,
+    PlayfairDisplay_400Regular
   });
 
   return (
     fontsLoaded && (
-      <AuthProvider>
-        <NavigationContainer>
-          <MainNavigator />
-        </NavigationContainer>
-      </AuthProvider>
+      <RootSiblingParent>
+        <AuthProvider>
+          <NavigationContainer>
+            <MainNavigator />
+          </NavigationContainer>
+        </AuthProvider>
+      </RootSiblingParent>
     )
   );
 }

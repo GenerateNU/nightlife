@@ -6,9 +6,10 @@ import EventsScrollable from "./explore/EventsScrollable";
 import { API_DOMAIN } from "@env";
 import { useNavigation } from "@react-navigation/native";
 
-interface HomeScreenProps {
-  showSearchBar?: boolean;
-}
+type HomeScreenProps = {
+    navigation: StackNavigationProp<RootStackParamList, 'Home'>; 
+    showSearchBar?: boolean; // Make showSearchBar optional
+};
 
 const HomeScreen: React.FC<HomeScreenProps> = ({ showSearchBar = true }) => {
   const navigation = useNavigation();
