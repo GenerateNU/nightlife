@@ -27,6 +27,8 @@ const VenueScreen: React.FC = ({ navigation, route }) => {
     const [selectedTab, setSelectedTab] = useState<VenueTabs>(VenueTabs.Overview);
     const { defaultTab = VenueTabs.Overview } = route.params || {};  
 
+    console.log("DEFAULT", defaultTab)
+    console.log(selectedTab)
     const venueID = "0006b62a-21bd-4e48-8fc7-e3bcca66d0d0";
     const userID = "26d636d9-f8b0-4ad7-be9c-9b98c4c8a0c4";
     const day = new Date().getDay();
@@ -98,8 +100,12 @@ const VenueScreen: React.FC = ({ navigation, route }) => {
             <View style={styles.header}>
                 {selectedTab === VenueTabs.Rating && (
                     <TouchableOpacity
-                        onPress={() => setSelectedTab(VenueTabs.Overview)}>
-                        <Text style={{color: 'white'}}>Back</Text>
+                        onPress={() => {
+                            setSelectedTab(VenueTabs.Overview);
+                            navigation.setParams({ defaultTab: VenueTabs.Overview });
+                        }}
+                    >
+                        <Text style={{ color: 'white' }}>Back</Text>
                     </TouchableOpacity> )}
                     
                     <VenueHeader
