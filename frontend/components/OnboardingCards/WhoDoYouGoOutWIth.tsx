@@ -75,7 +75,7 @@ const WhoAreYouWith: React.FC = () => {
       <View style={onboardingStyles.mainContent}>
         <ProgressBar progress={progress} />
         <Text style={onboardingStyles.title}>
-          Every time you see me{"\n"}out, I'm with...
+          Every time you see me{"\n"}out, I&apos;m with...
         </Text>
         <Text style={styles.textStyle}>Select all that apply</Text>
         <View style={styles.optionGrid}>

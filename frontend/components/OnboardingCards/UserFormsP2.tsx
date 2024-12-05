@@ -21,10 +21,11 @@ export type RootStackParamList = {
 };
 
 // Define navigation type based on the navigation stack
-type NavigationType = {
+/**type NavigationType = {
   navigate: (screen: keyof RootStackParamList) => void;
   goBack: () => void;
 };
+ */
 
 const UserFormP2 = () => {
   const { formData, updateFormData } = useFormData();

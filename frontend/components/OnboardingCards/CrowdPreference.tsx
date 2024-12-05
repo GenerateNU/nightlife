@@ -55,7 +55,7 @@ const CrowdPreference: React.FC = () => {
       </TouchableOpacity>
       <View style={onboardingStyles.mainContent}>
         <ProgressBar progress={progress} />
-        <Text style={onboardingStyles.title}>When I'm out, I want{"\n"}to be surrounded by...</Text>
+        <Text style={onboardingStyles.title}>When I&apos;m out, I want{"\n"}to be surrounded by...</Text>
         <Text style={styles.textStyle}>Select all that apply</Text>
         <View style={styles.optionsContainer}>
           {/* First option: "More Exclusive" */}

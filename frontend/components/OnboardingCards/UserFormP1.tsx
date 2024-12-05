@@ -34,10 +34,6 @@ const UserFormP1: React.FC = () => {
     navigation.navigate("UserFormP2");
   };
 
-  const handleBack = () => {
-    navigation.goBack();
-  };
-
   return (
     <ImageBackground
       source={{ uri: "https://i.imghippo.com/files/sol3971PuQ.png" }}

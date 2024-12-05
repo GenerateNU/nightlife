@@ -19,6 +19,7 @@ const Notifications = () => {
   const [notifications, setNotifications] = useState(false);
 
   const handleNext = () => {
+    console.log(notifications);
     navigation.navigate("PersonalityScreenReveal");
   };
 

@@ -9,7 +9,6 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { useFormData } from "./FormDataContext";
 import ProgressBar from './ProgressBar';
-import { API_DOMAIN, BEARER } from "@env";
 import onboardingStyles from "./onboardingStyles";
 
 const priorities = [
