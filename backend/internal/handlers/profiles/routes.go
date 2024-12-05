@@ -17,16 +17,20 @@ func Routes(app *fiber.App, params types.Params) {
 
 	//Endpoints
 	protected.Get("/", service.GetAllUsers)
+	protected.Get("/userCharacter/:userId", service.GetUserCharacter) 
 	protected.Get("/:userIdentifier", service.GetProfile)
-	protected.Post("/preferences", service.CreatePreferences)
-	protected.Patch("/preferences", service.UpdateProfilePreferences)
-	protected.Patch("/update/:userId", service.UpdateProfile)
-	protected.Delete("/:userId", service.DeleteUser)
-	protected.Delete("/friends/:username", service.RemoveFriend)
-	protected.Get("/reviews/:userId", service.GetUserAuthoredReviews)
-	protected.Get("/reviewed-venues/:userId", service.GetUserReviewsWithVenueData)
-	protected.Get("/saved-venues/:userId", service.GetUserSavedVenues)
-	protected.Get("/visited-venues/:userId", service.GetUserVisitedVenues)
-	protected.Get("/:userId/location", service.GetUserLocation) 
+	protected.Get("/onboarding/:userIdentifier", service.OnboardingGetProfile)
 
+
+
+
+	protected.Post("/preferences", service.CreatePreferences) 
+	protected.Post("/addUser", service.AddUser)
+	protected.Post("/userCharacter", service.UserCharacter) 
+
+
+	protected.Patch("/preferences", service.UpdateProfilePreferences) 
+
+	protected.Delete("/friends/:username", service.RemoveFriend) 
+	protected.Delete("/:userId", service.DeleteUser) 
 }

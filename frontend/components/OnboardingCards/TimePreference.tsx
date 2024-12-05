@@ -6,31 +6,30 @@ import onboardingStyles from './onboardingStyles';
 import { useFormData } from './FormDataContext';
 
 export type RootStackParamList = {
-  NightlifePreference: undefined;
-  RankingNightLifeImportance: undefined;
+  TimePreference: undefined;
+  WhoAreYouWith: undefined;
 };
 
 const options = [
-  "Nightclubs",
-  "Concerts & Live Music",
-  "VIP & Exclusive Events",
-  "Other"
+  "Before 9pm",
+  "9-11pm",
+  "After 11pm",
 ];
 
-const NightlifePreference = () => {
-  const { formData, updateFormData } = useFormData();
+const TimePreference = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-  const [selectedOption, setSelectedOption] = useState<string | "">("");
+  const { formData, updateFormData } = useFormData();
+  const [selectedOption, setSelectedOption] = useState<string | ''>('');
   const [progress, setProgress] = useState(0.1);
 
   const toggleSelection = (option: string) => {
-    setSelectedOption((prev) => (prev === option ? "" : option));
+    setSelectedOption((prev) => (prev === option ? '' : option));
   };
 
   const handleNext = () => {
-    updateFormData({ nightlife: selectedOption });
-    console.log("Selected nightlife preference:", formData.nightlife);
-    navigation.navigate('RankingNightLifeImportance');
+    updateFormData({ timePreference: selectedOption });
+    console.log('Selected time preference:', formData);
+    navigation.navigate('WhoAreYouWith');
   };
 
   const handleBack = () => {
@@ -75,4 +74,4 @@ const NightlifePreference = () => {
   );
 };
 
-export default NightlifePreference;
+export default TimePreference;

@@ -5,7 +5,6 @@ import NightlifePreference from "@/components/OnboardingCards/NightlifePreferenc
 const OnboardingScreen: React.FC = () => {
     return (
         <View>
-            <Text></Text>
             <NightlifePreference/>
         </View>
     );

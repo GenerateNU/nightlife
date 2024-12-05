@@ -1,36 +1,37 @@
 import React, { useState } from 'react';
-import { TouchableOpacity, View, Text, ImageBackground } from "react-native";
+import { View, Text, TouchableOpacity, ImageBackground } from 'react-native';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import ProgressBar from './ProgressBar';
 import onboardingStyles from './onboardingStyles';
 import { useFormData } from './FormDataContext';
 
-export type RootStackParamList = {
-  NightlifePreference: undefined;
-  RankingNightLifeImportance: undefined;
-};
-
-const options = [
-  "Nightclubs",
-  "Concerts & Live Music",
-  "VIP & Exclusive Events",
-  "Other"
+const frequencyOptions = [
+  "Every day!",
+  "Few times a week",
+  "Once a week",
+  "Few times a month",
+  "Only for special events"
 ];
 
-const NightlifePreference = () => {
+export type RootStackParamList = {
+  FrequencyPreference: undefined;
+  TimePreference: undefined;
+}
+
+const FrequencyPreference: React.FC = () => {
+  const [selectedFrequency, setSelectedFrequency] = useState<string | ''>('');
+  const [progress, setProgress] = useState(0.5);
   const { formData, updateFormData } = useFormData();
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-  const [selectedOption, setSelectedOption] = useState<string | "">("");
-  const [progress, setProgress] = useState(0.1);
 
-  const toggleSelection = (option: string) => {
-    setSelectedOption((prev) => (prev === option ? "" : option));
+  const selectFrequency = (option: string) => {
+    setSelectedFrequency(option);
   };
 
-  const handleNext = () => {
-    updateFormData({ nightlife: selectedOption });
-    console.log("Selected nightlife preference:", formData.nightlife);
-    navigation.navigate('RankingNightLifeImportance');
+  const handleSkip = () => {
+    updateFormData({ frequency: selectedFrequency });
+    console.log('Selected frequency:', formData);
+    navigation.navigate('TimePreference');
   };
 
   const handleBack = () => {
@@ -43,36 +44,34 @@ const NightlifePreference = () => {
       style={onboardingStyles.container}
     >
       <Text style={onboardingStyles.topTitle}>NIGHTLIFE</Text>
-      <TouchableOpacity style={onboardingStyles.backButton} onPress={handleBack}>
+      <TouchableOpacity onPress={handleBack} style={onboardingStyles.backButton}>
         <Text style={onboardingStyles.buttonText}>Back</Text>
       </TouchableOpacity>
       <View style={onboardingStyles.mainContent}>
         <ProgressBar progress={progress} />
-        <Text style={onboardingStyles.title}>
-          It’s Friday night!{"\n"}Where are we going?
-        </Text>
+        <Text style={onboardingStyles.title}>Weekend or not, I’m{"\n"}out...</Text>
         <View>
-          {options.map((option) => (
+          {frequencyOptions.map((option) => (
             <TouchableOpacity
               key={option}
               style={[
                 onboardingStyles.optionBox,
-                selectedOption === option
+                selectedFrequency === option
                   ? onboardingStyles.selectedOption
                   : onboardingStyles.unselectedOption,
               ]}
-              onPress={() => toggleSelection(option)}
+              onPress={() => selectFrequency(option)}
             >
               <Text style={onboardingStyles.optionText}>{option}</Text>
             </TouchableOpacity>
           ))}
         </View>
-        <TouchableOpacity onPress={handleNext} style={onboardingStyles.nextButton}>
-          <Text style={onboardingStyles.nextButtonText}> Next </Text>
+        <TouchableOpacity style={onboardingStyles.nextButton} onPress={handleSkip}>
+          <Text style={onboardingStyles.nextButtonText}>Next</Text>
         </TouchableOpacity>
       </View>
     </ImageBackground>
   );
 };
 
-export default NightlifePreference;
+export default FrequencyPreference;

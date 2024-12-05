@@ -5,14 +5,15 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
-  Image,
 } from "react-native";
-import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+
+import { MaterialIcons, FontAwesome } from "@expo/vector-icons";
 
 export type RootStackParamList = {
-  MusicPreference: undefined;
+  MusicPreference: undefined; 
   PersonalityScreenReveal2: undefined;
-};
+}
 
 const MusicPreferences: React.FC = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
@@ -30,55 +31,33 @@ const MusicPreferences: React.FC = () => {
 
       <View style={styles.iconsContainer}>
         <View style={styles.iconRow}>
-          <TouchableOpacity
-            onPress={() => navigation.navigate("PersonalityScreenReveal2")}
-            style={styles.iconWrapper}
-          >
-            <Image
-              src={"https://i.ibb.co/6FsyGtb/image-7.png"}
-              style={{ width: 70, height: 70 }}
-            />
+          <TouchableOpacity style={styles.iconWrapper}>
+            <FontAwesome name="music" size={70} color="#FFF" />{" "}
+            {/* Increased size */}
             <Text style={styles.iconText}>Jazz</Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => navigation.navigate("PersonalityScreenReveal2")}
-            style={styles.iconWrapper}
-          >
-            <Image
-              src={
-                "https://i.ibb.co/N7vfDLc/single-continuous-line-drawing-electric-guitar-with-amplifier-rock-music-illuminated-stage-backgroun.png"
-              }
-              style={{ width: 90, height: 90 }}
-            />
+          <TouchableOpacity style={styles.iconWrapper}>
+            <MaterialIcons name="light" size={70} color="#FFF" />{" "}
+            {/* Increased size */}
             <Text style={styles.iconText}>Rock</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.iconRow}>
-          <TouchableOpacity
-            onPress={() => navigation.navigate("PersonalityScreenReveal2")}
-            style={styles.iconWrapper}
-          >
-            <Image
-              src={"https://i.ibb.co/XDfmf4Y/image-8.png"}
-              style={{ width: 70, height: 70 }}
-            />
+          <TouchableOpacity style={styles.iconWrapper}>
+            <FontAwesome name="headphones" size={70} color="#FFF" />{" "}
+            {/* Increased size */}
             <Text style={styles.iconText}>Hip Hop</Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => navigation.navigate("PersonalityScreenReveal2")}
-            style={styles.iconWrapper}
-          >
-            <Image
-              src={"https://i.ibb.co/T0P1QBp/image-9.png"}
-              style={{ width: 70, height: 70 }}
-            />
+          <TouchableOpacity style={styles.iconWrapper}>
+            <FontAwesome name="header" size={70} color="#FFF" />{" "}
+            {/* Increased size */}
             <Text style={styles.iconText}>Other</Text>
           </TouchableOpacity>
         </View>
       </View>
 
       <TouchableOpacity
-        onPress={() => navigation.navigate("PersonalityScreenReveal2")}
+        onPress={() => navigation.navigate('PersonalityScreenReveal2')}
         style={styles.skipButton}
       >
         <Text style={styles.skipButtonText}>SKIP</Text>

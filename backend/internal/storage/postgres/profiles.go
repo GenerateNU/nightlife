@@ -55,6 +55,7 @@ func (db *DB) GetProfileByColumn(ctx context.Context, column string, value strin
 	return profile, nil
 }
 
+
 func (db *DB) PatchProfile(
 	ctx context.Context,
 	userID uuid.UUID,
@@ -136,10 +137,93 @@ func (db *DB) PatchProfile(
 
 func (db *DB) CreatePreferences(ctx context.Context, p models.Preferences) error {
 	// query to save user data to db
-	query := `INSERT INTO preferences (userID, location, age, music, ambiance, notifs) 
-				VALUES ($1, $2, $3, $4, $5, $6)`
+	query := `INSERT INTO user_preference (user_id, location, nightlife, interests, crowd_preference, time_preference, frequency, insideoroutside) 
+				VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`
 
-	_, err := db.conn.Query(ctx, query, p.UserID, p.Location, p.Age, p.Music, p.Ambiance, p.Notifs)
+	_, err := db.conn.Query(ctx, query, p.UserID, p.Location, p.Nightlife, p.Interests, p.CrowdPreference, p.TimePreference, p.Frequency, p.InsideOrOutside)
+	return err
+}
+
+func determinePersonality(prefs models.Preferences) string {
+    scores := map[string]int{
+        "Plumehart": 0,
+        "Serafina": 0,
+        "Lumi": 0,
+        "Roux": 0,
+        "Buckley": 0,
+        "Sprig": 0,
+        "Blitz": 0,
+    }
+
+    // Increment scores based on preferences
+    for _, interest := range prefs.Interests {
+        switch interest {
+        case "Ambience and Vibe":
+            scores["Plumehart"]++
+            scores["Serafina"]++
+            scores["Lumi"]++
+        case "Drink Selection and Service":
+            scores["Roux"]++
+            scores["Buckley"]++
+            scores["Serafina"]++
+        case "Crowd and Social Atmosphere":
+            scores["Lumi"]++
+            scores["Buckley"]++
+            scores["Plumehart"]++
+        // Add other cases as necessary
+        }
+    }
+
+    for _, crowd := range prefs.CrowdPreference {
+        switch crowd {
+        case "Casual & Laid-Back":
+            scores["Buckley"]++
+            scores["Sprig"]++
+        case "More Exclusive":
+            scores["Plumehart"]++
+        // Add other cases
+        }
+    }
+
+    // Time preference
+    switch prefs.TimePreference {
+    case "Before 9 PM":
+        scores["Buckley"]++
+        scores["Plumehart"]++
+        scores["Serafina"]++
+    case "9-11 PM":
+        scores["Lumi"]++
+        scores["Roux"]++
+        scores["Sprig"]++
+    case "After 11 PM":
+        scores["Blitz"]++
+    }
+
+    // Find the highest score
+    maxScore := 0
+    personality := "Buckley"
+    for venue, score := range scores {
+        if score > maxScore {
+            maxScore = score
+            personality = venue
+        }
+    }
+	log.Printf("Personality: %s", personality)
+
+    return personality
+}
+
+func (db *DB) UserCharacter(ctx context.Context, p models.Preferences) error {
+	// query to save user data to db
+	log.Printf("UserCharacter: %+v", p)
+	log.Printf("UserCharacter: %+v", p.UserID)
+
+	personality_type := determinePersonality(p)
+	query := `UPDATE "users"
+			  SET personality_type = $2
+			  WHERE user_id = $1;`
+
+	_, err := db.conn.Query(ctx, query, p.UserID, personality_type)
 	return err
 }
 
@@ -163,6 +247,34 @@ func (db *DB) UpdateProfilePreferences(ctx context.Context, userID uuid.UUID, pr
 	log.Printf("Successfully updated preferences for userId: %s", userID)
 	return nil
 
+}
+
+func (db *DB) GetUserCharacter(ctx context.Context, userID uuid.UUID) (string, error) {
+	var personality string
+	row := db.conn.QueryRow(ctx, `SELECT personality_type FROM users WHERE user_id = $1`, userID)
+	err := row.Scan(&personality)
+	if err != nil {
+		return "", err
+	}
+	log.Printf("Personality: %s", personality)
+	return personality, nil
+}
+
+func (db *DB) AddUser(ctx context.Context, user models.OnboardingProfile) error {
+	// query to save user data to db
+	query := `INSERT INTO users (first_name, username, email, age, created_at) 
+				VALUES ($1, $2, $3, $4, $5)`
+
+	_, err := db.conn.Query(ctx, query, user.FirstName, user.Username, user.Email, user.Age,user.CreatedAt)
+	return err
+}
+
+func (db *DB) UserIDExists(ctx context.Context, userID uuid.UUID) (bool, error) {
+    var exists bool
+	query := `SELECT EXISTS(SELECT 1 FROM users WHERE user_id = $1)`
+
+	_, err := db.conn.Query(ctx, query, userID)
+	return exists, err
 }
 
 /*
@@ -460,4 +572,31 @@ func (db *DB) GetUserLocation(ctx context.Context, userID uuid.UUID) (models.Loc
     }
 
     return location, nil
+}
+
+func (db *DB) OnboardingGetProfileByColumn(ctx context.Context, column string, value string) (models.OnboardingProfile, error) {
+	var profile models.OnboardingProfile
+	var query = fmt.Sprintf(`
+		SELECT user_id, first_name, username, email
+		FROM users
+		WHERE %s = $1`, column)
+	log.Printf("Query: %s", query)
+	log.Printf("Value: %s", value)
+	row := db.conn.QueryRow(ctx, query, value)
+
+	err := row.Scan(
+		&profile.UserID,
+		&profile.FirstName,
+		&profile.Username,
+		&profile.Email,
+	)
+
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return models.OnboardingProfile{}, fmt.Errorf("no profile found for %s: %s", column, value)
+		}
+		return models.OnboardingProfile{}, err
+	}
+
+	return profile, nil
 }
