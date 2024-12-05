@@ -1,41 +1,50 @@
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer } from "@react-navigation/native";
 import { BottomNavigator } from "@/navigation/BottomNavigator";
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import LoginScreen from "@/screens/LoginScreen";
 import { AuthProvider, useAuth } from "@/context/AuthContext";
 import React from 'react';
-import CrowdAndFrequencyPreference from './components/OnboardingCards/CrowdAndFrequencyPreference';
-import NightlifePreference from './components/OnboardingCards/NightlifePreference';
-import SplashScreen from './components/OnboardingCards/SplashScreen';
-import AddPhoto from './components/OnboardingCards/AddPhoto';
-import MusicPreferences from './components/OnboardingCards/MusicPreference';
-import PersonalityScreenReveal from './components/OnboardingCards/PersonalityScreenReveal'
-import PersonalityScreenReveal2 from './components/OnboardingCards/PersonalityScreenReveal2'
-import HowFarFromYou from './components/OnboardingCards/HowFarFromYou';
+import { FormDataProvider } from "./components/OnboardingCards/FormDataContext";
+import WhoAreYouWith from "./components/OnboardingCards/WhoDoYouGoOutWIth";
+import NightlifePreference from "./components/OnboardingCards/NightlifePreference";
+import PersonalityScreenReveal from "./components/OnboardingCards/PersonalityScreenReveal";
+import FrequencyPreference from "./components/OnboardingCards/FrequencyPreference";
+import CrowdPreference from "./components/OnboardingCards/CrowdPreference";
+import TimePreference from "./components/OnboardingCards/TimePreference";
+import LoginOrSignup from "./components/OnboardingCards/LoginOrSignup";
+import UserFormP1 from "./components/OnboardingCards/UserFormP1";
+import UserFormP2 from "./components/OnboardingCards/UserFormsP2";
+import UserFormP3 from "./components/OnboardingCards/UserFormsP3";
+import InsideOutside from "./components/OnboardingCards/InsideOutside";
+import RankingNightlifeImportance from "./components/OnboardingCards/RankingNightlifeImportance";
+import Notifications from "./components/OnboardingCards/Notifications";
+import ILiveIn from "./components/OnboardingCards/UserFormsP4";
 import { RootSiblingParent } from 'react-native-root-siblings';
 import { Archivo_400Regular, Archivo_500Medium, Archivo_700Bold, useFonts } from "@expo-google-fonts/archivo";
 import { PlayfairDisplay_400Regular } from '@expo-google-fonts/playfair-display';
 
+
 const Stack = createNativeStackNavigator();
 
 const LoginStack = () => {
-
   return (
     <Stack.Navigator>
       <Stack.Screen
+        name="LoginOrSignup"
+        component={LoginOrSignup}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
         name="Home"
         component={LoginScreen}
-        options={{
-          headerStyle: {
-            backgroundColor: "#007bff",
-          },
-          headerTitleStyle: {
-            fontFamily: "Archivo_700Bold",
-          },
-          headerTitle: "Welcome to Nightlife",
-          headerTintColor: "#fff",
-          headerBlurEffect: "light",
-        }}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name="Onboarding"
+        component={OnboardingStack}
+        options={{ headerShown: false }}
       />
     </Stack.Navigator>
   );
@@ -43,88 +52,71 @@ const LoginStack = () => {
 
 const OnboardingStack = () => {
   return (
-    <Stack.Navigator initialRouteName="SplashScreen">
+    <Stack.Navigator>
       <Stack.Screen
-        name="SplashScreen"
-        component={SplashScreen}
+        name="UserFormP1"
+        component={UserFormP1}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="UserFormP2"
+        component={UserFormP2}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="UserFormP3"
+        component={UserFormP3}
         options={{ headerShown: false }}
       />
       <Stack.Screen
         name="NightlifePreference"
         component={NightlifePreference}
-        options={{
-          title: "Nightlife Pref",
-          headerStyle: {
-            backgroundColor: "#111729",
-          },
-          headerTintColor: "#fff",
-        }}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="CrowdAndFrequencyPreference"
-        component={CrowdAndFrequencyPreference}
-        options={{
-          title: "Crowd Pref",
-          headerStyle: {
-            backgroundColor: "#111729",
-          },
-          headerTintColor: "#fff",
-        }}
+        name="RankingNightLifeImportance"
+        component={RankingNightlifeImportance}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="AddPhoto"
-        component={AddPhoto}
-        options={{
-          title: "Add Photo",
-          headerStyle: {
-            backgroundColor: "#111729",
-          },
-          headerTintColor: "#fff",
-        }}
+        name="CrowdPreference"
+        component={CrowdPreference}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="HowFarFromYou"
-        component={HowFarFromYou}
-        options={{
-          title: "Distance Pref",
-          headerStyle: {
-            backgroundColor: "#111729",
-          },
-          headerTintColor: "#fff",
-        }}
+        name="InsideOutside"
+        component={InsideOutside}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="FrequencyPreference"
+        component={FrequencyPreference}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="TimePreference"
+        component={TimePreference}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="WhoAreYouWith"
+        component={WhoAreYouWith}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="ILiveIn"
+        component={ILiveIn}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Notifications"
+        component={Notifications}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="PersonalityScreenReveal"
         component={PersonalityScreenReveal}
-        options={{
-          title: "Personality 2",
-          headerStyle: {
-            backgroundColor: "#111729",
-          },
-          headerTintColor: "#fff",
-        }}
-      />
-      <Stack.Screen
-        name="PersonalityScreenReveal2"
-        component={PersonalityScreenReveal2}
-        options={{
-          title: "Personality",
-          headerStyle: {
-            backgroundColor: "#111729",
-          },
-          headerTintColor: "#fff",
-        }}
-      />
-      <Stack.Screen
-        name="MusicPreference"
-        component={MusicPreferences}
-        options={{
-          title: "Music Pref",
-          headerStyle: {
-            backgroundColor: "#111729",
-          },
-          headerTintColor: "#fff",
-        }}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="BottomNavigator"
@@ -136,7 +128,6 @@ const OnboardingStack = () => {
 };
 
 export default function App() {
-
   const [fontsLoaded] = useFonts({
     Archivo_400Regular,
     Archivo_500Medium,
@@ -159,16 +150,20 @@ export default function App() {
 
 const MainNavigator = () => {
   const { accessToken } = useAuth();
-  const hasCompletedOnboarding = true; // Placeholder logic
+  //const hasCompletedOnboarding = true; // Placeholder logic
 
   // If user is logged in and hasn't completed onboarding, show the OnboardingStack
-  if (accessToken && !hasCompletedOnboarding) {
-    return <OnboardingStack />;
-  }
+  // if (accessToken) {
+  //   return <OnboardingStack />;
+  // }
 
   // Show LoginStack if no access token
   if (!accessToken) {
-    return <LoginStack />;
+    return (
+      <FormDataProvider>
+        <LoginStack />
+      </FormDataProvider>
+    );
   }
 
   // Otherwise, show the main app after login & onboarding

@@ -2,6 +2,8 @@
 package profiles
 
 import (
+	"context"
+	"fmt"
 	"log"
 	"net/http"
 
@@ -17,21 +19,62 @@ import (
 // POST Endpoint -> allows users to add their preferences to the db
 func (s *Service) CreatePreferences(c *fiber.Ctx) error {
 	var p models.Preferences
+	log.Printf("Request: %+v", p)
 	if err := c.BodyParser(&p); err != nil {
+		log.Printf("Error parsing JSON: %v, Request: %+v", err, p)
 		return errs.BadRequest(err)
 	}
-
 	if verrs := p.Validate(); verrs != nil {
+		log.Printf("Validation errors: %v", verrs)
 		return errs.InvalidRequestData(verrs)
 	}
 
 	if err := s.store.CreatePreferences(c.Context(), p); err != nil {
+		log.Printf("Error creating preferences: %v", err)
+		return err
+	}
+	return c.Status(fiber.StatusCreated).JSON(p)
+}
+
+func (s *Service) GetUserCharacter(c *fiber.Ctx) error {
+	userID := c.Params("userId")
+	if userID == "" {
+		return fiber.NewError(fiber.StatusBadRequest, "User ID is required")
+	}
+
+	// Convert user ID to UUID
+	userUUID, err := uuid.Parse(userID)
+	if err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, "Invalid User ID format")
+	}
+
+	// Call GetUserCharacter function to get the user character from the database
+	userCharacter, err := s.store.GetUserCharacter(c.Context(), userUUID)
+	if err != nil {
+		return fiber.NewError(fiber.StatusInternalServerError, "Failed to get user character")
+	}
+
+	// Return success response
+	return c.Status(http.StatusOK).JSON(userCharacter)
+}
+
+func (s *Service) UserCharacter(c *fiber.Ctx) error {
+
+	var req models.Preferences
+	log.Printf("Request inside usercharacter: %+v", req)
+	if err := c.BodyParser(&req); err != nil {
+		log.Printf("Error parsing JSON: %v, Request: %+v", err, req)
+		return errs.BadRequest(err)
+	}
+	log.Printf("Request: %+v", req.UserID)
+
+	if err := s.store.UserCharacter(c.Context(), req); err != nil {
+		log.Printf("Error creating user character: %v", err)
 		return err
 	}
 
 	// close out with success status
-	return c.Status(fiber.StatusCreated).JSON(p)
-
+	return c.Status(fiber.StatusCreated).JSON(req)
 }
 
 func (s *Service) UpdateProfilePreferences(c *fiber.Ctx) error {
@@ -55,6 +98,58 @@ func (s *Service) UpdateProfilePreferences(c *fiber.Ctx) error {
 	return c.Status(http.StatusOK).JSON(fiber.Map{
 		"message": "Review updated successfully",
 	})
+
+}
+
+func (s *Service) generateUniqueUserID(ctx context.Context) (uuid.UUID, error) {
+    for {
+        userID := uuid.New() // Generate a random ID
+        exists, err := s.store.UserIDExists(ctx, userID)
+        if err != nil {
+            return uuid.UUID{}, err
+        }
+        if !exists {
+            return userID, nil
+        }
+    }
+}
+
+
+func (s *Service) AddUser(c *fiber.Ctx) error {
+	// Parse the request body
+	var profile models.OnboardingProfile
+	if err := c.BodyParser(&profile); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Cannot parse JSON"})
+	} else if profile.Username == "" || profile.Email == "" {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Username and email are required"})
+	} else if !utils.IsEmail(profile.Email) {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid email address"})
+	} else if profile.FirstName == "" {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "First name is required"})
+	}
+	// Generate a unique user ID
+    userID, err := s.generateUniqueUserID(c.Context())
+    if err != nil {
+        return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to generate user ID"})
+    }
+
+    // Assign userID to the profile
+    profile.UserID = userID
+	log.Printf("Request inside add user: %+v", userID)
+
+	log.Printf("Request inside add user the profile: %+v", profile)
+
+	err = s.signUp.CreateUser(profile.Email, profile.Password) 
+	if err != nil {
+		fmt.Printf(err.Error())
+	}
+
+
+    // Save the user
+    if err := s.store.AddUser(c.Context(), profile); err != nil {
+        return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to add user"})
+    }
+    return c.Status(fiber.StatusCreated).JSON(fiber.Map{"message": "User added successfully"})
 
 }
 
@@ -114,10 +209,16 @@ GetProfile retrieves a user's profile information by the user's username, email,
 */
 func (s *Service) GetProfile(c *fiber.Ctx) error {
 
-	userIdentifier := c.Params("userIdentifier")
+	fmt.Printf("Reached GetProfile function")
+
+    userIdentifier := c.Params("userIdentifier")
+
+	fmt.Printf("userIdentifier: %s", userIdentifier)
 
 	var profile models.Profile
 	var err error
+
+	fmt.Printf("profile: %s", profile)
 
 	if utils.IsEmail(userIdentifier) {
 		// Query by email
@@ -135,6 +236,35 @@ func (s *Service) GetProfile(c *fiber.Ctx) error {
 	}
 
 	return c.Status(fiber.StatusOK).JSON(profile)
+}
+
+func (s *Service) OnboardingGetProfile(c *fiber.Ctx) error {
+	fmt.Printf("Reached GetProfile function")
+
+    userIdentifier := c.Params("userIdentifier")
+
+	fmt.Printf("userIdentifier: %s", userIdentifier)
+
+    var profile models.OnboardingProfile
+    var err error
+
+    if utils.IsEmail(userIdentifier) {
+        // Query by email
+        profile, err = s.store.OnboardingGetProfileByColumn(c.Context(), "email", userIdentifier)
+    } else if utils.IsUUID(userIdentifier) {
+        // Query by ID
+        profile, err = s.store.OnboardingGetProfileByColumn(c.Context(), "user_id", userIdentifier)
+    } else {
+        // Query by username
+        profile, err = s.store.OnboardingGetProfileByColumn(c.Context(), "username", userIdentifier)
+    }
+
+
+    if err != nil {
+        return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": "profile not found"})
+    }
+
+    return c.Status(fiber.StatusOK).JSON(profile)
 }
 
 func (s *Service) UpdateProfile(c *fiber.Ctx) error {

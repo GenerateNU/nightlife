@@ -5,7 +5,6 @@ import (
 
 	"github.com/GenerateNU/nightlife/internal/models"
 	"github.com/google/uuid"
-
 )
 
 type Storage interface {
@@ -31,6 +30,7 @@ type Profile interface {
 	UpdateProfilePreferences(context.Context, uuid.UUID, string, string, string, string) error
 	DeleteAccount(context.Context, uuid.UUID) error
 	RemoveFriend(context.Context, uuid.UUID, string) error
+	OnboardingGetProfileByColumn(context.Context, string, string) (models.OnboardingProfile, error)
 	GetProfileByColumn(context.Context, string, string) (models.Profile, error)
 	GetAllUsers(context.Context) ([]models.Profile, error)
 	GetUserAuthoredReviews(context.Context, uuid.UUID) ([]models.Review, error)
@@ -38,6 +38,10 @@ type Profile interface {
 	GetUserSavedVenues(context.Context, uuid.UUID) ([]models.Venue, error)
 	GetUserVisitedVenues(context.Context, uuid.UUID) ([]models.Venue, error)
 	GetUserLocation(ctx context.Context, userID uuid.UUID) (models.Location, error)
+	UserCharacter(context.Context, models.Preferences) error
+	GetUserCharacter(context.Context, uuid.UUID) (string, error)
+	AddUser(context.Context, models.OnboardingProfile) error
+	UserIDExists(context.Context, uuid.UUID) (bool, error)
 }
 
 type UserRating interface {

@@ -107,9 +107,9 @@ export const styles = StyleSheet.create({
     marginTop: 40,
   },
 
-  // Updated dropdown button and options styles
+  // Dropdown button and options styles
   dropdownButton: {
-    backgroundColor: '#FFFFFF',  // Set to white
+    backgroundColor: '#FFFFFF',  
     padding: 10,
     borderRadius: 5,
     flexDirection: 'row',
@@ -118,15 +118,15 @@ export const styles = StyleSheet.create({
     marginBottom: 10,
   },
   dropdownText: {
-    color: '#000000',  // Set text to black
+    color: '#000000', 
     fontSize: 18,
   },
   arrow: {
-    color: '#000000',  // Set arrow color to black
+    color: '#000000',  
     fontSize: 18,
   },
   dropdown: {
-    backgroundColor: '#FFFFFF',  // Dropdown content set to white
+    backgroundColor: '#FFFFFF',  
     borderRadius: 5,
     marginBottom: 20,
   },
@@ -136,7 +136,7 @@ export const styles = StyleSheet.create({
     borderBottomColor: '#D9D9D9',
   },
   optionText: {
-    color: '#000000',  // Text color for dropdown options set to black
+    color: '#000000',  
     fontSize: 18,
   },
 
