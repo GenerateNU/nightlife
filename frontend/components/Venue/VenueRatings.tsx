@@ -72,7 +72,7 @@ const useVenueRatings = (venueID) => {
         setExclusiveRating(5);
         setOverallRating(0); // Default value for overall rating
       });
-  }, [venueID]);
+  }, []);
 
   return {
     mainstreamRating,

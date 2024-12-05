@@ -42,7 +42,7 @@ const PersonaIcons = ({ personas = [] }) => {
 };
 
 PersonaIcons.propTypes = {
-  personas: PropTypes.arrayOf(PropTypes.oneOf(['roux', 'lumi', 'sprig', 'serafina', 'buckley', 'blitz'])).isRequired
+  personas: PropTypes.arrayOf(PropTypes.oneOf(['roux', 'lumi', 'sprig', 'serafina', 'buckley', 'blitz', 'plumehart'])).isRequired
 };
 
 const styles = StyleSheet.create({

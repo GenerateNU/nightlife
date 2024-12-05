@@ -80,6 +80,7 @@ const Review = ({ reviewDict = {
     };
 
     const getTimeAgo = (timestamp) => {
+        console.log(timestamp)
         const now = new Date();
         const past = new Date(timestamp);
         const diffInMs = now.getTime() - past.getTime();
