@@ -7,6 +7,7 @@ import Svg, { Defs, LinearGradient, Stop, Mask, Rect, Image } from 'react-native
  */
 
 const SoundWave = ({ category = 1, rating = 1, startColor = "", stopColor = ""}) => {
+    // eslint-disable-next-line
     const soundWaveImages = {
        // eslint-disable-next-line
       1: require("../../assets/sound_wave_1.png"),
@@ -69,8 +70,6 @@ const SoundWave = ({ category = 1, rating = 1, startColor = "", stopColor = ""})
 };
 
 SoundWave.propTypes = {
-  minTitle: PropTypes.string.isRequired,
-  maxTitle: PropTypes.string.isRequired,
   rating: PropTypes.number.isRequired,
   startColor: PropTypes.string.isRequired,
   stopColor: PropTypes.string.isRequired,

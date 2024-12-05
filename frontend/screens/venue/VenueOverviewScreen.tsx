@@ -17,7 +17,8 @@ import VibeScrollBar from '@/components/Venue/VibeScrollBar';
  * @returns sound wave list
  */
 
-const OverviewScreen = ({ navigation, eventDictList, hype, mainstream, price, crowd, energy, exclusive }) => {
+const OverviewScreen = ({ navigation, venueID, eventDictList, hype, mainstream, price, crowd, energy, exclusive }) => {
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.scrollView}>
@@ -32,7 +33,7 @@ const OverviewScreen = ({ navigation, eventDictList, hype, mainstream, price, cr
                             <UpcomingEventScroll events={eventDictList} />
                         </View>
                     </View>
-                    <Text style={styles.separator}>______________________________________________________________</Text>
+                    <Text style={styles.separator}>________________________________________________</Text>
                     
                     <View style={styles.vibeSection}>
                         <View style={styles.rowContainer}>
@@ -43,10 +44,11 @@ const OverviewScreen = ({ navigation, eventDictList, hype, mainstream, price, cr
                                 onPress={() =>
                                     navigation.navigate('Venue', {
                                         defaultTab: 'Rating',
+                                        venue_id: venueID
                                     })
                                 }
                                 style={styles.buttonWrapper}>
-                    
+                                {/* eslint-disable-next-line */}
                                 <Image
                                     // eslint-disable-next-line
                                     source={require('../../assets/RESONATE.png')}
@@ -79,13 +81,14 @@ OverviewScreen.propTypes = {
             date: PropTypes.string,
             image: PropTypes.string,
         })
-    ).isRequired, // Array of event objects
-    hype: PropTypes.number.isRequired, // Expected to be a number
-    mainstream: PropTypes.number.isRequired, // Expected to be a number
-    price: PropTypes.number.isRequired, // Expected to be a number
-    crowd: PropTypes.number.isRequired, // Expected to be a number
-    energy: PropTypes.number.isRequired, // Expected to be a number
-    exclusive: PropTypes.number.isRequired, // Expected to be a number
+    ).isRequired, 
+    hype: PropTypes.number.isRequired, 
+    mainstream: PropTypes.number.isRequired, 
+    price: PropTypes.number.isRequired, 
+    crowd: PropTypes.number.isRequired, 
+    energy: PropTypes.number.isRequired, 
+    exclusive: PropTypes.number.isRequired, 
+    venueID: PropTypes.string.isRequired
 };
 
 const styles = StyleSheet.create({
@@ -94,13 +97,16 @@ const styles = StyleSheet.create({
         backgroundColor: '#060019',
     },
     scrollView: {
-        height: 650
+        height: 520
       },
     upcomingText: {
         color: 'white',
         fontSize: 20,
-        marginLeft: 5,
         marginBottom: 0,
+        fontFamily: 'PlayfairDisplay_400Regular',
+        textShadowColor: 'rgba(255, 255, 255, 1)', 
+        textShadowOffset: { width: 0, height: 0 }, 
+        textShadowRadius: 5,
     },
     venueDescription: {
         justifyContent: 'center',
@@ -109,7 +115,6 @@ const styles = StyleSheet.create({
     },
     venueText: {
         color: 'white',
-        textAlign: 'center',
         marginBottom: 5,
     },
     separator: {
@@ -122,8 +127,10 @@ const styles = StyleSheet.create({
     vibeTitle: {
         color: 'white',
         fontSize: 22,
-        flex: 1,
-        alignContent: 'flex-start'
+        fontFamily: 'PlayfairDisplay_400Regular',
+        textShadowColor: 'rgba(255, 255, 255, 1)', 
+        textShadowOffset: { width: 0, height: 0 }, 
+        textShadowRadius: 5,
     },
     buttonContainer: {
         marginLeft: 50,

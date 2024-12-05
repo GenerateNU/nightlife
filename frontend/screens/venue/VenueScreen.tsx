@@ -7,8 +7,7 @@ import useVenueRatings from "@/components/Venue/VenueRatings";
 import isCurrentTimeInRange from "@/components/Venue/TimeCheck";
 import VenueHeader from "@/components/Venue/VenueScreenHeader";
 import RatingScreen from "./RatingScreen";
-import { useRoute } from "@react-navigation/native";
-import { useAuth } from "@/context/AuthContext";
+import PersonaIcons from "@/components/Venue/PersonaIcons";
 
 enum VenueTabs {
     Overview = "Overview",
@@ -24,21 +23,15 @@ enum VenueTabs {
  * @returns overall venue screen 
  */
 
-const VenueScreen: React.FC = ({ navigation }) => {
-
-    const defaultTab = VenueTabs.Overview
-
-    const { user } = useAuth();
-
-    const route = useRoute();
-
+const VenueScreen: React.FC = ({ navigation, route }) => {
     const [selectedTab, setSelectedTab] = useState<VenueTabs>(VenueTabs.Overview);
-    const { venue_id } = route.params as { venue_id: string }; 
-    
-    console.log(route.params);
+    const { defaultTab = VenueTabs.Overview, venue_id: venueID } = route.params || {};
 
-    const venueID = venue_id;
-    const userID = user?.user_id;
+    const [currentID, setCurrentID] = useState(venueID)
+    console.log("--------------------------VENUEID", venueID)
+    const [personas, setPersonas] = useState([])
+    //const venueID = "0006b62a-21bd-4e48-8fc7-e3bcca66d0d0";
+    const userID = "26d636d9-f8b0-4ad7-be9c-9b98c4c8a0c4";
     const day = new Date().getDay();
     const dayNames = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
     const dayName = dayNames[day] + "_hours";
@@ -50,7 +43,7 @@ const VenueScreen: React.FC = ({ navigation }) => {
     const [venueCity, setVenueCity] = useState("");
     const [venueAddress, setVenueAddress] = useState("");
     const [venueType, setVenueType] = useState("");
-    
+    const [venuePrice, setVenuePrice] = useState(1);
     // venue-specific event info
     const [eventDictList, setEventDictList] = useState([]);
 
@@ -80,10 +73,16 @@ const VenueScreen: React.FC = ({ navigation }) => {
                 setVenueAddress(json.address.split(',')[0]);
                 setVenueCity(json.city);
                 setVenueType(json.venue_type);
-                const times = json[dayName].split(": ")[1]; 
-                const [start, stop] = times.split(" – ").map(time => time.trim());
-                setCurrentStartHours(start);
-                setCurrentStopHours(stop);
+                const times = json[dayName]?.split(": ")[1]; // Use optional chaining for times
+                if (times) {
+                    const [start, stop] = times.split(" – ").map(time => time.trim());
+                    setCurrentStartHours(start);
+                    setCurrentStopHours(stop);
+                } else {
+                    setCurrentStartHours(undefined);
+                    setCurrentStopHours(undefined);
+                }
+                setVenuePrice(json.price)
             })
             .catch(error => {
                 console.error(error);
@@ -102,16 +101,45 @@ const VenueScreen: React.FC = ({ navigation }) => {
             });
     }, []);
     
+    useEffect(() => {
+        fetch(`http://localhost:8080/venues/persona/${venueID}`)
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error('Failed to fetch personas');
+            }
+            return response.json();
+          })
+          .then((json) => {
+            console.log(personas.length === 0)
+            setPersonas(json);
+          })
+          .catch((error) => {
+            console.error('Error fetching personas:', error);
+          });
+      }, []);
+
     return (
         <View style={styles.container}>
-            <TouchableOpacity onPress={() => navigation.goBack()}>
-                <Text style={{color: "white", backgroundColor: "gray", padding: 6}}>Go Back</Text>
-            </TouchableOpacity>
             <View style={styles.header}>
                 {selectedTab === VenueTabs.Rating && (
                     <TouchableOpacity
-                        onPress={() => setSelectedTab(VenueTabs.Overview)}>
-                        <Text style={{color: 'white'}}>Back</Text>
+                    onPress={() => {
+                            setCurrentID(venueID)
+                            setSelectedTab(VenueTabs.Overview);
+                            navigation.setParams({
+                                defaultTab: VenueTabs.Overview
+                            });
+                        }}
+                    >
+                        <Text style={{ color: 'white' }}>Back</Text>
+                    </TouchableOpacity> )}
+                
+                {selectedTab !== VenueTabs.Rating && (
+                    <TouchableOpacity
+                        onPress={() => {
+                            navigation.navigate("Home");
+                        }}>
+                        <Text style={{ color: 'white' }}>Back</Text>
                     </TouchableOpacity> )}
                     
                     <VenueHeader
@@ -120,7 +148,7 @@ const VenueScreen: React.FC = ({ navigation }) => {
                         venueAddress={venueAddress}
                         venueCity={venueCity}
                         overallRating={overallRating}
-                        priceRating={priceRating}
+                        priceRating={venuePrice}
                         isOpen={isCurrentTimeInRange(currentStartHours, currentStopHours)}
                         venueID={venueID}
                         userID={userID}
@@ -128,18 +156,32 @@ const VenueScreen: React.FC = ({ navigation }) => {
             </View>
         
             {selectedTab === VenueTabs.Rating && (
-                <RatingScreen 
-                venueId={venueID}
-                hype={hypeRating}
-                mainstream={mainstreamRating}
-                price={priceRating}
-                crowd={crowdRating}
-                energy={energyRating}
-                exclusive={exclusiveRating}/>)}
+                    <View style={{flexDirection: 'column', height: 580}}>
+                        {/* Render the text and PersonaIcons */}
+                        <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10, marginLeft: 45}}>
+                        <Text style={{color: 'white', fontSize: 14, marginLeft: -25}}>Recommended for ...</Text>
+                        {personas.length > 0 && <PersonaIcons personas={personas}/>}
+                        {personas.length === 0 && <Text>Not enough reviews</Text>}
+                        </View>
+
+                        {/* Render the RatingScreen component */}
+                        <RatingScreen 
+                        venueId={currentID}
+                        hype={hypeRating}
+                        mainstream={mainstreamRating}
+                        price={priceRating}
+                        crowd={crowdRating}
+                        energy={energyRating}
+                        exclusive={exclusiveRating}
+                        personas={personas}
+                        />
+                    </View>
+                    )}
+
 
             {/* TAB NAVIGATION */}
             {selectedTab !== VenueTabs.Rating && (
-                <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: 12, width: "100%", paddingHorizontal: 44 }}>
+                <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 15, marginTop: 12, width: "100%", paddingHorizontal: 44 }}>
                     <TouchableOpacity onPress={() => setSelectedTab(VenueTabs.Overview)}>
                         <Text style={styles.buttonText}>Overview</Text>
                     </TouchableOpacity>
@@ -151,20 +193,31 @@ const VenueScreen: React.FC = ({ navigation }) => {
                     </TouchableOpacity>
                 </View>
             )}
-
-            <View style={{ marginTop: 12, marginHorizontal: 6 }}>
+            
+            <View style={{ marginHorizontal: 6, }}>
+                
                 {selectedTab === VenueTabs.Overview && (
-                    <OverviewScreen
-                        navigation={navigation}
-                        eventDictList={eventDictList}
-                        hype={hypeRating}
-                        mainstream={mainstreamRating}
-                        price={priceRating}
-                        crowd={crowdRating}
-                        energy={energyRating}
-                        exclusive={exclusiveRating}
-                    />)}
-                {selectedTab === VenueTabs.Reviews && <VenueReviews navigation={navigation} venueName={venueName} venueAddress={venueAddress} venueType={venueType} venueCity={venueCity} />}
+                    <View style={{alignItems: 'center'}}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: -5 }}>
+                            <Text style={{ color: 'white', fontSize: 14, marginLeft: -10 }}>Recommended for ...</Text>
+                            {personas.length > 0 && <PersonaIcons personas={personas}/>}
+                            {personas.length === 0 && <Text>Not enough reviews</Text>}
+                        </View>
+                        <OverviewScreen
+                            venueID={venueID}
+                            navigation={navigation}
+                            eventDictList={eventDictList}
+                            hype={hypeRating}
+                            mainstream={mainstreamRating}
+                            price={priceRating}
+                            crowd={crowdRating}
+                            energy={energyRating}
+                            exclusive={exclusiveRating}
+                        />
+                    </View>
+                )}
+
+                {selectedTab === VenueTabs.Reviews && <VenueReviews navigation={navigation} venueID={venueID} venueName={venueName} venueAddress={venueAddress} venueType={venueType} venueCity={venueCity} />}
                 {selectedTab === VenueTabs.Photos && <PhotosScreen venueID={venueID}/>}
             </View>
         </View>
@@ -180,7 +233,7 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
         paddingRight: 10,
         paddingTop: 10,
-        backgroundColor: '#060019',
+        backgroundColor: '#060019'
     },
     review: {
         display: 'flex',
@@ -190,6 +243,7 @@ const styles = StyleSheet.create({
     header: {
         display: 'flex',
         flexDirection: 'column',
+        marginBottom: -10
     },
     bookmark: {
         paddingTop: 5,

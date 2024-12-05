@@ -1,7 +1,7 @@
 import Slider from "@react-native-community/slider";
 import {Text, View, StyleSheet} from "react-native";
 import PropTypes from 'prop-types';
-import SoundWave from "./SoundWave";
+import SoundWave from "@/components/Venue/SoundWave";
 
 /**
  * Allows a user to submit a rating from 0 - 10 on a specific category
@@ -17,26 +17,28 @@ import SoundWave from "./SoundWave";
  */
 const RatingScrollBar = ({minTitle = "", maxTitle = "", value, onSliderChange, category, startColor, stopColor, avgValue}) => {
 
+  const adjustedRating = avgValue === 0 ? 1 : avgValue;
+
   return(
     <View style={styles.container}>
       <View style={{paddingBottom: 20}}>
         <View style={{position: 'absolute', opacity: 0.5}}>
           <SoundWave
             category={category}
-            rating={avgValue}
+            rating={adjustedRating}
             startColor={startColor}
             stopColor={stopColor}
           />
         </View>
         <Slider 
-          style={{ marginLeft: 5, width: 350, height: 40}}
+          style={{ marginLeft: 5, width: 355, marginTop: 2}}
           minimumValue={0}
           maximumValue={10}
           step={1}
           value={value}
           thumbTintColor="transparent" 
           // eslint-disable-next-line
-          thumbImage={require('../../assets/large_filled_star.png')}
+          thumbImage={require('../../assets/mid_size_star.png')}
           minimumTrackTintColor="white"
           maximumTrackTintColor="gray"
           onValueChange={onSliderChange}/>
@@ -62,7 +64,8 @@ RatingScrollBar.propTypes = {
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundColor: '#060019',
   },
   title: {
     fontSize: 18,

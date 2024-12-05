@@ -19,13 +19,9 @@ import InsideOutside from "./components/OnboardingCards/InsideOutside";
 import RankingNightlifeImportance from "./components/OnboardingCards/RankingNightlifeImportance";
 import Notifications from "./components/OnboardingCards/Notifications";
 import ILiveIn from "./components/OnboardingCards/UserFormsP4";
-
-import {
-  Archivo_400Regular,
-  Archivo_500Medium,
-  Archivo_700Bold,
-  useFonts,
-} from "@expo-google-fonts/archivo";
+import { RootSiblingParent } from 'react-native-root-siblings';
+import { Archivo_400Regular, Archivo_500Medium, Archivo_700Bold, useFonts } from "@expo-google-fonts/archivo";
+import { PlayfairDisplay_400Regular } from '@expo-google-fonts/playfair-display';
 
 const Stack = createNativeStackNavigator();
 
@@ -135,15 +131,18 @@ export default function App() {
     Archivo_400Regular,
     Archivo_500Medium,
     Archivo_700Bold,
+    PlayfairDisplay_400Regular
   });
 
   return (
     fontsLoaded && (
-      <AuthProvider>
-        <NavigationContainer>
-          <MainNavigator />
-        </NavigationContainer>
-      </AuthProvider>
+      <RootSiblingParent>
+        <AuthProvider>
+          <NavigationContainer>
+            <MainNavigator />
+          </NavigationContainer>
+        </AuthProvider>
+      </RootSiblingParent>
     )
   );
 }
