@@ -94,7 +94,7 @@ const RateReviewScreen: React.FC<ReviewScreenProps> = ({ route, navigation }) =>
       if (response.ok) {
         const data = await response.json();
         console.log("Review submitted successfully:", data);
-        let toast = Toast.show("Review Submitted!", {
+        const toast = Toast.show("Review Submitted!", {
           duration: 800, 
           position: Toast.positions.BOTTOM, 
           backgroundColor: "white", 
@@ -106,7 +106,7 @@ const RateReviewScreen: React.FC<ReviewScreenProps> = ({ route, navigation }) =>
       } else {
         const errorData = await response.json();
         console.error("Error submitting review:", errorData);
-        let toast = Toast.show("Error Submitting Review", {
+        const toast = Toast.show("Error Submitting Review", {
           duration: 800, 
           position: Toast.positions.BOTTOM, 
           backgroundColor: "#ffffff", 

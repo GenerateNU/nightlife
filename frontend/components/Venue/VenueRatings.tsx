@@ -62,7 +62,7 @@ const useVenueRatings = (venueID) => {
           setOverallRating(overall_average);
         }
       })
-      .catch((error) => {
+      .catch(() => {
         // In case of error, use default values
         setMainstreamRating(5);
         setPriceRating(5);

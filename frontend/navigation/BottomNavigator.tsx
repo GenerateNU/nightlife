@@ -16,8 +16,6 @@ import RatingScreen from "@/screens/venue/RatingScreen";
 import VenueReviews from "@/screens/venue/VenueReviews";
 import RateReviewScreen from "@/screens/venue/RateReviewScreen";
 import MapScreen from "@/screens/MapScreen";
-import SettingsScreen from "@/screens/SettingsScreen";
-import UpdatesScreen from "@/screens/UpdatesScreen";
 import VenueCardPage from "@/screens/explore/VenueCardPage";
 
 const Tab = createBottomTabNavigator<BottomTabParamList>();

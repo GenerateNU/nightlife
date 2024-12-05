@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Image } from "react-native";
 import ScaledText from "@/components/Venue/ScaledText";
 import BookmarkButton from "@/components/Venue/BookmarkButton";
 import StarReview from "@/components/Venue/StarReview";
-import PersonaIcons from "./PersonaIcons";
+
 
 type VenueHeaderProps = {
   venueName: string;
@@ -52,6 +52,7 @@ const VenueHeader: React.FC<VenueHeaderProps> = ({
         {/* eslint-disable-next-line */}
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           <View style={{paddingHorizontal: 10}}>
+          {/* eslint-disable-next-line */}
           <Image source={require('../../assets/share_button.png')} style={styles.buttonImage} />
           
           </View>

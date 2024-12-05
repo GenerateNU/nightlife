@@ -8,6 +8,7 @@ import { useNavigation } from "@react-navigation/native";
 
 type HomeScreenProps = {
     navigation: StackNavigationProp<RootStackParamList, 'Home'>; 
+    showSearchBar?: boolean; // Make showSearchBar optional
 };
 
 const HomeScreen: React.FC<HomeScreenProps> = ({ showSearchBar = true }) => {

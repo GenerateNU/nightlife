@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types'; // Import PropTypes
 import { View, Text, ScrollView, TouchableOpacity, SafeAreaView, StyleSheet, Image } from 'react-native';
 import UpcomingEventScroll from '@/components/Venue/UpcomingEventScroll';
@@ -38,7 +38,7 @@ const OverviewScreen = ({ navigation, venueID, eventDictList, hype, mainstream, 
                     <View style={styles.vibeSection}>
                         <View style={styles.rowContainer}>
                             <Text style={styles.vibeTitle}>
-                                What's the vibe?
+                                What&apos;s the vibe?
                             </Text>
                             <TouchableOpacity
                                 onPress={() =>
@@ -88,6 +88,7 @@ OverviewScreen.propTypes = {
     crowd: PropTypes.number.isRequired, 
     energy: PropTypes.number.isRequired, 
     exclusive: PropTypes.number.isRequired, 
+    venueID: PropTypes.string.isRequired
 };
 
 const styles = StyleSheet.create({

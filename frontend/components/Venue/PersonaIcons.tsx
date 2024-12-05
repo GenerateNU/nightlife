@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Image, View, Text, StyleSheet } from 'react-native';
+import PropTypes from 'prop-types';
 
 const PersonaIcons = ({ personas = [] }) => {
   const PersonaIconImages = {
@@ -17,7 +18,7 @@ const PersonaIcons = ({ personas = [] }) => {
     blitz: require('../../assets/blitz.png'),
   };
 
-  console.log("*************", personas)
+  console.log("*************", personas);
   return (
     <View style={styles.container}>
       {personas.length > 0 ? (
@@ -36,6 +37,10 @@ const PersonaIcons = ({ personas = [] }) => {
       )}
     </View>
   );
+};
+
+PersonaIcons.propTypes = {
+  personas: PropTypes.arrayOf(PropTypes.oneOf(['roux', 'lumi', 'sprig', 'serafina', 'buckley', 'blitz'])).isRequired
 };
 
 const styles = StyleSheet.create({
