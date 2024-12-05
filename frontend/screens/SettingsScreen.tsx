@@ -2,6 +2,7 @@ import {Button, Text, TouchableOpacity, View} from "react-native";
 import {useAuth} from "@/context/AuthContext";
 import React from "react";
 
+//settings
 const SettingsScreen: React.FC = () => {
 
     const { logout } = useAuth();
