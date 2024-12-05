@@ -3,13 +3,7 @@ import { BottomNavigator } from "@/navigation/BottomNavigator";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import LoginScreen from "@/screens/LoginScreen";
 import { AuthProvider, useAuth } from "@/context/AuthContext";
-import CrowdAndFrequencyPreference from "./components/OnboardingCards/CrowdAndFrequencyPreference";
-import SplashScreen from "./components/OnboardingCards/SplashScreen";
-import AddPhoto from "./components/OnboardingCards/AddPhoto";
-import MusicPreferences from "./components/OnboardingCards/MusicPreference";
-import PersonalityScreenReveal2 from "./components/OnboardingCards/PersonalityScreenReveal2";
-import HowFarFromYou from "./components/OnboardingCards/HowFarFromYou";
-import React = require("react");
+import React from 'react';
 import { FormDataProvider } from "./components/OnboardingCards/FormDataContext";
 import WhoAreYouWith from "./components/OnboardingCards/WhoDoYouGoOutWIth";
 import NightlifePreference from "./components/OnboardingCards/NightlifePreference";
@@ -24,7 +18,6 @@ import UserFormP3 from "./components/OnboardingCards/UserFormsP3";
 import InsideOutside from "./components/OnboardingCards/InsideOutside";
 import RankingNightlifeImportance from "./components/OnboardingCards/RankingNightlifeImportance";
 import Notifications from "./components/OnboardingCards/Notifications";
-//import Character from "./components/OnboardingCards/Character";
 import ILiveIn from "./components/OnboardingCards/UserFormsP4";
 
 import {

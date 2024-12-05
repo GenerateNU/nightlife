@@ -6,7 +6,6 @@ import {
   Button,
   StyleSheet,
   ImageBackground,
-  TouchableOpacity,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useFormData } from "./FormDataContext";
@@ -45,8 +44,8 @@ const UserFormP1: React.FC = () => {
       style={styles.container}
     >
       <View style={styles.crowdMainContent}>
-        <Text style={styles.title}>
-          To get started, we need a few basics...
+        <Text style={onboardingStyles.title}>
+          To get started, we need{"\n"}a few basics...
         </Text>
         <View style={styles.optionGrid}>
           <TextInput

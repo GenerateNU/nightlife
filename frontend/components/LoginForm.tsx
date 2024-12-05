@@ -24,7 +24,7 @@ export type RootStackParamList = {
 
 const LoginForm = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-  const { formData, updateFormData } = useFormData();
+  const { updateFormData } = useFormData();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [errors, setErrors] = useState<ValidationErrors>({});

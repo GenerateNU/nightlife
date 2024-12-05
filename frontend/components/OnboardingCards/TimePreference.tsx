@@ -20,7 +20,7 @@ const TimePreference = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const { formData, updateFormData } = useFormData();
   const [selectedOption, setSelectedOption] = useState<string | ''>('');
-  const [progress, setProgress] = useState(0.1);
+  const [progress, setProgress] = useState(0.6);
 
   const toggleSelection = (option: string) => {
     setSelectedOption((prev) => (prev === option ? '' : option));
@@ -48,7 +48,7 @@ const TimePreference = () => {
       <View style={onboardingStyles.mainContent}>
         <ProgressBar progress={progress} />
         <Text style={onboardingStyles.title}>
-          It’s Friday night!{"\n"}Where are we going?
+          My night starts...
         </Text>
         <View>
           {options.map((option) => (

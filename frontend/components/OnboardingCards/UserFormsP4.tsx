@@ -26,7 +26,7 @@ type NavigationType = {
 const UserFormP4: React.FC = () => {
   const { formData, updateFormData } = useFormData();
   const navigation = useNavigation<NavigationType>();
-  const [progress, setProgress] = useState(0.75);
+  const [progress, setProgress] = useState(0.8);
 
   const [location, setLocation] = useState<string>(formData.location || "");
 

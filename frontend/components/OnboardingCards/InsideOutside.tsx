@@ -15,7 +15,7 @@ const options = ["Inside", "Outside", "Both"];
 const InsideOutside = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const [selectedOption, setSelectedOption] = useState<string | "">("");
-  const [progress, setProgress] = useState(0.1);
+  const [progress, setProgress] = useState(0.4);
   const { formData, updateFormData } = useFormData();
 
   const toggleSelection = (option: string) => {
@@ -50,7 +50,7 @@ const InsideOutside = () => {
       <View style={onboardingStyles.mainContent}>
         <ProgressBar progress={progress} />
         <Text style={onboardingStyles.title}>
-          It’s Friday night!{"\n"}Where are we going?
+          Do you like dancing{"\n"}under the stars or {"\n"}keeping the party{"\n"}indoors?
         </Text>
         <View>
           {options.map((option) => (
