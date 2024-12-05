@@ -94,7 +94,7 @@ const RateReviewScreen: React.FC<ReviewScreenProps> = ({ route, navigation }) =>
       if (response.ok) {
         const data = await response.json();
         console.log("Review submitted successfully:", data);
-        const toast = Toast.show("Review Submitted!", {
+        Toast.show("Review Submitted!", {
           duration: 800, 
           position: Toast.positions.BOTTOM, 
           backgroundColor: "white", 
@@ -106,7 +106,7 @@ const RateReviewScreen: React.FC<ReviewScreenProps> = ({ route, navigation }) =>
       } else {
         const errorData = await response.json();
         console.error("Error submitting review:", errorData);
-        const toast = Toast.show("Error Submitting Review", {
+        Toast.show("Error Submitting Review", {
           duration: 800, 
           position: Toast.positions.BOTTOM, 
           backgroundColor: "#ffffff", 
@@ -199,6 +199,7 @@ RateReviewScreen.propTypes = {
       venueType: PropTypes.string.isRequired,
       venueCity: PropTypes.string.isRequired,
       username: PropTypes.string.isRequired,
+      venudID: PropTypes.string.isRequired
     }).isRequired,
   }).isRequired,
   navigation: PropTypes.object.isRequired,

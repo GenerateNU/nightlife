@@ -68,7 +68,7 @@ const RatingScreen: React.FC<{ venueId: string, personas: object, hype: number, 
             if (response.ok) {
                 const data = await response.json();
                 console.log('Review submitted successfully:', data);
-                const toast = Toast.show("Rating Submitted!", {
+                Toast.show("Rating Submitted!", {
                     duration: 800, 
                     position: Toast.positions.CENTER, 
                     backgroundColor: "#ffffff", 
@@ -81,7 +81,7 @@ const RatingScreen: React.FC<{ venueId: string, personas: object, hype: number, 
             } else {
                 const errorData = await response.json();
                 console.error('Error submitting review:', errorData);
-                const toast = Toast.show("Error Submitting Rating", {
+                Toast.show("Error Submitting Rating", {
                     duration: 800, 
                     position: Toast.positions.BOTTOM, 
                     backgroundColor: "#ffffff", 

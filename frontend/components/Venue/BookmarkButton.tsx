@@ -25,7 +25,7 @@ const BookmarkButton = ({ venueID = "", userID = "" }) => {
       if (response.ok) {
         const data = await response.json();
         console.log("Bookmark submitted successfully:", data);
-        const toast = Toast.show("Venue Bookmarked!", {
+        Toast.show("Venue Bookmarked!", {
           duration: 800, 
           position: Toast.positions.BOTTOM, 
           backgroundColor: "#ffffff", 
