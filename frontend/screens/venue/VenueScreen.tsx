@@ -8,6 +8,7 @@ import isCurrentTimeInRange from "@/components/Venue/TimeCheck";
 import VenueHeader from "@/components/Venue/VenueScreenHeader";
 import RatingScreen from "./RatingScreen";
 import PersonaIcons from "@/components/Venue/PersonaIcons";
+import { API_DOMAIN } from "@env";
 
 enum VenueTabs {
     Overview = "Overview",
@@ -66,7 +67,7 @@ const VenueScreen: React.FC = ({ navigation, route }) => {
 
     // GET venue information -> name, address, type
     useEffect(() => {
-        fetch(`http://localhost:8080/venues/${venueID}`)
+        fetch(`${API_DOMAIN}/venues/${venueID}`)
             .then(response => response.json())
             .then(json => {
                 setVenueName(json.name);
@@ -91,7 +92,7 @@ const VenueScreen: React.FC = ({ navigation, route }) => {
 
     // GET venue events -> all columns
     useEffect(() => {
-        fetch(`http://localhost:8080/event/${venueID}`)
+        fetch(`${API_DOMAIN}/event/${venueID}`)
             .then(response => response.json())
             .then(json => {
                 setEventDictList(json);
@@ -102,7 +103,7 @@ const VenueScreen: React.FC = ({ navigation, route }) => {
     }, []);
     
     useEffect(() => {
-        fetch(`http://localhost:8080/venues/persona/${venueID}`)
+        fetch(`${API_DOMAIN}/venues/persona/${venueID}`)
           .then((response) => {
             if (!response.ok) {
               throw new Error('Failed to fetch personas');

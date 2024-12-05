@@ -1,6 +1,7 @@
 import React from "react";
 import { View, StyleSheet, SafeAreaView, Image, ScrollView, Text } from "react-native";
 import { useEffect, useState } from "react";
+import { API_DOMAIN } from "@env";
 
 /**
  * Screen to display all photos that have been included in any reviews of the current venue
@@ -14,7 +15,7 @@ const PhotosScreen: React.FC = ({ venueID }) => {
 
     // get all reviews from a venue
     useEffect(() => {
-        fetch(`http://localhost:8080/venueratings/venue/${venueID}/ratings`)
+        fetch(`${API_DOMAIN}/venueratings/venue/${venueID}/ratings`)
             .then(response => response.json())
             .then(json => {
                 setReviewDictList(json);

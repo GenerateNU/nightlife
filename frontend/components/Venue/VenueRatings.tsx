@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { API_DOMAIN } from "@env";
 
 /**
  * Averages all rating info for a specific venue
@@ -15,7 +16,7 @@ const useVenueRatings = (venueID) => {
   const [overallRating, setOverallRating] = useState(5);
 
   useEffect(() => {
-    fetch(`http://localhost:8080/venueratings/venue/${venueID}/ratings`)
+    fetch(`${API_DOMAIN}/venueratings/venue/${venueID}/ratings`)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed to fetch ratings");

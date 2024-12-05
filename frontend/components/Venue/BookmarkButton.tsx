@@ -2,6 +2,7 @@ import React from "react";
 import { View, TouchableOpacity, Image, StyleSheet } from "react-native";
 import PropTypes from "prop-types";
 import Toast from 'react-native-root-toast'
+import { API_DOMAIN } from "@env";
 
 const BookmarkButton = ({ venueID = "", userID = "" }) => {
   const bookmarkVenue = async () => {
@@ -12,7 +13,7 @@ const BookmarkButton = ({ venueID = "", userID = "" }) => {
 
     try {
       const response = await fetch(
-        `http://localhost:8080/bookmarks/${venueID}/${userID}`,
+        `${API_DOMAIN}/bookmarks/${venueID}/${userID}`,
         {
           method: "POST",
           headers: {

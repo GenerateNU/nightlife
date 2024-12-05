@@ -1,6 +1,7 @@
 import { Text, View, StyleSheet, Image } from "react-native";
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
+import { API_DOMAIN } from "@env";
 
 /**
  * Used to display reviews on the VenueReviews page. Contains information like overall rating, review summary, and images
@@ -68,7 +69,7 @@ const Review = ({ reviewDict = {
             setHasReviewText(false);
         }
 
-        fetch(`http://localhost:8080/profiles/${reviewDict.user_id}`)
+        fetch(`${API_DOMAIN}/profiles/${reviewDict.user_id}`)
             .then(response => response.json())
             .then(json => {
                 setUserName(json.username);
