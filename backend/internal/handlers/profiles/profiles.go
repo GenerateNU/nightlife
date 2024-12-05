@@ -2,6 +2,7 @@ package profiles
 
 import (
 	"context"
+	"fmt"
 
 	"log"
 	"net/http"
@@ -48,7 +49,7 @@ func (s *Service) GetUserCharacter(c *fiber.Ctx) error {
 	if err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, "Invalid User ID format")
 	}
-
+	
 	// Call GetUserCharacter function to get the user character from the database
 	userCharacter, err := s.store.GetUserCharacter(c.Context(), userUUID)
 	if err != nil {
@@ -204,8 +205,11 @@ func (s *Service) AddUser(c *fiber.Ctx) error {
 GetProfile retrieves a user's profile information by the user's username, email, or ID.
 */
 func (s *Service) GetProfile(c *fiber.Ctx) error {
+	fmt.Printf("Reached GetProfile function")
 
     userIdentifier := c.Params("userIdentifier")
+
+	fmt.Printf("userIdentifier: %s", userIdentifier)
 
     var profile models.Profile
     var err error
@@ -220,6 +224,8 @@ func (s *Service) GetProfile(c *fiber.Ctx) error {
         // Query by username
         profile, err = s.store.GetProfileByColumn(c.Context(), "username", userIdentifier)
     }
+
+	fmt.Printf("profile: %s", profile)
 
     if err != nil {
         return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": "profile not found"})

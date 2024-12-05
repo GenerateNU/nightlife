@@ -75,7 +75,7 @@ const PersonalityPreference = () => {
         console.log("response: ", response);
         const personalityData = await response.json();
         setPersonality(personalityData);
-        setImageUrl(characters[personalityData.characterName.toLowerCase()]);
+        setImageUrl(characters[personalityData]);
         console.log("personalityData: ", personalityData);
         setPersonality(personalityData);
       } catch (error) {

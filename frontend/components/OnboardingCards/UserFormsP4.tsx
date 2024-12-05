@@ -111,6 +111,7 @@ const UserFormP4: React.FC = () => {
       }
       const personalityData = await prefResponse.json();
       console.log("personalityData: ", personalityData);
+      navigation.navigate("Notifications");
     },); 
   };
 

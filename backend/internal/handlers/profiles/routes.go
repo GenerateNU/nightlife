@@ -17,14 +17,21 @@ func Routes(app *fiber.App, params types.Params) {
 	protected.Use(auth.Protected(&params.Supabase))
 
 	//Endpoints
-	protected.Get("/", service.GetAllUsers)                          
-	protected.Get("/:userIdentifier", service.GetProfile)    
-	protected.Post("/preferences", service.CreatePreferences)        
-	protected.Patch("/preferences", service.UpdateProfilePreferences) 
-	protected.Delete("/:userId", service.DeleteUser)                
-	protected.Delete("/friends/:username", service.RemoveFriend) 
-	protected.Post("/userCharacter", service.UserCharacter) 
+	protected.Get("/", service.GetAllUsers)
 	protected.Get("/userCharacter/:userId", service.GetUserCharacter) 
+	protected.Get("/:userIdentifier", service.GetProfile)
+
+	
+	
+	protected.Post("/preferences", service.CreatePreferences) 
 	protected.Post("/addUser", service.AddUser)
+	protected.Post("/userCharacter", service.UserCharacter) 
+	
+	
+	protected.Patch("/preferences", service.UpdateProfilePreferences) 
+
+	protected.Delete("/friends/:username", service.RemoveFriend) 
+	protected.Delete("/:userId", service.DeleteUser)                
+	
 
 }
