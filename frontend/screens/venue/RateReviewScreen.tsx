@@ -199,7 +199,7 @@ RateReviewScreen.propTypes = {
       venueType: PropTypes.string.isRequired,
       venueCity: PropTypes.string.isRequired,
       username: PropTypes.string.isRequired,
-      venudID: PropTypes.string.isRequired
+      venueID: PropTypes.string.isRequired
     }).isRequired,
   }).isRequired,
   navigation: PropTypes.object.isRequired,
