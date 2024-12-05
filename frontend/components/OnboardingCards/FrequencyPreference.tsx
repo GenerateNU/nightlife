@@ -36,6 +36,7 @@ const FrequencyPreference: React.FC = () => {
 
   const handleBack = () => {
     navigation.goBack();
+    setProgress(progress);
   };
 
   return (

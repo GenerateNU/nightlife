@@ -110,6 +110,7 @@ const UserFormP4: React.FC = () => {
 
   const handleBack = () => {
     navigation.goBack();
+    setProgress(progress);
   };
 
   return (

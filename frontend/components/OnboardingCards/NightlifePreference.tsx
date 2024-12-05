@@ -35,6 +35,7 @@ const NightlifePreference = () => {
 
   const handleBack = () => {
     navigation.goBack();
+    setProgress(progress);
   };
 
   return (

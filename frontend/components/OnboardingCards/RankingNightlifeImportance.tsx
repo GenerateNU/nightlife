@@ -55,6 +55,7 @@ const RankingNightlife: React.FC = () => {
 
   const handleBack = () => {
     navigation.goBack();
+    setProgress(progress);
   };
 
   const handleSubmit = () => {

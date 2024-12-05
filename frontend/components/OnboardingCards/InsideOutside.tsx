@@ -33,6 +33,7 @@ const InsideOutside = () => {
 
   const handleBack = () => {
     navigation.goBack();
+    setProgress(progress);
   };
 
   return (

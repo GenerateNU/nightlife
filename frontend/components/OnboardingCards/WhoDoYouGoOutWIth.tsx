@@ -59,6 +59,7 @@ const WhoAreYouWith: React.FC = () => {
 
   const handleBack = () => {
     navigation.goBack();
+    setProgress(progress);
   };
 
   return (

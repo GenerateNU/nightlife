@@ -34,6 +34,7 @@ const TimePreference = () => {
 
   const handleBack = () => {
     navigation.goBack();
+    setProgress(progress);
   };
 
   return (

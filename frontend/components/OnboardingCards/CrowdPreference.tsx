@@ -42,6 +42,7 @@ const CrowdPreference: React.FC = () => {
 
   const handleBack = () => {
     navigation.goBack();
+    setProgress(progress);
   };
 
   return (
