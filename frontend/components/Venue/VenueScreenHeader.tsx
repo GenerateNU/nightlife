@@ -45,24 +45,30 @@ const VenueHeader: React.FC<VenueHeaderProps> = ({
           maxCharacters={20}
         />
       </View>
-      <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+      <View style={{ flexDirection: "row", alignItems: "center", paddingTop: 5 }}>
         <Text style={{ color: "white", marginRight: 5, marginTop: 5}}>
           {formattedVenueType} | {venueAddress}, {venueCity}
         </Text>
         {/* eslint-disable-next-line */}
-        <Image source={require('../../assets/share_button.png')} style={styles.buttonImage} />
-        <BookmarkButton venueID={venueID} userID={userID} />
+        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          <View style={{paddingHorizontal: 10}}>
+          <Image source={require('../../assets/share_button.png')} style={styles.buttonImage} />
+          
+          </View>
+          </View>
+          <BookmarkButton venueID={venueID} userID={userID} />
+
       </View>
       <View style={styles.review}>
         <Text style={styles.overallRating}> 
           {parseFloat(overallRating.toFixed(1))} 
         </Text>
         <StarReview rating={Math.floor(overallRating)} />
-        <Text style={{ color: "white", paddingLeft: 10, fontWeight: "bold", fontSize: 15 }}>
-          {" |     " + "$".repeat(priceRating)}
-        </Text>
+        <Text style={{ color: "white", paddingLeft: 10, fontSize: 15 }}>
+        {priceRating > 0 ? "|   " + "$".repeat(priceRating) : "|   No Price Rating"}
+      </Text>
         <Text style={{ color: "white", fontWeight: "bold", fontSize: 15 }}>
-          {"      |     " + (isOpen ? "Open" : "Closed")}
+          {"    |     " + (isOpen ? "Open" : "Closed")}
         </Text>
       </View>
     </View>
@@ -90,9 +96,10 @@ const styles = StyleSheet.create({
     textShadowRadius: 5,
     fontSize: 18, 
     color: "white", 
-    marginTop: -1, 
-    marginLeft: -3, 
-    marginRight: 3
+    marginTop: -4, 
+    marginLeft: -4, 
+    marginRight: 3,
+    fontFamily: 'PlayfairDisplay_400Regular'
   }
 });
 

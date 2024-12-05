@@ -15,7 +15,7 @@ export type BottomTabParamList = {
   };
   Rating: undefined;
   VenueReviews: undefined;
-  RateReviews: { venueName: string, venueAddress: string, venueType: string, venueCity: string, username: string };
+  RateReviews: { venueName: string, venueID: string, venueAddress: string, venueType: string, venueCity: string, username: string };
 };
 
 

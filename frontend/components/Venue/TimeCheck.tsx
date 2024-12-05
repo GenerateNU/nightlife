@@ -5,6 +5,10 @@
  * @returns boolean
  */
 function isCurrentTimeInRange(startTimeStr, endTimeStr) {
+  if (startTimeStr === undefined || endTimeStr === undefined) {
+    return false;
+  }
+
   const now = new Date();
   const targetDay = now.getDay();
 

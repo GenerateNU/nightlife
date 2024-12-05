@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types'; // Import PropTypes
 import { View, Text, ScrollView, TouchableOpacity, SafeAreaView, StyleSheet, Image } from 'react-native';
 import UpcomingEventScroll from '@/components/Venue/UpcomingEventScroll';
@@ -17,7 +17,8 @@ import VibeScrollBar from '@/components/Venue/VibeScrollBar';
  * @returns sound wave list
  */
 
-const OverviewScreen = ({ navigation, eventDictList, hype, mainstream, price, crowd, energy, exclusive }) => {
+const OverviewScreen = ({ navigation, venueID, eventDictList, hype, mainstream, price, crowd, energy, exclusive }) => {
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.scrollView}>
@@ -43,6 +44,7 @@ const OverviewScreen = ({ navigation, eventDictList, hype, mainstream, price, cr
                                 onPress={() =>
                                     navigation.navigate('Venue', {
                                         defaultTab: 'Rating',
+                                        venue_id: venueID
                                     })
                                 }
                                 style={styles.buttonWrapper}>
@@ -99,8 +101,11 @@ const styles = StyleSheet.create({
     upcomingText: {
         color: 'white',
         fontSize: 20,
-        marginLeft: 5,
         marginBottom: 0,
+        fontFamily: 'PlayfairDisplay_400Regular',
+        textShadowColor: 'rgba(255, 255, 255, 1)', 
+        textShadowOffset: { width: 0, height: 0 }, 
+        textShadowRadius: 5,
     },
     venueDescription: {
         justifyContent: 'center',
@@ -121,6 +126,10 @@ const styles = StyleSheet.create({
     vibeTitle: {
         color: 'white',
         fontSize: 22,
+        fontFamily: 'PlayfairDisplay_400Regular',
+        textShadowColor: 'rgba(255, 255, 255, 1)', 
+        textShadowOffset: { width: 0, height: 0 }, 
+        textShadowRadius: 5,
     },
     buttonContainer: {
         marginLeft: 50,

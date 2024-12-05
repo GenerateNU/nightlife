@@ -13,9 +13,8 @@ import Toast from "react-native-root-toast";
  * @param exclusive average exclusive score for the current venue (*see VenueOverviewScreen)
  * @returns a rating page for users
  */
-const RatingScreen: React.FC<{ venueId: string, hype: number, mainstream: number, price: number, crowd: number, energy: number, exclusive: number }> = ({ venueId, hype, mainstream, price, crowd, energy, exclusive }) => {
+const RatingScreen: React.FC<{ venueId: string, personas: object, hype: number, mainstream: number, price: number, crowd: number, energy: number, exclusive: number }> = ({ venueId, hype, mainstream, price, crowd, energy, exclusive }) => {
     const userID = "26d636d9-f8b0-4ad7-be9c-9b98c4c8a0c4";
-    
     // initial state of ratings
     const [ratings, setRatings] = useState({
         hype: 0,

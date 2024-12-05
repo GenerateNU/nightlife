@@ -25,11 +25,12 @@ enum VenueTabs {
 
 const VenueScreen: React.FC = ({ navigation, route }) => {
     const [selectedTab, setSelectedTab] = useState<VenueTabs>(VenueTabs.Overview);
-    const { defaultTab = VenueTabs.Overview } = route.params || {};  
+    const { defaultTab = VenueTabs.Overview, venue_id: venueID } = route.params || {};
 
-    console.log("DEFAULT", defaultTab)
-    console.log(selectedTab)
-    const venueID = "0006b62a-21bd-4e48-8fc7-e3bcca66d0d0";
+    const [currentID, setCurrentID] = useState(venueID)
+    console.log("--------------------------VENUEID", venueID)
+    const [personas, setPersonas] = useState([])
+    //const venueID = "0006b62a-21bd-4e48-8fc7-e3bcca66d0d0";
     const userID = "26d636d9-f8b0-4ad7-be9c-9b98c4c8a0c4";
     const day = new Date().getDay();
     const dayNames = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
@@ -72,10 +73,15 @@ const VenueScreen: React.FC = ({ navigation, route }) => {
                 setVenueAddress(json.address.split(',')[0]);
                 setVenueCity(json.city);
                 setVenueType(json.venue_type);
-                const times = json[dayName].split(": ")[1]; 
-                const [start, stop] = times.split(" – ").map(time => time.trim());
-                setCurrentStartHours(start);
-                setCurrentStopHours(stop);
+                const times = json[dayName]?.split(": ")[1]; // Use optional chaining for times
+                if (times) {
+                    const [start, stop] = times.split(" – ").map(time => time.trim());
+                    setCurrentStartHours(start);
+                    setCurrentStopHours(stop);
+                } else {
+                    setCurrentStartHours(undefined);
+                    setCurrentStopHours(undefined);
+                }
                 setVenuePrice(json.price)
             })
             .catch(error => {
@@ -95,16 +101,44 @@ const VenueScreen: React.FC = ({ navigation, route }) => {
             });
     }, []);
     
+    useEffect(() => {
+        fetch(`http://localhost:8080/venues/persona/${venueID}`)
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error('Failed to fetch personas');
+            }
+            return response.json();
+          })
+          .then((json) => {
+            console.log(personas.length === 0)
+            setPersonas(json);
+          })
+          .catch((error) => {
+            console.error('Error fetching personas:', error);
+          });
+      }, []);
+
     return (
         <View style={styles.container}>
             <View style={styles.header}>
                 {selectedTab === VenueTabs.Rating && (
                     <TouchableOpacity
-                        onPress={() => {
+                    onPress={() => {
+                            setCurrentID(venueID)
                             setSelectedTab(VenueTabs.Overview);
-                            navigation.setParams({ defaultTab: VenueTabs.Overview });
+                            navigation.setParams({
+                                defaultTab: VenueTabs.Overview
+                            });
                         }}
                     >
+                        <Text style={{ color: 'white' }}>Back</Text>
+                    </TouchableOpacity> )}
+                
+                {selectedTab !== VenueTabs.Rating && (
+                    <TouchableOpacity
+                        onPress={() => {
+                            navigation.navigate("Home");
+                        }}>
                         <Text style={{ color: 'white' }}>Back</Text>
                     </TouchableOpacity> )}
                     
@@ -122,22 +156,24 @@ const VenueScreen: React.FC = ({ navigation, route }) => {
             </View>
         
             {selectedTab === VenueTabs.Rating && (
-                    <View style={{flexDirection: 'column', height: 650}}>
+                    <View style={{flexDirection: 'column', height: 580}}>
                         {/* Render the text and PersonaIcons */}
                         <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: 10, marginLeft: 45}}>
                         <Text style={{color: 'white', fontSize: 14, marginLeft: -25}}>Recommended for ...</Text>
-                        <PersonaIcons venueID={venueID}/>
+                        {personas.length > 0 && <PersonaIcons personas={personas}/>}
+                        {personas.length === 0 && <Text>Not enough reviews</Text>}
                         </View>
 
                         {/* Render the RatingScreen component */}
                         <RatingScreen 
-                        venueId={venueID}
+                        venueId={currentID}
                         hype={hypeRating}
                         mainstream={mainstreamRating}
                         price={priceRating}
                         crowd={crowdRating}
                         energy={energyRating}
                         exclusive={exclusiveRating}
+                        personas={personas}
                         />
                     </View>
                     )}
@@ -164,9 +200,11 @@ const VenueScreen: React.FC = ({ navigation, route }) => {
                     <View style={{alignItems: 'center'}}>
                         <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: -5 }}>
                             <Text style={{ color: 'white', fontSize: 14, marginLeft: -10 }}>Recommended for ...</Text>
-                            <PersonaIcons venueID={venueID} />
+                            {personas.length > 0 && <PersonaIcons personas={personas}/>}
+                            {personas.length === 0 && <Text>Not enough reviews</Text>}
                         </View>
                         <OverviewScreen
+                            venueID={venueID}
                             navigation={navigation}
                             eventDictList={eventDictList}
                             hype={hypeRating}
@@ -179,7 +217,7 @@ const VenueScreen: React.FC = ({ navigation, route }) => {
                     </View>
                 )}
 
-                {selectedTab === VenueTabs.Reviews && <VenueReviews navigation={navigation} venueName={venueName} venueAddress={venueAddress} venueType={venueType} venueCity={venueCity} />}
+                {selectedTab === VenueTabs.Reviews && <VenueReviews navigation={navigation} venueID={venueID} venueName={venueName} venueAddress={venueAddress} venueType={venueType} venueCity={venueCity} />}
                 {selectedTab === VenueTabs.Photos && <PhotosScreen venueID={venueID}/>}
             </View>
         </View>

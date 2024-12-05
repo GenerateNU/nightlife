@@ -17,13 +17,15 @@ import SoundWave from "@/components/Venue/SoundWave";
  */
 const RatingScrollBar = ({minTitle = "", maxTitle = "", value, onSliderChange, category, startColor, stopColor, avgValue}) => {
 
+  const adjustedRating = avgValue === 0 ? 1 : avgValue;
+
   return(
     <View style={styles.container}>
       <View style={{paddingBottom: 20}}>
         <View style={{position: 'absolute', opacity: 0.5}}>
           <SoundWave
             category={category}
-            rating={avgValue}
+            rating={adjustedRating}
             startColor={startColor}
             stopColor={stopColor}
           />
@@ -62,12 +64,8 @@ RatingScrollBar.propTypes = {
 
 const styles = StyleSheet.create({
   container: {
-<<<<<<< HEAD
     alignItems: 'center',
     backgroundColor: '#060019',
-=======
-    alignItems: 'center'
->>>>>>> main
   },
   title: {
     fontSize: 18,

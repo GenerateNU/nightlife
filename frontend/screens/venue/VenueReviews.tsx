@@ -11,21 +11,20 @@ import Review from "@/components/Venue/Review";
  * @param venueAddress given venue address
  * @param venueType given venue type
  * @param venueCity given venue city
- * @param username logged in user's username 
  * @returns scrollable list of venues
  */
 
-const VenueReviews: React.FC = ({ navigation, venueName, venueAddress, venueType, venueCity}) => {
+const VenueReviews: React.FC = ({ navigation, venueID, venueName, venueAddress, venueType, venueCity }) => {
   const [reviewDictList, setReviewDictList] = useState([]);
-  
+
   // eslint-disable-next-line
   const stars = {
-     // eslint-disable-next-line
+    // eslint-disable-next-line
     empty: require("../../assets/empty_star.png"),
   };
 
   useEffect(() => {
-    fetch("http://localhost:8080/venueratings/venue/0006b62a-21bd-4e48-8fc7-e3bcca66d0d0/ratings")
+    fetch(`http://localhost:8080/venueratings/venue/${venueID}/ratings`)
       .then((response) => response.json())
       .then((json) => {
         setReviewDictList(json);
@@ -53,6 +52,7 @@ const VenueReviews: React.FC = ({ navigation, venueName, venueAddress, venueType
         onPress={() =>
           navigation.navigate("RatingReview", {
             navigation: navigation,
+            venueID: venueID,
             venueName: venueName,
             venueAddress: venueAddress,
             venueType: venueType,
@@ -67,13 +67,17 @@ const VenueReviews: React.FC = ({ navigation, venueName, venueAddress, venueType
         </View>
       </TouchableOpacity>
 
-      <View style={{ backgroundColor: "#060019"}}>
-        <ScrollView style={{height: 550,  marginLeft: -30, backgroundColor: "#060019"}}>
-          {reviewDictList.map((review, index) => (
-            <View key={index} >
-              <Review reviewDict={review} />
-            </View>
-          ))}
+      <View style={{ backgroundColor: "#060019" }}>
+        <ScrollView style={{ height: 550, marginLeft: -30, backgroundColor: "#060019" }}>
+          {reviewDictList.length === 0 ? (
+            <Text style={styles.noReviewsText}>No Reviews Yet!</Text>
+          ) : (
+            reviewDictList.map((review, index) => (
+              <View key={index}>
+                <Review reviewDict={review} />
+              </View>
+            ))
+          )}
         </ScrollView>
       </View>
     </SafeAreaView>
@@ -84,29 +88,40 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#060019",
-    width: 500
+    width: 500,
   },
   rateReviewContainer: {
-    backgroundColor: "#060019"
+    backgroundColor: "#060019",
   },
   rateReviewText: {
     color: "white",
-    paddingBottom: 5
+    paddingBottom: 5,
   },
   scrollView: {
     backgroundColor: "#060019",
   },
   scrollContent: {
-    paddingBottom: 20, 
+    paddingBottom: 20,
   },
   starContainer: {
     flexDirection: "row",
-    flexGrow: 1
+    flexGrow: 1,
   },
   star: {
     width: 20,
     height: 20,
     marginRight: 3,
+  },
+  noReviewsText: {
+    color: "white",
+    textAlign: "center",
+    fontSize: 24,
+    marginLeft: -100,
+    marginTop: 100,
+    fontFamily: 'PlayfairDisplay_400Regular',
+    textShadowColor: 'rgba(255, 255, 255, 1)', 
+    textShadowOffset: { width: 0, height: 0 }, 
+    textShadowRadius: 5,
   },
 });
 

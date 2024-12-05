@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Image, View, Text, StyleSheet } from 'react-native';
 
-const PersonaIcons = ({ venueID = "" }) => {
-  const [personas, setPersonas] = useState([]);
-
+const PersonaIcons = ({ personas = [] }) => {
   const PersonaIconImages = {
     // eslint-disable-next-line
     roux: require('../../assets/roux.png'),
@@ -19,23 +17,7 @@ const PersonaIcons = ({ venueID = "" }) => {
     blitz: require('../../assets/blitz.png'),
   };
 
-  useEffect(() => {
-    fetch(`http://localhost:8080/venues/persona/${venueID}`)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Failed to fetch personas');
-        }
-        return response.json();
-      })
-      .then((json) => {
-        setPersonas(json);
-      })
-      .catch((error) => {
-        console.error('Error fetching personas:', error);
-      });
-  }, [venueID]);
-
-  console.log(venueID)
+  console.log("*************", personas)
   return (
     <View style={styles.container}>
       {personas.length > 0 ? (
@@ -50,7 +32,7 @@ const PersonaIcons = ({ venueID = "" }) => {
           ))}
         </View>
       ) : (
-        <Text style={styles.message}>No personas available.</Text>
+        <Text style={styles.message}>Not enough reviews</Text>
       )}
     </View>
   );

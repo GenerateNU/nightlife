@@ -61,7 +61,7 @@ const BookmarkButton = ({ venueID = "", userID = "" }) => {
 };
 
 BookmarkButton.propTypes = {
-  venueID: PropTypes.string.isRequired,
+  venueID: PropTypes.string,
   userID: PropTypes.string.isRequired,
 };
 

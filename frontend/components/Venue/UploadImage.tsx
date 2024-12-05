@@ -8,6 +8,8 @@ type UploadImageProps = {
 
 export default function UploadImage({ onImageUpload }: UploadImageProps) {
 
+  const [image, setImage] = useState("")
+  
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,

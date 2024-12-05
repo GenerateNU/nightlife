@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, StyleSheet } from 'react-native';
 
+
 type ScaledTextProps = {
   text: string;
   maxFontSize: number; 
@@ -42,7 +43,7 @@ const styles = StyleSheet.create({
   text: {
     marginLeft: -4,
     color: 'white',
-    fontFamily: 'DTNightingale-Light',
+    fontFamily: 'PlayfairDisplay_400Regular',
     textShadowColor: 'rgba(255, 255, 255, 0.9)', 
     textShadowOffset: { width: 0, height: 0 }, 
     textShadowRadius: 5 

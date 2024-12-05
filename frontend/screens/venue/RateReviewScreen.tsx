@@ -16,6 +16,7 @@ type RootStackParamList = {
     venueType: string;
     venueCity: string;
     username: string;
+    venueID: string;
   };
 };
 
@@ -24,12 +25,13 @@ type ReviewScreenProps = {
 };
 
 const RateReviewScreen: React.FC<ReviewScreenProps> = ({ route, navigation }) => {
-  const { venueName, venueAddress, venueType, venueCity, username } = route.params;
+  const { venueID, venueName, venueAddress, venueType, venueCity, username } = route.params;
   const [userInput, setUserInput] = useState("");
   const [rating, setRating] = useState(0); 
   const [imageURI, setImageURI] = useState<string | null>(null);
   const [sliderValue, setSliderValue] = useState(1);
   
+  console.log(venueID)
   const labels = ['$', '$$', '$$$', '$$$$', '$$$$$'];
 
   const handleStarPress = (index: number) => {
@@ -72,7 +74,7 @@ const RateReviewScreen: React.FC<ReviewScreenProps> = ({ route, navigation }) =>
       hype_rating: null,
       exclusive_rating: null,
       review_text: userInput,
-      venue_id: "0006b62a-21bd-4e48-8fc7-e3bcca66d0d0",
+      venue_id: venueID,
       user_id: "26d636d9-f8b0-4ad7-be9c-9b98c4c8a0c4",
       image_path: imageURI
     };
@@ -125,7 +127,9 @@ const RateReviewScreen: React.FC<ReviewScreenProps> = ({ route, navigation }) =>
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.mainContent}>
-        <TouchableOpacity onPress={() => navigation.navigate('Venue')}>
+        <TouchableOpacity onPress={() => navigation.navigate('Venue', {
+                                        venue_id: venueID
+                                    })}>
           <Text style={{ color: 'white' }}>Back</Text>
         </TouchableOpacity>
         
