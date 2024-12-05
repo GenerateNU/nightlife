@@ -266,7 +266,7 @@ const ProfileScreen = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#1c1c1c',
+        backgroundColor: '#1a1a2e',
         paddingTop: scaleSize(20),
     },
     headerContainer: {
@@ -282,7 +282,7 @@ const styles = StyleSheet.create({
         borderRadius: scaleSize(40),
         backgroundColor: '#666',
         borderWidth: 3,
-        borderColor: "cornflowerblue"
+        borderColor: "#5656a6"
     },
     userInfo: {
         marginLeft: scaleSize(15),
@@ -319,10 +319,10 @@ const styles = StyleSheet.create({
         marginHorizontal: scaleSize(20),
         marginVertical: scaleSize(8),
         padding: scaleSize(10),
-        backgroundColor: '#333',
+        backgroundColor: '#3a3a54',
         borderRadius: scaleSize(8),
         borderWidth: 2,
-        borderColor: "gray",
+        borderColor: "#5656a6",
     },
     bioText: {
         color: '#fff',

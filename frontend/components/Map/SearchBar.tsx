@@ -6,13 +6,14 @@ type SearchBarProps = {
   placeholderText: string;
   icon?: boolean
   onSubmitEditing?: (text: string) => void;
+  style?: object;
 }
 
-const SearchBar = ({ placeholderText, icon, onSubmitEditing }: SearchBarProps) => {
+const SearchBar = ({ placeholderText, icon, onSubmitEditing, style }: SearchBarProps) => {
   const [searchText, setSearchText] = React.useState("");
 
   return (
-    <View style={styles.searchContainer}>
+    <View style={[styles.searchContainer, style]}>
       {icon && <MaterialCommunityIcons
         name="magnify"
         size={20}
@@ -40,23 +41,26 @@ const styles = StyleSheet.create({
     left: 20,
     right: 20,
     zIndex: 1,
-    backgroundColor: "#333",
-    borderRadius: 20,
-    padding: 10,
+    backgroundColor: "#3a3a54",
+    borderRadius: 12,
+    borderWidth: 2,
+    borderColor: "#5656a6",
     shadowColor: "#000",
     shadowOpacity: 0.2,
     shadowOffset: { width: 0, height: 3 },
     shadowRadius: 5,
+    paddingHorizontal: 12,
     elevation: 5,
+    marginTop: 40,
   },
   searchIcon: {
-    marginRight: 10,
+    marginRight: 2,
   },
   searchInput: {
     flex: 1,
     height: 40,
     color: "#fff",
-    backgroundColor: "#444",
+    backgroundColor: "#3a3a54",
     borderRadius: 10,
     paddingHorizontal: 10,
   },

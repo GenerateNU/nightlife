@@ -1,11 +1,9 @@
 import React from 'react';
 import { Pressable, Text, StyleSheet, ViewStyle, TextStyle, Dimensions } from 'react-native';
 
-// Get device width for dynamic sizing
 const { width } = Dimensions.get('window');
 
-// A function to scale size values dynamically based on the screen width
-const scaleSize = (size: number) => (width / 375) * size; // Assuming 375 is the base width for iPhone
+const scaleSize = (size: number) => (width / 375) * size;
 
 interface ProfileButtonProps {
     onPress: () => void;
@@ -21,7 +19,7 @@ const ProfileButton: React.FC<ProfileButtonProps> = ({ onPress, title, buttonSty
             style={({ pressed }) => [
                 styles.button,
                 buttonStyle,
-                pressed && styles.buttonPressed, // Apply pressed style when active
+                pressed && styles.buttonPressed,
             ]}
         >
             <Text style={[styles.text, textStyle]}>{title}</Text>
@@ -31,12 +29,12 @@ const ProfileButton: React.FC<ProfileButtonProps> = ({ onPress, title, buttonSty
 
 const styles = StyleSheet.create({
     button: {
-        backgroundColor: '#333', // Default background color
-        paddingVertical: scaleSize(12), // Scaled padding
-        paddingHorizontal: scaleSize(0), // Scaled padding for width
-        borderRadius: scaleSize(6), // Scaled border radius for rounded edges
-        borderWidth: 2, // Static 2px border
-        borderColor: 'gray', // No visible border
+        backgroundColor: '#3a3a54',
+        paddingVertical: scaleSize(12),
+        paddingHorizontal: scaleSize(0),
+        borderRadius: scaleSize(6),
+        borderWidth: 2,
+        borderColor: '#5656a6',
         alignItems: 'center',
         justifyContent: 'center',
         width: width * 0.435,

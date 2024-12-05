@@ -39,7 +39,7 @@ const bottomTabNavOptions: BottomTabNavigationOptions = {
     marginHorizontal: 12
   },
   headerStyle: {
-    backgroundColor: "#1c1c1c",
+    backgroundColor: "#1a1a2e",
     shadowColor: "transparent",
     height: 48,
   },
@@ -91,12 +91,37 @@ export function BottomNavigator() {
       <Tab.Screen
         name="Home"
         component={HomeStackNavigator}
-        options={createScreenOptions("Home", "home")}
+        options={{
+          tabBarLabel: "Home",
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: "#1a1a2e",
+            shadowColor: "transparent",
+            height: 44,
+          },
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons
+              name="home"
+              color={color}
+              size={size}
+            />
+          ),
+        }}
       />
       <Tab.Screen
         name="Browse"
         component={MapScreen}
-        options={createScreenOptions("Search", "magnify")}
+        options={{
+          tabBarLabel: "Browse",
+          headerShown: false,
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons
+              name="map-search"
+              color={color}
+              size={size}
+            />
+          ),
+        }}
       />
       <Tab.Screen
         name="Profile"
