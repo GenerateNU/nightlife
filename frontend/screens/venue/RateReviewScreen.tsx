@@ -140,6 +140,7 @@ const RateReviewScreen: React.FC<ReviewScreenProps> = ({ route, navigation }) =>
         <View style={{ flexDirection: 'row' }}>
           <View style={{ marginTop: 5, marginLeft: 4, flexDirection: 'row'}}>
             <Image
+            // eslint-disable-next-line
             source={require('../../assets/plumehart.png')}
             style={{width: 20, height: 20, paddingRight: 10}} /> 
             <Text style={{ fontSize: 14, color: 'white', paddingRight: 10 }}>{username}</Text>
